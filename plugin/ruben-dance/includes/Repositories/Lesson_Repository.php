@@ -24,4 +24,64 @@ class Lesson_Repository extends Repository {
 	protected function table_suffix(): string {
 		return 'rd_lesson';
 	}
+
+	/**
+	 * All lessons for a term, ordered by date — both the F10 lessons
+	 * sub-screen and `Term_Service::regenerate_lessons()` (matching existing
+	 * rows by date) read through this.
+	 *
+	 * @param int $term_id Term ID.
+	 * @return array<int, array<string, mixed>>
+	 */
+	public function all_for_term( int $term_id ): array {
+		$wpdb = $this->wpdb;
+
+		$rows = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+			$wpdb->prepare( 'SELECT * FROM %i WHERE term_id = %d ORDER BY lesson_date ASC', $this->table(), $term_id ),
+			ARRAY_A
+		);
+
+		return null === $rows ? array() : $rows;
+	}
+
+	/**
+	 * Insert several lesson rows for a term at once (the generator's
+	 * `insert` plan entries, which don't carry `term_id` themselves).
+	 *
+	 * @param int                              $term_id Term ID.
+	 * @param array<int, array<string, mixed>> $rows    Rows from `Lesson_Generator::plan()['insert']`.
+	 */
+	public function insert_many( int $term_id, array $rows ): void {
+		foreach ( $rows as $row ) {
+			$row['term_id'] = $term_id;
+			$this->insert( $row );
+		}
+	}
+
+	/**
+	 * Delete several lesson rows by ID at once (the generator's `delete_ids`
+	 * plan entries — stale, never-edited rows whose date fell out of a
+	 * shrunk/moved term range).
+	 *
+	 * @param int[] $ids Lesson IDs.
+	 */
+	public function delete_many( array $ids ): void {
+		$ids = array_values( array_filter( array_map( 'intval', $ids ), static fn( int $id ): bool => $id > 0 ) );
+
+		if ( array() === $ids ) {
+			return;
+		}
+
+		$wpdb = $this->wpdb;
+
+		// Placeholder count is derived from a server-side array of already-
+		// cast integers, never from raw user input, so building the
+		// IN (%d, %d, ...) fragment this way stays safe to splice into the
+		// query ahead of $wpdb->prepare().
+		$placeholders = implode( ', ', array_fill( 0, count( $ids ), '%d' ) );
+
+		$wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+			$wpdb->prepare( "DELETE FROM %i WHERE id IN ({$placeholders})", array_merge( array( $this->table() ), $ids ) ) // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		);
+	}
 }

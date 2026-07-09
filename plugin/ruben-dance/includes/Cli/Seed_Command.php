@@ -11,7 +11,9 @@ namespace RubenDance\Cli;
 
 use RubenDance\Lang;
 use RubenDance\Post_Types;
+use RubenDance\Repositories\Course_Term_Repository;
 use RubenDance\Repositories\Location_Repository;
+use RubenDance\Services\Term_Service;
 use RubenDance\Taxonomies;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -114,6 +116,151 @@ class Seed_Command {
 	);
 
 	/**
+	 * Six course terms spanning the four seeded courses (M05: "mix of
+	 * statuses, one with early-bird, one with pair discount, one workshop,
+	 * one at low capacity"). Field values are strings, the same shape
+	 * `Term_Service::validate()`/`row()` expect from a real admin form
+	 * submission, so this fixture data is validated exactly like a real save
+	 * rather than bypassing that logic.
+	 *
+	 * @var array<int, array<string, string>>
+	 */
+	const TERMS = array(
+		// Open, with an early-bird discount.
+		array(
+			'course_title_cs' => 'Salsa pro začátečníky',
+			'location_name'   => 'Terasa Smíchov',
+			'type'            => Term_Service::TYPE_COURSE,
+			'weekday'         => '1', // Monday.
+			'start_time'      => '18:00',
+			'end_time'        => '19:00',
+			'date_from'       => '2025-09-01',
+			'date_to'         => '2025-12-15',
+			'instructor'      => 'Ruben García',
+			'capacity'        => '20',
+			'price'           => '2400',
+			'discount_early'  => '300',
+			'early_until'     => '2025-08-15',
+			'discount_pair'   => '',
+			'status'          => Term_Service::STATUS_OPEN,
+			'season_label_cs' => 'Podzim 2025',
+			'season_label_en' => 'Autumn 2025',
+			'note_public_cs'  => 'S sebou taneční obuv.',
+			'note_public_en'  => 'Please bring dance shoes.',
+		),
+		// Draft: next season, not yet published.
+		array(
+			'course_title_cs' => 'Salsa pro začátečníky',
+			'location_name'   => 'NYX Hotel Prague',
+			'type'            => Term_Service::TYPE_COURSE,
+			'weekday'         => '3', // Wednesday.
+			'start_time'      => '19:00',
+			'end_time'        => '20:00',
+			'date_from'       => '2026-02-02',
+			'date_to'         => '2026-05-18',
+			'instructor'      => 'Ruben García',
+			'capacity'        => '16',
+			'price'           => '2400',
+			'discount_early'  => '',
+			'early_until'     => '',
+			'discount_pair'   => '',
+			'status'          => Term_Service::STATUS_DRAFT,
+			'season_label_cs' => 'Jaro 2026',
+			'season_label_en' => 'Spring 2026',
+			'note_public_cs'  => '',
+			'note_public_en'  => '',
+		),
+		// Open, with a pair discount.
+		array(
+			'course_title_cs' => 'Bachata pro mírně pokročilé',
+			'location_name'   => 'Terasa 67 (Křižíkův pavilon B)',
+			'type'            => Term_Service::TYPE_COURSE,
+			'weekday'         => '2', // Tuesday.
+			'start_time'      => '19:30',
+			'end_time'        => '20:30',
+			'date_from'       => '2025-09-02',
+			'date_to'         => '2025-12-16',
+			'instructor'      => 'Ana Kováčová',
+			'capacity'        => '18',
+			'price'           => '2600',
+			'discount_early'  => '',
+			'early_until'     => '',
+			'discount_pair'   => '200',
+			'status'          => Term_Service::STATUS_OPEN,
+			'season_label_cs' => 'Podzim 2025',
+			'season_label_en' => 'Autumn 2025',
+			'note_public_cs'  => '',
+			'note_public_en'  => '',
+		),
+		// Closed and at low capacity.
+		array(
+			'course_title_cs' => 'Dětský tanec',
+			'location_name'   => 'Terasa Smíchov',
+			'type'            => Term_Service::TYPE_COURSE,
+			'weekday'         => '6', // Saturday.
+			'start_time'      => '10:00',
+			'end_time'        => '11:00',
+			'date_from'       => '2025-09-06',
+			'date_to'         => '2025-12-13',
+			'instructor'      => 'Petra Nováková',
+			'capacity'        => '6',
+			'price'           => '1800',
+			'discount_early'  => '',
+			'early_until'     => '',
+			'discount_pair'   => '',
+			'status'          => Term_Service::STATUS_CLOSED,
+			'season_label_cs' => 'Podzim 2025',
+			'season_label_en' => 'Autumn 2025',
+			'note_public_cs'  => 'Kapacita naplněna, čekejte na jarní běh.',
+			'note_public_en'  => 'Full for this season — spring intake opens soon.',
+		),
+		// Workshop: a single lesson, date_from = date_to.
+		array(
+			'course_title_cs' => 'Dámský styling',
+			'location_name'   => 'NYX Hotel Prague',
+			'type'            => Term_Service::TYPE_WORKSHOP,
+			'weekday'         => '6', // Ignored by the generator for a workshop, still stored for display.
+			'start_time'      => '10:00',
+			'end_time'        => '16:00',
+			'date_from'       => '2025-11-15',
+			'date_to'         => '2025-11-15',
+			'instructor'      => 'Ruben García',
+			'capacity'        => '',
+			'price'           => '900',
+			'discount_early'  => '',
+			'early_until'     => '',
+			'discount_pair'   => '',
+			'status'          => Term_Service::STATUS_OPEN,
+			'season_label_cs' => 'Zimní workshop 2025',
+			'season_label_en' => 'Winter Workshop 2025',
+			'note_public_cs'  => 'Jednorázová dílna, není potřeba partner.',
+			'note_public_en'  => 'One-off workshop, no partner needed.',
+		),
+		// Cancelled.
+		array(
+			'course_title_cs' => 'Bachata pro mírně pokročilé',
+			'location_name'   => 'Terasa 67 (Křižíkův pavilon B)',
+			'type'            => Term_Service::TYPE_COURSE,
+			'weekday'         => '4', // Thursday.
+			'start_time'      => '18:00',
+			'end_time'        => '19:00',
+			'date_from'       => '2025-06-05',
+			'date_to'         => '2025-08-28',
+			'instructor'      => 'Ana Kováčová',
+			'capacity'        => '16',
+			'price'           => '2600',
+			'discount_early'  => '',
+			'early_until'     => '',
+			'discount_pair'   => '',
+			'status'          => Term_Service::STATUS_CANCELLED,
+			'season_label_cs' => 'Léto 2025',
+			'season_label_en' => 'Summer 2025',
+			'note_public_cs'  => 'Zrušeno pro nízký zájem.',
+			'note_public_en'  => 'Cancelled due to low interest.',
+		),
+	);
+
+	/**
 	 * Seed the database with development/test fixture data.
 	 *
 	 * ## EXAMPLES
@@ -130,12 +277,14 @@ class Seed_Command {
 
 		$locations_created = $this->seed_locations();
 		$courses_created   = $this->seed_courses();
+		$terms_created     = $this->seed_terms();
 
 		\WP_CLI::success(
 			sprintf(
-				'ruben-dance: seeded (%d location(s), %d course(s) created).',
+				'ruben-dance: seeded (%d location(s), %d course(s), %d term(s) created).',
 				$locations_created,
-				$courses_created
+				$courses_created,
+				$terms_created
 			)
 		);
 	}
@@ -241,6 +390,74 @@ class Seed_Command {
 					);
 				}
 			}
+
+			++$created;
+		}
+
+		return $created;
+	}
+
+	/**
+	 * Insert the fixture terms, skipping any that already exist (matched by
+	 * course + season label, the same natural-key idea as
+	 * `Location_Repository::find_by_name()`), so repeated runs never create
+	 * duplicates. Goes through `Term_Service::validate()`/`create()` — the
+	 * same code path a real admin form submission uses — rather than
+	 * inserting rows directly, so lessons are generated for every seeded
+	 * term exactly as they would be for a real one.
+	 *
+	 * @return int Number of terms actually created.
+	 */
+	private function seed_terms(): int {
+		$term_repository     = new Course_Term_Repository();
+		$location_repository = new Location_Repository();
+		$service             = Term_Service::create_default();
+		$created             = 0;
+
+		foreach ( self::TERMS as $term ) {
+			$course_id = $this->find_course_by_title( $term['course_title_cs'] );
+
+			if ( null === $course_id ) {
+				continue; // Defensive: the matching course should always have been seeded already.
+			}
+
+			if ( null !== $term_repository->find_by_course_and_season( $course_id, $term['season_label_cs'] ) ) {
+				continue;
+			}
+
+			$location = $location_repository->find_by_name( $term['location_name'] );
+
+			if ( null === $location ) {
+				continue; // Defensive: the matching location should always have been seeded already.
+			}
+
+			$data = array(
+				'course_id'       => $course_id,
+				'location_id'     => (int) $location['id'],
+				'type'            => $term['type'],
+				'weekday'         => $term['weekday'],
+				'start_time'      => $term['start_time'],
+				'end_time'        => $term['end_time'],
+				'date_from'       => $term['date_from'],
+				'date_to'         => $term['date_to'],
+				'instructor'      => $term['instructor'],
+				'capacity'        => $term['capacity'],
+				'price'           => $term['price'],
+				'discount_early'  => $term['discount_early'],
+				'early_until'     => $term['early_until'],
+				'discount_pair'   => $term['discount_pair'],
+				'status'          => $term['status'],
+				'season_label_cs' => $term['season_label_cs'],
+				'season_label_en' => $term['season_label_en'],
+				'note_public_cs'  => $term['note_public_cs'],
+				'note_public_en'  => $term['note_public_en'],
+			);
+
+			if ( array() !== $service->validate( $data ) ) {
+				continue; // Defensive: fixture data is expected to always validate.
+			}
+
+			$service->create( $data );
 
 			++$created;
 		}

@@ -77,6 +77,8 @@ add_action(
 
 \RubenDance\Admin\Menu::register();
 \RubenDance\Admin\Locations_Page::register();
+\RubenDance\Admin\Terms_Page::register();
+\RubenDance\Admin\Term_Lessons_Page::register();
 \RubenDance\Post_Types::register();
 \RubenDance\Taxonomies::register();
 \RubenDance\Polylang_Setup::register();
