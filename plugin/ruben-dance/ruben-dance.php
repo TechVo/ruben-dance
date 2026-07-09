@@ -76,3 +76,4 @@ add_action(
 );
 
 \RubenDance\Admin\Menu::register();
+\RubenDance\Admin\Locations_Page::register();

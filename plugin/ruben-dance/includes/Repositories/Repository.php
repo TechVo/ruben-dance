@@ -98,4 +98,16 @@ abstract class Repository {
 
 		return false !== $result;
 	}
+
+	/**
+	 * Delete a row by primary key.
+	 *
+	 * @param int $id Row ID.
+	 * @return bool
+	 */
+	public function delete( int $id ): bool {
+		$result = $this->wpdb->delete( $this->table(), array( 'id' => $id ) );
+
+		return false !== $result;
+	}
 }
