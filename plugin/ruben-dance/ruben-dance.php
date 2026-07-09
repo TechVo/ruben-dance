@@ -41,3 +41,38 @@ if ( file_exists( RUBEN_DANCE_PLUGIN_DIR . 'vendor/autoload.php' ) ) {
 if ( defined( 'WP_CLI' ) && WP_CLI && class_exists( '\RubenDance\Cli\Seed_Command' ) ) {
 	WP_CLI::add_command( 'rd seed', '\RubenDance\Cli\Seed_Command' );
 }
+
+/**
+ * Activation: create/upgrade the schema and the `rd_manager` role.
+ *
+ * Always (re)applies, so reactivating after a manual table drop or a fresh
+ * `wp-env start` recreates everything from scratch.
+ */
+register_activation_hook(
+	__FILE__,
+	static function (): void {
+		\RubenDance\Schema::install();
+		\RubenDance\Roles::install();
+	}
+);
+
+/*
+ * Deactivation intentionally has no hook: nothing here is destructive.
+ * Tables, options and the rd_manager role all survive a deactivate/reactivate
+ * cycle; only uninstall.php (an explicit "delete" from the plugins screen)
+ * removes the role and options, and even it keeps the tables.
+ */
+
+/**
+ * Catch schema drift on every load (e.g. after a plugin update that bumps
+ * `Schema::SCHEMA_VERSION` without a fresh activation, or multisite network
+ * activation): re-run `dbDelta()` only when the stored version differs.
+ */
+add_action(
+	'plugins_loaded',
+	static function (): void {
+		\RubenDance\Schema::maybe_upgrade();
+	}
+);
+
+\RubenDance\Admin\Menu::register();
