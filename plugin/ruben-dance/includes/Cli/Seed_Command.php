@@ -9,7 +9,10 @@ declare( strict_types = 1 );
 
 namespace RubenDance\Cli;
 
+use RubenDance\Lang;
+use RubenDance\Post_Types;
 use RubenDance\Repositories\Location_Repository;
+use RubenDance\Taxonomies;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Disallow direct access.
@@ -51,6 +54,66 @@ class Seed_Command {
 	);
 
 	/**
+	 * Four courses covering the styles ruben-dance.cz actually teaches, used
+	 * as fixture data (spec §3.1: course = "name, description, level, dance
+	 * style"). Each becomes a CS post plus its EN translation, linked via
+	 * Polylang when available (see `seed_courses()`).
+	 *
+	 * @var array<int, array{
+	 *     title_cs: string,
+	 *     title_en: string,
+	 *     content_cs: string,
+	 *     content_en: string,
+	 *     style_cs: string,
+	 *     style_en: string,
+	 *     level_cs: string,
+	 *     level_en: string,
+	 * }>
+	 */
+	const COURSES = array(
+		array(
+			'title_cs'   => 'Salsa pro začátečníky',
+			'title_en'   => 'Salsa for Beginners',
+			'content_cs' => 'Základy kubánské salsy — držení, základní krok a první točení. Žádné předchozí zkušenosti nejsou potřeba.',
+			'content_en' => 'The fundamentals of Cuban-style salsa — frame, basic step and first turns. No previous experience required.',
+			'style_cs'   => 'Salsa',
+			'style_en'   => 'Salsa',
+			'level_cs'   => 'Začátečníci',
+			'level_en'   => 'Beginners',
+		),
+		array(
+			'title_cs'   => 'Bachata pro mírně pokročilé',
+			'title_en'   => 'Bachata for Intermediate Dancers',
+			'content_cs' => 'Navazuje na úplné základy bachaty: složitější figury, práce s partnerem a muzikalita.',
+			'content_en' => 'Building on the absolute basics of bachata: more advanced figures, partner work and musicality.',
+			'style_cs'   => 'Bachata',
+			'style_en'   => 'Bachata',
+			'level_cs'   => 'Mírně pokročilí',
+			'level_en'   => 'Intermediate',
+		),
+		array(
+			'title_cs'   => 'Dětský tanec',
+			'title_en'   => 'Kids Dance',
+			'content_cs' => 'Pohybová a taneční příprava pro děti — rytmus, koordinace a radost z tance formou hry.',
+			'content_en' => 'Movement and dance preparation for children — rhythm, coordination and the joy of dance through play.',
+			'style_cs'   => 'Dětský tanec',
+			'style_en'   => 'Kids Dance',
+			'level_cs'   => 'Pro všechny',
+			'level_en'   => 'All levels',
+		),
+		array(
+			'title_cs'   => 'Dámský styling',
+			'title_en'   => 'Ladies Styling',
+			'content_cs' => 'Ženský styl, práce s tělem a sólové prvky do latinskoamerických tanců — bez partnera.',
+			'content_en' => 'Feminine styling, body movement and solo elements for Latin dances — no partner needed.',
+			'style_cs'   => 'Dámský styling',
+			'style_en'   => 'Ladies Styling',
+			'level_cs'   => 'Pro všechny',
+			'level_en'   => 'All levels',
+		),
+	);
+
+	/**
 	 * Seed the database with development/test fixture data.
 	 *
 	 * ## EXAMPLES
@@ -65,9 +128,16 @@ class Seed_Command {
 	public function __invoke( array $args, array $assoc_args ): void {
 		unset( $args, $assoc_args ); // Required by the WP-CLI callable signature; unused for now.
 
-		$created = $this->seed_locations();
+		$locations_created = $this->seed_locations();
+		$courses_created   = $this->seed_courses();
 
-		\WP_CLI::success( sprintf( 'ruben-dance: seeded (%d location(s) created).', $created ) );
+		\WP_CLI::success(
+			sprintf(
+				'ruben-dance: seeded (%d location(s), %d course(s) created).',
+				$locations_created,
+				$courses_created
+			)
+		);
 	}
 
 	/**
@@ -98,5 +168,237 @@ class Seed_Command {
 		}
 
 		return $created;
+	}
+
+	/**
+	 * Insert the fixture courses, skipping any whose Czech title already
+	 * exists (the canonical post, per spec §5 Multilingual: "the term's
+	 * `course_id` always points to the Czech course post") so repeated runs
+	 * never create duplicates. When Polylang is active, each course also
+	 * gets its English translation, linked via `pll_save_post_translations()`;
+	 * when Polylang is absent, only the Czech post is created — seeding must
+	 * degrade the same way the rest of the plugin does (see `Lang`).
+	 *
+	 * @return int Number of Czech course posts actually created.
+	 */
+	private function seed_courses(): int {
+		$created = 0;
+
+		foreach ( self::COURSES as $course ) {
+			if ( null !== $this->find_course_by_title( $course['title_cs'] ) ) {
+				continue;
+			}
+
+			$cs_id = wp_insert_post(
+				array(
+					'post_type'    => Post_Types::COURSE,
+					'post_title'   => $course['title_cs'],
+					'post_content' => $course['content_cs'],
+					'post_status'  => 'publish',
+				),
+				true
+			);
+
+			if ( is_wp_error( $cs_id ) || ! $cs_id ) {
+				continue;
+			}
+
+			$en_id = wp_insert_post(
+				array(
+					'post_type'    => Post_Types::COURSE,
+					'post_title'   => $course['title_en'],
+					'post_content' => $course['content_en'],
+					'post_status'  => 'publish',
+				),
+				true
+			);
+			$en_id = is_wp_error( $en_id ) ? 0 : (int) $en_id;
+
+			$style = $this->paired_term( Taxonomies::DANCE_STYLE, $course['style_cs'], $course['style_en'] );
+			$level = $this->paired_term( Taxonomies::LEVEL, $course['level_cs'], $course['level_en'] );
+
+			wp_set_object_terms( $cs_id, array( $style['cs'] ), Taxonomies::DANCE_STYLE );
+			wp_set_object_terms( $cs_id, array( $level['cs'] ), Taxonomies::LEVEL );
+
+			if ( function_exists( 'pll_set_post_language' ) ) {
+				pll_set_post_language( $cs_id, Lang::CS );
+
+				if ( $en_id ) {
+					pll_set_post_language( $en_id, Lang::EN );
+				}
+			}
+
+			if ( $en_id ) {
+				wp_set_object_terms( $en_id, array( $style['en'] ), Taxonomies::DANCE_STYLE );
+				wp_set_object_terms( $en_id, array( $level['en'] ), Taxonomies::LEVEL );
+
+				if ( function_exists( 'pll_save_post_translations' ) ) {
+					pll_save_post_translations(
+						array(
+							Lang::CS => $cs_id,
+							Lang::EN => $en_id,
+						)
+					);
+				}
+			}
+
+			++$created;
+		}
+
+		return $created;
+	}
+
+	/**
+	 * Find a course by its exact (Czech) title. Used for idempotency, the
+	 * same way `Location_Repository::find_by_name()` is: `rd_course` is a
+	 * core post type, not a `wp_rd_*` table, so this queries `$wpdb->posts`
+	 * directly rather than through a repository (repositories are only for
+	 * the plugin's custom tables, see includes/Repositories/).
+	 *
+	 * @param string $title Exact post title to match.
+	 * @return int|null Post ID, or null if not found.
+	 */
+	private function find_course_by_title( string $title ): ?int {
+		global $wpdb;
+
+		$id = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+			$wpdb->prepare(
+				"SELECT ID FROM {$wpdb->posts} WHERE post_type = %s AND post_title = %s AND post_status != 'trash' LIMIT 1", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				Post_Types::COURSE,
+				$title
+			)
+		);
+
+		return null === $id ? null : (int) $id;
+	}
+
+	/**
+	 * Find or create a CS/EN pair of terms in one taxonomy, linking the
+	 * translation when Polylang is active. Idempotent: re-running `wp rd
+	 * seed` reuses the same pair instead of creating duplicates, including
+	 * when the Czech and English names are identical (e.g. "Salsa") — the
+	 * Czech term is found by name *and* language (`find_term_in_language()`),
+	 * and the English one is then found via its translation group
+	 * (`pll_get_term()`), never by name alone.
+	 *
+	 * @param string $taxonomy Taxonomy slug.
+	 * @param string $name_cs  Czech term name.
+	 * @param string $name_en  English term name.
+	 * @return array{cs: int, en: int} Term IDs (equal to each other when
+	 *                                 Polylang is absent — a single canonical term).
+	 */
+	private function paired_term( string $taxonomy, string $name_cs, string $name_en ): array {
+		$cs_id = $this->find_term_in_language( $taxonomy, $name_cs, Lang::CS );
+
+		if ( ! $cs_id ) {
+			$cs_id = $this->insert_or_get_term( $name_cs, $taxonomy );
+
+			if ( $cs_id && function_exists( 'pll_set_term_language' ) ) {
+				pll_set_term_language( $cs_id, Lang::CS );
+			}
+		}
+
+		if ( ! function_exists( 'pll_get_term' ) ) {
+			return array(
+				'cs' => $cs_id,
+				'en' => $cs_id,
+			);
+		}
+
+		$en_id = (int) pll_get_term( $cs_id, Lang::EN );
+
+		if ( ! $en_id ) {
+			// WordPress core forbids two terms with the same name at the same
+			// taxonomy level unless an explicit, distinct slug is passed (see
+			// `wp_insert_term()`); some styles/levels are spelled identically
+			// in both languages (e.g. "Salsa"), so force a distinct slug for
+			// the English term whenever the names collide, otherwise
+			// `wp_insert_term()` would return the *Czech* term's ID as
+			// "already exists" and we'd wrongly relabel it as English.
+			$en_slug = strtolower( $name_cs ) === strtolower( $name_en )
+				? sanitize_title( $name_en ) . '-en'
+				: '';
+
+			$en_id = $this->insert_or_get_term( $name_en, $taxonomy, $en_slug );
+
+			if ( $en_id ) {
+				pll_set_term_language( $en_id, Lang::EN );
+				pll_save_term_translations(
+					array(
+						Lang::CS => $cs_id,
+						Lang::EN => $en_id,
+					)
+				);
+			}
+		}
+
+		return array(
+			'cs' => $cs_id,
+			'en' => 0 !== $en_id ? $en_id : $cs_id,
+		);
+	}
+
+	/**
+	 * Find an existing term by name, restricted to the given language when
+	 * Polylang is active. Needed instead of a plain `get_term_by( 'name',
+	 * ... )` because two Polylang terms can legitimately share a name across
+	 * languages (e.g. "Salsa" in both CS and EN) — without the language
+	 * filter, a second `wp rd seed` run could pick either one at random.
+	 *
+	 * @param string $taxonomy Taxonomy slug.
+	 * @param string $name     Term name to match.
+	 * @param string $lang     Language slug required when Polylang is active.
+	 * @return int Term ID, or 0 if not found.
+	 */
+	private function find_term_in_language( string $taxonomy, string $name, string $lang ): int {
+		$candidates = get_terms(
+			array(
+				'taxonomy'   => $taxonomy,
+				'name'       => $name,
+				'hide_empty' => false,
+			)
+		);
+
+		if ( ! is_array( $candidates ) || array() === $candidates ) {
+			return 0;
+		}
+
+		if ( ! function_exists( 'pll_get_term_language' ) ) {
+			return (int) $candidates[0]->term_id;
+		}
+
+		foreach ( $candidates as $candidate ) {
+			if ( pll_get_term_language( $candidate->term_id ) === $lang ) {
+				return (int) $candidate->term_id;
+			}
+		}
+
+		return 0;
+	}
+
+	/**
+	 * Insert a term, tolerating the "term already exists" case (returns the
+	 * existing term's ID instead of failing) — needed because
+	 * `get_term_by( 'name', ... )` alone cannot distinguish two Polylang
+	 * terms that share a name across languages (see `paired_term()`).
+	 *
+	 * @param string $name     Term name.
+	 * @param string $taxonomy Taxonomy slug.
+	 * @param string $slug     Optional explicit slug (see `paired_term()`:
+	 *                         needed to insert an English term whose name is
+	 *                         spelled the same as its Czech counterpart).
+	 * @return int Term ID (0 on unexpected failure).
+	 */
+	private function insert_or_get_term( string $name, string $taxonomy, string $slug = '' ): int {
+		$args   = '' === $slug ? array() : array( 'slug' => $slug );
+		$result = wp_insert_term( $name, $taxonomy, $args );
+
+		if ( is_wp_error( $result ) ) {
+			$existing = $result->get_error_data( 'term_exists' );
+
+			return $existing ? (int) $existing : 0;
+		}
+
+		return (int) $result['term_id'];
 	}
 }

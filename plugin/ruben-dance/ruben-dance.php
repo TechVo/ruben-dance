@@ -77,3 +77,6 @@ add_action(
 
 \RubenDance\Admin\Menu::register();
 \RubenDance\Admin\Locations_Page::register();
+\RubenDance\Post_Types::register();
+\RubenDance\Taxonomies::register();
+\RubenDance\Polylang_Setup::register();
