@@ -1,0 +1,14 @@
+{
+    "name": "ruben-dance",
+    "private": true,
+    "description": "Local dev environment for the Ruben Dance WordPress reservation plugin.",
+    "scripts": {
+        "env:start": "wp-env start",
+        "env:stop": "wp-env stop",
+        "env:destroy": "wp-env destroy",
+        "env:cli": "wp-env run cli"
+    },
+    "devDependencies": {
+        "@wordpress/env": "^10.0.0"
+    }
+}

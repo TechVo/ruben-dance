@@ -1,0 +1,20 @@
+# Node / wp-env tooling
+node_modules/
+npm-debug.log*
+
+# wp-env runtime artifacts
+.wp-env.override.json
+/wp-env-homedir/
+
+# Composer (plugin)
+plugin/ruben-dance/vendor/
+
+# PHPUnit / phpcs local caches
+.phpunit.result.cache
+.phpcs-cache
+
+# Editors / OS
+.DS_Store
+*.swp
+.idea/
+.vscode/

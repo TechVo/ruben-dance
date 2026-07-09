@@ -1,0 +1,40 @@
+{
+    "name": "ruben-dance/plugin",
+    "description": "Custom reservation system for Ruben Dance courses, terms, lessons and enrollments.",
+    "type": "wordpress-plugin",
+    "version": "0.1.0",
+    "license": "GPL-2.0-or-later",
+    "require": {
+        "php": ">=8.1"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.9",
+        "wp-coding-standards/wpcs": "^3.1",
+        "phpcompatibility/phpcompatibility-wp": "^2.1",
+        "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+        "phpunit/phpunit": "^9.6",
+        "yoast/phpunit-polyfills": "^2.0",
+        "wp-phpunit/wp-phpunit": "^6.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "RubenDance\\": "includes/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "RubenDance\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        },
+        "sort-packages": true
+    },
+    "scripts": {
+        "phpcs": "phpcs",
+        "phpcbf": "phpcbf",
+        "test": "phpunit"
+    }
+}
