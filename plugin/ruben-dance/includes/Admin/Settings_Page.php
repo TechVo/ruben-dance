@@ -98,6 +98,7 @@ class Settings_Page {
 		$submitted = array(
 			'due_date_days'            => isset( $_POST['due_date_days'] ) ? sanitize_text_field( wp_unslash( $_POST['due_date_days'] ) ) : '',
 			'admin_notification_email' => isset( $_POST['admin_notification_email'] ) ? sanitize_text_field( wp_unslash( $_POST['admin_notification_email'] ) ) : '',
+			'bank_account'             => isset( $_POST['bank_account'] ) ? sanitize_text_field( wp_unslash( $_POST['bank_account'] ) ) : '',
 		);
 
 		$errors = Settings::validate( $submitted );
@@ -149,6 +150,7 @@ class Settings_Page {
 			array(
 				'due_date_days'            => (string) Settings::due_date_days(),
 				'admin_notification_email' => Settings::admin_notification_email(),
+				'bank_account'             => Settings::bank_account(),
 			),
 			array()
 		);
@@ -180,6 +182,10 @@ class Settings_Page {
 
 		echo '<tr><th scope="row"><label for="rd_admin_notification_email">' . esc_html__( 'Admin notification email', 'ruben-dance' ) . '</label></th><td>';
 		echo '<input type="email" id="rd_admin_notification_email" name="admin_notification_email" class="regular-text" value="' . esc_attr( $submitted['admin_notification_email'] ) . '"></td></tr>';
+
+		echo '<tr><th scope="row"><label for="rd_bank_account">' . esc_html__( 'Bank account number', 'ruben-dance' ) . '</label></th><td>';
+		echo '<input type="text" id="rd_bank_account" name="bank_account" class="regular-text" value="' . esc_attr( $submitted['bank_account'] ) . '">';
+		echo '<p class="description">' . esc_html__( 'Shown in payment instructions on the enrollment confirmation page and email.', 'ruben-dance' ) . '</p></td></tr>';
 
 		echo '</tbody></table>';
 
@@ -216,6 +222,13 @@ class Settings_Page {
 
 			case Settings::ERROR_ADMIN_EMAIL_INVALID:
 				return __( 'Admin notification email must be a valid email address.', 'ruben-dance' );
+
+			case Settings::ERROR_BANK_ACCOUNT_TOO_LONG:
+				return sprintf(
+					/* translators: %d: maximum character length. */
+					__( 'Bank account number must be %d characters or fewer.', 'ruben-dance' ),
+					Settings::BANK_ACCOUNT_MAX_LENGTH
+				);
 
 			default:
 				return __( 'Invalid input.', 'ruben-dance' );

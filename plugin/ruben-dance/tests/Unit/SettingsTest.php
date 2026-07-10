@@ -105,4 +105,46 @@ class SettingsTest extends TestCase {
 
 		$this->assertSame( Settings::ERROR_ADMIN_EMAIL_INVALID, $errors['admin_notification_email'] );
 	}
+
+	/**
+	 * A blank bank account is allowed (optional field).
+	 */
+	public function test_validate_allows_blank_bank_account(): void {
+		$errors = Settings::validate(
+			array(
+				'due_date_days' => '7',
+				'bank_account'  => '',
+			)
+		);
+
+		$this->assertArrayNotHasKey( 'bank_account', $errors );
+	}
+
+	/**
+	 * A bank account within the length limit is accepted.
+	 */
+	public function test_validate_accepts_bank_account_within_limit(): void {
+		$errors = Settings::validate(
+			array(
+				'due_date_days' => '7',
+				'bank_account'  => '123456789/0800',
+			)
+		);
+
+		$this->assertArrayNotHasKey( 'bank_account', $errors );
+	}
+
+	/**
+	 * A bank account longer than the limit is rejected.
+	 */
+	public function test_validate_rejects_overlong_bank_account(): void {
+		$errors = Settings::validate(
+			array(
+				'due_date_days' => '7',
+				'bank_account'  => str_repeat( '1', Settings::BANK_ACCOUNT_MAX_LENGTH + 1 ),
+			)
+		);
+
+		$this->assertSame( Settings::ERROR_BANK_ACCOUNT_TOO_LONG, $errors['bank_account'] );
+	}
 }

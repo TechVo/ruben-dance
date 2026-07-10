@@ -1,0 +1,90 @@
+/**
+ * Minimal styling for the [rd_catalog]/[rd_enroll] shortcodes and the
+ * rd_course single-view term list. Deliberately unopinionated — the site's
+ * theme is expected to own real visual design; this only keeps the bare
+ * markup usable. Also defines `.rd-notice--warning`, used by these templates
+ * but not declared by M07's front-auth.css (which only needed success/error).
+ */
+.rd-notice--warning {
+	border-left-color: #d98500;
+}
+
+.rd-catalog-filters {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5em;
+	margin: 0 0 1.5em;
+}
+
+.rd-term-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1em;
+}
+
+.rd-term-card {
+	position: relative;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	padding: 1em;
+	min-width: 220px;
+	flex: 1 1 240px;
+}
+
+.rd-term-card--workshop {
+	border-color: #8a5fd6;
+}
+
+.rd-badge {
+	display: inline-block;
+	font-size: 0.75em;
+	font-weight: 600;
+	padding: 0.15em 0.5em;
+	border-radius: 3px;
+	margin: 0 0.25em 0.5em 0;
+	color: #fff;
+}
+
+.rd-badge--full {
+	background: #dc3232;
+}
+
+.rd-badge--workshop {
+	background: #8a5fd6;
+}
+
+.rd-term-price {
+	font-weight: 600;
+}
+
+.rd-price-strike {
+	text-decoration: line-through;
+	font-weight: 400;
+	opacity: 0.7;
+	font-size: 0.9em;
+}
+
+.rd-button {
+	display: inline-block;
+	padding: 0.5em 1em;
+	background: #2271b1;
+	color: #fff;
+	text-decoration: none;
+	border-radius: 3px;
+	margin-top: 0.5em;
+}
+
+.rd-button--secondary {
+	background: #646970;
+}
+
+.rd-enroll-form fieldset {
+	border: none;
+	padding: 0;
+	margin: 0 0 1em;
+}
+
+.rd-enroll-summary th {
+	text-align: left;
+	padding-right: 1em;
+}

@@ -13,6 +13,8 @@ use RubenDance\Lang;
 use RubenDance\Post_Types;
 use RubenDance\Repositories\Course_Term_Repository;
 use RubenDance\Repositories\Location_Repository;
+use RubenDance\Services\Duplicate_Enrollment_Exception;
+use RubenDance\Services\Enrollment_Service;
 use RubenDance\Services\Registration_Service;
 use RubenDance\Services\Term_Service;
 use RubenDance\Taxonomies;
@@ -259,6 +261,30 @@ class Seed_Command {
 			'note_public_cs'  => 'Zrušeno pro nízký zájem.',
 			'note_public_en'  => 'Cancelled due to low interest.',
 		),
+		// Open, low capacity (M08: gives the enrollment fixtures a term that
+		// can genuinely go over capacity, and doubles as a child-participant
+		// fixture — kids' course, parents enroll more than one child).
+		array(
+			'course_title_cs' => 'Dětský tanec',
+			'location_name'   => 'Terasa Smíchov',
+			'type'            => Term_Service::TYPE_COURSE,
+			'weekday'         => '6', // Saturday.
+			'start_time'      => '09:00',
+			'end_time'        => '10:00',
+			'date_from'       => '2026-01-10',
+			'date_to'         => '2026-04-25',
+			'instructor'      => 'Petra Nováková',
+			'capacity'        => '2',
+			'price'           => '1800',
+			'discount_early'  => '',
+			'early_until'     => '',
+			'discount_pair'   => '',
+			'status'          => Term_Service::STATUS_OPEN,
+			'season_label_cs' => 'Zima 2026',
+			'season_label_en' => 'Winter 2026',
+			'note_public_cs'  => '',
+			'note_public_en'  => '',
+		),
 	);
 
 	/**
@@ -292,6 +318,27 @@ class Seed_Command {
 			'slug_en'   => 'lost-password',
 			'title_en'  => 'Lost password',
 			'shortcode' => '[rd_lost_password]',
+		),
+		// M08: the catalog and enrollment-form pages. `which` is a plain
+		// string (matching `Front\Catalog_Page::PAGE_KEY`/`Front\Enroll_Page::PAGE_KEY`)
+		// rather than a `Front\Pages::` constant — `Pages::set()`/`url()`
+		// already accept an arbitrary key, so M08 never needs to touch M07's
+		// `Pages` class.
+		array(
+			'which'     => 'catalog',
+			'slug_cs'   => 'kurzy',
+			'title_cs'  => 'Kurzy',
+			'slug_en'   => 'courses',
+			'title_en'  => 'Courses',
+			'shortcode' => '[rd_catalog]',
+		),
+		array(
+			'which'     => 'enroll',
+			'slug_cs'   => 'prihlaska',
+			'title_cs'  => 'Přihláška',
+			'slug_en'   => 'enroll',
+			'title_en'  => 'Enroll',
+			'shortcode' => '[rd_enroll]',
 		),
 	);
 
@@ -352,6 +399,172 @@ class Seed_Command {
 	);
 
 	/**
+	 * ~15 enrollments spanning paid/unpaid/cancelled/over-capacity/
+	 * child-participant scenarios (M08: "this becomes the admin milestones'
+	 * fixture"). `term_season_label_cs` pairs with `course_title_cs` to
+	 * locate the term via `Course_Term_Repository::find_by_course_and_season()`,
+	 * the same natural-key idea `seed_terms()` uses. Processed in this exact
+	 * order — the low-capacity "Zima 2026" term (see `TERMS`) only tips over
+	 * its capacity of 2 from the third enrollment onward, so entries 10-14
+	 * are deliberately sequential to produce a realistic
+	 * over_capacity/paid/cancelled mix on that one term.
+	 *
+	 * @var array<int, array{email: string, course_title_cs: string, season_label_cs: string, participant_name: string, role: string, partner_name: string, mark_paid: bool, cancel: bool}>
+	 */
+	const ENROLLMENTS = array(
+		array(
+			'email'            => 'jana.novakova@example.com',
+			'course_title_cs'  => 'Salsa pro začátečníky',
+			'season_label_cs'  => 'Podzim 2025',
+			'participant_name' => '',
+			'role'             => 'solo',
+			'partner_name'     => '',
+			'mark_paid'        => false,
+			'cancel'           => false,
+		),
+		array(
+			'email'            => 'jana.novakova@example.com',
+			'course_title_cs'  => 'Salsa pro začátečníky',
+			'season_label_cs'  => 'Podzim 2025',
+			'participant_name' => 'Klára Nováková',
+			'role'             => 'solo',
+			'partner_name'     => '',
+			'mark_paid'        => false,
+			'cancel'           => false,
+		),
+		array(
+			'email'            => 'petr.svoboda@example.com',
+			'course_title_cs'  => 'Bachata pro mírně pokročilé',
+			'season_label_cs'  => 'Podzim 2025',
+			'participant_name' => '',
+			'role'             => 'leader',
+			'partner_name'     => 'Lucie Svobodová',
+			'mark_paid'        => false,
+			'cancel'           => false,
+		),
+		array(
+			'email'            => 'eva.dvorakova@example.com',
+			'course_title_cs'  => 'Bachata pro mírně pokročilé',
+			'season_label_cs'  => 'Podzim 2025',
+			'participant_name' => '',
+			'role'             => 'follower',
+			'partner_name'     => 'Petr Svoboda',
+			'mark_paid'        => true,
+			'cancel'           => false,
+		),
+		array(
+			'email'            => 'eva.dvorakova@example.com',
+			'course_title_cs'  => 'Salsa pro začátečníky',
+			'season_label_cs'  => 'Podzim 2025',
+			'participant_name' => '',
+			'role'             => 'solo',
+			'partner_name'     => '',
+			'mark_paid'        => false,
+			'cancel'           => true,
+		),
+		array(
+			'email'            => 'john.smith@example.com',
+			'course_title_cs'  => 'Salsa pro začátečníky',
+			'season_label_cs'  => 'Podzim 2025',
+			'participant_name' => '',
+			'role'             => 'solo',
+			'partner_name'     => '',
+			'mark_paid'        => true,
+			'cancel'           => false,
+		),
+		array(
+			'email'            => 'john.smith@example.com',
+			'course_title_cs'  => 'Dámský styling',
+			'season_label_cs'  => 'Zimní workshop 2025',
+			'participant_name' => '',
+			'role'             => 'solo',
+			'partner_name'     => '',
+			'mark_paid'        => false,
+			'cancel'           => false,
+		),
+		array(
+			'email'            => 'emily.clark@example.com',
+			'course_title_cs'  => 'Dámský styling',
+			'season_label_cs'  => 'Zimní workshop 2025',
+			'participant_name' => '',
+			'role'             => 'solo',
+			'partner_name'     => '',
+			'mark_paid'        => true,
+			'cancel'           => false,
+		),
+		array(
+			'email'            => 'emily.clark@example.com',
+			'course_title_cs'  => 'Bachata pro mírně pokročilé',
+			'season_label_cs'  => 'Podzim 2025',
+			'participant_name' => '',
+			'role'             => 'leader',
+			'partner_name'     => '',
+			'mark_paid'        => false,
+			'cancel'           => false,
+		),
+		array(
+			'email'            => 'jana.novakova@example.com',
+			'course_title_cs'  => 'Dětský tanec',
+			'season_label_cs'  => 'Zima 2026',
+			'participant_name' => 'Tomáš Novák',
+			'role'             => 'solo',
+			'partner_name'     => '',
+			'mark_paid'        => false,
+			'cancel'           => false,
+		),
+		array(
+			'email'            => 'jana.novakova@example.com',
+			'course_title_cs'  => 'Dětský tanec',
+			'season_label_cs'  => 'Zima 2026',
+			'participant_name' => 'Anna Nováková',
+			'role'             => 'solo',
+			'partner_name'     => '',
+			'mark_paid'        => false,
+			'cancel'           => false,
+		),
+		array(
+			'email'            => 'petr.svoboda@example.com',
+			'course_title_cs'  => 'Dětský tanec',
+			'season_label_cs'  => 'Zima 2026',
+			'participant_name' => 'David Svoboda',
+			'role'             => 'solo',
+			'partner_name'     => '',
+			'mark_paid'        => false,
+			'cancel'           => false,
+		),
+		array(
+			'email'            => 'eva.dvorakova@example.com',
+			'course_title_cs'  => 'Dětský tanec',
+			'season_label_cs'  => 'Zima 2026',
+			'participant_name' => 'Petra Dvořáková',
+			'role'             => 'solo',
+			'partner_name'     => '',
+			'mark_paid'        => false,
+			'cancel'           => true,
+		),
+		array(
+			'email'            => 'john.smith@example.com',
+			'course_title_cs'  => 'Dětský tanec',
+			'season_label_cs'  => 'Zima 2026',
+			'participant_name' => 'Oliver Smith',
+			'role'             => 'solo',
+			'partner_name'     => '',
+			'mark_paid'        => true,
+			'cancel'           => false,
+		),
+		array(
+			'email'            => 'emily.clark@example.com',
+			'course_title_cs'  => 'Salsa pro začátečníky',
+			'season_label_cs'  => 'Podzim 2025',
+			'participant_name' => '',
+			'role'             => 'solo',
+			'partner_name'     => '',
+			'mark_paid'        => false,
+			'cancel'           => false,
+		),
+	);
+
+	/**
 	 * Seed the database with development/test fixture data.
 	 *
 	 * ## EXAMPLES
@@ -366,20 +579,22 @@ class Seed_Command {
 	public function __invoke( array $args, array $assoc_args ): void {
 		unset( $args, $assoc_args ); // Required by the WP-CLI callable signature; unused for now.
 
-		$locations_created = $this->seed_locations();
-		$courses_created   = $this->seed_courses();
-		$terms_created     = $this->seed_terms();
-		$pages_created     = $this->seed_pages();
-		$customers_created = $this->seed_customers();
+		$locations_created   = $this->seed_locations();
+		$courses_created     = $this->seed_courses();
+		$terms_created       = $this->seed_terms();
+		$pages_created       = $this->seed_pages();
+		$customers_created   = $this->seed_customers();
+		$enrollments_created = $this->seed_enrollments();
 
 		\WP_CLI::success(
 			sprintf(
-				'ruben-dance: seeded (%d location(s), %d course(s), %d term(s), %d page(s), %d customer(s) created).',
+				'ruben-dance: seeded (%d location(s), %d course(s), %d term(s), %d page(s), %d customer(s), %d enrollment(s) created).',
 				$locations_created,
 				$courses_created,
 				$terms_created,
 				$pages_created,
-				$customers_created
+				$customers_created,
+				$enrollments_created
 			)
 		);
 	}
@@ -656,6 +871,96 @@ class Seed_Command {
 		}
 
 		return $created;
+	}
+
+	/**
+	 * Insert the fixture enrollments (M08: "this becomes the admin
+	 * milestones' fixture"). Goes through `Enrollment_Service::validate()`/
+	 * `create()` — the same code path a real public submission uses — so
+	 * price/discount_note/variable_symbol/due_date are computed exactly as
+	 * they would be for a real enrollment, never hand-rolled here.
+	 * Idempotent via `Enrollment_Service::create()`'s own duplicate-key
+	 * guard (spec §3.3: `term_id`/`user_id`/`participant_name` unique key):
+	 * a repeated `wp rd seed` run hits `Duplicate_Enrollment_Exception` for
+	 * every row already inserted and simply skips it, the same as every
+	 * other `Duplicate_Enrollment_Exception` catch site in the plugin.
+	 *
+	 * @return int Number of enrollments actually created.
+	 */
+	private function seed_enrollments(): int {
+		$term_repository = new Course_Term_Repository();
+		$service         = Enrollment_Service::create_default();
+		$admin_id        = $this->find_an_admin_user_id();
+		$created         = 0;
+
+		foreach ( self::ENROLLMENTS as $fixture ) {
+			$user = get_user_by( 'email', $fixture['email'] );
+
+			if ( false === $user ) {
+				continue; // Defensive: the matching customer should always have been seeded already.
+			}
+
+			$course_id = $this->find_course_by_title( $fixture['course_title_cs'] );
+
+			if ( null === $course_id ) {
+				continue; // Defensive: the matching course should always have been seeded already.
+			}
+
+			$term = $term_repository->find_by_course_and_season( $course_id, $fixture['season_label_cs'] );
+
+			if ( null === $term ) {
+				continue; // Defensive: the matching term should always have been seeded already.
+			}
+
+			$data = array(
+				'term_id'          => (int) $term['id'],
+				'user_id'          => $user->ID,
+				'participant_name' => $fixture['participant_name'],
+				'role'             => $fixture['role'],
+				'partner_name'     => $fixture['partner_name'],
+				'payment_method'   => Enrollment_Service::PAYMENT_BANK_TRANSFER,
+			);
+
+			if ( array() !== $service->validate( $data ) ) {
+				continue; // Defensive: fixture data is expected to always validate.
+			}
+
+			try {
+				$id = $service->create( $data );
+			} catch ( Duplicate_Enrollment_Exception $e ) {
+				continue; // Already seeded on an earlier run.
+			}
+
+			if ( $fixture['mark_paid'] ) {
+				$service->mark_paid( $id, $admin_id );
+			} elseif ( $fixture['cancel'] ) {
+				$service->cancel( $id );
+			}
+
+			++$created;
+		}
+
+		return $created;
+	}
+
+	/**
+	 * An administrator user ID, for `paid_marked_by` on the seeded "paid"
+	 * enrollments. Falls back to `1` (the default wp-env admin account) if,
+	 * unusually, no administrator exists yet — this is fixture data for a
+	 * dev/test site, not a production safety concern.
+	 *
+	 * @return int
+	 */
+	private function find_an_admin_user_id(): int {
+		$admins = get_users(
+			array(
+				'role'   => 'administrator',
+				'number' => 1,
+				'fields' => 'ID',
+			)
+		);
+
+		return array() !== $admins ? (int) $admins[0] : 1;
 	}
 
 	/**

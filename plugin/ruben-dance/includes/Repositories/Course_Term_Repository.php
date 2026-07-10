@@ -113,6 +113,57 @@ class Course_Term_Repository extends Repository {
 	}
 
 	/**
+	 * Open terms for a set of (Czech/canonical) course IDs, optionally
+	 * filtered by location/weekday, for the public catalog (spec F1). "Open"
+	 * here means `status = 'open'` only — closed/draft/cancelled terms never
+	 * appear in the catalog (F3: "Visitor clicks 'Enroll' on an *open*
+	 * term").
+	 *
+	 * @param int[]                                   $course_ids Course post IDs to include.
+	 * @param array{location_id?: int, weekday?: int} $filters    Optional filter values; empty/absent means "no filter" on that column.
+	 * @return array<int, array<string, mixed>>
+	 */
+	public function open_for_courses( array $course_ids, array $filters = array() ): array {
+		$course_ids = array_values( array_unique( array_map( 'intval', $course_ids ) ) );
+
+		if ( array() === $course_ids ) {
+			return array();
+		}
+
+		$wpdb = $this->wpdb;
+
+		// Placeholder count is derived from a server-side array of already-
+		// cast integers, never from raw user input, so building the
+		// IN (%d, %d, ...) fragment this way stays safe to splice into the
+		// query ahead of $wpdb->prepare() (same reasoning as
+		// Lesson_Repository::delete_many()).
+		$placeholders = implode( ', ', array_fill( 0, count( $course_ids ), '%d' ) );
+
+		$where  = array( 'status = %s', "course_id IN ({$placeholders})" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$params = array_merge( array( $this->table(), 'open' ), $course_ids );
+
+		if ( ! empty( $filters['location_id'] ) ) {
+			$where[]  = 'location_id = %d';
+			$params[] = (int) $filters['location_id'];
+		}
+
+		if ( ! empty( $filters['weekday'] ) ) {
+			$where[]  = 'weekday = %d';
+			$params[] = (int) $filters['weekday'];
+		}
+
+		$sql = 'SELECT * FROM %i WHERE ' . implode( ' AND ', $where ) . ' ORDER BY course_id ASC, date_from ASC';
+
+		// Custom plugin table: no object-cache group exists, direct prepared
+		// query is the standard approach (see Repository::find()). The WHERE
+		// clause above is built from a fixed set of literal fragments, never
+		// from user input.
+		$rows = $wpdb->get_results( $wpdb->prepare( $sql, $params ), ARRAY_A ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.NotPrepared
+
+		return null === $rows ? array() : $rows;
+	}
+
+	/**
 	 * Distinct `season_label_cs` values in use, for the admin list's season
 	 * filter dropdown.
 	 *

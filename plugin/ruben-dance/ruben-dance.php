@@ -83,6 +83,11 @@ add_action(
 \RubenDance\Post_Types::register();
 \RubenDance\Taxonomies::register();
 \RubenDance\Polylang_Setup::register();
+\RubenDance\Course_Fields::register();
 \RubenDance\Front\Shortcodes::register();
 \RubenDance\Front\Form_Handler::register();
 \RubenDance\Front\Access_Restrictions::register();
+\RubenDance\Front\Catalog_Page::register();
+\RubenDance\Front\Course_Content::register();
+\RubenDance\Front\Enroll_Page::register();
+\RubenDance\Front\Enrollment_Form_Handler::register();
