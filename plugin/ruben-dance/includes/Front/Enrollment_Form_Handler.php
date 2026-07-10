@@ -10,13 +10,14 @@ declare( strict_types = 1 );
 namespace RubenDance\Front;
 
 use RubenDance\Course_Fields;
+use RubenDance\Emails\Email_Sender;
+use RubenDance\Emails\Email_Templates;
+use RubenDance\Emails\Enrollment_Email_Data;
 use RubenDance\Lang;
 use RubenDance\Repositories\Course_Term_Repository;
-use RubenDance\Repositories\Email_Log_Repository;
 use RubenDance\Repositories\Enrollment_Repository;
 use RubenDance\Services\Duplicate_Enrollment_Exception;
 use RubenDance\Services\Enrollment_Service;
-use RubenDance\Services\Plain_Mailer;
 use RubenDance\Services\Rate_Limiter;
 use RubenDance\Services\Registration_Service;
 use RubenDance\Settings;
@@ -182,7 +183,7 @@ class Enrollment_Form_Handler {
 		$enrollment = ( new Enrollment_Repository() )->find( $id );
 
 		if ( null !== $enrollment && null !== $term ) {
-			self::send_confirmation_email( $enrollment, $term );
+			self::send_enrollment_emails( $enrollment, $term );
 		}
 
 		self::$result = array(
@@ -245,91 +246,50 @@ class Enrollment_Form_Handler {
 	}
 
 	/**
-	 * Send the E2 confirmation email (spec F14: "Enrollment created ...
-	 * summary (incl. participant) + payment instructions") through the
-	 * `Mailer` interface and record it in `wp_rd_email_log`. Deliberately
-	 * plain text (spec M08 "Out of scope": real templates are M13), the same
-	 * reasoning `Registration_Service::issue_verification_token()` uses for
-	 * E1.
+	 * Send the two "enrollment created" emails (spec F14): E2 to the customer
+	 * in their stored locale (summary incl. participant + payment
+	 * instructions), and E3 to the admin notification address, always in
+	 * Czech ("admin notifications (E3) always CS"), skipped when no address
+	 * is configured in Settings. Both are composed from the editable M13
+	 * templates and logged by `Emails\Email_Sender`; a `wp_mail()` failure is
+	 * recorded there with status `failed` (there is no admin screen on this
+	 * front-end trigger to surface a notice on — the log screen carries it).
 	 *
 	 * @param array<string, mixed> $enrollment Enrollment row.
 	 * @param array<string, mixed> $term       Term row.
 	 */
-	private static function send_confirmation_email( array $enrollment, array $term ): void {
+	private static function send_enrollment_emails( array $enrollment, array $term ): void {
 		$user = get_userdata( (int) $enrollment['user_id'] );
 
 		if ( false === $user ) {
 			return;
 		}
 
-		$locale = (string) get_user_meta( $user->ID, Registration_Service::META_LOCALE, true );
-		$locale = '' === $locale ? Lang::DEFAULT_LANGUAGE : $locale;
+		$sender        = Email_Sender::create_default();
+		$enrollment_id = (int) $enrollment['id'];
+		$lang          = Enrollment_Email_Data::user_lang( $user->ID );
 
-		$course_id    = (int) $term['course_id'];
-		$course_title = get_the_title( $course_id );
+		$sender->send(
+			Email_Templates::TYPE_E2,
+			$lang,
+			$user->user_email,
+			Enrollment_Email_Data::placeholders( $enrollment, $term, $user, $lang ),
+			$enrollment_id,
+			$user->ID
+		);
 
-		$is_en = Lang::EN === $locale;
-		$who   = '' === trim( (string) $enrollment['participant_name'] ) ? $user->display_name : (string) $enrollment['participant_name'];
+		$admin_email = Settings::admin_notification_email();
 
-		$season = $is_en && '' !== trim( (string) $term['season_label_en'] ) ? (string) $term['season_label_en'] : (string) $term['season_label_cs'];
-
-		$bank_account = Settings::bank_account();
-		$bank_account = '' === $bank_account ? __( '(to be confirmed)', 'ruben-dance' ) : $bank_account;
-
-		if ( $is_en ) {
-			$subject = sprintf(
-				/* translators: %s: course name. */
-				__( 'Your enrollment: %s', 'ruben-dance' ),
-				$course_title
-			);
-
-			$body = sprintf(
-				/* translators: 1: participant name, 2: course name, 3: season label, 4: amount, 5: discount note or empty, 6: bank account, 7: variable symbol, 8: due date. */
-				__( "Thanks for enrolling %1\$s in \"%2\$s\" (%3\$s).\n\nPayment instructions:\nAmount: %4\$s CZK%5\$s\nBank account: %6\$s\nVariable symbol: %7\$s\nDue date: %8\$s\n\nPlease use the variable symbol so we can match your payment. This email confirms your enrollment; our Terms & Conditions apply.", 'ruben-dance' ),
-				$who,
-				$course_title,
-				$season,
-				(string) $enrollment['price'],
-				null === $enrollment['discount_note'] || '' === (string) $enrollment['discount_note'] ? '' : ' (' . (string) $enrollment['discount_note'] . ')',
-				$bank_account,
-				(string) $enrollment['variable_symbol'],
-				(string) $enrollment['due_date']
-			);
-		} else {
-			$subject = sprintf(
-				/* translators: %s: course name. */
-				__( 'Vaše přihláška: %s', 'ruben-dance' ),
-				$course_title
-			);
-
-			$body = sprintf(
-				/* translators: 1: participant name, 2: course name, 3: season label, 4: amount, 5: discount note or empty, 6: bank account, 7: variable symbol, 8: due date. */
-				__( "Děkujeme za přihlášení (%1\$s) na kurz \"%2\$s\" (%3\$s).\n\nPlatební instrukce:\nČástka: %4\$s Kč%5\$s\nČíslo účtu: %6\$s\nVariabilní symbol: %7\$s\nSplatnost: %8\$s\n\nUveďte prosím variabilní symbol, ať platbu správně spárujeme. Tento email potvrzuje vaši přihlášku; platí naše obchodní podmínky.", 'ruben-dance' ),
-				$who,
-				$course_title,
-				$season,
-				(string) $enrollment['price'],
-				null === $enrollment['discount_note'] || '' === (string) $enrollment['discount_note'] ? '' : ' (' . (string) $enrollment['discount_note'] . ')',
-				$bank_account,
-				(string) $enrollment['variable_symbol'],
-				(string) $enrollment['due_date']
+		if ( '' !== $admin_email ) {
+			$sender->send(
+				Email_Templates::TYPE_E3,
+				Lang::CS,
+				$admin_email,
+				Enrollment_Email_Data::placeholders( $enrollment, $term, $user, Lang::CS ),
+				$enrollment_id,
+				$user->ID
 			);
 		}
-
-		$mailer = new Plain_Mailer();
-		$sent   = $mailer->send( $user->user_email, $subject, $body );
-
-		( new Email_Log_Repository() )->insert(
-			array(
-				'enrollment_id' => (int) $enrollment['id'],
-				'user_id'       => $user->ID,
-				'type'          => 'enrollment_confirmation',
-				'recipient'     => $user->user_email,
-				'subject'       => $subject,
-				'sent_at'       => current_time( 'mysql' ),
-				'status'        => $sent ? 'sent' : 'failed',
-			)
-		);
 	}
 
 	/**

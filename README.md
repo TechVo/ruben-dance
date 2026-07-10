@@ -74,14 +74,23 @@ Screens should always be checked against seeded data, never an empty database.
 ## 4. Outgoing email in local dev (mail catcher)
 
 wp-env ships no MailHog/Mailpit container, and there's no SMTP configured
-locally, so `wp_mail()` calls (e.g. the M07 registration-verification email,
+locally, so `wp_mail()` calls (e.g. the registration-verification email,
 or WP core's password-reset email) go nowhere by default. A small mu-plugin
 at [`.wp-env/mu-plugins/rd-mail-catcher.php`](.wp-env/mu-plugins/rd-mail-catcher.php)
-hooks the `wp_mail` filter and appends every outgoing email (to, subject,
-body — including whatever link it contains) to a plain-text log instead. It's
-mounted into the container via `.wp-env.json`'s `mappings.wp-content/mu-plugins`
-and is dev-only: it lives outside `plugin/ruben-dance/`, so it never ships to
-production.
+hooks the `pre_wp_mail` filter, appends every outgoing email (to, subject,
+body — including whatever link it contains) to a plain-text log, and
+short-circuits `wp_mail()` with `true` — so a send that reached the catcher
+counts as **sent**, both in `wp_mail()`'s return value and in the plugin's
+`wp_rd_email_log` status column, matching what a working SMTP setup would
+report. Without the short-circuit, PHPMailer would fail on the missing SMTP
+and every local send would (misleadingly) log as `failed` despite being
+readable in the catcher — that is how you tell the two apart: with the
+catcher active, "sent" means "delivered to the catcher file"; with it
+disabled (rename the file), `wp_mail()` reports PHPMailer's real failure,
+which is also how to exercise the plugin's failed-send notices locally.
+It's mounted into the container via `.wp-env.json`'s
+`mappings.wp-content/mu-plugins` and is dev-only: it lives outside
+`plugin/ruben-dance/`, so it never ships to production.
 
 Read it with:
 
@@ -92,6 +101,17 @@ npx wp-env run cli tail -f wp-content/rd-mail-log.txt
 This is how to actually exercise the email-verification flow end to end
 locally: register through `[rd_register]`, grab the verification link from
 this log, then open it (or `curl` it) to activate the account.
+
+### Deliverability in production (spec §4.4)
+
+The plugin sends everything through `wp_mail()` and deliberately configures
+no transport of its own. **Production requires an SMTP plugin or a
+transactional email provider** (e.g. WP Mail SMTP wired to the host's SMTP,
+or Mailgun/Postmark/SES) — bare PHP `mail()` from shared hosting reliably
+lands in spam. Configure the transport at the WordPress level (API keys in
+`wp-config.php` constants, per spec §5) and the plugin's emails (E1–E7,
+editable under **Ruben Dance → Email Templates**) use it automatically;
+every send is recorded under **Ruben Dance → Email Log**.
 
 ## Troubleshooting
 

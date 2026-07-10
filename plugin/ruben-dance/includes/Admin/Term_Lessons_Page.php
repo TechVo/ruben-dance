@@ -327,7 +327,7 @@ class Term_Lessons_Page {
 
 		echo '<tr><th scope="row">' . esc_html__( 'Notify enrollees', 'ruben-dance' ) . '</th><td>';
 		echo '<label><input type="checkbox" name="notify_enrollees" value="1" checked="checked"> ' . esc_html__( 'Email enrolled customers about this change', 'ruben-dance' ) . '</label>';
-		echo '<p class="description">' . esc_html__( 'Sending is not implemented yet; this only records the request for now.', 'ruben-dance' ) . '</p>';
+		echo '<p class="description">' . esc_html__( 'When the lesson is saved as cancelled or moved, you will see a preview and confirm before anything is sent.', 'ruben-dance' ) . '</p>';
 		echo '</td></tr>';
 
 		echo '</tbody></table>';

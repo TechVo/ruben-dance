@@ -118,10 +118,10 @@ class RegistrationServiceTest extends TestCase {
 			static function ( int $user_id, string $token, string $locale ): string {
 				return "https://example.test/verify?uid={$user_id}&token={$token}&locale={$locale}";
 			},
-			static function ( string $locale, string $link ): array {
+			static function ( string $locale, string $link, string $first_name ): array {
 				return array(
 					'subject' => "verify ({$locale})",
-					'body'    => "Click: {$link}",
+					'body'    => "Hi {$first_name}, click: {$link}",
 				);
 			},
 			$mailer

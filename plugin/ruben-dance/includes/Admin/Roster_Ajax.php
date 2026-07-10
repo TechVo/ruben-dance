@@ -9,13 +9,14 @@ declare( strict_types = 1 );
 
 namespace RubenDance\Admin;
 
+use RubenDance\Emails\Email_Sender;
+use RubenDance\Emails\Email_Templates;
+use RubenDance\Emails\Enrollment_Email_Data;
 use RubenDance\Repositories\Course_Term_Repository;
-use RubenDance\Repositories\Email_Log_Repository;
 use RubenDance\Repositories\Enrollment_Repository;
 use RubenDance\Roles;
 use RubenDance\Services\Enrollment_Service;
 use RubenDance\Services\Illegal_Status_Transition_Exception;
-use RubenDance\Services\Plain_Mailer;
 use RubenDance\Services\Roster_Stats;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -98,10 +99,11 @@ class Roster_Ajax {
 	/**
 	 * Send the E4 payment-confirmation email for an already-paid enrollment,
 	 * a *separate*, explicitly-requested action from `handle_mark()` (spec
-	 * F11a: the confirm prompt after marking paid). Real CS/EN templates are
-	 * M13's job (spec M11 "Out of scope": "real E4 email"); this sends a
-	 * minimal placeholder body through the same `Mailer` interface M13 will
-	 * still use, so no call site changes when the real templates land.
+	 * F11a: the confirm prompt after marking paid). Composed from the
+	 * editable M13 template in the customer's stored locale and logged by
+	 * `Emails\Email_Sender`; a `wp_mail()` failure surfaces as the error
+	 * toast the roster JS shows for a non-2xx response (the "admin notice on
+	 * the triggering action" this AJAX flow has).
 	 */
 	public static function handle_send_email(): void {
 		$enrollment_id = self::guard();
@@ -119,28 +121,15 @@ class Roster_Ajax {
 		}
 
 		$term = ( new Course_Term_Repository() )->find( (int) $enrollment['term_id'] );
+		$lang = Enrollment_Email_Data::user_lang( $user->ID );
 
-		$subject = __( 'Payment received — Ruben Dance', 'ruben-dance' );
-		$body    = sprintf(
-			/* translators: 1: course/term season label, 2: amount in CZK, 3: variable symbol. */
-			__( "We have received your payment.\n\nCourse: %1\$s\nAmount: %2\$s Kč\nVariable symbol: %3\$s\n\nSee you in class!", 'ruben-dance' ),
-			null === $term ? '' : (string) $term['season_label_cs'],
-			number_format( (float) $enrollment['price'], 2 ),
-			(string) $enrollment['variable_symbol']
-		);
-
-		$sent = ( new Plain_Mailer() )->send( $user->user_email, $subject, $body );
-
-		( new Email_Log_Repository() )->insert(
-			array(
-				'enrollment_id' => $enrollment_id,
-				'user_id'       => $user->ID,
-				'type'          => 'E4',
-				'recipient'     => $user->user_email,
-				'subject'       => $subject,
-				'sent_at'       => current_time( 'mysql' ),
-				'status'        => $sent ? 'sent' : 'failed',
-			)
+		$sent = Email_Sender::create_default()->send(
+			Email_Templates::TYPE_E4,
+			$lang,
+			$user->user_email,
+			Enrollment_Email_Data::placeholders( $enrollment, $term, $user, $lang ),
+			$enrollment_id,
+			$user->ID
 		);
 
 		if ( ! $sent ) {

@@ -87,6 +87,9 @@ add_action(
 \RubenDance\Admin\Customers_Page::register();
 \RubenDance\Admin\Customer_Detail_Page::register();
 \RubenDance\Admin\Settings_Page::register();
+\RubenDance\Admin\Email_Templates_Page::register();
+\RubenDance\Admin\Email_Log_Page::register();
+\RubenDance\Admin\Lesson_Notify_Page::register();
 \RubenDance\Post_Types::register();
 \RubenDance\Taxonomies::register();
 \RubenDance\Polylang_Setup::register();

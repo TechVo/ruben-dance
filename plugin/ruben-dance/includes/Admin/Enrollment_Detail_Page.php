@@ -11,6 +11,9 @@ declare( strict_types = 1 );
 
 namespace RubenDance\Admin;
 
+use RubenDance\Emails\Email_Sender;
+use RubenDance\Emails\Email_Templates;
+use RubenDance\Emails\Enrollment_Email_Data;
 use RubenDance\Repositories\Course_Term_Repository;
 use RubenDance\Repositories\Email_Log_Repository;
 use RubenDance\Repositories\Enrollment_Repository;
@@ -19,7 +22,6 @@ use RubenDance\Roles;
 use RubenDance\Services\Duplicate_Enrollment_Exception;
 use RubenDance\Services\Enrollment_Service;
 use RubenDance\Services\Illegal_Status_Transition_Exception;
-use RubenDance\Services\Plain_Mailer;
 use RubenDance\Services\Registration_Service;
 use RubenDance\Services\Term_Service;
 
@@ -170,7 +172,12 @@ class Enrollment_Detail_Page {
 	}
 
 	/**
-	 * Handle the "cancel" action.
+	 * Handle the "cancel" action, then send the E6 enrollment-cancelled
+	 * email to the customer in their stored locale (spec F14: "Enrollment
+	 * cancelled → customer"). The cancellation itself always stands — an
+	 * email failure only changes which notice the redirect carries, so it is
+	 * surfaced (spec M13: "never silently lost") without blocking the
+	 * state change.
 	 */
 	private static function handle_cancel(): void {
 		$enrollment_id = self::guarded_enrollment_id();
@@ -182,7 +189,41 @@ class Enrollment_Detail_Page {
 			return;
 		}
 
-		self::redirect( $enrollment_id, 'cancelled' );
+		self::redirect( $enrollment_id, self::send_cancelled_email( $enrollment_id ) ? 'cancelled' : 'cancelled_email_failed' );
+	}
+
+	/**
+	 * Send the E6 email for a just-cancelled enrollment.
+	 *
+	 * @param int $enrollment_id Enrollment ID (already cancelled).
+	 * @return bool True when the email was sent (or skipped for a reason that
+	 *              isn't a delivery failure, i.e. the account no longer exists).
+	 */
+	private static function send_cancelled_email( int $enrollment_id ): bool {
+		$enrollment = ( new Enrollment_Repository() )->find( $enrollment_id );
+
+		if ( null === $enrollment ) {
+			return true;
+		}
+
+		$user = get_userdata( (int) $enrollment['user_id'] );
+
+		if ( false === $user ) {
+			// No account, no recipient — nothing to deliver or to log as failed.
+			return true;
+		}
+
+		$term = ( new Course_Term_Repository() )->find( (int) $enrollment['term_id'] );
+		$lang = Enrollment_Email_Data::user_lang( $user->ID );
+
+		return Email_Sender::create_default()->send(
+			Email_Templates::TYPE_E6,
+			$lang,
+			$user->user_email,
+			Enrollment_Email_Data::placeholders( $enrollment, $term, $user, $lang ),
+			$enrollment_id,
+			$user->ID
+		);
 	}
 
 	/**
@@ -310,10 +351,10 @@ class Enrollment_Detail_Page {
 	/**
 	 * Handle the "send payment reminder" action (spec F14 E7: "unpaid after
 	 * N days ... manual 'send reminder' button in v1"). Only makes sense for
-	 * a currently-unpaid, non-cancelled enrollment. Real CS/EN templates are
-	 * M13's job (spec "Out of scope: real E4/E7 email"); this sends a
-	 * minimal placeholder body through the same `Mailer` interface M13 will
-	 * still use, mirroring `Roster_Ajax::handle_send_email()`'s E4 stub.
+	 * a currently-unpaid, non-cancelled enrollment. Composed from the
+	 * editable M13 template in the customer's stored locale and logged by
+	 * `Emails\Email_Sender`; a `wp_mail()` failure redirects with the
+	 * `reminder_failed` error notice.
 	 */
 	private static function handle_send_reminder(): void {
 		$enrollment_id = self::guarded_enrollment_id();
@@ -333,29 +374,15 @@ class Enrollment_Detail_Page {
 		}
 
 		$term = ( new Course_Term_Repository() )->find( (int) $enrollment['term_id'] );
+		$lang = Enrollment_Email_Data::user_lang( $user->ID );
 
-		$subject = __( 'Payment reminder — Ruben Dance', 'ruben-dance' );
-		$body    = sprintf(
-			/* translators: 1: course/term season label, 2: amount in CZK, 3: variable symbol, 4: due date. */
-			__( "This is a reminder that we haven't yet received your payment.\n\nCourse: %1\$s\nAmount: %2\$s Kč\nVariable symbol: %3\$s\nDue date: %4\$s\n\nPlease send your payment as soon as possible.", 'ruben-dance' ),
-			null === $term ? '' : (string) $term['season_label_cs'],
-			number_format( (float) $enrollment['price'], 2 ),
-			(string) $enrollment['variable_symbol'],
-			(string) $enrollment['due_date']
-		);
-
-		$sent = ( new Plain_Mailer() )->send( $user->user_email, $subject, $body );
-
-		( new Email_Log_Repository() )->insert(
-			array(
-				'enrollment_id' => $enrollment_id,
-				'user_id'       => $user->ID,
-				'type'          => 'E7',
-				'recipient'     => $user->user_email,
-				'subject'       => $subject,
-				'sent_at'       => current_time( 'mysql' ),
-				'status'        => $sent ? 'sent' : 'failed',
-			)
+		$sent = Email_Sender::create_default()->send(
+			Email_Templates::TYPE_E7,
+			$lang,
+			$user->user_email,
+			Enrollment_Email_Data::placeholders( $enrollment, $term, $user, $lang ),
+			$enrollment_id,
+			$user->ID
 		);
 
 		self::redirect( $enrollment_id, $sent ? 'reminder_sent' : 'reminder_failed' );
@@ -838,7 +865,8 @@ class Enrollment_Detail_Page {
 		}
 
 		$messages = array(
-			'cancelled'              => array( 'success', __( 'Enrollment cancelled.', 'ruben-dance' ) ),
+			'cancelled'              => array( 'success', __( 'Enrollment cancelled. The customer was notified by email.', 'ruben-dance' ) ),
+			'cancelled_email_failed' => array( 'warning', __( 'Enrollment cancelled, but the notification email could not be sent (logged as failed).', 'ruben-dance' ) ),
 			'cancel_failed'          => array( 'error', __( 'Could not cancel this enrollment — it may already be cancelled.', 'ruben-dance' ) ),
 			'role_partner_updated'   => array( 'success', __( 'Role/partner updated.', 'ruben-dance' ) ),
 			'role_partner_invalid'   => array( 'error', __( 'Please check the role/partner fields.', 'ruben-dance' ) ),

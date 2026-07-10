@@ -133,10 +133,11 @@ class Registration_Service {
 
 	/**
 	 * Composes the localized verification email:
-	 * function( string $locale, string $link ): array{subject: string, body: string}.
-	 * Injected (rather than calling `__()` directly in this class) so this
-	 * WordPress-agnostic service never needs `__()` to exist — the same
-	 * reasoning as every other WordPress touchpoint here.
+	 * function( string $locale, string $link, string $first_name ): array{subject: string, body: string}.
+	 * Injected (rather than rendering templates directly in this class) so
+	 * this WordPress-agnostic service never needs the template system (or
+	 * `__()`) to exist — the same reasoning as every other WordPress
+	 * touchpoint here.
 	 *
 	 * @var callable
 	 */
@@ -160,7 +161,7 @@ class Registration_Service {
 	 * @param callable $generate_token                function(): string.
 	 * @param callable $now                           function(): int.
 	 * @param callable $verification_link             function( int $user_id, string $token, string $locale ): string.
-	 * @param callable $compose_verification_email    function( string $locale, string $link ): array{subject: string, body: string}.
+	 * @param callable $compose_verification_email    function( string $locale, string $link, string $first_name ): array{subject: string, body: string}.
 	 * @param Mailer   $mailer                        Mailer implementation.
 	 */
 	public function __construct(
@@ -246,31 +247,32 @@ class Registration_Service {
 					$login_url
 				);
 			},
-			static function ( string $locale, string $link ): array {
-				$is_en = Lang::EN === $locale;
-
-				$subject = $is_en
-					? __( 'Please verify your Ruben Dance account', 'ruben-dance' )
-					: __( 'Potvrďte prosím svůj účet Ruben Dance', 'ruben-dance' );
-
-				$body = $is_en
-					? sprintf(
-						/* translators: %s: verification link. */
-						__( "Thanks for registering with Ruben Dance.\n\nPlease confirm your email address by clicking the link below:\n%s\n\nThe link is valid for 48 hours and can only be used once. If you did not create this account, you can safely ignore this email.", 'ruben-dance' ),
-						$link
+			static function ( string $locale, string $link, string $first_name ): array {
+				// The real, editable CS/EN E1 template (M13) — replaces the
+				// hardcoded plain-text body M07 shipped with.
+				return \RubenDance\Emails\Email_Templates::compose(
+					\RubenDance\Emails\Email_Templates::TYPE_E1,
+					$locale,
+					array(
+						'first_name' => $first_name,
+						'link'       => $link,
 					)
-					: sprintf(
-						/* translators: %s: verification link. */
-						__( "Děkujeme za registraci na Ruben Dance.\n\nPotvrďte prosím svou emailovou adresu kliknutím na následující odkaz:\n%s\n\nOdkaz je platný 48 hodin a lze jej použít pouze jednou. Pokud jste si tento účet nevytvořili vy, tento email prosím ignorujte.", 'ruben-dance' ),
-						$link
-					);
-
-				return array(
-					'subject' => $subject,
-					'body'    => $body,
 				);
 			},
-			new Plain_Mailer()
+			// E1 must appear in wp_rd_email_log like every other type (spec
+			// F14), but this service deliberately knows nothing about logging
+			// — the decorator adds it at the transport seam. The user ID is
+			// resolved from the recipient address (the account was created
+			// moments before the send, so the lookup always succeeds).
+			new Logging_Mailer(
+				new Html_Mailer(),
+				\RubenDance\Emails\Email_Templates::TYPE_E1,
+				static function ( string $to ): ?int {
+					$user_id = email_exists( $to );
+
+					return false === $user_id ? null : (int) $user_id;
+				}
+			)
 		);
 	}
 
@@ -338,7 +340,12 @@ class Registration_Service {
 	public function register( array $data ): int {
 		$user_id = $this->create_account( $data, false );
 
-		$this->issue_verification_token( $user_id, (string) $data['email'], (string) ( $data['locale'] ?? Lang::DEFAULT_LANGUAGE ) );
+		$this->issue_verification_token(
+			$user_id,
+			(string) $data['email'],
+			(string) ( $data['locale'] ?? Lang::DEFAULT_LANGUAGE ),
+			trim( (string) ( $data['first_name'] ?? '' ) )
+		);
 
 		return $user_id;
 	}
@@ -437,13 +444,15 @@ class Registration_Service {
 	/**
 	 * Generate, store (hashed) and email a fresh verification token.
 	 *
-	 * @param int    $user_id New user ID.
-	 * @param string $email   Address to send the verification link to.
-	 * @param string $locale  Locale the email is written in (spec F3 step 2:
-	 *                        "the site language at registration ... drives
-	 *                        the language of all future emails").
+	 * @param int    $user_id    New user ID.
+	 * @param string $email      Address to send the verification link to.
+	 * @param string $locale     Locale the email is written in (spec F3 step 2:
+	 *                           "the site language at registration ... drives
+	 *                           the language of all future emails").
+	 * @param string $first_name Recipient's first name, for the template's
+	 *                           `{first_name}` placeholder.
 	 */
-	private function issue_verification_token( int $user_id, string $email, string $locale ): void {
+	private function issue_verification_token( int $user_id, string $email, string $locale, string $first_name ): void {
 		$token   = ( $this->generate_token )();
 		$expires = ( $this->now )() + self::TOKEN_TTL_SECONDS;
 
@@ -451,7 +460,7 @@ class Registration_Service {
 		( $this->update_user_meta )( $user_id, self::META_VERIFICATION_TOKEN_EXPIRE, (string) $expires );
 
 		$link    = ( $this->verification_link )( $user_id, $token, $locale );
-		$content = ( $this->compose_verification_email )( $locale, $link );
+		$content = ( $this->compose_verification_email )( $locale, $link, $first_name );
 
 		$this->mailer->send( $email, $content['subject'], $content['body'] );
 	}
