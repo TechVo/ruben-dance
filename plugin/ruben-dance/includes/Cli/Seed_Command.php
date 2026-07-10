@@ -340,6 +340,17 @@ class Seed_Command {
 			'title_en'  => 'Enroll',
 			'shortcode' => '[rd_enroll]',
 		),
+		// M09: the customer account page. `which` matches
+		// `Front\Account_Page::PAGE_KEY` for the same "no change to M07's
+		// Pages class" reason as `catalog`/`enroll` above.
+		array(
+			'which'     => 'account',
+			'slug_cs'   => 'muj-ucet',
+			'title_cs'  => 'Můj účet',
+			'slug_en'   => 'my-account',
+			'title_en'  => 'My account',
+			'shortcode' => '[rd_account]',
+		),
 	);
 
 	/**

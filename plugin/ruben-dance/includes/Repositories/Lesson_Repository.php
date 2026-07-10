@@ -84,4 +84,38 @@ class Lesson_Repository extends Repository {
 			$wpdb->prepare( "DELETE FROM %i WHERE id IN ({$placeholders})", array_merge( array( $this->table() ), $ids ) ) // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		);
 	}
+
+	/**
+	 * Upcoming lessons — any status, including `cancelled`/`moved` — across a
+	 * set of terms, from a given date onward. Backs the `[rd_account]` "My
+	 * schedule" tab (spec F6: "including any cancelled/moved dates"), which
+	 * only ever passes term IDs already ownership-filtered by
+	 * `Enrollment_Repository::active_for_user()` one call earlier.
+	 *
+	 * @param int[]  $term_ids  Term IDs.
+	 * @param string $from_date `Y-m-d` — only lessons on or after this date.
+	 * @return array<int, array<string, mixed>> Ordered by date/time ascending.
+	 */
+	public function upcoming_for_terms( array $term_ids, string $from_date ): array {
+		$term_ids = array_values( array_unique( array_map( 'intval', $term_ids ) ) );
+
+		if ( array() === $term_ids ) {
+			return array();
+		}
+
+		$wpdb = $this->wpdb;
+
+		// Placeholder count is derived from a server-side array of already-
+		// cast integers, never from raw user input (same reasoning as
+		// delete_many() above).
+		$placeholders = implode( ', ', array_fill( 0, count( $term_ids ), '%d' ) );
+
+		$sql = "SELECT * FROM %i WHERE term_id IN ({$placeholders}) AND lesson_date >= %s ORDER BY lesson_date ASC, start_time ASC"; // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
+		$params = array_merge( array( $this->table() ), $term_ids, array( $from_date ) );
+
+		$rows = $wpdb->get_results( $wpdb->prepare( $sql, $params ), ARRAY_A ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.NotPrepared
+
+		return null === $rows ? array() : $rows;
+	}
 }

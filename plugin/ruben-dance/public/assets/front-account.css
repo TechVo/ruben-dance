@@ -1,0 +1,86 @@
+/**
+ * Minimal styling for the [rd_account] shortcode. Deliberately
+ * unopinionated — the site's theme is expected to own real visual design;
+ * this only keeps the tabs/tables/forms usable. Shares .rd-notice/.rd-badge/
+ * .rd-enroll-summary rules with front-catalog.css/front-auth.css where the
+ * same shapes apply (the payment-instructions table mirrors the confirmation
+ * page's).
+ */
+.rd-account-tabs {
+	display: flex;
+	gap: 0.5em;
+	margin: 0 0 1.5em;
+	border-bottom: 1px solid #ddd;
+}
+
+.rd-account-tab {
+	padding: 0.5em 1em;
+	text-decoration: none;
+	border-bottom: 2px solid transparent;
+}
+
+.rd-account-tab.is-active {
+	border-bottom-color: #2271b1;
+	font-weight: 600;
+}
+
+.rd-account-enrollment {
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	padding: 1em;
+	margin: 0 0 1em;
+}
+
+.rd-account-enrollment-meta {
+	list-style: none;
+	margin: 0.5em 0;
+	padding: 0;
+}
+
+.rd-badge--status-confirmed {
+	background: #d98500;
+}
+
+.rd-badge--status-paid {
+	background: #46b450;
+}
+
+.rd-badge--status-cancelled {
+	background: #646970;
+}
+
+.rd-account-schedule-table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.rd-account-schedule-table th,
+.rd-account-schedule-table td {
+	text-align: left;
+	padding: 0.5em;
+	border-bottom: 1px solid #eee;
+}
+
+.rd-account-schedule-row--cancelled {
+	opacity: 0.6;
+}
+
+.rd-badge--cancelled {
+	background: #dc3232;
+}
+
+.rd-badge--moved {
+	background: #d98500;
+}
+
+.rd-account-profile-section {
+	margin: 0 0 2em;
+}
+
+.rd-account-form p {
+	margin: 0 0 1em;
+}
+
+.rd-account-form label {
+	font-weight: 600;
+}

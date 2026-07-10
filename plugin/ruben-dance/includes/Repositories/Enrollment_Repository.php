@@ -87,4 +87,54 @@ class Enrollment_Repository extends Repository {
 			)
 		);
 	}
+
+	/**
+	 * Every enrollment belonging to one customer, across every status and
+	 * term — the `[rd_account]` "My enrollments" tab (spec F5). Ownership is
+	 * enforced *here*, in the repository layer, not merely by the caller
+	 * (spec §5: "checked in the repository layer, not just the controller"):
+	 * the `user_id = %d` clause is baked into the SQL itself, so nothing
+	 * above this method — however a request was tampered with — could ever
+	 * widen the result set to another customer's rows.
+	 *
+	 * @param int $user_id WP user ID; the real call site (`Services\Account_Service`)
+	 *                      only ever passes `get_current_user_id()`, never a
+	 *                      value read from the request.
+	 * @return array<int, array<string, mixed>> Ordered by created_at DESC (most recent first).
+	 */
+	public function for_user( int $user_id ): array {
+		$wpdb = $this->wpdb;
+
+		$rows = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+			$wpdb->prepare( 'SELECT * FROM %i WHERE user_id = %d ORDER BY created_at DESC', $this->table(), $user_id ),
+			ARRAY_A
+		);
+
+		return null === $rows ? array() : $rows;
+	}
+
+	/**
+	 * A customer's active (non-cancelled) enrollments — the term set the
+	 * `[rd_account]` "My schedule" tab (spec F6: "active courses") pulls
+	 * upcoming lessons for. Same ownership reasoning as `for_user()`.
+	 *
+	 * @param int $user_id WP user ID; see `for_user()`.
+	 * @return array<int, array<string, mixed>>
+	 */
+	public function active_for_user( int $user_id ): array {
+		$wpdb = $this->wpdb;
+
+		$rows = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+			$wpdb->prepare(
+				'SELECT * FROM %i WHERE user_id = %d AND status IN (%s, %s)',
+				$this->table(),
+				$user_id,
+				self::ACTIVE_STATUSES[0],
+				self::ACTIVE_STATUSES[1]
+			),
+			ARRAY_A
+		);
+
+		return null === $rows ? array() : $rows;
+	}
 }

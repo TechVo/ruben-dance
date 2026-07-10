@@ -164,6 +164,44 @@ class Course_Term_Repository extends Repository {
 	}
 
 	/**
+	 * Several term rows by ID at once, keyed by ID, for batch-resolving
+	 * course/location per lesson in the `[rd_account]` "My schedule" tab
+	 * without one query per row (same `IN (...)` approach as
+	 * `Lesson_Repository::upcoming_for_terms()`).
+	 *
+	 * @param int[] $ids Term IDs.
+	 * @return array<int, array<string, mixed>> Keyed by term id.
+	 */
+	public function find_many( array $ids ): array {
+		$ids = array_values( array_unique( array_filter( array_map( 'intval', $ids ), static fn( int $id ): bool => $id > 0 ) ) );
+
+		if ( array() === $ids ) {
+			return array();
+		}
+
+		$wpdb = $this->wpdb;
+
+		$placeholders = implode( ', ', array_fill( 0, count( $ids ), '%d' ) );
+
+		$rows = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+			$wpdb->prepare( "SELECT * FROM %i WHERE id IN ({$placeholders})", array_merge( array( $this->table() ), $ids ) ), // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			ARRAY_A
+		);
+
+		if ( null === $rows ) {
+			return array();
+		}
+
+		$keyed = array();
+
+		foreach ( $rows as $row ) {
+			$keyed[ (int) $row['id'] ] = $row;
+		}
+
+		return $keyed;
+	}
+
+	/**
 	 * Distinct `season_label_cs` values in use, for the admin list's season
 	 * filter dropdown.
 	 *

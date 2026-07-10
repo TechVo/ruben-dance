@@ -91,3 +91,5 @@ add_action(
 \RubenDance\Front\Course_Content::register();
 \RubenDance\Front\Enroll_Page::register();
 \RubenDance\Front\Enrollment_Form_Handler::register();
+\RubenDance\Front\Account_Page::register();
+\RubenDance\Front\Account_Form_Handler::register();
