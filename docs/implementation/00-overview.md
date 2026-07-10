@@ -15,7 +15,9 @@ spec, the spec wins — fix the milestone file.
   - [ ] `composer test` green (where the milestone adds testable logic)
   - [ ] Manually exercised in the local site (wp-env), not just "code looks right"
 - **Conventions:** text domain `ruben-dance`; every user-facing string through
-  `__()`/`esc_html__()` from day one (CS is the source language, EN via `.po`);
+  `__()`/`esc_html__()` from day one (English source strings per WP convention,
+  **CS via `cs_CZ` `.po`** — completed in M16; legally mandated CS wording like
+  the §6.3 button may branch by language explicitly);
   all SQL via `$wpdb->prepare()`; every admin action nonce + `rd_manage`
   capability checked; every front-end write nonce + ownership checked.
 

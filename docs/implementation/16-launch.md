@@ -9,9 +9,10 @@ owner approval) and the pre-launch checklist is executed, not just read.
 
 - **Voucher info page + inquiry form (F17)**: WP page CS/EN + small form
   (name, email, message → owners' email, honeypot-protected). Last feature bit.
-- **i18n completeness**: generate `.pot`, complete the EN `.po/.mo`; `wp rd`
-  CLI or script check for untranslated strings; verify no hardcoded Czech in
-  templates.
+- **i18n completeness**: generate `.pot`, complete the **`cs_CZ` `.po/.mo`**
+  (source strings are English per WP convention — the whole CS front end depends
+  on this being finished); script check for untranslated strings; verify the CS
+  pages actually render Czech end-to-end.
 - **Accessibility pass (§6.4)** on the enrollment path: labels, error messages,
   keyboard-only walkthrough catalog → enroll → account; calendar list-view
   fallback link.
