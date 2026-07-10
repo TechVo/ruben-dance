@@ -137,4 +137,25 @@ class Enrollment_Repository extends Repository {
 
 		return null === $rows ? array() : $rows;
 	}
+
+	/**
+	 * Every enrollment for a term, every status included — the admin term
+	 * roster (spec F11a: "one row per enrollment", including the cancelled
+	 * badge, so cancelled rows must stay visible here even though they are
+	 * excluded from the header sums by `Services\Roster_Stats::compute()`).
+	 * Ordered oldest-first so the roster reads in the order people signed up.
+	 *
+	 * @param int $term_id Term ID.
+	 * @return array<int, array<string, mixed>>
+	 */
+	public function for_term( int $term_id ): array {
+		$wpdb = $this->wpdb;
+
+		$rows = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+			$wpdb->prepare( 'SELECT * FROM %i WHERE term_id = %d ORDER BY created_at ASC, id ASC', $this->table(), $term_id ),
+			ARRAY_A
+		);
+
+		return null === $rows ? array() : $rows;
+	}
 }
