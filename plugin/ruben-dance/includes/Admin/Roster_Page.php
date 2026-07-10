@@ -301,12 +301,14 @@ class Roster_Page {
 	/**
 	 * Batch-load the account-holder users + `rd_phone` meta for a set of
 	 * enrollments, so `Roster_List_Table` never issues one query per row
-	 * (same tradeoff `Terms_List_Table` makes for locations).
+	 * (same tradeoff `Terms_List_Table` makes for locations). Public: M12's
+	 * `Enrollments_Page` (the cross-term list) reuses this verbatim rather
+	 * than duplicating the same batch-load logic.
 	 *
 	 * @param array<int, array<string, mixed>> $enrollments Enrollment rows.
 	 * @return array{0: array<int, \WP_User>, 1: array<int, string>}
 	 */
-	private static function load_users( array $enrollments ): array {
+	public static function load_users( array $enrollments ): array {
 		$ids = array();
 
 		foreach ( $enrollments as $enrollment ) {

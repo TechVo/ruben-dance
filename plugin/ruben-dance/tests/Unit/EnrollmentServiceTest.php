@@ -571,4 +571,363 @@ class EnrollmentServiceTest extends TestCase {
 		$this->expectException( \InvalidArgumentException::class );
 		$service->cancel( 999 );
 	}
+
+	// -- manual price (M12: manual enrollment) -----------------------------
+
+	/**
+	 * `validate()` accepts a blank manual_price (normal server-computed price).
+	 */
+	public function test_validate_accepts_blank_manual_price(): void {
+		list( $service ) = $this->make_service();
+
+		$this->assertSame( array(), $service->validate( $this->valid_data() ) );
+	}
+
+	/**
+	 * `validate()` rejects a malformed manual_price.
+	 */
+	public function test_validate_rejects_invalid_manual_price(): void {
+		list( $service ) = $this->make_service();
+
+		$data                 = $this->valid_data();
+		$data['manual_price'] = 'not-a-number';
+
+		$errors = $service->validate( $data );
+
+		$this->assertSame( Enrollment_Service::ERROR_MANUAL_PRICE_INVALID, $errors['manual_price'] );
+	}
+
+	/**
+	 * `create()` uses the manual price instead of the computed one, and
+	 * records the override in `admin_note`, when `manual_price` is set.
+	 */
+	public function test_create_uses_manual_price_when_given(): void {
+		list( $service, $calls ) = $this->make_service();
+
+		$data                 = $this->valid_data();
+		$data['manual_price'] = '999';
+
+		$service->create( $data );
+
+		$row = $calls['insert'][0];
+		$this->assertSame( '999.00', $row['price'] );
+		$this->assertStringContainsString( '999.00', (string) $row['admin_note'] );
+		$this->assertStringContainsString( '2400.00', (string) $row['admin_note'] ); // The computed price is still recorded for audit.
+	}
+
+	/**
+	 * `create()` uses the server-computed price when `manual_price` is blank.
+	 */
+	public function test_create_uses_computed_price_when_manual_price_blank(): void {
+		list( $service, $calls ) = $this->make_service();
+
+		$service->create( $this->valid_data() );
+
+		$row = $calls['insert'][0];
+		$this->assertSame( '2400.00', $row['price'] );
+		$this->assertNull( $row['admin_note'] );
+	}
+
+	// -- validate_role_partner()/update_role_partner() ---------------------
+
+	/**
+	 * A valid role/partner submission produces no errors.
+	 */
+	public function test_validate_role_partner_accepts_valid_data(): void {
+		list( $service ) = $this->make_service();
+
+		$errors = $service->validate_role_partner(
+			array(
+				'role'         => Enrollment_Service::ROLE_LEADER,
+				'partner_name' => 'Anna',
+			)
+		);
+
+		$this->assertSame( array(), $errors );
+	}
+
+	/**
+	 * An invalid role is rejected.
+	 */
+	public function test_validate_role_partner_rejects_invalid_role(): void {
+		list( $service ) = $this->make_service();
+
+		$errors = $service->validate_role_partner( array( 'role' => 'not-a-role', 'partner_name' => '' ) );
+
+		$this->assertSame( Enrollment_Service::ERROR_ROLE_INVALID, $errors['role'] );
+	}
+
+	/**
+	 * `update_role_partner()` writes the new role/partner_name and blanks a
+	 * cleared partner_name to null.
+	 */
+	public function test_update_role_partner_writes_fields(): void {
+		list( $service, $calls ) = $this->make_service(
+			array( 'enrollments' => array( 5 => $this->enrollment_with_status( Enrollment_Service::STATUS_CONFIRMED ) ) )
+		);
+
+		$service->update_role_partner( 5, Enrollment_Service::ROLE_FOLLOWER, '' );
+
+		list( $id, $data ) = $calls['update'][0];
+		$this->assertSame( 5, $id );
+		$this->assertSame( Enrollment_Service::ROLE_FOLLOWER, $data['role'] );
+		$this->assertNull( $data['partner_name'] );
+	}
+
+	// -- validate_price_edit()/edit_price() ---------------------------------
+
+	/**
+	 * A price edit without a reason is rejected (spec F11b acceptance
+	 * criterion: "Price edit without a reason is rejected").
+	 */
+	public function test_validate_price_edit_requires_reason(): void {
+		list( $service ) = $this->make_service();
+
+		$errors = $service->validate_price_edit( array( 'price' => '1000', 'reason' => '' ) );
+
+		$this->assertSame( Enrollment_Service::ERROR_REASON_REQUIRED, $errors['reason'] );
+	}
+
+	/**
+	 * An invalid price amount is rejected.
+	 */
+	public function test_validate_price_edit_rejects_invalid_price(): void {
+		list( $service ) = $this->make_service();
+
+		$errors = $service->validate_price_edit( array( 'price' => 'abc', 'reason' => 'Goodwill discount' ) );
+
+		$this->assertSame( Enrollment_Service::ERROR_PRICE_INVALID, $errors['price'] );
+	}
+
+	/**
+	 * `edit_price()` writes the new price and appends the reason to
+	 * `admin_note`, leaving `discount_note` untouched (spec F11b acceptance
+	 * criterion: "reason lands in admin_note"; "discount_note preserved").
+	 */
+	public function test_edit_price_updates_price_and_appends_reason_to_admin_note(): void {
+		$enrollment            = $this->enrollment_with_status( Enrollment_Service::STATUS_CONFIRMED );
+		$enrollment['price']   = '2400.00';
+		$enrollment['admin_note'] = null;
+
+		list( $service, $calls ) = $this->make_service( array( 'enrollments' => array( 5 => $enrollment ) ) );
+
+		$service->edit_price( 5, '2000', 'Goodwill discount agreed by phone', 'Jane Admin' );
+
+		list( $id, $data ) = $calls['update'][0];
+		$this->assertSame( 5, $id );
+		$this->assertSame( '2000.00', $data['price'] );
+		$this->assertStringContainsString( 'Goodwill discount agreed by phone', $data['admin_note'] );
+		$this->assertStringContainsString( 'Jane Admin', $data['admin_note'] );
+		$this->assertArrayNotHasKey( 'discount_note', $data ); // Never touched.
+	}
+
+	/**
+	 * A second `edit_price()` call appends to, rather than overwrites, the
+	 * existing admin_note.
+	 */
+	public function test_edit_price_appends_to_existing_admin_note(): void {
+		$enrollment               = $this->enrollment_with_status( Enrollment_Service::STATUS_CONFIRMED );
+		$enrollment['price']      = '2400.00';
+		$enrollment['admin_note'] = 'Earlier note.';
+
+		list( $service, $calls ) = $this->make_service( array( 'enrollments' => array( 5 => $enrollment ) ) );
+
+		$service->edit_price( 5, '2000', 'Discount', 'Jane Admin' );
+
+		list( , $data ) = $calls['update'][0];
+		$this->assertStringContainsString( 'Earlier note.', $data['admin_note'] );
+		$this->assertStringContainsString( 'Discount', $data['admin_note'] );
+	}
+
+	// -- validate_admin_note()/add_admin_note() -----------------------------
+
+	/**
+	 * A blank note is rejected.
+	 */
+	public function test_validate_admin_note_requires_note(): void {
+		list( $service ) = $this->make_service();
+
+		$errors = $service->validate_admin_note( array( 'note' => '  ' ) );
+
+		$this->assertSame( Enrollment_Service::ERROR_NOTE_REQUIRED, $errors['note'] );
+	}
+
+	/**
+	 * `add_admin_note()` appends the note (prefixed with the actor label) to
+	 * the existing admin_note.
+	 */
+	public function test_add_admin_note_appends(): void {
+		$enrollment               = $this->enrollment_with_status( Enrollment_Service::STATUS_CONFIRMED );
+		$enrollment['admin_note'] = 'Existing note.';
+
+		list( $service, $calls ) = $this->make_service( array( 'enrollments' => array( 5 => $enrollment ) ) );
+
+		$service->add_admin_note( 5, 'Called, asked to move to Tuesday group.', 'Jane Admin' );
+
+		list( , $data ) = $calls['update'][0];
+		$this->assertStringContainsString( 'Existing note.', $data['admin_note'] );
+		$this->assertStringContainsString( 'Jane Admin: Called, asked to move to Tuesday group.', $data['admin_note'] );
+	}
+
+	// -- move_to_term() ------------------------------------------------------
+
+	/**
+	 * Build a service wired for `move_to_term()` tests: two terms (source id
+	 * 1, target id 2) and one enrollment currently in the source term.
+	 *
+	 * @param array<string, mixed> $target_overrides Overrides for the target term (id 2).
+	 * @param array<string, mixed> $enrollment_overrides Overrides for the enrollment fixture.
+	 * @param int                  $active_count     Value `count_active_enrollments()` returns for the target term.
+	 * @return array{0: Enrollment_Service, 1: ArrayObject}
+	 */
+	private function make_move_service( array $target_overrides = array(), array $enrollment_overrides = array(), int $active_count = 0 ): array {
+		$terms = array(
+			1 => $this->open_term( array( 'id' => 1 ) ),
+			2 => $this->open_term( array_merge( array( 'id' => 2 ), $target_overrides ) ),
+		);
+
+		$enrollment = array_merge(
+			array(
+				'id'         => 5,
+				'status'     => Enrollment_Service::STATUS_CONFIRMED,
+				'term_id'    => 1,
+				'admin_note' => null,
+			),
+			$enrollment_overrides
+		);
+
+		$calls = new ArrayObject( array( 'update' => array() ) );
+
+		$service = new Enrollment_Service(
+			static function ( int $term_id ) use ( $terms ): ?array {
+				return $terms[ $term_id ] ?? null;
+			},
+			static function ( int $id ) use ( $enrollment ): ?array {
+				return $id === (int) $enrollment['id'] ? $enrollment : null;
+			},
+			static function ( int $term_id ) use ( $active_count ): int {
+				unset( $term_id );
+
+				return $active_count;
+			},
+			static fn( array $data ): int => 0,
+			static function ( int $id, array $data ) use ( $calls ): bool {
+				$calls['update'] = array_merge( $calls['update'], array( array( $id, $data ) ) );
+
+				return true;
+			},
+			static fn(): int => 7,
+			static fn(): string => '2025-08-10 09:00:00',
+			new Pricing_Service(),
+			new Variable_Symbol_Generator(),
+			new Due_Date_Calculator()
+		);
+
+		return array( $service, $calls );
+	}
+
+	/**
+	 * A move to an open term with room re-evaluates over_capacity to false
+	 * and records the move in admin_note (spec F11b acceptance criterion:
+	 * "history traceable via admin note").
+	 */
+	public function test_move_to_term_succeeds_and_records_note(): void {
+		list( $service, $calls ) = $this->make_move_service( array( 'capacity' => 10 ), array(), 2 );
+
+		$service->move_to_term( 5, 2, 'Jane Admin' );
+
+		list( $id, $data ) = $calls['update'][0];
+		$this->assertSame( 5, $id );
+		$this->assertSame( 2, $data['term_id'] );
+		$this->assertSame( 0, $data['over_capacity'] );
+		$this->assertStringContainsString( 'term #1', $data['admin_note'] );
+		$this->assertStringContainsString( 'term #2', $data['admin_note'] );
+		$this->assertStringContainsString( 'Jane Admin', $data['admin_note'] );
+	}
+
+	/**
+	 * Moving into a full target term sets over_capacity true.
+	 */
+	public function test_move_to_term_sets_over_capacity_when_target_full(): void {
+		list( $service, $calls ) = $this->make_move_service( array( 'capacity' => 2 ), array(), 2 );
+
+		$service->move_to_term( 5, 2, 'Jane Admin' );
+
+		list( , $data ) = $calls['update'][0];
+		$this->assertSame( 1, $data['over_capacity'] );
+	}
+
+	/**
+	 * Moving a cancelled enrollment is illegal.
+	 */
+	public function test_move_to_term_rejects_cancelled_enrollment(): void {
+		list( $service ) = $this->make_move_service( array(), array( 'status' => Enrollment_Service::STATUS_CANCELLED ) );
+
+		$this->expectException( Illegal_Status_Transition_Exception::class );
+		$service->move_to_term( 5, 2, 'Jane Admin' );
+	}
+
+	/**
+	 * Moving to the enrollment's current term is rejected.
+	 */
+	public function test_move_to_term_rejects_same_term(): void {
+		list( $service ) = $this->make_move_service();
+
+		$this->expectException( \InvalidArgumentException::class );
+		$service->move_to_term( 5, 1, 'Jane Admin' );
+	}
+
+	/**
+	 * Moving to a nonexistent term is rejected.
+	 */
+	public function test_move_to_term_rejects_missing_target_term(): void {
+		list( $service ) = $this->make_move_service();
+
+		$this->expectException( \InvalidArgumentException::class );
+		$service->move_to_term( 5, 999, 'Jane Admin' );
+	}
+
+	/**
+	 * A duplicate key violation on the update (the account/participant
+	 * already has an enrollment in the target term) is translated into a
+	 * friendly `Duplicate_Enrollment_Exception` (spec F11b: "duplicate rule
+	 * still enforced").
+	 */
+	public function test_move_to_term_translates_duplicate_key_violation(): void {
+		$terms = array(
+			1 => $this->open_term( array( 'id' => 1 ) ),
+			2 => $this->open_term( array( 'id' => 2 ) ),
+		);
+
+		$enrollment = array(
+			'id'         => 5,
+			'status'     => Enrollment_Service::STATUS_CONFIRMED,
+			'term_id'    => 1,
+			'admin_note' => null,
+		);
+
+		$service = new Enrollment_Service(
+			static function ( int $term_id ) use ( $terms ): ?array {
+				return $terms[ $term_id ] ?? null;
+			},
+			static function ( int $id ) use ( $enrollment ): ?array {
+				return $id === (int) $enrollment['id'] ? $enrollment : null;
+			},
+			static fn( int $term_id ): int => 0,
+			static fn( array $data ): int => 0,
+			static function ( int $id, array $data ): bool {
+				unset( $id, $data );
+
+				throw new Duplicate_Key_Exception( 'duplicate' );
+			},
+			static fn(): int => 7,
+			static fn(): string => '2025-08-10 09:00:00',
+			new Pricing_Service(),
+			new Variable_Symbol_Generator(),
+			new Due_Date_Calculator()
+		);
+
+		$this->expectException( Duplicate_Enrollment_Exception::class );
+		$service->move_to_term( 5, 2, 'Jane Admin' );
+	}
 }

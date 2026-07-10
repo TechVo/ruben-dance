@@ -61,6 +61,37 @@ class Enrollment_Repository extends Repository {
 	}
 
 	/**
+	 * Update an enrollment row, raising `Duplicate_Key_Exception` when the
+	 * `(term_id, user_id, participant_name)` unique key would be violated by
+	 * this update — the only write this class makes that can change
+	 * `term_id` is `Services\Enrollment_Service::move_to_term()` (spec F11b:
+	 * "duplicate rule still enforced"), and without this override
+	 * `Repository::update()`'s `$wpdb->update()` would just report a silent
+	 * `false`, indistinguishable from any other failure. Mirrors
+	 * `insert_unique()`'s reasoning for inserts.
+	 *
+	 * @param int                  $id   Row ID.
+	 * @param array<string, mixed> $data Column => value pairs.
+	 * @return bool
+	 * @throws Duplicate_Key_Exception When the unique key rejects the update.
+	 */
+	public function update( int $id, array $data ): bool {
+		$wpdb = $this->wpdb;
+
+		$result = $wpdb->update( $this->table(), $data, array( 'id' => $id ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+
+		if ( false === $result ) {
+			if ( false !== stripos( (string) $wpdb->last_error, 'Duplicate entry' ) ) {
+				throw new Duplicate_Key_Exception( 'Duplicate enrollment: term_id/user_id/participant_name already exists.' );
+			}
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Count active (non-cancelled) enrollments for a term, for the
 	 * `over_capacity` decision (spec §3.2: "active (non-cancelled)
 	 * enrollments ... capacity").
@@ -157,5 +188,116 @@ class Enrollment_Repository extends Repository {
 		);
 
 		return null === $rows ? array() : $rows;
+	}
+
+	/**
+	 * Filtered/searched page of enrollments across every term — the F11b
+	 * cross-term list. Joined against `wp_users` (LEFT, not INNER: an
+	 * enrollment whose account was since deleted must still show up rather
+	 * than silently vanishing from the list) so `search` can match the
+	 * account holder's name/email/login as well as the participant name
+	 * (spec F11b: "search by name/email/participant name").
+	 *
+	 * @param array{term_id?: int, status?: string, overdue?: bool, over_capacity?: bool, search?: string, today?: string} $filters Filter values; empty/absent means "no filter" on that column.
+	 * @param int                                                                                                          $per_page Rows per page.
+	 * @param int                                                                                                          $paged    1-based page number.
+	 * @return array<int, array<string, mixed>>
+	 */
+	public function search( array $filters, int $per_page, int $paged ): array {
+		$wpdb = $this->wpdb;
+
+		list( $where, $params ) = $this->search_where( $filters );
+
+		$sql = 'SELECT e.* FROM %i e LEFT JOIN %i u ON u.ID = e.user_id';
+
+		if ( array() !== $where ) {
+			$sql .= ' WHERE ' . implode( ' AND ', $where );
+		}
+
+		$sql .= ' ORDER BY e.created_at DESC, e.id DESC LIMIT %d OFFSET %d';
+
+		$offset = max( 0, ( max( 1, $paged ) - 1 ) * $per_page );
+		$params = array_merge( array( $this->table(), $wpdb->users ), $params, array( $per_page, $offset ) );
+
+		// Custom plugin table joined against wp_users: no object-cache group
+		// exists, direct prepared query is the standard approach (see
+		// Repository::find()). The WHERE clause above is built from a fixed
+		// set of literal fragments, never from user input.
+		$rows = $wpdb->get_results( $wpdb->prepare( $sql, $params ), ARRAY_A ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.NotPrepared
+
+		return null === $rows ? array() : $rows;
+	}
+
+	/**
+	 * Total row count matching `search()`'s filters, for `WP_List_Table`
+	 * pagination.
+	 *
+	 * @param array{term_id?: int, status?: string, overdue?: bool, over_capacity?: bool, search?: string, today?: string} $filters Same shape as `search()`.
+	 * @return int
+	 */
+	public function count_search( array $filters ): int {
+		$wpdb = $this->wpdb;
+
+		list( $where, $params ) = $this->search_where( $filters );
+
+		$sql = 'SELECT COUNT(*) FROM %i e LEFT JOIN %i u ON u.ID = e.user_id';
+
+		if ( array() !== $where ) {
+			$sql .= ' WHERE ' . implode( ' AND ', $where );
+		}
+
+		$params = array_merge( array( $this->table(), $wpdb->users ), $params );
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.NotPrepared
+		return (int) $wpdb->get_var( $wpdb->prepare( $sql, $params ) );
+	}
+
+	/**
+	 * Shared WHERE-fragment/params builder for `search()`/`count_search()`,
+	 * the same split `Course_Term_Repository::all_with_filters()` uses.
+	 *
+	 * @param array{term_id?: int, status?: string, overdue?: bool, over_capacity?: bool, search?: string, today?: string} $filters Filter values.
+	 * @return array{0: string[], 1: array<int, string|int>}
+	 */
+	private function search_where( array $filters ): array {
+		$where  = array();
+		$params = array();
+
+		if ( ! empty( $filters['term_id'] ) ) {
+			$where[]  = 'e.term_id = %d';
+			$params[] = (int) $filters['term_id'];
+		}
+
+		$status = (string) ( $filters['status'] ?? '' );
+
+		if ( in_array( $status, array( 'confirmed', 'paid', 'cancelled' ), true ) ) {
+			$where[]  = 'e.status = %s';
+			$params[] = $status;
+		}
+
+		if ( ! empty( $filters['over_capacity'] ) ) {
+			$where[] = 'e.over_capacity = 1';
+		}
+
+		if ( ! empty( $filters['overdue'] ) ) {
+			// "Overdue" only ever means unpaid-past-due (spec §3.2), so this
+			// bakes status = confirmed into the fragment itself rather than
+			// requiring the caller to also pass status=confirmed.
+			$where[]  = "e.status = 'confirmed' AND e.due_date < %s"; // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			$params[] = (string) ( $filters['today'] ?? gmdate( 'Y-m-d' ) );
+		}
+
+		$search = trim( (string) ( $filters['search'] ?? '' ) );
+
+		if ( '' !== $search ) {
+			$like     = '%' . $this->wpdb->esc_like( $search ) . '%';
+			$where[]  = '(e.participant_name LIKE %s OR u.display_name LIKE %s OR u.user_email LIKE %s OR u.user_login LIKE %s)';
+			$params[] = $like;
+			$params[] = $like;
+			$params[] = $like;
+			$params[] = $like;
+		}
+
+		return array( $where, $params );
 	}
 }

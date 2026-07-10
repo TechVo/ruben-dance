@@ -82,6 +82,10 @@ add_action(
 \RubenDance\Admin\Roster_Page::register();
 \RubenDance\Admin\Enrollment_Detail_Page::register();
 \RubenDance\Admin\Roster_Ajax::register();
+\RubenDance\Admin\Enrollments_Page::register();
+\RubenDance\Admin\Manual_Enrollment_Page::register();
+\RubenDance\Admin\Customers_Page::register();
+\RubenDance\Admin\Customer_Detail_Page::register();
 \RubenDance\Admin\Settings_Page::register();
 \RubenDance\Post_Types::register();
 \RubenDance\Taxonomies::register();
