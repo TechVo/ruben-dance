@@ -1,0 +1,35 @@
+/**
+ * Minimal styling for the [rd_calendar] shortcode. Deliberately unopinionated
+ * (see front-catalog.css's docblock for the same reasoning) — this only
+ * keeps the bare markup usable and guarantees the calendar never forces a
+ * horizontal scroll on the page itself (spec M10 acceptance criterion:
+ * "usable on a phone-sized viewport ... no horizontal page scroll"). Any
+ * horizontal overflow (a narrow phone rendering a multi-column week view) is
+ * contained to the calendar's own scroll box, never the page body.
+ */
+.rd-calendar-wrap {
+	max-width: 100%;
+}
+
+.rd-calendar-filters {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.5em;
+	margin: 0 0 1em;
+}
+
+.rd-calendar {
+	max-width: 100%;
+	overflow-x: auto;
+}
+
+.rd-calendar .fc {
+	min-width: 280px;
+}
+
+.rd-event-cancelled .fc-event-title,
+.rd-event-cancelled .fc-event-time {
+	text-decoration: line-through;
+	opacity: 0.65;
+}

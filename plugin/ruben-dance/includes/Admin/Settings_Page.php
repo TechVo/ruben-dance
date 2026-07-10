@@ -96,9 +96,10 @@ class Settings_Page {
 		check_admin_referer( self::SAVE_NONCE_ACTION );
 
 		$submitted = array(
-			'due_date_days'            => isset( $_POST['due_date_days'] ) ? sanitize_text_field( wp_unslash( $_POST['due_date_days'] ) ) : '',
-			'admin_notification_email' => isset( $_POST['admin_notification_email'] ) ? sanitize_text_field( wp_unslash( $_POST['admin_notification_email'] ) ) : '',
-			'bank_account'             => isset( $_POST['bank_account'] ) ? sanitize_text_field( wp_unslash( $_POST['bank_account'] ) ) : '',
+			'due_date_days'             => isset( $_POST['due_date_days'] ) ? sanitize_text_field( wp_unslash( $_POST['due_date_days'] ) ) : '',
+			'admin_notification_email'  => isset( $_POST['admin_notification_email'] ) ? sanitize_text_field( wp_unslash( $_POST['admin_notification_email'] ) ) : '',
+			'bank_account'              => isset( $_POST['bank_account'] ) ? sanitize_text_field( wp_unslash( $_POST['bank_account'] ) ) : '',
+			'cancelled_lessons_display' => isset( $_POST['cancelled_lessons_display'] ) ? sanitize_text_field( wp_unslash( $_POST['cancelled_lessons_display'] ) ) : '',
 		);
 
 		$errors = Settings::validate( $submitted );
@@ -148,9 +149,10 @@ class Settings_Page {
 
 		self::render_form(
 			array(
-				'due_date_days'            => (string) Settings::due_date_days(),
-				'admin_notification_email' => Settings::admin_notification_email(),
-				'bank_account'             => Settings::bank_account(),
+				'due_date_days'             => (string) Settings::due_date_days(),
+				'admin_notification_email'  => Settings::admin_notification_email(),
+				'bank_account'              => Settings::bank_account(),
+				'cancelled_lessons_display' => Settings::cancelled_lessons_display(),
 			),
 			array()
 		);
@@ -186,6 +188,23 @@ class Settings_Page {
 		echo '<tr><th scope="row"><label for="rd_bank_account">' . esc_html__( 'Bank account number', 'ruben-dance' ) . '</label></th><td>';
 		echo '<input type="text" id="rd_bank_account" name="bank_account" class="regular-text" value="' . esc_attr( $submitted['bank_account'] ) . '">';
 		echo '<p class="description">' . esc_html__( 'Shown in payment instructions on the enrollment confirmation page and email.', 'ruben-dance' ) . '</p></td></tr>';
+
+		echo '<tr><th scope="row"><label for="rd_cancelled_lessons_display">' . esc_html__( 'Cancelled lessons on the public calendar', 'ruben-dance' ) . '</label></th><td>';
+		echo '<select id="rd_cancelled_lessons_display" name="cancelled_lessons_display">';
+		$cancelled_display_labels = array(
+			Settings::CANCELLED_LESSONS_STRIKETHROUGH => __( 'Show, struck through', 'ruben-dance' ),
+			Settings::CANCELLED_LESSONS_HIDDEN        => __( 'Hide entirely', 'ruben-dance' ),
+		);
+		foreach ( $cancelled_display_labels as $value => $label ) {
+			printf(
+				'<option value="%1$s"%2$s>%3$s</option>',
+				esc_attr( $value ),
+				selected( $submitted['cancelled_lessons_display'], $value, false ),
+				esc_html( $label )
+			);
+		}
+		echo '</select>';
+		echo '<p class="description">' . esc_html__( 'How [rd_calendar] shows a cancelled lesson (spec F2).', 'ruben-dance' ) . '</p></td></tr>';
 
 		echo '</tbody></table>';
 
@@ -229,6 +248,9 @@ class Settings_Page {
 					__( 'Bank account number must be %d characters or fewer.', 'ruben-dance' ),
 					Settings::BANK_ACCOUNT_MAX_LENGTH
 				);
+
+			case Settings::ERROR_CANCELLED_LESSONS_DISPLAY_INVALID:
+				return __( 'Invalid cancelled-lessons display option.', 'ruben-dance' );
 
 			default:
 				return __( 'Invalid input.', 'ruben-dance' );

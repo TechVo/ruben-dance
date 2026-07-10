@@ -68,6 +68,18 @@ class Term_Service {
 	const ERROR_SEASON_LABEL_EN_TOO_LONG = 'season_label_en_too_long';
 
 	/**
+	 * Action hook fired whenever a term is created, updated, or duplicated
+	 * (i.e. `wp_rd_course_term` changed). No listener is attached by this
+	 * class itself; M10's `Services\Calendar_Cache` is the first consumer
+	 * (invalidating the public calendar's REST cache), the same "fire a hook,
+	 * let another milestone attach the listener" pattern `Lesson_Service::NOTIFY_HOOK`
+	 * already uses.
+	 *
+	 * @var string
+	 */
+	const HOOK_SAVED = 'rd_term_saved';
+
+	/**
 	 * Whether a course post ID is a real, existing `rd_course` post:
 	 * function( int $course_id ): bool.
 	 *
@@ -142,6 +154,17 @@ class Term_Service {
 	private Lesson_Generator $generator;
 
 	/**
+	 * Fires the `self::HOOK_SAVED` action (or, in tests, an in-memory fake) —
+	 * kept as an injected callable rather than a direct `do_action()` call in
+	 * `create()`/`update_details()`/`duplicate()` so this class stays fully
+	 * WordPress-agnostic, the same reasoning every other touchpoint here
+	 * already follows: function( int $term_id ): void.
+	 *
+	 * @var callable
+	 */
+	private $on_saved;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param callable         $course_exists    function( int $course_id ): bool.
@@ -154,6 +177,7 @@ class Term_Service {
 	 * @param callable         $delete_lessons   function( int[] $ids ): void.
 	 * @param callable         $now              function(): string.
 	 * @param Lesson_Generator $generator        Date-generation logic.
+	 * @param callable         $on_saved         function( int $term_id ): void.
 	 */
 	public function __construct(
 		callable $course_exists,
@@ -165,7 +189,8 @@ class Term_Service {
 		callable $insert_lessons,
 		callable $delete_lessons,
 		callable $now,
-		Lesson_Generator $generator
+		Lesson_Generator $generator,
+		callable $on_saved
 	) {
 		$this->course_exists    = $course_exists;
 		$this->location_exists  = $location_exists;
@@ -177,6 +202,7 @@ class Term_Service {
 		$this->delete_lessons   = $delete_lessons;
 		$this->now              = $now;
 		$this->generator        = $generator;
+		$this->on_saved         = $on_saved;
 	}
 
 	/**
@@ -217,7 +243,10 @@ class Term_Service {
 			static function (): string {
 				return current_time( 'mysql' );
 			},
-			new Lesson_Generator()
+			new Lesson_Generator(),
+			static function ( int $term_id ): void {
+				do_action( self::HOOK_SAVED, $term_id ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- self::HOOK_SAVED = 'rd_term_saved', already correctly prefixed; the sniff can't resolve a class constant statically.
+			}
 		);
 	}
 
@@ -367,6 +396,8 @@ class Term_Service {
 
 		$this->regenerate_lessons( $term_id, $row );
 
+		( $this->on_saved )( $term_id );
+
 		return $term_id;
 	}
 
@@ -386,6 +417,8 @@ class Term_Service {
 		$updated = ( $this->update_term )( $id, $row );
 
 		$this->regenerate_lessons( $id, $row );
+
+		( $this->on_saved )( $id );
 
 		return $updated;
 	}
@@ -417,6 +450,8 @@ class Term_Service {
 		$new_id = ( $this->insert_term )( $row );
 
 		$this->regenerate_lessons( $new_id, $row );
+
+		( $this->on_saved )( $new_id );
 
 		return $new_id;
 	}

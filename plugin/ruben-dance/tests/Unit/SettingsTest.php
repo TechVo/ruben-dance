@@ -147,4 +147,49 @@ class SettingsTest extends TestCase {
 
 		$this->assertSame( Settings::ERROR_BANK_ACCOUNT_TOO_LONG, $errors['bank_account'] );
 	}
+
+	/**
+	 * A blank cancelled-lessons display is allowed (optional field; `save()`
+	 * falls back to the strikethrough default).
+	 */
+	public function test_validate_allows_blank_cancelled_lessons_display(): void {
+		$errors = Settings::validate(
+			array(
+				'due_date_days'             => '7',
+				'cancelled_lessons_display' => '',
+			)
+		);
+
+		$this->assertArrayNotHasKey( 'cancelled_lessons_display', $errors );
+	}
+
+	/**
+	 * Both spec-mandated display modes are accepted.
+	 */
+	public function test_validate_accepts_known_cancelled_lessons_display_values(): void {
+		foreach ( Settings::CANCELLED_LESSONS_DISPLAY_OPTIONS as $value ) {
+			$errors = Settings::validate(
+				array(
+					'due_date_days'             => '7',
+					'cancelled_lessons_display' => $value,
+				)
+			);
+
+			$this->assertArrayNotHasKey( 'cancelled_lessons_display', $errors );
+		}
+	}
+
+	/**
+	 * An unknown cancelled-lessons display value is rejected.
+	 */
+	public function test_validate_rejects_unknown_cancelled_lessons_display(): void {
+		$errors = Settings::validate(
+			array(
+				'due_date_days'             => '7',
+				'cancelled_lessons_display' => 'delete-the-database',
+			)
+		);
+
+		$this->assertSame( Settings::ERROR_CANCELLED_LESSONS_DISPLAY_INVALID, $errors['cancelled_lessons_display'] );
+	}
 }

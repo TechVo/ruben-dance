@@ -351,6 +351,17 @@ class Seed_Command {
 			'title_en'  => 'My account',
 			'shortcode' => '[rd_account]',
 		),
+		// M10: the public calendar page. `which` matches
+		// `Front\Calendar_Page::PAGE_KEY` for the same "no change to M07's
+		// Pages class" reason as `catalog`/`enroll`/`account` above.
+		array(
+			'which'     => 'calendar',
+			'slug_cs'   => 'kalendar',
+			'title_cs'  => 'Kalendář',
+			'slug_en'   => 'calendar',
+			'title_en'  => 'Calendar',
+			'shortcode' => '[rd_calendar]',
+		),
 	);
 
 	/**

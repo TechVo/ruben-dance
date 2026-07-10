@@ -69,6 +69,7 @@ class TermServiceTest extends TestCase {
 				'update_term'    => array(),
 				'insert_lessons' => array(),
 				'delete_lessons' => array(),
+				'on_saved'       => array(),
 			)
 		);
 
@@ -94,7 +95,10 @@ class TermServiceTest extends TestCase {
 				$calls['delete_lessons'] = array_merge( $calls['delete_lessons'], array( $ids ) );
 			},
 			static fn(): string => '2025-08-01 12:00:00',
-			new Lesson_Generator()
+			new Lesson_Generator(),
+			static function ( int $term_id ) use ( $calls ): void {
+				$calls['on_saved'] = array_merge( $calls['on_saved'], array( $term_id ) );
+			}
 		);
 
 		return array( $service, $calls );
@@ -290,6 +294,7 @@ class TermServiceTest extends TestCase {
 		$this->assertSame( 42, $term_id_for_lessons );
 		$this->assertCount( 3, $rows );
 		$this->assertSame( array(), $calls['delete_lessons'] );
+		$this->assertSame( array( 42 ), $calls['on_saved'] );
 	}
 
 	/**
@@ -456,7 +461,8 @@ class TermServiceTest extends TestCase {
 				$calls['delete_lessons'] = array_merge( $calls['delete_lessons'], array( $ids ) );
 			},
 			static fn(): string => '2025-08-01 12:00:00',
-			new Lesson_Generator()
+			new Lesson_Generator(),
+			static function ( int $term_id ): void {}
 		);
 
 		$new_id = $service->duplicate( 3 );

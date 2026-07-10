@@ -51,11 +51,44 @@ class Settings {
 	const OPTION_BANK_ACCOUNT = 'rd_bank_account';
 
 	/**
+	 * Option name for how the `[rd_calendar]` shortcode (M10) displays a
+	 * cancelled lesson: `self::CANCELLED_LESSONS_STRIKETHROUGH` (shown, struck
+	 * through) or `self::CANCELLED_LESSONS_HIDDEN` (omitted entirely). Spec
+	 * F2: "Cancelled lessons shown struck-through or hidden (admin choice)."
+	 *
+	 * @var string
+	 */
+	const OPTION_CANCELLED_LESSONS_DISPLAY = 'rd_cancelled_lessons_display';
+
+	/**
 	 * Default due-date window (spec §3.2: "default 7").
 	 *
 	 * @var int
 	 */
 	const DEFAULT_DUE_DATE_DAYS = 7;
+
+	/**
+	 * `OPTION_CANCELLED_LESSONS_DISPLAY` value: cancelled lessons stay on the
+	 * calendar, struck through. The spec-mandated default.
+	 *
+	 * @var string
+	 */
+	const CANCELLED_LESSONS_STRIKETHROUGH = 'strikethrough';
+
+	/**
+	 * `OPTION_CANCELLED_LESSONS_DISPLAY` value: cancelled lessons are omitted
+	 * from the calendar entirely.
+	 *
+	 * @var string
+	 */
+	const CANCELLED_LESSONS_HIDDEN = 'hidden';
+
+	/**
+	 * Every valid `OPTION_CANCELLED_LESSONS_DISPLAY` value.
+	 *
+	 * @var string[]
+	 */
+	const CANCELLED_LESSONS_DISPLAY_OPTIONS = array( self::CANCELLED_LESSONS_STRIKETHROUGH, self::CANCELLED_LESSONS_HIDDEN );
 
 	/**
 	 * Max length for the bank account field. Generous enough for a Czech
@@ -68,9 +101,10 @@ class Settings {
 	 */
 	const BANK_ACCOUNT_MAX_LENGTH = 50;
 
-	const ERROR_DUE_DATE_DAYS_INVALID = 'due_date_days_invalid';
-	const ERROR_ADMIN_EMAIL_INVALID   = 'admin_email_invalid';
-	const ERROR_BANK_ACCOUNT_TOO_LONG = 'bank_account_too_long';
+	const ERROR_DUE_DATE_DAYS_INVALID             = 'due_date_days_invalid';
+	const ERROR_ADMIN_EMAIL_INVALID               = 'admin_email_invalid';
+	const ERROR_BANK_ACCOUNT_TOO_LONG             = 'bank_account_too_long';
+	const ERROR_CANCELLED_LESSONS_DISPLAY_INVALID = 'cancelled_lessons_display_invalid';
 
 	/**
 	 * The configured due-date window in days, falling back to
@@ -104,17 +138,32 @@ class Settings {
 	}
 
 	/**
+	 * The configured cancelled-lessons display mode for `[rd_calendar]`,
+	 * falling back to `self::CANCELLED_LESSONS_STRIKETHROUGH` when unset or
+	 * invalid (spec F2: "struck-through or hidden (admin choice)", default
+	 * struck-through).
+	 *
+	 * @return string One of `self::CANCELLED_LESSONS_DISPLAY_OPTIONS`.
+	 */
+	public static function cancelled_lessons_display(): string {
+		$value = (string) get_option( self::OPTION_CANCELLED_LESSONS_DISPLAY, self::CANCELLED_LESSONS_STRIKETHROUGH );
+
+		return in_array( $value, self::CANCELLED_LESSONS_DISPLAY_OPTIONS, true ) ? $value : self::CANCELLED_LESSONS_STRIKETHROUGH;
+	}
+
+	/**
 	 * Validate submitted field values.
 	 *
-	 * @param array<string, mixed> $data Raw (unslashed) field values: due_date_days, admin_notification_email, bank_account.
+	 * @param array<string, mixed> $data Raw (unslashed) field values: due_date_days, admin_notification_email, bank_account, cancelled_lessons_display.
 	 * @return array<string, string> Field name => error code, only for invalid fields.
 	 */
 	public static function validate( array $data ): array {
 		$errors = array();
 
-		$due_date_days = trim( (string) ( $data['due_date_days'] ?? '' ) );
-		$admin_email   = trim( (string) ( $data['admin_notification_email'] ?? '' ) );
-		$bank_account  = trim( (string) ( $data['bank_account'] ?? '' ) );
+		$due_date_days             = trim( (string) ( $data['due_date_days'] ?? '' ) );
+		$admin_email               = trim( (string) ( $data['admin_notification_email'] ?? '' ) );
+		$bank_account              = trim( (string) ( $data['bank_account'] ?? '' ) );
+		$cancelled_lessons_display = trim( (string) ( $data['cancelled_lessons_display'] ?? '' ) );
 
 		if ( '' === $due_date_days || ! ctype_digit( $due_date_days ) || (int) $due_date_days <= 0 ) {
 			$errors['due_date_days'] = self::ERROR_DUE_DATE_DAYS_INVALID;
@@ -128,6 +177,10 @@ class Settings {
 			$errors['bank_account'] = self::ERROR_BANK_ACCOUNT_TOO_LONG;
 		}
 
+		if ( '' !== $cancelled_lessons_display && ! in_array( $cancelled_lessons_display, self::CANCELLED_LESSONS_DISPLAY_OPTIONS, true ) ) {
+			$errors['cancelled_lessons_display'] = self::ERROR_CANCELLED_LESSONS_DISPLAY_INVALID;
+		}
+
 		return $errors;
 	}
 
@@ -135,11 +188,12 @@ class Settings {
 	 * Save submitted field values. Caller must call `validate()` first and
 	 * only proceed when it returns an empty array.
 	 *
-	 * @param array<string, mixed> $data Field values: due_date_days, admin_notification_email, bank_account.
+	 * @param array<string, mixed> $data Field values: due_date_days, admin_notification_email, bank_account, cancelled_lessons_display.
 	 */
 	public static function save( array $data ): void {
 		update_option( self::OPTION_DUE_DATE_DAYS, (int) ( $data['due_date_days'] ?? self::DEFAULT_DUE_DATE_DAYS ) );
 		update_option( self::OPTION_ADMIN_NOTIFICATION_EMAIL, trim( (string) ( $data['admin_notification_email'] ?? '' ) ) );
 		update_option( self::OPTION_BANK_ACCOUNT, trim( (string) ( $data['bank_account'] ?? '' ) ) );
+		update_option( self::OPTION_CANCELLED_LESSONS_DISPLAY, trim( (string) ( $data['cancelled_lessons_display'] ?? self::CANCELLED_LESSONS_STRIKETHROUGH ) ) );
 	}
 }

@@ -65,6 +65,17 @@ class Lesson_Service {
 	const NOTIFY_HOOK = 'rd_lesson_changed_notify';
 
 	/**
+	 * Action hook fired whenever a lesson row is saved (i.e. `wp_rd_lesson`
+	 * changed), regardless of the notify-enrollees checkbox or the new
+	 * status. M10's `Services\Calendar_Cache` is the first consumer
+	 * (invalidating the public calendar's REST cache) — see
+	 * `Services\Term_Service::HOOK_SAVED` for the term-side equivalent.
+	 *
+	 * @var string
+	 */
+	const HOOK_SAVED = 'rd_lesson_saved';
+
+	/**
 	 * Updates a lesson row by ID: function( int $id, array $data ): bool.
 	 *
 	 * @var callable
@@ -79,14 +90,26 @@ class Lesson_Service {
 	private $notify;
 
 	/**
+	 * Fires the `self::HOOK_SAVED` action (or, in tests, an in-memory fake) —
+	 * kept as an injected callable rather than a direct `do_action()` call in
+	 * `save()` so this class stays fully WordPress-agnostic, the same
+	 * reasoning `$notify` already follows: function( int $lesson_id ): void.
+	 *
+	 * @var callable
+	 */
+	private $on_saved;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param callable $update_row function( int $id, array $data ): bool.
 	 * @param callable $notify     function( int $lesson_id, string $status ): void.
+	 * @param callable $on_saved   function( int $lesson_id ): void.
 	 */
-	public function __construct( callable $update_row, callable $notify ) {
+	public function __construct( callable $update_row, callable $notify, callable $on_saved ) {
 		$this->update_row = $update_row;
 		$this->notify     = $notify;
+		$this->on_saved   = $on_saved;
 	}
 
 	/**
@@ -111,6 +134,9 @@ class Lesson_Service {
 				 * @param string $status    New lesson status ('cancelled'|'moved').
 				 */
 				do_action( self::NOTIFY_HOOK, $lesson_id, $status ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- self::NOTIFY_HOOK = 'rd_lesson_changed_notify', already correctly prefixed; the sniff can't resolve a class constant statically.
+			},
+			static function ( int $lesson_id ): void {
+				do_action( self::HOOK_SAVED, $lesson_id ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- self::HOOK_SAVED = 'rd_lesson_saved', already correctly prefixed; the sniff can't resolve a class constant statically.
 			}
 		);
 	}
@@ -165,6 +191,8 @@ class Lesson_Service {
 		$row = $this->row( $data );
 
 		$saved = ( $this->update_row )( $lesson_id, $row );
+
+		( $this->on_saved )( $lesson_id );
 
 		if ( $notify_enrollees && in_array( $row['status'], self::NOTIFIABLE_STATUSES, true ) ) {
 			( $this->notify )( $lesson_id, $row['status'] );

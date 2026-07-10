@@ -164,6 +164,56 @@ class Course_Term_Repository extends Repository {
 	}
 
 	/**
+	 * Terms visible on the public calendar (spec F2): every status except
+	 * `draft` — a term not yet announced/published must never appear on the
+	 * public calendar, even though its lessons already exist in the database
+	 * (`Term_Service::create()` always generates lessons regardless of
+	 * status). Optionally restricted to a location and/or a set of
+	 * (Czech/canonical) course IDs, the same filter shape `open_for_courses()`
+	 * uses for the public catalog.
+	 *
+	 * @param array{location_id?: int, course_ids?: int[]} $filters Optional filter values.
+	 * @return array<int, array<string, mixed>>
+	 */
+	public function visible_for_calendar( array $filters = array() ): array {
+		$wpdb = $this->wpdb;
+
+		$visible_statuses = array( 'open', 'closed', 'cancelled' );
+
+		$status_placeholders = implode( ', ', array_fill( 0, count( $visible_statuses ), '%s' ) );
+
+		$where  = array( "status IN ({$status_placeholders})" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$params = array_merge( array( $this->table() ), $visible_statuses );
+
+		if ( ! empty( $filters['location_id'] ) ) {
+			$where[]  = 'location_id = %d';
+			$params[] = (int) $filters['location_id'];
+		}
+
+		if ( isset( $filters['course_ids'] ) ) {
+			$course_ids = array_values( array_unique( array_map( 'intval', $filters['course_ids'] ) ) );
+
+			if ( array() === $course_ids ) {
+				return array(); // An empty allow-list means nothing can match.
+			}
+
+			$course_placeholders = implode( ', ', array_fill( 0, count( $course_ids ), '%d' ) );
+			$where[]             = "course_id IN ({$course_placeholders})"; // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			$params              = array_merge( $params, $course_ids );
+		}
+
+		$sql = 'SELECT * FROM %i WHERE ' . implode( ' AND ', $where );
+
+		// Custom plugin table: no object-cache group exists, direct prepared
+		// query is the standard approach (see Repository::find()). The WHERE
+		// clause above is built from a fixed set of literal fragments, never
+		// from user input.
+		$rows = $wpdb->get_results( $wpdb->prepare( $sql, $params ), ARRAY_A ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.NotPrepared
+
+		return null === $rows ? array() : $rows;
+	}
+
+	/**
 	 * Several term rows by ID at once, keyed by ID, for batch-resolving
 	 * course/location per lesson in the `[rd_account]` "My schedule" tab
 	 * without one query per row (same `IN (...)` approach as

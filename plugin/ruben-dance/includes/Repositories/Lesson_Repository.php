@@ -118,4 +118,41 @@ class Lesson_Repository extends Repository {
 
 		return null === $rows ? array() : $rows;
 	}
+
+	/**
+	 * Lessons for a set of terms within a date range (inclusive), for the
+	 * public calendar REST feed (spec F2). Any lesson status is included —
+	 * cancelled lessons must still appear (struck-through or hidden is a
+	 * front-end display choice, see `Settings::cancelled_lessons_display()`),
+	 * not just `scheduled` ones.
+	 *
+	 * @param int[]  $term_ids Term IDs, already filtered to calendar-visible
+	 *                         term statuses by the caller (see
+	 *                         `Course_Term_Repository::visible_for_calendar()`).
+	 * @param string $from     `Y-m-d`, inclusive.
+	 * @param string $to       `Y-m-d`, inclusive.
+	 * @return array<int, array<string, mixed>> Ordered by date/time ascending.
+	 */
+	public function for_terms_between( array $term_ids, string $from, string $to ): array {
+		$term_ids = array_values( array_unique( array_map( 'intval', $term_ids ) ) );
+
+		if ( array() === $term_ids ) {
+			return array();
+		}
+
+		$wpdb = $this->wpdb;
+
+		// Placeholder count is derived from a server-side array of already-
+		// cast integers, never from raw user input (same reasoning as
+		// delete_many() above).
+		$placeholders = implode( ', ', array_fill( 0, count( $term_ids ), '%d' ) );
+
+		$sql = "SELECT * FROM %i WHERE term_id IN ({$placeholders}) AND lesson_date >= %s AND lesson_date <= %s ORDER BY lesson_date ASC, start_time ASC"; // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
+		$params = array_merge( array( $this->table() ), $term_ids, array( $from, $to ) );
+
+		$rows = $wpdb->get_results( $wpdb->prepare( $sql, $params ), ARRAY_A ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.NotPrepared
+
+		return null === $rows ? array() : $rows;
+	}
 }

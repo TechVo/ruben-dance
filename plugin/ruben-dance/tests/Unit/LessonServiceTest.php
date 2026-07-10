@@ -27,13 +27,14 @@ class LessonServiceTest extends TestCase {
 	 * Build a service wired to simple in-memory fakes.
 	 *
 	 * @return array{0: Lesson_Service, 1: ArrayObject} [service, calls] where
-	 *               `calls` holds 'update' and 'notify' call records.
+	 *               `calls` holds 'update', 'notify' and 'on_saved' call records.
 	 */
 	private function make_service(): array {
 		$calls = new ArrayObject(
 			array(
-				'update' => array(),
-				'notify' => array(),
+				'update'   => array(),
+				'notify'   => array(),
+				'on_saved' => array(),
 			)
 		);
 
@@ -45,6 +46,9 @@ class LessonServiceTest extends TestCase {
 			},
 			static function ( int $lesson_id, string $status ) use ( $calls ): void {
 				$calls['notify'] = array_merge( $calls['notify'], array( array( $lesson_id, $status ) ) );
+			},
+			static function ( int $lesson_id ) use ( $calls ): void {
+				$calls['on_saved'] = array_merge( $calls['on_saved'], array( $lesson_id ) );
 			}
 		);
 
@@ -202,5 +206,28 @@ class LessonServiceTest extends TestCase {
 			),
 			$calls['update']
 		);
+	}
+
+	/**
+	 * `save()` fires `on_saved` (M10's cache-invalidation hook) on every
+	 * save, unlike `notify` — regardless of the notify checkbox or the new
+	 * status, since any change to a lesson row must invalidate the public
+	 * calendar's cached REST response.
+	 */
+	public function test_save_always_fires_on_saved(): void {
+		list( $service, $calls ) = $this->make_service();
+
+		$service->save(
+			10,
+			array(
+				'start_time' => '18:00',
+				'end_time'   => '19:00',
+				'status'     => Lesson_Service::STATUS_SCHEDULED,
+				'note'       => '',
+			),
+			false
+		);
+
+		$this->assertSame( array( 10 ), $calls['on_saved'] );
 	}
 }
