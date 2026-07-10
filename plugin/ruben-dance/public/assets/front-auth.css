@@ -1,0 +1,44 @@
+/**
+ * Minimal styling for the [rd_login]/[rd_register]/[rd_lost_password]
+ * shortcodes. Deliberately unopinionated — the site's theme is expected to
+ * own real visual design; this only keeps the bare forms usable.
+ */
+.rd-auth-form p {
+	margin: 0 0 1em;
+}
+
+.rd-auth-form label {
+	font-weight: 600;
+}
+
+.rd-notice {
+	padding: 0.75em 1em;
+	margin: 0 0 1em;
+	border-left: 4px solid #ccc;
+	background: #f6f6f6;
+}
+
+.rd-notice--success {
+	border-left-color: #46b450;
+}
+
+.rd-notice--error {
+	border-left-color: #dc3232;
+}
+
+.rd-password-strength {
+	font-size: 0.85em;
+	margin-top: 0.25em;
+}
+
+.rd-password-strength.bad {
+	color: #dc3232;
+}
+
+.rd-password-strength.good {
+	color: #d98500;
+}
+
+.rd-password-strength.strong {
+	color: #46b450;
+}

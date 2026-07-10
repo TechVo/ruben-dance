@@ -13,6 +13,7 @@ use RubenDance\Lang;
 use RubenDance\Post_Types;
 use RubenDance\Repositories\Course_Term_Repository;
 use RubenDance\Repositories\Location_Repository;
+use RubenDance\Services\Registration_Service;
 use RubenDance\Services\Term_Service;
 use RubenDance\Taxonomies;
 
@@ -261,6 +262,96 @@ class Seed_Command {
 	);
 
 	/**
+	 * The three auth shortcode pages (M07), CS + EN. `slug_cs`/`slug_en` are
+	 * matched against `post_name` for idempotency, the same natural-key idea
+	 * as `find_course_by_title()`.
+	 *
+	 * @var array<int, array{which: string, slug_cs: string, title_cs: string, slug_en: string, title_en: string, shortcode: string}>
+	 */
+	const PAGES = array(
+		array(
+			'which'     => \RubenDance\Front\Pages::LOGIN,
+			'slug_cs'   => 'prihlaseni',
+			'title_cs'  => 'Přihlášení',
+			'slug_en'   => 'login',
+			'title_en'  => 'Log in',
+			'shortcode' => '[rd_login]',
+		),
+		array(
+			'which'     => \RubenDance\Front\Pages::REGISTER,
+			'slug_cs'   => 'registrace',
+			'title_cs'  => 'Registrace',
+			'slug_en'   => 'register',
+			'title_en'  => 'Register',
+			'shortcode' => '[rd_register]',
+		),
+		array(
+			'which'     => \RubenDance\Front\Pages::LOST_PASSWORD,
+			'slug_cs'   => 'zapomenute-heslo',
+			'title_cs'  => 'Zapomenuté heslo',
+			'slug_en'   => 'lost-password',
+			'title_en'  => 'Lost password',
+			'shortcode' => '[rd_lost_password]',
+		),
+	);
+
+	/**
+	 * Five verified customers (M07: "5 verified customers with locales/
+	 * consents varied") — pre-verified via `Registration_Service::register_pre_verified()`
+	 * so admin/enrollment milestone fixtures can use them immediately without
+	 * an email round-trip on every `wp rd seed` run.
+	 *
+	 * @var array<int, array{first_name: string, last_name: string, email: string, phone: string, password: string, locale: string, marketing_consent: bool}>
+	 */
+	const CUSTOMERS = array(
+		array(
+			'first_name'        => 'Jana',
+			'last_name'         => 'Nováková',
+			'email'             => 'jana.novakova@example.com',
+			'phone'             => '+420 601 111 222',
+			'password'          => 'RubenDance2025!',
+			'locale'            => Lang::CS,
+			'marketing_consent' => true,
+		),
+		array(
+			'first_name'        => 'Petr',
+			'last_name'         => 'Svoboda',
+			'email'             => 'petr.svoboda@example.com',
+			'phone'             => '+420 602 222 333',
+			'password'          => 'RubenDance2025!',
+			'locale'            => Lang::CS,
+			'marketing_consent' => false,
+		),
+		array(
+			'first_name'        => 'Eva',
+			'last_name'         => 'Dvořáková',
+			'email'             => 'eva.dvorakova@example.com',
+			'phone'             => '+420 603 333 444',
+			'password'          => 'RubenDance2025!',
+			'locale'            => Lang::CS,
+			'marketing_consent' => true,
+		),
+		array(
+			'first_name'        => 'John',
+			'last_name'         => 'Smith',
+			'email'             => 'john.smith@example.com',
+			'phone'             => '+44 7700 900111',
+			'password'          => 'RubenDance2025!',
+			'locale'            => Lang::EN,
+			'marketing_consent' => false,
+		),
+		array(
+			'first_name'        => 'Emily',
+			'last_name'         => 'Clark',
+			'email'             => 'emily.clark@example.com',
+			'phone'             => '+44 7700 900222',
+			'password'          => 'RubenDance2025!',
+			'locale'            => Lang::EN,
+			'marketing_consent' => true,
+		),
+	);
+
+	/**
 	 * Seed the database with development/test fixture data.
 	 *
 	 * ## EXAMPLES
@@ -278,13 +369,17 @@ class Seed_Command {
 		$locations_created = $this->seed_locations();
 		$courses_created   = $this->seed_courses();
 		$terms_created     = $this->seed_terms();
+		$pages_created     = $this->seed_pages();
+		$customers_created = $this->seed_customers();
 
 		\WP_CLI::success(
 			sprintf(
-				'ruben-dance: seeded (%d location(s), %d course(s), %d term(s) created).',
+				'ruben-dance: seeded (%d location(s), %d course(s), %d term(s), %d page(s), %d customer(s) created).',
 				$locations_created,
 				$courses_created,
-				$terms_created
+				$terms_created,
+				$pages_created,
+				$customers_created
 			)
 		);
 	}
@@ -463,6 +558,124 @@ class Seed_Command {
 		}
 
 		return $created;
+	}
+
+	/**
+	 * Insert the fixture auth pages (M07), skipping any whose slug already
+	 * exists in that language so repeated runs never create duplicates.
+	 * Registers each created page's ID with `Front\Pages` so the rest of the
+	 * plugin (verification links, redirects between login/register/lost-
+	 * password) can find them without searching post content.
+	 *
+	 * @return int Number of pages actually created.
+	 */
+	private function seed_pages(): int {
+		$created = 0;
+
+		foreach ( self::PAGES as $page ) {
+			foreach (
+				array(
+					Lang::CS => array( $page['slug_cs'], $page['title_cs'] ),
+					Lang::EN => array( $page['slug_en'], $page['title_en'] ),
+				) as $lang => list( $slug, $title )
+			) {
+				$existing_id = $this->find_page_by_slug( $slug );
+
+				if ( null !== $existing_id ) {
+					\RubenDance\Front\Pages::set( $page['which'], $lang, $existing_id );
+					continue;
+				}
+
+				$post_id = wp_insert_post(
+					array(
+						'post_type'    => 'page',
+						'post_title'   => $title,
+						'post_name'    => $slug,
+						'post_content' => $page['shortcode'],
+						'post_status'  => 'publish',
+					),
+					true
+				);
+
+				if ( is_wp_error( $post_id ) || ! $post_id ) {
+					continue;
+				}
+
+				if ( function_exists( 'pll_set_post_language' ) ) {
+					pll_set_post_language( $post_id, $lang );
+				}
+
+				\RubenDance\Front\Pages::set( $page['which'], $lang, (int) $post_id );
+
+				++$created;
+			}
+		}
+
+		if ( function_exists( 'pll_save_post_translations' ) ) {
+			$map = get_option( \RubenDance\Front\Pages::OPTION, array() );
+
+			foreach ( self::PAGES as $page ) {
+				$pair = $map[ $page['which'] ] ?? array();
+
+				if ( isset( $pair[ Lang::CS ], $pair[ Lang::EN ] ) ) {
+					pll_save_post_translations(
+						array(
+							Lang::CS => (int) $pair[ Lang::CS ],
+							Lang::EN => (int) $pair[ Lang::EN ],
+						)
+					);
+				}
+			}
+		}
+
+		return $created;
+	}
+
+	/**
+	 * Insert the fixture customers, skipping any whose email already exists
+	 * (matched via WordPress' own `email_exists()`, the users-table
+	 * equivalent of `find_by_name()`), so repeated runs never create
+	 * duplicates. Goes through `Registration_Service::register_pre_verified()`
+	 * — the same field-mapping/meta-capture logic a real (verified)
+	 * registration uses — rather than inserting rows directly.
+	 *
+	 * @return int Number of customers actually created.
+	 */
+	private function seed_customers(): int {
+		$service = Registration_Service::create_default();
+		$created = 0;
+
+		foreach ( self::CUSTOMERS as $customer ) {
+			if ( false !== email_exists( $customer['email'] ) ) {
+				continue;
+			}
+
+			$service->register_pre_verified( $customer );
+
+			++$created;
+		}
+
+		return $created;
+	}
+
+	/**
+	 * Find a published page by its exact slug (`post_name`). Used for
+	 * idempotency, the same reasoning as `find_course_by_title()`.
+	 *
+	 * @param string $slug Exact `post_name` to match.
+	 * @return int|null Post ID, or null if not found.
+	 */
+	private function find_page_by_slug( string $slug ): ?int {
+		global $wpdb;
+
+		$id = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+			$wpdb->prepare(
+				"SELECT ID FROM {$wpdb->posts} WHERE post_type = 'page' AND post_name = %s AND post_status != 'trash' LIMIT 1", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				$slug
+			)
+		);
+
+		return null === $id ? null : (int) $id;
 	}
 
 	/**

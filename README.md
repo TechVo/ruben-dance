@@ -71,6 +71,28 @@ npx wp-env run cli wp rd seed
 
 Screens should always be checked against seeded data, never an empty database.
 
+## 4. Outgoing email in local dev (mail catcher)
+
+wp-env ships no MailHog/Mailpit container, and there's no SMTP configured
+locally, so `wp_mail()` calls (e.g. the M07 registration-verification email,
+or WP core's password-reset email) go nowhere by default. A small mu-plugin
+at [`.wp-env/mu-plugins/rd-mail-catcher.php`](.wp-env/mu-plugins/rd-mail-catcher.php)
+hooks the `wp_mail` filter and appends every outgoing email (to, subject,
+body — including whatever link it contains) to a plain-text log instead. It's
+mounted into the container via `.wp-env.json`'s `mappings.wp-content/mu-plugins`
+and is dev-only: it lives outside `plugin/ruben-dance/`, so it never ships to
+production.
+
+Read it with:
+
+```bash
+npx wp-env run cli tail -f wp-content/rd-mail-log.txt
+```
+
+This is how to actually exercise the email-verification flow end to end
+locally: register through `[rd_register]`, grab the verification link from
+this log, then open it (or `curl` it) to activate the account.
+
 ## Troubleshooting
 
 - **Plugin activation notices:** check the WordPress debug log inside the
@@ -89,6 +111,9 @@ Screens should always be checked against seeded data, never an empty database.
 
 ```
 plugin/ruben-dance/   # the WordPress plugin (Composer project, PSR-4 autoloading)
+  includes/            # PSR-4 classes (RubenDance\...)
+  public/              # front-end template partials + CSS/JS, included by includes/Front/
 docs/                 # requirements & milestone-by-milestone implementation plan
 .wp-env.json          # wp-env config: maps plugin/ruben-dance into the site, PHP 8.1
+.wp-env/mu-plugins/   # dev-only mu-plugins (e.g. the mail catcher above), never shipped
 ```
