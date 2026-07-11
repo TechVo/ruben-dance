@@ -192,4 +192,47 @@ class SettingsTest extends TestCase {
 
 		$this->assertSame( Settings::ERROR_CANCELLED_LESSONS_DISPLAY_INVALID, $errors['cancelled_lessons_display'] );
 	}
+
+	/**
+	 * A blank retention window is allowed (optional field; `save()` falls
+	 * back to `DEFAULT_RETENTION_YEARS`).
+	 */
+	public function test_validate_allows_blank_retention_years(): void {
+		$errors = Settings::validate(
+			array(
+				'due_date_days'   => '7',
+				'retention_years' => '',
+			)
+		);
+
+		$this->assertArrayNotHasKey( 'retention_years', $errors );
+	}
+
+	/**
+	 * A positive whole number of years is accepted.
+	 */
+	public function test_validate_accepts_positive_retention_years(): void {
+		$errors = Settings::validate(
+			array(
+				'due_date_days'   => '7',
+				'retention_years' => '3',
+			)
+		);
+
+		$this->assertArrayNotHasKey( 'retention_years', $errors );
+	}
+
+	/**
+	 * Zero and non-numeric retention windows are rejected.
+	 */
+	public function test_validate_rejects_non_positive_retention_years(): void {
+		$errors = Settings::validate(
+			array(
+				'due_date_days'   => '7',
+				'retention_years' => '0',
+			)
+		);
+
+		$this->assertSame( Settings::ERROR_RETENTION_YEARS_INVALID, $errors['retention_years'] );
+	}
 }

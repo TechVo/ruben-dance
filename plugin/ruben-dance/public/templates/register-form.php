@@ -4,7 +4,8 @@
  * the post-submit state).
  *
  * Variables available: array<string,string> $errors, array<string,string>
- * $submitted, bool $rate_limited, string $privacy_policy_url, string $login_url.
+ * $submitted, bool $rate_limited, string $privacy_policy_url, string $terms_url,
+ * string $login_url.
  *
  * @package RubenDance
  */
@@ -65,7 +66,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<p>
 			<label>
 				<input type="checkbox" name="tc_accepted" value="1" required="required" <?php checked( ! empty( $submitted['tc_accepted'] ) ); ?>>
-				<?php esc_html_e( 'I agree to the Terms & Conditions.', 'ruben-dance' ); ?>
+				<?php if ( '' !== $terms_url ) : ?>
+					<?php
+					printf(
+						/* translators: %s: Terms & Conditions link. */
+						esc_html__( 'I agree to the %s.', 'ruben-dance' ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- format string is escaped; the %s argument below is itself built from esc_url()/esc_html() pieces.
+						'<a href="' . esc_url( $terms_url ) . '" target="_blank" rel="noopener">' . esc_html__( 'Terms & Conditions', 'ruben-dance' ) . '</a>'
+					);
+					?>
+				<?php else : ?>
+					<?php esc_html_e( 'I agree to the Terms & Conditions.', 'ruben-dance' ); ?>
+				<?php endif; ?>
 				<span class="required">*</span>
 			</label>
 			<br>

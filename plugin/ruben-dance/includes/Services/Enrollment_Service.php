@@ -10,6 +10,7 @@ declare( strict_types = 1 );
 
 namespace RubenDance\Services;
 
+use RubenDance\Compliance\Legal;
 use RubenDance\Repositories\Course_Term_Repository;
 use RubenDance\Repositories\Duplicate_Key_Exception;
 use RubenDance\Repositories\Enrollment_Repository;
@@ -359,6 +360,16 @@ class Enrollment_Service {
 			'paid_marked_by'   => null,
 			'customer_note'    => '' === $customer_note ? null : $customer_note,
 			'admin_note'       => $admin_note,
+			// Per-enrollment consent audit (spec §6.1): every path that
+			// reaches `create()` — the public `[rd_enroll]` form (which
+			// requires the `tc_accepted` checkbox before calling this) and
+			// the admin phone-order screen (whose own note documents that
+			// the owner confirms the T&C with the customer verbally) —
+			// already implies acceptance, so the version/timestamp are
+			// stamped unconditionally rather than threaded through as an
+			// extra `$data` flag this service would have to validate again.
+			'tc_version'       => Legal::TC_VERSION,
+			'tc_accepted_at'   => $now,
 			'created_at'       => $now,
 			'updated_at'       => $now,
 		);

@@ -28,7 +28,7 @@ class Schema {
 	 *
 	 * @var string
 	 */
-	const SCHEMA_VERSION = '1.0.0';
+	const SCHEMA_VERSION = '1.1.0';
 
 	/**
 	 * Option name storing the last schema version that was installed.
@@ -116,6 +116,7 @@ class Schema {
 		$lesson          = $wpdb->prefix . 'rd_lesson';
 		$enrollment      = $wpdb->prefix . 'rd_enrollment';
 		$email_log       = $wpdb->prefix . 'rd_email_log';
+		$retention_log   = $wpdb->prefix . 'rd_retention_log';
 
 		return array(
 			"CREATE TABLE {$location} (
@@ -169,10 +170,23 @@ class Schema {
 				KEY lesson_date (lesson_date)
 			) {$charset_collate};",
 
+			// `user_id` is nullable (M15/§6.1) so a GDPR erasure can genuinely
+			// sever the account link: it is set to NULL when the row is
+			// anonymized (see `Enrollment_Repository::anonymize_for_user()`),
+			// rather than to a sentinel like `0`, precisely because MySQL
+			// treats every NULL in a unique index as distinct from every other
+			// NULL — several anonymized rows sharing the same (now-fixed)
+			// `participant_name` in the same term (e.g. two children enrolled
+			// by the same parent) would otherwise collide against
+			// `term_user_participant`. `tc_version`/`tc_accepted_at` are the
+			// per-enrollment consent audit trail (M15 task: "registration/
+			// enrollment store T&C-version + timestamp"); both are NULL on
+			// rows created before this column existed — that history cannot
+			// be reconstructed, only recorded going forward.
 			"CREATE TABLE {$enrollment} (
 				id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
 				term_id BIGINT UNSIGNED NOT NULL,
-				user_id BIGINT UNSIGNED NOT NULL,
+				user_id BIGINT UNSIGNED NULL,
 				participant_name VARCHAR(190) NOT NULL DEFAULT '',
 				role ENUM('solo','leader','follower') NOT NULL DEFAULT 'solo',
 				partner_name VARCHAR(190) NULL,
@@ -187,6 +201,8 @@ class Schema {
 				paid_marked_by BIGINT UNSIGNED NULL,
 				customer_note TEXT NULL,
 				admin_note TEXT NULL,
+				tc_version VARCHAR(20) NULL,
+				tc_accepted_at DATETIME NULL,
 				created_at DATETIME NOT NULL,
 				updated_at DATETIME NOT NULL,
 				PRIMARY KEY  (id),
@@ -207,6 +223,22 @@ class Schema {
 				PRIMARY KEY  (id),
 				KEY enrollment_id (enrollment_id),
 				KEY user_id (user_id)
+			) {$charset_collate};",
+
+			// Retention cron audit trail (M15/§6.1: "every run logged (what,
+			// how many)"), one row per `wp rd retention` run — dry-run and
+			// real alike, distinguished by `dry_run` — so both a scheduled
+			// monthly run and a manual `--dry-run` preview are inspectable
+			// after the fact.
+			"CREATE TABLE {$retention_log} (
+				id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+				run_at DATETIME NOT NULL,
+				dry_run TINYINT(1) NOT NULL DEFAULT 0,
+				customers_anonymized SMALLINT UNSIGNED NOT NULL DEFAULT 0,
+				email_log_purged INT UNSIGNED NOT NULL DEFAULT 0,
+				enrollments_purged INT UNSIGNED NOT NULL DEFAULT 0,
+				PRIMARY KEY  (id),
+				KEY run_at (run_at)
 			) {$charset_collate};",
 		);
 	}

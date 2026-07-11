@@ -9,6 +9,8 @@ declare( strict_types = 1 );
 
 namespace RubenDance\Repositories;
 
+use RubenDance\Compliance\Anonymizer;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Disallow direct access.
 }
@@ -274,6 +276,118 @@ class Enrollment_Repository extends Repository {
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.NotPrepared
 		return (int) $wpdb->get_var( $wpdb->prepare( $sql, $params ) );
+	}
+
+	/**
+	 * Distinct user IDs with at least one non-cancelled (active) enrollment
+	 * created on or after `$cutoff` — `Services\Retention_Service`'s "active"
+	 * set (spec §6.1: "inactive = no non-cancelled enrollment since ..."). A
+	 * customer's own numeric ID is excluded from this set the moment they've
+	 * had no confirmed/paid enrollment for the whole retention window, which
+	 * is exactly what makes them a retention candidate; already-anonymized
+	 * rows never contribute here since `anonymize_for_user()` sets `user_id`
+	 * to `NULL`, which `= %d` never matches.
+	 *
+	 * @param string $cutoff `Y-m-d H:i:s` — enrollments created on/after this moment count as "active".
+	 * @return int[]
+	 */
+	public function distinct_active_user_ids_since( string $cutoff ): array {
+		$wpdb = $this->wpdb;
+
+		$ids = $wpdb->get_col( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+			$wpdb->prepare(
+				'SELECT DISTINCT user_id FROM %i WHERE status IN (%s, %s) AND created_at >= %s AND user_id IS NOT NULL',
+				$this->table(),
+				self::ACTIVE_STATUSES[0],
+				self::ACTIVE_STATUSES[1],
+				$cutoff
+			)
+		);
+
+		return array_map( 'intval', $ids );
+	}
+
+	/**
+	 * Count cancelled, never-paid enrollments last touched before `$cutoff` —
+	 * the dry-run preview for the retention cron's "purge cancelled-unpaid
+	 * enrollments after 1 year" rule (spec §6.1). `updated_at` (not
+	 * `created_at`) is the anchor deliberately: it is the row's cancellation
+	 * moment (`Services\Enrollment_Service::cancel()` always bumps it), so
+	 * the 1-year clock starts when the enrollment actually became inert, not
+	 * whenever it was originally created while still active.
+	 *
+	 * @param string $cutoff `Y-m-d H:i:s` — rows last updated before this moment are counted.
+	 * @return int
+	 */
+	public function count_cancelled_unpaid_older_than( string $cutoff ): int {
+		$wpdb = $this->wpdb;
+
+		return (int) $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+			$wpdb->prepare(
+				"SELECT COUNT(*) FROM %i WHERE status = 'cancelled' AND paid_at IS NULL AND updated_at < %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				$this->table(),
+				$cutoff
+			)
+		);
+	}
+
+	/**
+	 * Delete cancelled, never-paid enrollments last touched before `$cutoff`
+	 * — the real (non-dry-run) counterpart of `count_cancelled_unpaid_older_than()`.
+	 * A genuine `DELETE`, not an anonymization: spec §6.1 lists this rule
+	 * separately from enrollment anonymization, and an unpaid cancelled
+	 * enrollment carries no accounting obligation to preserve.
+	 *
+	 * @param string $cutoff `Y-m-d H:i:s` — rows last updated before this moment are deleted.
+	 * @return int Number of rows deleted.
+	 */
+	public function delete_cancelled_unpaid_older_than( string $cutoff ): int {
+		$wpdb = $this->wpdb;
+
+		$wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+			$wpdb->prepare(
+				"DELETE FROM %i WHERE status = 'cancelled' AND paid_at IS NULL AND updated_at < %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				$this->table(),
+				$cutoff
+			)
+		);
+
+		return (int) $wpdb->rows_affected;
+	}
+
+	/**
+	 * Anonymize every enrollment belonging to one customer — the shared
+	 * "erase personal data" building block used by both the on-demand WP
+	 * core erasure request (`Compliance\Personal_Data::anonymize_user()`)
+	 * and the retention cron (`Services\Retention_Service`, for inactive
+	 * customers), so the two paths can never anonymize an enrollment
+	 * differently. Participant/partner names become the literal
+	 * `Compliance\Anonymizer::LABEL` (spec §6.1: "name → anonymized"); `price`/
+	 * `due_date`/`paid_at`/every other accounting field is left untouched
+	 * (spec: "keep price/dates"); `user_id` is set to `NULL` rather than `0`
+	 * — see the schema comment on this column for why `NULL` (not a shared
+	 * sentinel value) is required to avoid colliding with
+	 * `term_user_participant` when the same customer had more than one
+	 * enrollment in the same term (e.g. two children).
+	 *
+	 * @param int $user_id WP user ID being erased/anonymized.
+	 * @return int Number of enrollment rows updated.
+	 */
+	public function anonymize_for_user( int $user_id ): int {
+		$wpdb  = $this->wpdb;
+		$label = Anonymizer::LABEL;
+
+		$wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+			$wpdb->prepare(
+				'UPDATE %i SET participant_name = %s, partner_name = (CASE WHEN partner_name IS NOT NULL AND partner_name != \'\' THEN %s ELSE partner_name END), user_id = NULL WHERE user_id = %d',
+				$this->table(),
+				$label,
+				$label,
+				$user_id
+			)
+		);
+
+		return (int) $wpdb->rows_affected;
 	}
 
 	/**

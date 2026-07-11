@@ -101,6 +101,7 @@ class Settings_Page {
 			'bank_account'              => isset( $_POST['bank_account'] ) ? sanitize_text_field( wp_unslash( $_POST['bank_account'] ) ) : '',
 			'iban'                      => isset( $_POST['iban'] ) ? sanitize_text_field( wp_unslash( $_POST['iban'] ) ) : '',
 			'cancelled_lessons_display' => isset( $_POST['cancelled_lessons_display'] ) ? sanitize_text_field( wp_unslash( $_POST['cancelled_lessons_display'] ) ) : '',
+			'retention_years'           => isset( $_POST['retention_years'] ) ? sanitize_text_field( wp_unslash( $_POST['retention_years'] ) ) : '',
 		);
 
 		$errors = Settings::validate( $submitted );
@@ -155,6 +156,7 @@ class Settings_Page {
 				'bank_account'              => Settings::bank_account(),
 				'iban'                      => Settings::iban(),
 				'cancelled_lessons_display' => Settings::cancelled_lessons_display(),
+				'retention_years'           => (string) Settings::retention_years(),
 			),
 			array()
 		);
@@ -212,6 +214,10 @@ class Settings_Page {
 		echo '</select>';
 		echo '<p class="description">' . esc_html__( 'How [rd_calendar] shows a cancelled lesson (spec F2).', 'ruben-dance' ) . '</p></td></tr>';
 
+		echo '<tr><th scope="row"><label for="rd_retention_years">' . esc_html__( 'Inactive customer retention (years)', 'ruben-dance' ) . '</label></th><td>';
+		echo '<input type="number" min="1" step="1" id="rd_retention_years" name="retention_years" class="small-text" value="' . esc_attr( $submitted['retention_years'] ) . '">';
+		echo '<p class="description">' . esc_html__( 'Customer accounts with no non-cancelled enrollment in this many years are anonymized by the monthly retention cron (spec §6.1).', 'ruben-dance' ) . '</p></td></tr>';
+
 		echo '</tbody></table>';
 
 		submit_button( __( 'Save Settings', 'ruben-dance' ) );
@@ -260,6 +266,9 @@ class Settings_Page {
 
 			case Settings::ERROR_IBAN_INVALID:
 				return __( 'IBAN is not valid — please check the account number and country code.', 'ruben-dance' );
+
+			case Settings::ERROR_RETENTION_YEARS_INVALID:
+				return __( 'Retention window must be a positive whole number of years.', 'ruben-dance' );
 
 			default:
 				return __( 'Invalid input.', 'ruben-dance' );

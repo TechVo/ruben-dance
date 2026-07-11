@@ -11,6 +11,7 @@ declare( strict_types = 1 );
 
 namespace RubenDance\Services;
 
+use RubenDance\Compliance\Legal;
 use RubenDance\Lang;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -62,11 +63,25 @@ class Registration_Service {
 	const META_PHONE                     = 'rd_phone';
 	const META_LOCALE                    = 'rd_locale';
 	const META_TC_ACCEPTED_AT            = 'rd_tc_accepted_at';
+	const META_TC_VERSION                = 'rd_tc_version';
 	const META_MARKETING_CONSENT         = 'rd_marketing_consent';
 	const META_MARKETING_CONSENT_AT      = 'rd_marketing_consent_at';
 	const META_EMAIL_VERIFIED            = 'rd_email_verified';
 	const META_VERIFICATION_TOKEN_HASH   = 'rd_verification_token_hash';
 	const META_VERIFICATION_TOKEN_EXPIRE = 'rd_verification_token_expires';
+
+	/**
+	 * User meta key marking an account anonymized by a GDPR erasure request
+	 * or the retention cron (spec §6.1): its value is the `Y-m-d H:i:s`
+	 * moment anonymization happened. Presence of this key is the guard both
+	 * `Compliance\Personal_Data::anonymize_user()` (idempotency: never
+	 * re-anonymize the same account) and `Services\Retention_Service` (never
+	 * re-select an already-anonymized account as an "inactive customer"
+	 * candidate) rely on.
+	 *
+	 * @var string
+	 */
+	const META_ANONYMIZED_AT = 'rd_anonymized_at';
 
 	const VERIFY_OK      = 'ok';
 	const VERIFY_INVALID = 'invalid';
@@ -428,6 +443,7 @@ class Registration_Service {
 		( $this->update_user_meta )( $user_id, self::META_PHONE, trim( (string) $data['phone'] ) );
 		( $this->update_user_meta )( $user_id, self::META_LOCALE, $locale );
 		( $this->update_user_meta )( $user_id, self::META_TC_ACCEPTED_AT, gmdate( 'Y-m-d H:i:s', $now ) );
+		( $this->update_user_meta )( $user_id, self::META_TC_VERSION, Legal::TC_VERSION );
 		( $this->update_user_meta )( $user_id, self::META_EMAIL_VERIFIED, $pre_verified ? '1' : '0' );
 
 		$marketing_consent = ! empty( $data['marketing_consent'] );

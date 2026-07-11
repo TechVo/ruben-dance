@@ -227,6 +227,7 @@ class RegistrationServiceTest extends TestCase {
 		$this->assertSame( '0', $meta[ $user_id ][ Registration_Service::META_MARKETING_CONSENT ] );
 		$this->assertArrayNotHasKey( Registration_Service::META_MARKETING_CONSENT_AT, $meta[ $user_id ] );
 		$this->assertNotSame( '', $meta[ $user_id ][ Registration_Service::META_TC_ACCEPTED_AT ] );
+		$this->assertSame( \RubenDance\Compliance\Legal::TC_VERSION, $meta[ $user_id ][ Registration_Service::META_TC_VERSION ] );
 
 		$this->assertCount( 1, $mailer->sent );
 		$this->assertSame( 'jana@example.com', $mailer->sent[0]['to'] );

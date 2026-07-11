@@ -6,7 +6,7 @@
  * string $season, bool $is_full, array{price:string,until:string}|null $early_bird,
  * bool $roles_relevant, string[] $roles, bool $already_marketing_consent,
  * array<string,string> $errors, array<string,mixed> $submitted, string $notice,
- * string $privacy_policy_url, string $currency, string $lang.
+ * string $privacy_policy_url, string $terms_url, string $currency, string $lang.
  *
  * @package RubenDance
  */
@@ -105,7 +105,17 @@ $ruben_dance_role_labels = array(
 		<p>
 			<label>
 				<input type="checkbox" name="tc_accepted" value="1" required="required" <?php checked( ! empty( $submitted['tc_accepted'] ) ); ?>>
-				<?php esc_html_e( 'I agree to the Terms & Conditions.', 'ruben-dance' ); ?>
+				<?php if ( '' !== $terms_url ) : ?>
+					<?php
+					printf(
+						/* translators: %s: Terms & Conditions link. */
+						esc_html__( 'I agree to the %s.', 'ruben-dance' ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- format string is escaped; the %s argument below is itself built from esc_url()/esc_html() pieces.
+						'<a href="' . esc_url( $terms_url ) . '" target="_blank" rel="noopener">' . esc_html__( 'Terms & Conditions', 'ruben-dance' ) . '</a>'
+					);
+					?>
+				<?php else : ?>
+					<?php esc_html_e( 'I agree to the Terms & Conditions.', 'ruben-dance' ); ?>
+				<?php endif; ?>
 				<span class="required">*</span>
 			</label>
 			<br>

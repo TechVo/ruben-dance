@@ -106,6 +106,22 @@ class Settings {
 	const CANCELLED_LESSONS_DISPLAY_OPTIONS = array( self::CANCELLED_LESSONS_STRIKETHROUGH, self::CANCELLED_LESSONS_HIDDEN );
 
 	/**
+	 * Option name for the retention cron's "inactive customer" window, in
+	 * years (spec §6.1: "inactive customer accounts deleted/anonymized after
+	 * N years (suggest 3)").
+	 *
+	 * @var string
+	 */
+	const OPTION_RETENTION_YEARS = 'rd_retention_years';
+
+	/**
+	 * Default retention window (spec §6.1: "suggest 3").
+	 *
+	 * @var int
+	 */
+	const DEFAULT_RETENTION_YEARS = 3;
+
+	/**
 	 * Max length for the bank account field. Generous enough for a Czech
 	 * account number with bank code (`######-##########/####`) or a full
 	 * IBAN (34 characters max per ISO 13616), without pinning the format —
@@ -121,6 +137,7 @@ class Settings {
 	const ERROR_BANK_ACCOUNT_TOO_LONG             = 'bank_account_too_long';
 	const ERROR_CANCELLED_LESSONS_DISPLAY_INVALID = 'cancelled_lessons_display_invalid';
 	const ERROR_IBAN_INVALID                      = 'iban_invalid';
+	const ERROR_RETENTION_YEARS_INVALID           = 'retention_years_invalid';
 
 	/**
 	 * The configured due-date window in days, falling back to
@@ -181,6 +198,18 @@ class Settings {
 	}
 
 	/**
+	 * The configured retention window in years, falling back to
+	 * `DEFAULT_RETENTION_YEARS` when unset or invalid.
+	 *
+	 * @return int
+	 */
+	public static function retention_years(): int {
+		$years = (int) get_option( self::OPTION_RETENTION_YEARS, self::DEFAULT_RETENTION_YEARS );
+
+		return $years > 0 ? $years : self::DEFAULT_RETENTION_YEARS;
+	}
+
+	/**
 	 * Validate submitted field values.
 	 *
 	 * @param array<string, mixed> $data Raw (unslashed) field values: due_date_days, admin_notification_email, bank_account, iban, cancelled_lessons_display.
@@ -194,6 +223,7 @@ class Settings {
 		$bank_account              = trim( (string) ( $data['bank_account'] ?? '' ) );
 		$iban                      = trim( (string) ( $data['iban'] ?? '' ) );
 		$cancelled_lessons_display = trim( (string) ( $data['cancelled_lessons_display'] ?? '' ) );
+		$retention_years           = trim( (string) ( $data['retention_years'] ?? '' ) );
 
 		if ( '' === $due_date_days || ! ctype_digit( $due_date_days ) || (int) $due_date_days <= 0 ) {
 			$errors['due_date_days'] = self::ERROR_DUE_DATE_DAYS_INVALID;
@@ -215,6 +245,13 @@ class Settings {
 			$errors['cancelled_lessons_display'] = self::ERROR_CANCELLED_LESSONS_DISPLAY_INVALID;
 		}
 
+		// Optional, like `bank_account`/`cancelled_lessons_display`: blank
+		// falls back to `DEFAULT_RETENTION_YEARS` in `save()`, so a site that
+		// never visits this field still gets a sane, spec-mandated default.
+		if ( '' !== $retention_years && ( ! ctype_digit( $retention_years ) || (int) $retention_years <= 0 ) ) {
+			$errors['retention_years'] = self::ERROR_RETENTION_YEARS_INVALID;
+		}
+
 		return $errors;
 	}
 
@@ -233,5 +270,6 @@ class Settings {
 		// then never has to reformat a human-pasted "CZ65 0800 ..." value.
 		update_option( self::OPTION_IBAN, Iban_Validator::normalize( trim( (string) ( $data['iban'] ?? '' ) ) ) );
 		update_option( self::OPTION_CANCELLED_LESSONS_DISPLAY, trim( (string) ( $data['cancelled_lessons_display'] ?? self::CANCELLED_LESSONS_STRIKETHROUGH ) ) );
+		update_option( self::OPTION_RETENTION_YEARS, (int) ( $data['retention_years'] ?? self::DEFAULT_RETENTION_YEARS ) );
 	}
 }

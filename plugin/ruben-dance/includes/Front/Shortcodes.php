@@ -132,14 +132,23 @@ class Shortcodes {
 			)
 		);
 
+		$lang = Lang::create_default()->current();
+
 		return self::render_template(
 			'register-form',
 			array(
 				'errors'             => $result['errors'],
 				'submitted'          => $result['submitted'],
 				'rate_limited'       => 'rate_limited' === $result['state'],
-				'privacy_policy_url' => function_exists( 'get_privacy_policy_url' ) ? get_privacy_policy_url() : '',
-				'login_url'          => Pages::url( Pages::LOGIN, Lang::create_default()->current() ),
+				// M15/§6.1+§6.3: both link to the plugin's own bilingual
+				// placeholder pages (`Cli\Seed_Command::LEGAL_PAGES`) rather
+				// than `get_privacy_policy_url()` (WP core's single-page,
+				// single-language option) — the visitor's own locale decides
+				// which language they land on, with `Pages::url()`'s built-in
+				// fallback to Czech, then the home page, if a page is missing.
+				'privacy_policy_url' => Pages::url( Pages::PRIVACY_POLICY, $lang ),
+				'terms_url'          => Pages::url( Pages::TERMS, $lang ),
+				'login_url'          => Pages::url( Pages::LOGIN, $lang ),
 			)
 		);
 	}

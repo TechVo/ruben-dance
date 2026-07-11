@@ -92,6 +92,70 @@ class Email_Log_Repository extends Repository {
 	}
 
 	/**
+	 * Every log row for one user — the "email log" group of the WP core
+	 * personal-data export (spec §6.1: covers "all `rd_` tables").
+	 *
+	 * @param int $user_id WP user ID.
+	 * @return array<int, array<string, mixed>>
+	 */
+	public function for_user_id( int $user_id ): array {
+		$wpdb = $this->wpdb;
+
+		$rows = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+			$wpdb->prepare( 'SELECT * FROM %i WHERE user_id = %d ORDER BY sent_at DESC, id DESC', $this->table(), $user_id ),
+			ARRAY_A
+		);
+
+		return null === $rows ? array() : $rows;
+	}
+
+	/**
+	 * Delete every log row for one user — the erasure request's "purge the
+	 * email log for that user" step (spec M15 task), shared by
+	 * `Compliance\Personal_Data::anonymize_user()` and the retention cron.
+	 *
+	 * @param int $user_id WP user ID.
+	 * @return int Number of rows deleted.
+	 */
+	public function delete_for_user( int $user_id ): int {
+		$wpdb = $this->wpdb;
+
+		$wpdb->query( $wpdb->prepare( 'DELETE FROM %i WHERE user_id = %d', $this->table(), $user_id ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+
+		return (int) $wpdb->rows_affected;
+	}
+
+	/**
+	 * Count log rows sent before `$cutoff` — the retention cron's dry-run
+	 * preview for "purge email log > 1 year" (spec §6.1).
+	 *
+	 * @param string $cutoff `Y-m-d H:i:s` — rows sent before this moment are counted.
+	 * @return int
+	 */
+	public function count_older_than( string $cutoff ): int {
+		$wpdb = $this->wpdb;
+
+		return (int) $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+			$wpdb->prepare( 'SELECT COUNT(*) FROM %i WHERE sent_at < %s', $this->table(), $cutoff )
+		);
+	}
+
+	/**
+	 * Delete log rows sent before `$cutoff` — the real (non-dry-run)
+	 * counterpart of `count_older_than()`.
+	 *
+	 * @param string $cutoff `Y-m-d H:i:s` — rows sent before this moment are deleted.
+	 * @return int Number of rows deleted.
+	 */
+	public function delete_older_than( string $cutoff ): int {
+		$wpdb = $this->wpdb;
+
+		$wpdb->query( $wpdb->prepare( 'DELETE FROM %i WHERE sent_at < %s', $this->table(), $cutoff ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+
+		return (int) $wpdb->rows_affected;
+	}
+
+	/**
 	 * Shared WHERE-fragment/params builder for `search()`/`count_search()`
 	 * (the same split `Enrollment_Repository::search_where()` uses).
 	 *

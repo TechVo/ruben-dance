@@ -213,7 +213,11 @@ class Enroll_Page {
 				'errors'                    => $errors,
 				'submitted'                 => $submitted,
 				'notice'                    => $notice,
-				'privacy_policy_url'        => function_exists( 'get_privacy_policy_url' ) ? get_privacy_policy_url() : '',
+				// M15/§6.1+§6.3: see `Front\Shortcodes::render_register()` for
+				// why these come from `Pages::url()` rather than
+				// `get_privacy_policy_url()`.
+				'privacy_policy_url'        => Pages::url( Pages::PRIVACY_POLICY, $lang ),
+				'terms_url'                 => Pages::url( Pages::TERMS, $lang ),
 				'currency'                  => Lang::EN === $lang ? 'CZK' : 'Kč',
 			)
 		);

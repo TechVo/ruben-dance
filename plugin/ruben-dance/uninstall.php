@@ -29,3 +29,10 @@ if ( class_exists( '\RubenDance\Roles' ) ) {
 if ( class_exists( '\RubenDance\Schema' ) ) {
 	delete_option( \RubenDance\Schema::OPTION_NAME );
 }
+
+// The retention cron's scheduled event is process footprint, not customer
+// data — clearing it on full removal is the same "clean up after ourselves"
+// reasoning as the role/options above, and does not touch any `wp_rd_*` table.
+if ( class_exists( '\RubenDance\Compliance\Retention_Cron' ) ) {
+	wp_clear_scheduled_hook( \RubenDance\Compliance\Retention_Cron::HOOK );
+}

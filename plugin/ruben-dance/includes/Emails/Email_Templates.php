@@ -169,6 +169,16 @@ class Email_Templates {
 				);
 
 			case self::TYPE_E2:
+				return $common + array(
+					'participant'     => __( 'Participant name', 'ruben-dance' ),
+					'term_schedule'   => __( 'Term season/weekday/time', 'ruben-dance' ),
+					'price'           => __( 'Price (incl. currency)', 'ruben-dance' ),
+					'account_number'  => __( 'Bank account number', 'ruben-dance' ),
+					'variable_symbol' => __( 'Variable symbol', 'ruben-dance' ),
+					'due_date'        => __( 'Payment due date', 'ruben-dance' ),
+					'terms_url'       => __( 'Terms & Conditions link (spec §6.3)', 'ruben-dance' ),
+				);
+
 			case self::TYPE_E3:
 				return $common + array(
 					'participant'     => __( 'Participant name', 'ruben-dance' ),
@@ -243,11 +253,11 @@ class Email_Templates {
 				return $is_en
 					? array(
 						'subject' => 'Your enrollment: {course}',
-						'body'    => '<p>Hi {first_name},</p><p>Thanks for enrolling {participant} in "{course}" ({term_schedule}).</p><p><strong>Payment instructions</strong><br>Amount: {price}<br>Bank account: {account_number}<br>Variable symbol: {variable_symbol}<br>Due date: {due_date}</p><p>Please use the variable symbol so we can match your payment. This email confirms your enrollment; our Terms &amp; Conditions apply.</p>',
+						'body'    => '<p>Hi {first_name},</p><p>Thanks for enrolling {participant} in "{course}" ({term_schedule}).</p><p><strong>Payment instructions</strong><br>Amount: {price}<br>Bank account: {account_number}<br>Variable symbol: {variable_symbol}<br>Due date: {due_date}</p><p>Please use the variable symbol so we can match your payment. This email confirms your enrollment; our <a href="{terms_url}">Terms &amp; Conditions</a> apply.</p>',
 					)
 					: array(
 						'subject' => 'Vaše přihláška: {course}',
-						'body'    => '<p>Ahoj {first_name},</p><p>Děkujeme za přihlášení ({participant}) na kurz "{course}" ({term_schedule}).</p><p><strong>Platební instrukce</strong><br>Částka: {price}<br>Číslo účtu: {account_number}<br>Variabilní symbol: {variable_symbol}<br>Splatnost: {due_date}</p><p>Uveďte prosím variabilní symbol, ať platbu správně spárujeme. Tento email potvrzuje vaši přihlášku; platí naše obchodní podmínky.</p>',
+						'body'    => '<p>Ahoj {first_name},</p><p>Děkujeme za přihlášení ({participant}) na kurz "{course}" ({term_schedule}).</p><p><strong>Platební instrukce</strong><br>Částka: {price}<br>Číslo účtu: {account_number}<br>Variabilní symbol: {variable_symbol}<br>Splatnost: {due_date}</p><p>Uveďte prosím variabilní symbol, ať platbu správně spárujeme. Tento email potvrzuje vaši přihlášku; platí naše <a href="{terms_url}">obchodní podmínky</a>.</p>',
 					);
 
 			case self::TYPE_E3:

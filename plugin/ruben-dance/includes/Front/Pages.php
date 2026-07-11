@@ -34,6 +34,25 @@ class Pages {
 	const LOST_PASSWORD = 'lost_password';
 
 	/**
+	 * The privacy policy and Terms & Conditions placeholder pages (M15/§6.1,
+	 * §6.3), seeded CS + EN the same way the auth pages are. Registered here
+	 * (rather than as a `PAGE_KEY` constant on some owning shortcode class,
+	 * the pattern `catalog`/`enroll`/`account`/`calendar` follow) because
+	 * neither page renders a plugin shortcode — they are plain page content —
+	 * so there is no natural "owning" front-end class for them.
+	 *
+	 * @var string
+	 */
+	const PRIVACY_POLICY = 'privacy_policy';
+
+	/**
+	 * See `self::PRIVACY_POLICY`.
+	 *
+	 * @var string
+	 */
+	const TERMS = 'terms';
+
+	/**
 	 * Option name storing the `[which][lang] => page_id` map.
 	 *
 	 * @var string

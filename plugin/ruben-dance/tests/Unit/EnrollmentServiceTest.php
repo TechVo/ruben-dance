@@ -277,6 +277,23 @@ class EnrollmentServiceTest extends TestCase {
 	}
 
 	/**
+	 * `create()` stamps the per-enrollment consent audit trail (spec §6.1:
+	 * "registration/enrollment store T&C-version + timestamp") — every path
+	 * that reaches `create()` already implies acceptance was confirmed
+	 * (checkbox, or a phone-order admin confirming verbally), so this is
+	 * unconditional rather than gated on an extra field.
+	 */
+	public function test_create_stamps_tc_version_and_accepted_at(): void {
+		list( $service, $calls ) = $this->make_service( array( 'now' => '2025-08-01 12:00:00' ) );
+
+		$service->create( $this->valid_data() );
+
+		$row = $calls['insert'][0];
+		$this->assertSame( \RubenDance\Compliance\Legal::TC_VERSION, $row['tc_version'] );
+		$this->assertSame( '2025-08-01 12:00:00', $row['tc_accepted_at'] );
+	}
+
+	/**
 	 * `create()` uses the configured due-date setting, not always the default.
 	 */
 	public function test_create_uses_configured_due_date_days(): void {

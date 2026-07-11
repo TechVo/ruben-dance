@@ -10,6 +10,7 @@ declare( strict_types = 1 );
 
 namespace RubenDance\Emails;
 
+use RubenDance\Front\Pages;
 use RubenDance\Lang;
 use RubenDance\Services\Term_Service;
 use RubenDance\Settings;
@@ -68,6 +69,10 @@ class Enrollment_Email_Data {
 			'account_number'  => $bank_account,
 			'variable_symbol' => (string) ( $enrollment['variable_symbol'] ?? '' ),
 			'due_date'        => self::format_date( (string) ( $enrollment['due_date'] ?? '' ), $lang ),
+			// M15/§6.3: E2 must "durably link" the T&C in the enrollment
+			// confirmation — this is that link, in the recipient's language.
+			// Harmless (simply unused) on templates that don't reference it.
+			'terms_url'       => Pages::url( Pages::TERMS, $lang ),
 		);
 	}
 

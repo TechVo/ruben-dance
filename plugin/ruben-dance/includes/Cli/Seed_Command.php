@@ -365,6 +365,114 @@ class Seed_Command {
 	);
 
 	/**
+	 * Placeholder privacy policy + Terms & Conditions pages (M15/§6.1, §6.3:
+	 * "placeholder pages ... CS/EN, structured lorem — real texts are the
+	 * lawyer's"). Structured section headings so the *shape* required by
+	 * spec §6.1 (identification, purposes/legal basis, retention, rights,
+	 * processors) and §6.3 (identification, price/payment/cancellation
+	 * terms, the § 1837(j) withdrawal-exemption statement, complaints) is
+	 * already in place for the lawyer to fill in real text pre-launch, rather
+	 * than a blank page appearing the moment `get_privacy_policy_url()`/
+	 * `Front\Pages::url( Front\Pages::TERMS, ... )` starts resolving to it.
+	 *
+	 * @var array<int, array{which: string, slug_cs: string, title_cs: string, content_cs: string, slug_en: string, title_en: string, content_en: string, set_as_core_privacy_page: bool}>
+	 */
+	const LEGAL_PAGES = array(
+		array(
+			'which'                    => \RubenDance\Front\Pages::PRIVACY_POLICY,
+			'slug_cs'                  => 'zasady-ochrany-osobnich-udaju',
+			'title_cs'                 => 'Zásady ochrany osobních údajů',
+			'content_cs'               => <<<'HTML'
+<p><em>PLACEHOLDER — text připraví a před spuštěním provozu schválí právník. Struktura níže odpovídá bodům vyžadovaným specifikací (§6.1).</em></p>
+<h2>Kdo jsme</h2>
+<p>[Název školy], IČO [doplnit], se sídlem [doplnit adresu], je správcem osobních údajů zpracovávaných v souvislosti s provozem tohoto webu.</p>
+<h2>Jaké údaje zpracováváme a proč</h2>
+<p>Jméno, e-mail, telefon a heslo (pro vedení účtu a přihlášek), údaje o přihláškách a platbách (pro poskytnutí kurzu a účetnictví), volitelně jméno partnera (pro organizaci kurzu) a záznam o odeslaných e-mailech (metadata a předmět, nikdy celý obsah).</p>
+<h2>Právní základ zpracování</h2>
+<p>Plnění smlouvy (vedení účtu, přihlášky), plnění právních povinností (účetní záznamy) a oprávněný zájem (organizační poznámky, e-mailový log). Marketingové e-maily pouze na základě uděleného souhlasu.</p>
+<h2>Doba uchovávání</h2>
+<p>Neaktivní zákaznické účty jsou anonymizovány po [N] letech, e-mailový log je mazán po 1 roce, nezaplacené zrušené přihlášky po 1 roce.</p>
+<h2>Vaše práva</h2>
+<p>Máte právo na přístup ke svým údajům, jejich opravu, výmaz (anonymizaci) a přenositelnost. Žádost můžete podat prostřednictvím nástrojů WordPress nebo kontaktováním správce.</p>
+<h2>Zpracovatelé</h2>
+<p>[Doplnit: poskytovatel hostingu, e-mailová služba, případně Cloudflare], každý na základě zpracovatelské smlouvy.</p>
+<h2>Cookies</h2>
+<p>Web používá pouze technické cookies nezbytné pro přihlášení a volbu jazyka — viz [odkaz na cookie audit].</p>
+<h2>Kontakt</h2>
+<p>[Doplnit kontaktní e-mail/adresu pro dotazy ohledně ochrany osobních údajů.]</p>
+HTML
+			,
+			'slug_en'                  => 'privacy-policy',
+			'title_en'                 => 'Privacy Policy',
+			'content_en'               => <<<'HTML'
+<p><em>PLACEHOLDER — real text to be drafted and legally reviewed before launch. The structure below mirrors the points required by the spec (§6.1).</em></p>
+<h2>Who we are</h2>
+<p>[School name], company ID [fill in], registered at [fill in address], is the controller of the personal data processed through this website.</p>
+<h2>What data we process and why</h2>
+<p>Name, email, phone and password (account and enrollment handling), enrollment and payment records (course delivery and accounting), an optional partner name (course organization) and a log of emails sent (metadata and subject only, never full bodies).</p>
+<h2>Legal basis</h2>
+<p>Contract performance (account, enrollments), legal obligation (accounting records) and legitimate interest (organizational notes, email log). Marketing emails only with your explicit consent.</p>
+<h2>Retention</h2>
+<p>Inactive customer accounts are anonymized after [N] years, the email log is purged after 1 year, unpaid cancelled enrollments after 1 year.</p>
+<h2>Your rights</h2>
+<p>You have the right to access, correct, erase (anonymize) and receive a copy of your data. Requests can be made through WordPress's own tools or by contacting the controller directly.</p>
+<h2>Processors</h2>
+<p>[Fill in: hosting provider, transactional email service, Cloudflare if used], each under a data processing agreement.</p>
+<h2>Cookies</h2>
+<p>The site uses only technical cookies strictly necessary for login and language selection — see [link to cookie audit].</p>
+<h2>Contact</h2>
+<p>[Fill in a contact email/address for privacy-related questions.]</p>
+HTML
+			,
+			'set_as_core_privacy_page' => true,
+		),
+		array(
+			'which'                    => \RubenDance\Front\Pages::TERMS,
+			'slug_cs'                  => 'obchodni-podminky',
+			'title_cs'                 => 'Obchodní podmínky',
+			'content_cs'               => <<<'HTML'
+<p><em>PLACEHOLDER — text připraví a před spuštěním provozu schválí právník. Struktura níže odpovídá bodům vyžadovaným specifikací (§6.3).</em></p>
+<h2>Identifikace poskytovatele</h2>
+<p>[Název školy], IČO [doplnit], se sídlem [doplnit adresu], kontakt: [doplnit e-mail/telefon].</p>
+<h2>Popis služby a cena</h2>
+<p>Poskytovatel nabízí taneční kurzy a workshopy. Cena každého kurzu, včetně případných slev, je uvedena u dané přihlášky před jejím odesláním.</p>
+<h2>Platební a storno podmínky</h2>
+<p>Platba probíhá bankovním převodem (variabilní symbol) nebo hotově, se splatností uvedenou v potvrzení přihlášky. [Doplnit storno podmínky dle rozhodnutí provozovatele.]</p>
+<h2>Odstoupení od smlouvy</h2>
+<p>V souladu s § 1837 písm. j) občanského zákoníku se právo na odstoupení od smlouvy do 14 dnů nevztahuje na služby volného času poskytované v určeném termínu, mezi které taneční kurzy s pevným rozvrhem spadají. [Toto ustanovení je třeba potvrdit právníkem.]</p>
+<h2>Reklamace</h2>
+<p>Případné reklamace vyřizuje poskytovatel na kontaktních údajích uvedených výše.</p>
+<h2>Ochrana osobních údajů</h2>
+<p>Zpracování osobních údajů se řídí [zásadami ochrany osobních údajů].</p>
+<h2>Závěrečná ustanovení</h2>
+<p>[Doplnit dle potřeby.]</p>
+HTML
+			,
+			'slug_en'                  => 'terms-and-conditions',
+			'title_en'                 => 'Terms & Conditions',
+			'content_en'               => <<<'HTML'
+<p><em>PLACEHOLDER — real text to be drafted and legally reviewed before launch. The structure below mirrors the points required by the spec (§6.3).</em></p>
+<h2>Provider identification</h2>
+<p>[School name], company ID [fill in], registered at [fill in address], contact: [fill in email/phone].</p>
+<h2>Service description and price</h2>
+<p>The provider offers dance courses and workshops. The price of each course, including any applicable discounts, is shown on the enrollment form before submission.</p>
+<h2>Payment and cancellation terms</h2>
+<p>Payment is made by bank transfer (variable symbol) or cash, due by the date shown on the enrollment confirmation. [Fill in cancellation terms as decided by the owners.]</p>
+<h2>Right of withdrawal</h2>
+<p>Under § 1837(j) of the Czech Civil Code, the 14-day right of withdrawal from a distance contract does not apply to leisure-time services provided on a specific date, which fixed-schedule dance courses fall under. [This clause requires legal confirmation.]</p>
+<h2>Complaints</h2>
+<p>Complaints are handled by the provider using the contact details above.</p>
+<h2>Personal data</h2>
+<p>Personal data processing is governed by the [privacy policy].</p>
+<h2>Final provisions</h2>
+<p>[Fill in as needed.]</p>
+HTML
+			,
+			'set_as_core_privacy_page' => false,
+		),
+	);
+
+	/**
 	 * Five verified customers (M07: "5 verified customers with locales/
 	 * consents varied") — pre-verified via `Registration_Service::register_pre_verified()`
 	 * so admin/enrollment milestone fixtures can use them immediately without
@@ -605,16 +713,18 @@ class Seed_Command {
 		$courses_created     = $this->seed_courses();
 		$terms_created       = $this->seed_terms();
 		$pages_created       = $this->seed_pages();
+		$legal_pages_created = $this->seed_legal_pages();
 		$customers_created   = $this->seed_customers();
 		$enrollments_created = $this->seed_enrollments();
 
 		\WP_CLI::success(
 			sprintf(
-				'ruben-dance: seeded (%d location(s), %d course(s), %d term(s), %d page(s), %d customer(s), %d enrollment(s) created).',
+				'ruben-dance: seeded (%d location(s), %d course(s), %d term(s), %d page(s), %d legal page(s), %d customer(s), %d enrollment(s) created).',
 				$locations_created,
 				$courses_created,
 				$terms_created,
 				$pages_created,
+				$legal_pages_created,
 				$customers_created,
 				$enrollments_created
 			)
@@ -869,6 +979,133 @@ class Seed_Command {
 	}
 
 	/**
+	 * Insert the placeholder privacy policy + T&C pages (M15/§6.1, §6.3),
+	 * skipping any whose slug already exists in that language — the same
+	 * idempotency approach `seed_pages()` uses, kept as a separate method
+	 * because these pages carry real (if placeholder) body content per
+	 * language rather than one shared shortcode string. Also wires the
+	 * seeded Czech privacy policy page into WordPress core's own
+	 * `wp_page_for_privacy_policy` option (only if unset, never overwriting a
+	 * site operator's manual choice), which is what makes core's
+	 * `get_privacy_policy_url()` — already called by the registration/
+	 * enrollment forms — resolve to something real.
+	 *
+	 * @return int Number of pages actually created.
+	 */
+	private function seed_legal_pages(): int {
+		$created = 0;
+
+		$registered = get_option( \RubenDance\Front\Pages::OPTION, array() );
+
+		foreach ( self::LEGAL_PAGES as $page ) {
+			$cs_id = null;
+
+			foreach (
+				array(
+					Lang::CS => array( $page['slug_cs'], $page['title_cs'], $page['content_cs'] ),
+					Lang::EN => array( $page['slug_en'], $page['title_en'], $page['content_en'] ),
+				) as $lang => list( $slug, $title, $content )
+			) {
+				// Idempotency check #1: the plugin's *own* record of which
+				// page ID it already created for this which/lang pair,
+				// regardless of that page's current slug. This must come
+				// first, ahead of `find_page_by_slug()` — if WordPress had to
+				// auto-suffix the slug on a previous run (e.g. `privacy-
+				// policy` was already taken by the stock draft page `wp core
+				// install` creates on every fresh site), the live page no
+				// longer has the exact slug below, and a slug-only lookup
+				// would never find it again — silently creating a fresh
+				// duplicate (and a fresh suffix clash) on every single `wp rd
+				// seed` re-run.
+				$registered_id = (int) ( $registered[ $page['which'] ][ $lang ] ?? 0 );
+
+				if ( $registered_id > 0 && 'publish' === get_post_status( $registered_id ) ) {
+					if ( Lang::CS === $lang ) {
+						$cs_id = $registered_id;
+					}
+
+					continue;
+				}
+
+				// Idempotency check #2: a published page with the exact
+				// slug already exists — the bootstrapping case for a site
+				// that has never run `wp rd seed` before but already has a
+				// matching page (mirrors `seed_pages()`'s own approach).
+				$existing_id = $this->find_page_by_slug( $slug );
+
+				if ( null !== $existing_id ) {
+					\RubenDance\Front\Pages::set( $page['which'], $lang, $existing_id );
+
+					if ( Lang::CS === $lang ) {
+						$cs_id = $existing_id;
+					}
+
+					continue;
+				}
+
+				$post_id = wp_insert_post(
+					array(
+						'post_type'    => 'page',
+						'post_title'   => $title,
+						'post_name'    => $slug,
+						'post_content' => $content,
+						'post_status'  => 'publish',
+					),
+					true
+				);
+
+				if ( is_wp_error( $post_id ) || ! $post_id ) {
+					continue;
+				}
+
+				if ( function_exists( 'pll_set_post_language' ) ) {
+					pll_set_post_language( $post_id, $lang );
+				}
+
+				\RubenDance\Front\Pages::set( $page['which'], $lang, (int) $post_id );
+
+				if ( Lang::CS === $lang ) {
+					$cs_id = (int) $post_id;
+				}
+
+				++$created;
+			}
+
+			if ( $page['set_as_core_privacy_page'] && null !== $cs_id ) {
+				$current_privacy_page_id = (int) get_option( 'wp_page_for_privacy_policy', 0 );
+
+				// Overwrite when unset, *or* when it still points at the
+				// unedited stock draft `wp core install` creates on every
+				// fresh site (see `find_page_by_slug()`'s comment) — but
+				// never when it already points at a page someone actually
+				// published, which means an operator deliberately chose it.
+				if ( 0 === $current_privacy_page_id || 'publish' !== get_post_status( $current_privacy_page_id ) ) {
+					update_option( 'wp_page_for_privacy_policy', $cs_id );
+				}
+			}
+		}
+
+		if ( function_exists( 'pll_save_post_translations' ) ) {
+			$map = get_option( \RubenDance\Front\Pages::OPTION, array() );
+
+			foreach ( self::LEGAL_PAGES as $page ) {
+				$pair = $map[ $page['which'] ] ?? array();
+
+				if ( isset( $pair[ Lang::CS ], $pair[ Lang::EN ] ) ) {
+					pll_save_post_translations(
+						array(
+							Lang::CS => (int) $pair[ Lang::CS ],
+							Lang::EN => (int) $pair[ Lang::EN ],
+						)
+					);
+				}
+			}
+		}
+
+		return $created;
+	}
+
+	/**
 	 * Insert the fixture customers, skipping any whose email already exists
 	 * (matched via WordPress' own `email_exists()`, the users-table
 	 * equivalent of `find_by_name()`), so repeated runs never create
@@ -995,9 +1232,17 @@ class Seed_Command {
 	private function find_page_by_slug( string $slug ): ?int {
 		global $wpdb;
 
+		// `post_status = 'publish'` (not merely "!= trash") matters as of
+		// M15: WordPress core itself auto-creates a draft page slugged
+		// `privacy-policy` on every fresh install (its own GDPR onboarding
+		// nudge, wired to `wp_page_for_privacy_policy`) — matching on any
+		// non-trashed status would silently adopt that unrelated stock draft
+		// as if it were our own seeded page, per the doc comment above this
+		// method already promised ("a published page") but the query never
+		// actually enforced.
 		$id = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->prepare(
-				"SELECT ID FROM {$wpdb->posts} WHERE post_type = 'page' AND post_name = %s AND post_status != 'trash' LIMIT 1", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				"SELECT ID FROM {$wpdb->posts} WHERE post_type = 'page' AND post_name = %s AND post_status = 'publish' LIMIT 1", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				$slug
 			)
 		);

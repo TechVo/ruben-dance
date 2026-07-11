@@ -43,6 +43,14 @@ if ( defined( 'WP_CLI' ) && WP_CLI && class_exists( '\RubenDance\Cli\Seed_Comman
 }
 
 /**
+ * Register the `wp rd retention` WP-CLI command (spec §6.1 acceptance
+ * criterion: "dry-run WP-CLI command `wp rd retention --dry-run`").
+ */
+if ( defined( 'WP_CLI' ) && WP_CLI && class_exists( '\RubenDance\Cli\Retention_Command' ) ) {
+	WP_CLI::add_command( 'rd retention', '\RubenDance\Cli\Retention_Command' );
+}
+
+/**
  * Activation: create/upgrade the schema and the `rd_manager` role.
  *
  * Always (re)applies, so reactivating after a manual table drop or a fresh
@@ -107,3 +115,6 @@ add_action(
 \RubenDance\Front\Calendar_Page::register();
 \RubenDance\Rest\Lessons_Controller::register();
 \RubenDance\Services\Calendar_Cache::register();
+\RubenDance\Front\Footer_Links::register();
+\RubenDance\Compliance\Personal_Data::register();
+\RubenDance\Compliance\Retention_Cron::register();
