@@ -145,6 +145,30 @@ class Enrollment_Repository extends Repository {
 	}
 
 	/**
+	 * A single enrollment, but only when it belongs to `$user_id` — the
+	 * QR-payment-code endpoint's ownership check (spec F16: "must refuse ...
+	 * foreign-enrollment requests"). Ownership is baked into the SQL itself,
+	 * the same reasoning `for_user()` documents: whatever `enrollment_id` a
+	 * tampered request supplies, a row belonging to a different customer can
+	 * never be returned.
+	 *
+	 * @param int $id      Enrollment ID.
+	 * @param int $user_id WP user ID; the real call site (`Front\Qr_Code_Ajax`)
+	 *                      only ever passes `get_current_user_id()`.
+	 * @return array<string, mixed>|null
+	 */
+	public function find_for_user( int $id, int $user_id ): ?array {
+		$wpdb = $this->wpdb;
+
+		$row = $wpdb->get_row( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+			$wpdb->prepare( 'SELECT * FROM %i WHERE id = %d AND user_id = %d', $this->table(), $id, $user_id ),
+			ARRAY_A
+		);
+
+		return null === $row ? null : $row;
+	}
+
+	/**
 	 * A customer's active (non-cancelled) enrollments — the term set the
 	 * `[rd_account]` "My schedule" tab (spec F6: "active courses") pulls
 	 * upcoming lessons for. Same ownership reasoning as `for_user()`.

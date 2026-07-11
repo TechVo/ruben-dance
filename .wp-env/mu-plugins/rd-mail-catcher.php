@@ -47,3 +47,41 @@ add_filter(
 	10,
 	2
 );
+
+/**
+ * M14 (QR payment code) addition: `pre_wp_mail`'s short-circuit above means
+ * `Services\Html_Mailer`'s own `phpmailer_init` attach hook never runs here
+ * (see that class's doc comment) — there is no PHPMailer instance to inspect
+ * an inline image on. `Html_Mailer` fires this separate, harness-agnostic
+ * hook right before every send that carries one or more inline images, which
+ * is the only thing that lets this local dev catcher confirm the QR code was
+ * actually attached: it notes the attempt in the same log and saves each
+ * image's raw bytes next to it so it can be opened and eyeballed (or
+ * scanned) directly.
+ */
+add_action(
+	'ruben_dance_email_inline_images',
+	static function ( string $to, array $inline_images ): void {
+		if ( array() === $inline_images ) {
+			return;
+		}
+
+		$note = sprintf( "[%s] Inline images for %s:\n", gmdate( 'Y-m-d H:i:s' ), $to );
+
+		foreach ( $inline_images as $image ) {
+			$cid      = (string) ( $image['cid'] ?? 'unknown' );
+			$data     = (string) ( $image['data'] ?? '' );
+			$filename = WP_CONTENT_DIR . '/rd-mail-log-inline-' . sanitize_file_name( $cid ) . '.png';
+
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- dev-only mu-plugin, see doc comment above.
+			file_put_contents( $filename, $data );
+
+			$note .= sprintf( "  - cid:%s (%d bytes) saved to %s\n", $cid, strlen( $data ), basename( $filename ) );
+		}
+
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- dev-only mu-plugin, see doc comment above.
+		file_put_contents( WP_CONTENT_DIR . '/rd-mail-log.txt', $note, FILE_APPEND | LOCK_EX );
+	},
+	10,
+	2
+);

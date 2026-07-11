@@ -71,7 +71,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 								</tr>
 							</tbody>
 						</table>
-						<?php /* QR payment code (spec F16) is added here in M14. */ ?>
+						<?php if ( '' !== $ruben_dance_enrollment['qr_url'] ) : ?>
+							<div class="rd-account-qr-payment">
+								<img src="<?php echo esc_url( $ruben_dance_enrollment['qr_url'] ); ?>" alt="<?php esc_attr_e( 'QR payment code', 'ruben-dance' ); ?>" width="200" height="200" loading="lazy">
+								<p class="description"><?php esc_html_e( 'Scan with your banking app to pre-fill the amount and variable symbol.', 'ruben-dance' ); ?></p>
+							</div>
+						<?php endif; ?>
 						<p class="description"><?php esc_html_e( "Need to cancel? Please contact us — self-service cancellation isn't available.", 'ruben-dance' ); ?></p>
 					</div>
 				<?php endif; ?>

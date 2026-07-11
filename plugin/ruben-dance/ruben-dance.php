@@ -103,6 +103,7 @@ add_action(
 \RubenDance\Front\Enrollment_Form_Handler::register();
 \RubenDance\Front\Account_Page::register();
 \RubenDance\Front\Account_Form_Handler::register();
+\RubenDance\Front\Qr_Code_Ajax::register();
 \RubenDance\Front\Calendar_Page::register();
 \RubenDance\Rest\Lessons_Controller::register();
 \RubenDance\Services\Calendar_Cache::register();

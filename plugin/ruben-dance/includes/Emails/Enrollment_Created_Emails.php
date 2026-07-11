@@ -58,7 +58,8 @@ class Enrollment_Created_Emails {
 			$user->user_email,
 			Enrollment_Email_Data::placeholders( $enrollment, $term, $user, $lang ),
 			$enrollment_id,
-			$user->ID
+			$user->ID,
+			Payment_Qr_Email::augmenter( $enrollment, $term, $lang )
 		);
 
 		$admin_email = Settings::admin_notification_email();

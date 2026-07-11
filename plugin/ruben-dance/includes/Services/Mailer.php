@@ -28,10 +28,14 @@ interface Mailer {
 	/**
 	 * Send a single email.
 	 *
-	 * @param string $to      Recipient email address.
-	 * @param string $subject Already-localized subject line.
-	 * @param string $body    Already-localized plain-text body.
+	 * @param string                                                     $to            Recipient email address.
+	 * @param string                                                     $subject       Already-localized subject line.
+	 * @param string                                                     $body          Already-localized plain-text body.
+	 * @param array<int, array{cid: string, data: string, mime: string}> $inline_images Images to embed for reference from the body via `cid:<cid>`
+	 *                                                                              (spec F16/M14: the QR-platba code embedded in E2/E7). Empty by
+	 *                                                                              default; `Plain_Mailer` ignores it (a plain-text body has nothing
+	 *                                                                              to reference a `cid:` from), only `Html_Mailer` attaches them.
 	 * @return bool True on (apparent) success.
 	 */
-	public function send( string $to, string $subject, string $body ): bool;
+	public function send( string $to, string $subject, string $body, array $inline_images = array() ): bool;
 }

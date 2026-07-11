@@ -68,13 +68,14 @@ class Logging_Mailer implements Mailer {
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @param string $to      Recipient email address.
-	 * @param string $subject Already-localized subject line.
-	 * @param string $body    Already-localized body.
+	 * @param string                                                     $to            Recipient email address.
+	 * @param string                                                     $subject       Already-localized subject line.
+	 * @param string                                                     $body          Already-localized body.
+	 * @param array<int, array{cid: string, data: string, mime: string}> $inline_images Forwarded to `$inner` as-is.
 	 * @return bool
 	 */
-	public function send( string $to, string $subject, string $body ): bool {
-		$sent = $this->inner->send( $to, $subject, $body );
+	public function send( string $to, string $subject, string $body, array $inline_images = array() ): bool {
+		$sent = $this->inner->send( $to, $subject, $body, $inline_images );
 
 		( new Email_Log_Repository() )->insert(
 			array(

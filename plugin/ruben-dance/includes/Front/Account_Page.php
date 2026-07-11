@@ -246,10 +246,33 @@ class Account_Page {
 				'over_capacity'    => ! empty( $row['over_capacity'] ),
 				'due_date'         => (string) $row['due_date'],
 				'variable_symbol'  => (string) $row['variable_symbol'],
+				'qr_url'           => self::qr_url( $row ),
 			);
 		}
 
 		return $display;
+	}
+
+	/**
+	 * The QR-payment-code `<img>` URL for one "My enrollments" row (spec
+	 * F16), or `''` when the feature doesn't apply — either the enrollment
+	 * isn't currently unpaid (spec acceptance criterion: "hides it for
+	 * paid") or no IBAN is configured (spec acceptance criterion: "No IBAN
+	 * configured → no QR anywhere"). Computed here, once, rather than in the
+	 * template, so `account-enrollments.php` only ever has to check "is this
+	 * blank" — it never re-derives the same two conditions
+	 * `Front\Qr_Code_Ajax::handle()` independently re-checks server-side
+	 * before actually rendering the image.
+	 *
+	 * @param array<string, mixed> $row Raw `wp_rd_enrollment` row.
+	 * @return string
+	 */
+	private static function qr_url( array $row ): string {
+		if ( Enrollment_Service::STATUS_CONFIRMED !== (string) $row['status'] || '' === Settings::iban() ) {
+			return '';
+		}
+
+		return Qr_Code_Ajax::url( (int) $row['id'] );
 	}
 
 	/**

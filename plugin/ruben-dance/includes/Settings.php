@@ -9,6 +9,8 @@ declare( strict_types = 1 );
 
 namespace RubenDance;
 
+use RubenDance\Services\Iban_Validator;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Disallow direct access.
 }
@@ -49,6 +51,19 @@ class Settings {
 	 * @var string
 	 */
 	const OPTION_BANK_ACCOUNT = 'rd_bank_account';
+
+	/**
+	 * Option name for the school's IBAN, used only to build the QR-platba
+	 * (SPAYD) code (spec F16/§4.5): the "Bank account number" field above is
+	 * the human-readable text customers read; this is the machine-readable
+	 * form the QR code itself encodes. Deliberately a separate option — a
+	 * site can quote a non-IBAN Czech account number for humans while the QR
+	 * feature stays off until this is filled in (see `iban()`'s "unset ⇒ no
+	 * QR" contract, checked by every QR call site).
+	 *
+	 * @var string
+	 */
+	const OPTION_IBAN = 'rd_iban';
 
 	/**
 	 * Option name for how the `[rd_calendar]` shortcode (M10) displays a
@@ -105,6 +120,7 @@ class Settings {
 	const ERROR_ADMIN_EMAIL_INVALID               = 'admin_email_invalid';
 	const ERROR_BANK_ACCOUNT_TOO_LONG             = 'bank_account_too_long';
 	const ERROR_CANCELLED_LESSONS_DISPLAY_INVALID = 'cancelled_lessons_display_invalid';
+	const ERROR_IBAN_INVALID                      = 'iban_invalid';
 
 	/**
 	 * The configured due-date window in days, falling back to
@@ -138,6 +154,19 @@ class Settings {
 	}
 
 	/**
+	 * The configured IBAN for the QR-platba code, already normalized (no
+	 * spaces, upper-case — see `save()`), or `''` when unset. Every QR call
+	 * site (`Emails\Payment_Qr_Email`, `Front\Qr_Code_Ajax`) treats `''` as
+	 * "feature disabled" (spec F16 acceptance criterion: "No IBAN configured
+	 * → no QR anywhere, no errors, text instructions intact").
+	 *
+	 * @return string
+	 */
+	public static function iban(): string {
+		return (string) get_option( self::OPTION_IBAN, '' );
+	}
+
+	/**
 	 * The configured cancelled-lessons display mode for `[rd_calendar]`,
 	 * falling back to `self::CANCELLED_LESSONS_STRIKETHROUGH` when unset or
 	 * invalid (spec F2: "struck-through or hidden (admin choice)", default
@@ -154,7 +183,7 @@ class Settings {
 	/**
 	 * Validate submitted field values.
 	 *
-	 * @param array<string, mixed> $data Raw (unslashed) field values: due_date_days, admin_notification_email, bank_account, cancelled_lessons_display.
+	 * @param array<string, mixed> $data Raw (unslashed) field values: due_date_days, admin_notification_email, bank_account, iban, cancelled_lessons_display.
 	 * @return array<string, string> Field name => error code, only for invalid fields.
 	 */
 	public static function validate( array $data ): array {
@@ -163,6 +192,7 @@ class Settings {
 		$due_date_days             = trim( (string) ( $data['due_date_days'] ?? '' ) );
 		$admin_email               = trim( (string) ( $data['admin_notification_email'] ?? '' ) );
 		$bank_account              = trim( (string) ( $data['bank_account'] ?? '' ) );
+		$iban                      = trim( (string) ( $data['iban'] ?? '' ) );
 		$cancelled_lessons_display = trim( (string) ( $data['cancelled_lessons_display'] ?? '' ) );
 
 		if ( '' === $due_date_days || ! ctype_digit( $due_date_days ) || (int) $due_date_days <= 0 ) {
@@ -177,6 +207,10 @@ class Settings {
 			$errors['bank_account'] = self::ERROR_BANK_ACCOUNT_TOO_LONG;
 		}
 
+		if ( '' !== $iban && ! Iban_Validator::is_valid( $iban ) ) {
+			$errors['iban'] = self::ERROR_IBAN_INVALID;
+		}
+
 		if ( '' !== $cancelled_lessons_display && ! in_array( $cancelled_lessons_display, self::CANCELLED_LESSONS_DISPLAY_OPTIONS, true ) ) {
 			$errors['cancelled_lessons_display'] = self::ERROR_CANCELLED_LESSONS_DISPLAY_INVALID;
 		}
@@ -188,12 +222,16 @@ class Settings {
 	 * Save submitted field values. Caller must call `validate()` first and
 	 * only proceed when it returns an empty array.
 	 *
-	 * @param array<string, mixed> $data Field values: due_date_days, admin_notification_email, bank_account, cancelled_lessons_display.
+	 * @param array<string, mixed> $data Field values: due_date_days, admin_notification_email, bank_account, iban, cancelled_lessons_display.
 	 */
 	public static function save( array $data ): void {
 		update_option( self::OPTION_DUE_DATE_DAYS, (int) ( $data['due_date_days'] ?? self::DEFAULT_DUE_DATE_DAYS ) );
 		update_option( self::OPTION_ADMIN_NOTIFICATION_EMAIL, trim( (string) ( $data['admin_notification_email'] ?? '' ) ) );
 		update_option( self::OPTION_BANK_ACCOUNT, trim( (string) ( $data['bank_account'] ?? '' ) ) );
+		// Stored already normalized (no spaces, upper-case) — every reader
+		// (`iban()`, `Spayd_Builder::normalize_iban()` again defensively)
+		// then never has to reformat a human-pasted "CZ65 0800 ..." value.
+		update_option( self::OPTION_IBAN, Iban_Validator::normalize( trim( (string) ( $data['iban'] ?? '' ) ) ) );
 		update_option( self::OPTION_CANCELLED_LESSONS_DISPLAY, trim( (string) ( $data['cancelled_lessons_display'] ?? self::CANCELLED_LESSONS_STRIKETHROUGH ) ) );
 	}
 }

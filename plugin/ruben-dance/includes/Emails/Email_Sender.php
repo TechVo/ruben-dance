@@ -95,12 +95,27 @@ class Email_Sender {
 	 * @param array<string, string|null> $placeholders  Placeholder token => value.
 	 * @param int|null                   $enrollment_id Related enrollment ID, or null (e.g. E1 has none yet).
 	 * @param int|null                   $user_id       Related WP user ID, or null.
+	 * @param callable|null              $augment_body  Optional `function( string $html_body ): array{body: string, inline_images: array}`,
+	 *                                                  run on the composed body before sending (spec F16/M14: appending the
+	 *                                                  QR-platba image to E2/E7 without `Email_Templates`' admin-editable
+	 *                                                  template text ever needing to know QR/SPAYD exists — see
+	 *                                                  `Emails\Payment_Qr_Email::augmenter()`). Null (the default) for every
+	 *                                                  other email type.
 	 * @return bool True if `wp_mail()` reported success.
 	 */
-	public function send( string $type, string $lang, string $to, array $placeholders, ?int $enrollment_id, ?int $user_id ): bool {
+	public function send( string $type, string $lang, string $to, array $placeholders, ?int $enrollment_id, ?int $user_id, ?callable $augment_body = null ): bool {
 		$content = Email_Templates::compose( $type, $lang, $placeholders );
 
-		$sent = $this->mailer->send( $to, $content['subject'], $content['body'] );
+		$inline_images = array();
+
+		if ( null !== $augment_body ) {
+			$augmented = $augment_body( $content['body'] );
+
+			$content['body'] = $augmented['body'];
+			$inline_images   = $augmented['inline_images'];
+		}
+
+		$sent = $this->mailer->send( $to, $content['subject'], $content['body'], $inline_images );
 
 		( $this->log_email )(
 			array(

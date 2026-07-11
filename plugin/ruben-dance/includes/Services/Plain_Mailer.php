@@ -26,12 +26,21 @@ class Plain_Mailer implements Mailer {
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @param string $to      Recipient email address.
-	 * @param string $subject Already-localized subject line.
-	 * @param string $body    Already-localized plain-text body.
+	 * `$inline_images` is accepted (to satisfy the `Mailer` interface) but
+	 * always ignored — a plain-text body has no `cid:` reference to attach
+	 * them for, and none of this class's callers (E1 verification, the
+	 * email-change confirmation) are one of the payment-instruction types
+	 * that ever carries a QR code.
+	 *
+	 * @param string                                                     $to            Recipient email address.
+	 * @param string                                                     $subject       Already-localized subject line.
+	 * @param string                                                     $body          Already-localized plain-text body.
+	 * @param array<int, array{cid: string, data: string, mime: string}> $inline_images Unused, see above.
 	 * @return bool
 	 */
-	public function send( string $to, string $subject, string $body ): bool {
+	public function send( string $to, string $subject, string $body, array $inline_images = array() ): bool {
+		unset( $inline_images );
+
 		return wp_mail( $to, $subject, $body, array( 'Content-Type: text/plain; charset=UTF-8' ) );
 	}
 }

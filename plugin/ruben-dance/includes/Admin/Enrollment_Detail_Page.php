@@ -14,6 +14,7 @@ namespace RubenDance\Admin;
 use RubenDance\Emails\Email_Sender;
 use RubenDance\Emails\Email_Templates;
 use RubenDance\Emails\Enrollment_Email_Data;
+use RubenDance\Emails\Payment_Qr_Email;
 use RubenDance\Repositories\Course_Term_Repository;
 use RubenDance\Repositories\Email_Log_Repository;
 use RubenDance\Repositories\Enrollment_Repository;
@@ -382,7 +383,8 @@ class Enrollment_Detail_Page {
 			$user->user_email,
 			Enrollment_Email_Data::placeholders( $enrollment, $term, $user, $lang ),
 			$enrollment_id,
-			$user->ID
+			$user->ID,
+			Payment_Qr_Email::augmenter( $enrollment, $term, $lang )
 		);
 
 		self::redirect( $enrollment_id, $sent ? 'reminder_sent' : 'reminder_failed' );

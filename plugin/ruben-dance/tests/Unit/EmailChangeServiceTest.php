@@ -44,12 +44,15 @@ class EmailChangeServiceTest extends TestCase {
 			/**
 			 * {@inheritDoc}
 			 *
-			 * @param string $to      Recipient.
-			 * @param string $subject Subject.
-			 * @param string $body    Body.
+			 * @param string               $to            Recipient.
+			 * @param string               $subject       Subject.
+			 * @param string               $body          Body.
+			 * @param array<int, mixed>    $inline_images Unused by this fake.
 			 * @return bool
 			 */
-			public function send( string $to, string $subject, string $body ): bool {
+			public function send( string $to, string $subject, string $body, array $inline_images = array() ): bool {
+				unset( $inline_images );
+
 				$this->sent[] = array(
 					'to'      => $to,
 					'subject' => $subject,

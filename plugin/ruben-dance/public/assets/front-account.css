@@ -49,6 +49,16 @@
 	background: #646970;
 }
 
+.rd-account-qr-payment {
+	text-align: center;
+	margin-top: 1em;
+}
+
+.rd-account-qr-payment img {
+	max-width: 100%;
+	height: auto;
+}
+
 .rd-account-schedule-table {
 	width: 100%;
 	border-collapse: collapse;

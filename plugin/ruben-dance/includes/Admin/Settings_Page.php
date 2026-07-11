@@ -99,6 +99,7 @@ class Settings_Page {
 			'due_date_days'             => isset( $_POST['due_date_days'] ) ? sanitize_text_field( wp_unslash( $_POST['due_date_days'] ) ) : '',
 			'admin_notification_email'  => isset( $_POST['admin_notification_email'] ) ? sanitize_text_field( wp_unslash( $_POST['admin_notification_email'] ) ) : '',
 			'bank_account'              => isset( $_POST['bank_account'] ) ? sanitize_text_field( wp_unslash( $_POST['bank_account'] ) ) : '',
+			'iban'                      => isset( $_POST['iban'] ) ? sanitize_text_field( wp_unslash( $_POST['iban'] ) ) : '',
 			'cancelled_lessons_display' => isset( $_POST['cancelled_lessons_display'] ) ? sanitize_text_field( wp_unslash( $_POST['cancelled_lessons_display'] ) ) : '',
 		);
 
@@ -152,6 +153,7 @@ class Settings_Page {
 				'due_date_days'             => (string) Settings::due_date_days(),
 				'admin_notification_email'  => Settings::admin_notification_email(),
 				'bank_account'              => Settings::bank_account(),
+				'iban'                      => Settings::iban(),
 				'cancelled_lessons_display' => Settings::cancelled_lessons_display(),
 			),
 			array()
@@ -188,6 +190,10 @@ class Settings_Page {
 		echo '<tr><th scope="row"><label for="rd_bank_account">' . esc_html__( 'Bank account number', 'ruben-dance' ) . '</label></th><td>';
 		echo '<input type="text" id="rd_bank_account" name="bank_account" class="regular-text" value="' . esc_attr( $submitted['bank_account'] ) . '">';
 		echo '<p class="description">' . esc_html__( 'Shown in payment instructions on the enrollment confirmation page and email.', 'ruben-dance' ) . '</p></td></tr>';
+
+		echo '<tr><th scope="row"><label for="rd_iban">' . esc_html__( 'IBAN (for QR payment codes)', 'ruben-dance' ) . '</label></th><td>';
+		echo '<input type="text" id="rd_iban" name="iban" class="regular-text" value="' . esc_attr( $submitted['iban'] ) . '">';
+		echo '<p class="description">' . esc_html__( 'Enables the scannable QR platba code on payment instructions (emails and My account). Leave blank to keep payment instructions text-only.', 'ruben-dance' ) . '</p></td></tr>';
 
 		echo '<tr><th scope="row"><label for="rd_cancelled_lessons_display">' . esc_html__( 'Cancelled lessons on the public calendar', 'ruben-dance' ) . '</label></th><td>';
 		echo '<select id="rd_cancelled_lessons_display" name="cancelled_lessons_display">';
@@ -251,6 +257,9 @@ class Settings_Page {
 
 			case Settings::ERROR_CANCELLED_LESSONS_DISPLAY_INVALID:
 				return __( 'Invalid cancelled-lessons display option.', 'ruben-dance' );
+
+			case Settings::ERROR_IBAN_INVALID:
+				return __( 'IBAN is not valid — please check the account number and country code.', 'ruben-dance' );
 
 			default:
 				return __( 'Invalid input.', 'ruben-dance' );
