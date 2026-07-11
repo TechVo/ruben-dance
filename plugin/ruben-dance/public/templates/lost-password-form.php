@@ -39,7 +39,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	<?php elseif ( 'reset' === $state ) : ?>
 		<?php if ( array() !== $errors ) : ?>
-			<div class="rd-notice rd-notice--error">
+			<div class="rd-notice rd-notice--error" role="alert" tabindex="-1" id="rd-reset-password-errors">
 				<p>
 					<?php
 					echo esc_html(
@@ -50,6 +50,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					?>
 				</p>
 			</div>
+			<script>document.getElementById( 'rd-reset-password-errors' ).focus();</script>
 		<?php endif; ?>
 
 		<form method="post" class="rd-auth-form">
@@ -60,7 +61,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 			<p>
 				<label for="rd-reset-password"><?php esc_html_e( 'New password', 'ruben-dance' ); ?></label><br>
-				<input type="password" id="rd-reset-password" name="password" required="required" minlength="8" autocomplete="new-password">
+				<input type="password" id="rd-reset-password" name="password" required="required" minlength="8" autocomplete="new-password" <?php echo isset( $errors['password'] ) ? 'aria-invalid="true" aria-describedby="rd-reset-password-errors"' : ''; ?>>
 			</p>
 
 			<p><button type="submit"><?php esc_html_e( 'Set new password', 'ruben-dance' ); ?></button></p>

@@ -113,6 +113,45 @@ lands in spam. Configure the transport at the WordPress level (API keys in
 editable under **Ruben Dance → Email Templates**) use it automatically;
 every send is recorded under **Ruben Dance → Email Log**.
 
+## Production deployment
+
+Everything that stands between "all 16 milestones done locally" and a live
+site is a **human action** — hosting purchase, staging setup, security
+hardening, legal texts, an owner acceptance run. The complete, step-by-step
+list (with the exact spec references and evidence requirements) lives in
+**[`docs/launch-checklist.md`](docs/launch-checklist.md)** — launch is a
+DNS/site switch only after every box there is checked.
+
+The short version:
+
+- **Hosting:** wordpress.com **Business** plan (custom plugins require it;
+  owners must approve the cost). Deploy **only** `plugin/ruben-dance/` via
+  wordpress.com's GitHub deployments, with `composer install --no-dev` as a
+  build step — the repo root (wp-env config, mail catcher, docs) is a dev
+  harness and must never ship.
+- **Staging first:** the full enroll→pay loop, a backup restore, and the
+  owner acceptance run all happen on the Business plan's staging site before
+  DNS moves.
+- **Configuration:** SMTP transport, real bank account + IBAN, due-date days,
+  admin notification address — all under **Ruben Dance → Settings** (no
+  `wp-config.php` secrets needed by the plugin itself).
+- **Translations:** `languages/ruben-dance-cs_CZ.po/.mo` ship with the plugin
+  (English source strings, complete Czech translation). After changing any
+  translatable string, regenerate with WP-CLI inside wp-env:
+  ```bash
+  npx wp-env run cli wp i18n make-pot /var/www/html/wp-content/plugins/ruben-dance \
+      /var/www/html/wp-content/plugins/ruben-dance/languages/ruben-dance.pot \
+      --domain=ruben-dance --exclude=vendor,tests
+  # update ruben-dance-cs_CZ.po with the new strings, then:
+  npx wp-env run cli wp i18n make-mo \
+      /var/www/html/wp-content/plugins/ruben-dance/languages/ruben-dance-cs_CZ.po \
+      /var/www/html/wp-content/plugins/ruben-dance/languages/
+  ```
+  Eight strings are deliberately left untranslated in the `.po` (msgstr `""`):
+  the §6.3 enroll-button pair and the email-composer CS/EN pairs that the code
+  already branches by language explicitly — translating them would double-
+  translate.
+
 ## Troubleshooting
 
 - **Plugin activation notices:** check the WordPress debug log inside the

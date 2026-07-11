@@ -39,13 +39,14 @@ $ruben_dance_role_labels = array(
 	<?php endif; ?>
 
 	<?php if ( array() !== $errors ) : ?>
-		<div class="rd-notice rd-notice--error">
+		<div class="rd-notice rd-notice--error" role="alert" tabindex="-1" id="rd-enroll-errors">
 			<ul>
 				<?php foreach ( $errors as $ruben_dance_error_code ) : ?>
 					<li><?php echo esc_html( Enroll_Page::error_message( $ruben_dance_error_code ) ); ?></li>
 				<?php endforeach; ?>
 			</ul>
 		</div>
+		<script>document.getElementById( 'rd-enroll-errors' ).focus();</script>
 	<?php endif; ?>
 
 	<?php if ( $is_full ) : ?>
@@ -68,24 +69,33 @@ $ruben_dance_role_labels = array(
 			</p>
 			<p id="rd-enroll-participant-name-row">
 				<label for="rd-enroll-participant-name"><?php esc_html_e( 'Participant name', 'ruben-dance' ); ?></label><br>
-				<input type="text" id="rd-enroll-participant-name" name="participant_name" value="<?php echo esc_attr( (string) ( $submitted['participant_name'] ?? '' ) ); ?>">
+				<input type="text" id="rd-enroll-participant-name" name="participant_name" value="<?php echo esc_attr( (string) ( $submitted['participant_name'] ?? '' ) ); ?>" <?php echo isset( $errors['participant_name'] ) ? 'aria-invalid="true"' : ''; ?> aria-describedby="rd-enroll-participant-name-error">
+				<span id="rd-enroll-participant-name-error" class="rd-field-error">
+					<?php echo isset( $errors['participant_name'] ) ? esc_html( Enroll_Page::error_message( $errors['participant_name'] ) ) : ''; ?>
+				</span>
 			</p>
 		</fieldset>
 
 		<?php if ( $roles_relevant ) : ?>
 			<p>
 				<label for="rd-enroll-role"><?php esc_html_e( 'Role', 'ruben-dance' ); ?></label><br>
-				<select id="rd-enroll-role" name="role">
+				<select id="rd-enroll-role" name="role" <?php echo isset( $errors['role'] ) ? 'aria-invalid="true"' : ''; ?> aria-describedby="rd-enroll-role-error">
 					<?php foreach ( $roles as $ruben_dance_role ) : ?>
 						<option value="<?php echo esc_attr( $ruben_dance_role ); ?>" <?php selected( $ruben_dance_role_value, $ruben_dance_role ); ?>><?php echo esc_html( $ruben_dance_role_labels[ $ruben_dance_role ] ?? $ruben_dance_role ); ?></option>
 					<?php endforeach; ?>
 				</select>
+				<span id="rd-enroll-role-error" class="rd-field-error">
+					<?php echo isset( $errors['role'] ) ? esc_html( Enroll_Page::error_message( $errors['role'] ) ) : ''; ?>
+				</span>
 			</p>
 		<?php endif; ?>
 
 		<p>
 			<label for="rd-enroll-partner-name"><?php esc_html_e( 'Partner name (optional — enrolling as a pair may unlock a discount)', 'ruben-dance' ); ?></label><br>
-			<input type="text" id="rd-enroll-partner-name" name="partner_name" value="<?php echo esc_attr( (string) ( $submitted['partner_name'] ?? '' ) ); ?>">
+			<input type="text" id="rd-enroll-partner-name" name="partner_name" value="<?php echo esc_attr( (string) ( $submitted['partner_name'] ?? '' ) ); ?>" <?php echo isset( $errors['partner_name'] ) ? 'aria-invalid="true"' : ''; ?> aria-describedby="rd-enroll-partner-name-error">
+			<span id="rd-enroll-partner-name-error" class="rd-field-error">
+				<?php echo isset( $errors['partner_name'] ) ? esc_html( Enroll_Page::error_message( $errors['partner_name'] ) ) : ''; ?>
+			</span>
 		</p>
 
 		<p>
@@ -103,8 +113,8 @@ $ruben_dance_role_labels = array(
 		</p>
 
 		<p>
-			<label>
-				<input type="checkbox" name="tc_accepted" value="1" required="required" <?php checked( ! empty( $submitted['tc_accepted'] ) ); ?>>
+			<label for="rd-enroll-tc">
+				<input type="checkbox" id="rd-enroll-tc" name="tc_accepted" value="1" required="required" <?php checked( ! empty( $submitted['tc_accepted'] ) ); ?> <?php echo isset( $errors['tc_accepted'] ) ? 'aria-invalid="true"' : ''; ?> aria-describedby="rd-enroll-tc-error">
 				<?php if ( '' !== $terms_url ) : ?>
 					<?php
 					printf(
@@ -118,6 +128,9 @@ $ruben_dance_role_labels = array(
 				<?php endif; ?>
 				<span class="required">*</span>
 			</label>
+			<span id="rd-enroll-tc-error" class="rd-field-error">
+				<?php echo isset( $errors['tc_accepted'] ) ? esc_html( Enroll_Page::error_message( $errors['tc_accepted'] ) ) : ''; ?>
+			</span>
 			<br>
 			<small>
 				<?php if ( '' !== $privacy_policy_url ) : ?>

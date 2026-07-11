@@ -45,11 +45,22 @@ class Email_Templates {
 	const TYPE_E7 = 'E7'; // Payment reminder (customer).
 
 	/**
+	 * Voucher inquiry: admin notification (always CS, mirrors E3). Not part
+	 * of the spec's F14/E1-E7 table — added by M16/F17 for the new
+	 * `[rd_voucher_inquiry]` form, the same "goes through Email_Sender with a
+	 * new type code" extension the milestone calls for, so this send is
+	 * logged and admin-editable exactly like every other outgoing email.
+	 *
+	 * @var string
+	 */
+	const TYPE_E8 = 'E8'; // Voucher inquiry: admin notification.
+
+	/**
 	 * Every template type, in spec table order.
 	 *
 	 * @var string[]
 	 */
-	const TYPES = array( self::TYPE_E1, self::TYPE_E2, self::TYPE_E3, self::TYPE_E4, self::TYPE_E5, self::TYPE_E6, self::TYPE_E7 );
+	const TYPES = array( self::TYPE_E1, self::TYPE_E2, self::TYPE_E3, self::TYPE_E4, self::TYPE_E5, self::TYPE_E6, self::TYPE_E7, self::TYPE_E8 );
 
 	/**
 	 * Every language a template set exists for (spec §5 Multilingual: "one
@@ -142,6 +153,7 @@ class Email_Templates {
 			self::TYPE_E5 => __( 'E5 — Lesson cancelled/moved', 'ruben-dance' ),
 			self::TYPE_E6 => __( 'E6 — Enrollment cancelled', 'ruben-dance' ),
 			self::TYPE_E7 => __( 'E7 — Payment reminder', 'ruben-dance' ),
+			self::TYPE_E8 => __( 'E8 — Voucher inquiry (admin notification)', 'ruben-dance' ),
 		);
 	}
 
@@ -215,6 +227,13 @@ class Email_Templates {
 					'account_number'  => __( 'Bank account number', 'ruben-dance' ),
 					'variable_symbol' => __( 'Variable symbol', 'ruben-dance' ),
 					'due_date'        => __( 'Payment due date', 'ruben-dance' ),
+				);
+
+			case self::TYPE_E8:
+				return array(
+					'name'    => __( "Inquirer's name", 'ruben-dance' ),
+					'email'   => __( "Inquirer's email address", 'ruben-dance' ),
+					'message' => __( 'Inquiry message', 'ruben-dance' ),
 				);
 
 			default:
@@ -312,6 +331,14 @@ class Email_Templates {
 						'subject' => 'Připomínka platby — Ruben Dance',
 						'body'    => '<p>Ahoj {first_name},</p><p>Připomínáme, že jsme od vás ještě neobdrželi platbu.</p><p>Kurz: {course}<br>Částka: {price}<br>Číslo účtu: {account_number}<br>Variabilní symbol: {variable_symbol}<br>Splatnost: {due_date}</p><p>Platbu prosím odešlete co nejdříve.</p>',
 					);
+
+			case self::TYPE_E8:
+				// Always sent in Czech (mirrors E3: "admin notifications
+				// always CS" — see the TYPE_E8 constant docblock).
+				return array(
+					'subject' => 'Dotaz na voucher',
+					'body'    => '<p>Nový dotaz na dárkový voucher.</p><p>Jméno: {name}<br>Email: {email}<br>Zpráva: {message}</p>',
+				);
 
 			default:
 				return array(

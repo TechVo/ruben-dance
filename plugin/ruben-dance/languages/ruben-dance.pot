@@ -1,0 +1,2869 @@
+# Copyright (C) 2026 Ruben Dance
+# This file is distributed under the GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ruben Dance 0.1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/ruben-dance\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-07-11T18:40:03+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: ruben-dance\n"
+
+#. Plugin Name of the plugin
+#. Author of the plugin
+#: ruben-dance.php
+#: includes/Admin/Menu.php:45
+#: includes/Admin/Menu.php:46
+#: includes/Admin/Menu.php:62
+msgid "Ruben Dance"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: ruben-dance.php
+msgid "https://ruben-dance.cz/"
+msgstr ""
+
+#. Description of the plugin
+#: ruben-dance.php
+msgid "Custom reservation system for Ruben Dance courses, terms, lessons and enrollments."
+msgstr ""
+
+#: includes/Admin/Customers_List_Table.php:64
+#: includes/Admin/Customer_Detail_Page.php:119
+#: includes/Admin/Lesson_Notify_Page.php:394
+#: includes/Admin/Locations_List_Table.php:51
+#: includes/Admin/Locations_Page.php:396
+#: includes/Admin/Manual_Enrollment_Page.php:378
+#: public/templates/voucher-form.php:44
+msgid "Name"
+msgstr ""
+
+#: includes/Admin/Customers_List_Table.php:65
+#: includes/Admin/Customer_Detail_Page.php:120
+#: includes/Admin/Lesson_Notify_Page.php:395
+#: includes/Admin/Manual_Enrollment_Page.php:378
+#: includes/Admin/Manual_Enrollment_Page.php:438
+#: includes/Compliance/Personal_Data.php:266
+#: public/templates/login-form.php:39
+#: public/templates/lost-password-form.php:76
+#: public/templates/register-form.php:58
+#: public/templates/voucher-form.php:52
+msgid "Email"
+msgstr ""
+
+#: includes/Admin/Customers_List_Table.php:66
+#: includes/Admin/Customer_Detail_Page.php:123
+#: includes/Admin/Manual_Enrollment_Page.php:439
+#: includes/Compliance/Personal_Data.php:270
+#: public/templates/account-profile.php:94
+#: public/templates/register-form.php:66
+msgid "Phone"
+msgstr ""
+
+#: includes/Admin/Customers_List_Table.php:67
+msgid "Locale"
+msgstr ""
+
+#: includes/Admin/Customers_List_Table.php:68
+#: includes/Admin/Customer_Detail_Page.php:144
+#: includes/Compliance/Personal_Data.php:286
+msgid "Marketing consent"
+msgstr ""
+
+#: includes/Admin/Customers_List_Table.php:93
+#: includes/Admin/Enrollments_List_Table.php:183
+#: includes/Admin/Roster_List_Table.php:144
+msgid "View details"
+msgstr ""
+
+#: includes/Admin/Customers_List_Table.php:120
+#: includes/Admin/Customer_Detail_Page.php:126
+#: includes/Admin/Email_Templates_Page.php:196
+#: includes/Admin/Lesson_Notify_Page.php:403
+#: public/templates/account-profile.php:104
+msgid "English"
+msgstr ""
+
+#: includes/Admin/Customers_List_Table.php:120
+#: includes/Admin/Customer_Detail_Page.php:126
+#: includes/Admin/Email_Templates_Page.php:196
+#: includes/Admin/Lesson_Notify_Page.php:403
+#: public/templates/account-profile.php:103
+msgid "Czech"
+msgstr ""
+
+#: includes/Admin/Customers_List_Table.php:124
+#: includes/Admin/Customer_Detail_Page.php:129
+#: includes/Admin/Customer_Detail_Page.php:134
+#: includes/Admin/Enrollment_Detail_Page.php:499
+#: includes/Admin/Roster_Page.php:623
+#: includes/Compliance/Personal_Data.php:288
+msgid "Yes"
+msgstr ""
+
+#: includes/Admin/Customers_List_Table.php:125
+#: includes/Admin/Customer_Detail_Page.php:129
+#: includes/Admin/Customer_Detail_Page.php:134
+#: includes/Admin/Enrollment_Detail_Page.php:499
+#: includes/Admin/Roster_Page.php:629
+#: includes/Compliance/Personal_Data.php:289
+msgid "No"
+msgstr ""
+
+#: includes/Admin/Customers_List_Table.php:136
+msgid "No customers found."
+msgstr ""
+
+#: includes/Admin/Customers_Page.php:45
+#: includes/Admin/Customers_Page.php:46
+#: includes/Admin/Customers_Page.php:97
+msgid "Customers"
+msgstr ""
+
+#: includes/Admin/Customers_Page.php:68
+#: includes/Admin/Customer_Detail_Page.php:82
+msgid "You do not have permission to view customers."
+msgstr ""
+
+#: includes/Admin/Customers_Page.php:102
+#: includes/Admin/Manual_Enrollment_Page.php:358
+msgid "Search name or email…"
+msgstr ""
+
+#: includes/Admin/Customers_Page.php:103
+#: includes/Admin/Email_Log_Page.php:98
+#: includes/Admin/Manual_Enrollment_Page.php:359
+msgid "Search"
+msgstr ""
+
+#: includes/Admin/Customer_Detail_Page.php:52
+#: includes/Admin/Customer_Detail_Page.php:53
+#: includes/Admin/Customer_Detail_Page.php:93
+#: includes/Admin/Manual_Enrollment_Page.php:428
+msgid "Customer"
+msgstr ""
+
+#: includes/Admin/Customer_Detail_Page.php:96
+#: includes/Admin/Manual_Enrollment_Page.php:324
+msgid "Customer not found."
+msgstr ""
+
+#: includes/Admin/Customer_Detail_Page.php:97
+#: includes/Admin/Customer_Detail_Page.php:105
+msgid "Back to customers"
+msgstr ""
+
+#: includes/Admin/Customer_Detail_Page.php:116
+#: includes/Admin/Enrollments_List_Table.php:105
+#: includes/Admin/Roster_List_Table.php:94
+#: includes/Admin/Roster_Page.php:560
+msgid "Contact"
+msgstr ""
+
+#: includes/Admin/Customer_Detail_Page.php:126
+#: includes/Compliance/Personal_Data.php:274
+#: public/templates/account-profile.php:101
+msgid "Preferred language"
+msgstr ""
+
+#: includes/Admin/Customer_Detail_Page.php:129
+msgid "Email verified"
+msgstr ""
+
+#. translators: %s: date/time the consent status last changed.
+#: includes/Admin/Customer_Detail_Page.php:139
+#, php-format
+msgid "since %s"
+msgstr ""
+
+#: includes/Admin/Customer_Detail_Page.php:162
+msgid "Enrollment history"
+msgstr ""
+
+#: includes/Admin/Customer_Detail_Page.php:165
+msgid "No enrollments yet."
+msgstr ""
+
+#: includes/Admin/Customer_Detail_Page.php:176
+#: includes/Admin/Enrollments_List_Table.php:103
+#: includes/Admin/Enrollment_Detail_Page.php:465
+#: includes/Admin/Lesson_Notify_Page.php:365
+#: includes/Admin/Manual_Enrollment_Page.php:448
+msgid "Term"
+msgstr ""
+
+#: includes/Admin/Customer_Detail_Page.php:177
+#: includes/Admin/Enrollments_List_Table.php:104
+#: includes/Admin/Enrollment_Detail_Page.php:476
+#: includes/Admin/Roster_List_Table.php:93
+#: includes/Admin/Roster_Page.php:559
+#: includes/Compliance/Personal_Data.php:307
+msgid "Participant"
+msgstr ""
+
+#: includes/Admin/Customer_Detail_Page.php:178
+#: includes/Admin/Enrollments_List_Table.php:107
+#: includes/Admin/Enrollment_Detail_Page.php:539
+#: includes/Admin/Roster_List_Table.php:96
+#: includes/Admin/Terms_List_Table.php:78
+#: includes/Compliance/Personal_Data.php:323
+msgid "Price"
+msgstr ""
+
+#: includes/Admin/Customer_Detail_Page.php:179
+#: includes/Admin/Email_Log_Page.php:126
+#: includes/Admin/Enrollments_List_Table.php:108
+#: includes/Admin/Enrollment_Detail_Page.php:498
+#: includes/Admin/Enrollment_Detail_Page.php:596
+#: includes/Admin/Locations_List_Table.php:53
+#: includes/Admin/Roster_Page.php:154
+#: includes/Admin/Terms_List_Table.php:79
+#: includes/Admin/Terms_Page.php:582
+#: includes/Admin/Term_Lessons_List_Table.php:61
+#: includes/Admin/Term_Lessons_Page.php:307
+#: includes/Compliance/Personal_Data.php:319
+#: includes/Compliance/Personal_Data.php:371
+#: public/templates/account-schedule.php:26
+#: public/templates/calendar.php:64
+msgid "Status"
+msgstr ""
+
+#: includes/Admin/Customer_Detail_Page.php:180
+msgid "Links"
+msgstr ""
+
+#: includes/Admin/Customer_Detail_Page.php:189
+#: includes/Admin/Enrollments_List_Table.php:146
+#: includes/Admin/Enrollment_Detail_Page.php:466
+msgid "(term no longer exists)"
+msgstr ""
+
+#: includes/Admin/Customer_Detail_Page.php:194
+#: includes/Admin/Enrollment_Detail_Page.php:476
+msgid "(account holder)"
+msgstr ""
+
+#: includes/Admin/Customer_Detail_Page.php:200
+#: includes/Admin/Email_Log_Page.php:127
+#: includes/Admin/Enrollment_Detail_Page.php:80
+#: includes/Admin/Enrollment_Detail_Page.php:81
+#: includes/Admin/Manual_Enrollment_Page.php:445
+msgid "Enrollment"
+msgstr ""
+
+#: includes/Admin/Customer_Detail_Page.php:203
+#: includes/Admin/Roster_Page.php:53
+#: includes/Admin/Roster_Page.php:54
+msgid "Roster"
+msgstr ""
+
+#: includes/Admin/Customer_Detail_Page.php:222
+#: includes/Admin/Enrollments_List_Table.php:318
+#: includes/Admin/Enrollments_Page.php:193
+#: includes/Admin/Enrollment_Detail_Page.php:848
+#: includes/Admin/Roster_List_Table.php:97
+#: includes/Admin/Roster_Page.php:562
+#: includes/Front/Account_Page.php:359
+msgid "Paid"
+msgstr ""
+
+#: includes/Admin/Customer_Detail_Page.php:225
+#: includes/Admin/Enrollments_List_Table.php:321
+#: includes/Admin/Enrollments_Page.php:194
+#: includes/Admin/Enrollment_Detail_Page.php:851
+#: includes/Admin/Lesson_Notify_Page.php:362
+#: includes/Admin/Roster_List_Table.php:163
+#: includes/Admin/Roster_Page.php:626
+#: includes/Admin/Terms_List_Table.php:257
+#: includes/Admin/Terms_Page.php:587
+#: includes/Admin/Term_Lessons_List_Table.php:137
+#: includes/Admin/Term_Lessons_Page.php:311
+#: includes/Front/Account_Page.php:362
+#: includes/Front/Calendar_Page.php:174
+#: public/templates/account-schedule.php:38
+#: public/templates/calendar.php:82
+msgid "Cancelled"
+msgstr ""
+
+#: includes/Admin/Customer_Detail_Page.php:228
+#: includes/Admin/Enrollments_List_Table.php:326
+#: includes/Admin/Enrollments_Page.php:192
+msgid "Unpaid"
+msgstr ""
+
+#: includes/Admin/Email_Log_Page.php:52
+#: includes/Admin/Email_Log_Page.php:53
+#: includes/Admin/Email_Log_Page.php:92
+msgid "Email Log"
+msgstr ""
+
+#: includes/Admin/Email_Log_Page.php:75
+msgid "You do not have permission to view the email log."
+msgstr ""
+
+#: includes/Admin/Email_Log_Page.php:93
+msgid "Every email the plugin sent (or failed to send). Only metadata and the subject are stored — never full bodies (GDPR §6.1)."
+msgstr ""
+
+#: includes/Admin/Email_Log_Page.php:97
+msgid "Search recipient, subject or type…"
+msgstr ""
+
+#: includes/Admin/Email_Log_Page.php:102
+msgid "No log entries match."
+msgstr ""
+
+#: includes/Admin/Email_Log_Page.php:122
+#: includes/Admin/Email_Log_Page.php:142
+#: includes/Admin/Enrollment_Detail_Page.php:592
+msgid "Sent"
+msgstr ""
+
+#: includes/Admin/Email_Log_Page.php:123
+#: includes/Admin/Enrollment_Detail_Page.php:593
+#: includes/Admin/Terms_Page.php:550
+#: includes/Compliance/Personal_Data.php:359
+msgid "Type"
+msgstr ""
+
+#: includes/Admin/Email_Log_Page.php:124
+#: includes/Admin/Enrollment_Detail_Page.php:594
+msgid "Recipient"
+msgstr ""
+
+#: includes/Admin/Email_Log_Page.php:125
+#: includes/Admin/Email_Templates_Page.php:228
+#: includes/Admin/Enrollment_Detail_Page.php:595
+#: includes/Compliance/Personal_Data.php:363
+msgid "Subject"
+msgstr ""
+
+#: includes/Admin/Email_Log_Page.php:140
+msgid "Failed"
+msgstr ""
+
+#: includes/Admin/Email_Log_Page.php:183
+msgid "Previous"
+msgstr ""
+
+#. translators: 1: current page, 2: total pages, 3: total rows.
+#: includes/Admin/Email_Log_Page.php:191
+#, php-format
+msgid "Page %1$d of %2$d (%3$d entries)"
+msgstr ""
+
+#: includes/Admin/Email_Log_Page.php:201
+msgid "Next"
+msgstr ""
+
+#: includes/Admin/Email_Templates_Page.php:54
+#: includes/Admin/Email_Templates_Page.php:55
+#: includes/Admin/Email_Templates_Page.php:160
+msgid "Email Templates"
+msgstr ""
+
+#: includes/Admin/Email_Templates_Page.php:91
+#: includes/Admin/Email_Templates_Page.php:145
+msgid "You do not have permission to manage email templates."
+msgstr ""
+
+#: includes/Admin/Email_Templates_Page.php:208
+msgid "Note: the E3 admin notification is always sent in Czech (spec F14); the English variant here is never used."
+msgstr ""
+
+#: includes/Admin/Email_Templates_Page.php:231
+msgid "Body (HTML)"
+msgstr ""
+
+#: includes/Admin/Email_Templates_Page.php:233
+msgid "Sent as HTML. Placeholder values are HTML-escaped automatically; unknown or empty placeholders are removed."
+msgstr ""
+
+#: includes/Admin/Email_Templates_Page.php:235
+msgid "Available placeholders"
+msgstr ""
+
+#: includes/Admin/Email_Templates_Page.php:247
+msgid "Save Template"
+msgstr ""
+
+#. translators: %s: current admin's email address.
+#: includes/Admin/Email_Templates_Page.php:251
+#, php-format
+msgid "Save & send test to me (%s)"
+msgstr ""
+
+#: includes/Admin/Email_Templates_Page.php:310
+msgid "Template saved. The next send of this type uses it."
+msgstr ""
+
+#: includes/Admin/Email_Templates_Page.php:311
+msgid "Template saved and test email sent to your address (also recorded in the email log)."
+msgstr ""
+
+#: includes/Admin/Email_Templates_Page.php:312
+msgid "Template saved, but the test email could not be sent (logged with status \"failed\") — check the site’s mail configuration."
+msgstr ""
+
+#: includes/Admin/Email_Templates_Page.php:313
+msgid "Unknown template type or language."
+msgstr ""
+
+#: includes/Admin/Enrollments_List_Table.php:106
+#: includes/Admin/Enrollment_Detail_Page.php:493
+#: includes/Admin/Enrollment_Detail_Page.php:652
+#: includes/Admin/Manual_Enrollment_Page.php:466
+#: includes/Admin/Roster_List_Table.php:95
+#: includes/Admin/Roster_Page.php:561
+#: includes/Compliance/Personal_Data.php:311
+#: public/templates/enroll-form.php:81
+msgid "Role"
+msgstr ""
+
+#: includes/Admin/Enrollments_List_Table.php:167
+#: includes/Admin/Roster_List_Table.php:124
+msgid "(unknown)"
+msgstr ""
+
+#. translators: %s: account holder's name.
+#: includes/Admin/Enrollments_List_Table.php:172
+#: includes/Admin/Roster_List_Table.php:129
+#, php-format
+msgid "account: %s"
+msgstr ""
+
+#: includes/Admin/Enrollments_List_Table.php:201
+#: includes/Admin/Enrollment_Detail_Page.php:499
+#: includes/Admin/Roster_List_Table.php:167
+msgid "Over capacity"
+msgstr ""
+
+#: includes/Admin/Enrollments_List_Table.php:205
+#: includes/Admin/Roster_List_Table.php:179
+#: includes/Admin/Term_Lessons_List_Table.php:62
+#: includes/Admin/Term_Lessons_Page.php:324
+msgid "Note"
+msgstr ""
+
+#: includes/Admin/Enrollments_List_Table.php:284
+#: includes/Admin/Enrollment_Detail_Page.php:656
+#: includes/Admin/Enrollment_Detail_Page.php:835
+#: includes/Admin/Manual_Enrollment_Page.php:470
+#: includes/Admin/Roster_List_Table.php:263
+#: includes/Admin/Roster_Page.php:610
+#: public/templates/enroll-form.php:27
+msgid "Solo"
+msgstr ""
+
+#: includes/Admin/Enrollments_List_Table.php:285
+#: includes/Admin/Enrollment_Detail_Page.php:657
+#: includes/Admin/Enrollment_Detail_Page.php:829
+#: includes/Admin/Manual_Enrollment_Page.php:471
+#: includes/Admin/Roster_List_Table.php:264
+#: includes/Admin/Roster_Page.php:604
+#: public/templates/enroll-form.php:28
+msgid "Leader"
+msgstr ""
+
+#: includes/Admin/Enrollments_List_Table.php:286
+#: includes/Admin/Enrollment_Detail_Page.php:658
+#: includes/Admin/Enrollment_Detail_Page.php:832
+#: includes/Admin/Manual_Enrollment_Page.php:472
+#: includes/Admin/Roster_List_Table.php:265
+#: includes/Admin/Roster_Page.php:607
+#: public/templates/enroll-form.php:29
+msgid "Follower"
+msgstr ""
+
+#. translators: %s: partner's name.
+#: includes/Admin/Enrollments_List_Table.php:296
+#: includes/Admin/Roster_List_Table.php:275
+#, php-format
+msgid "with %s"
+msgstr ""
+
+#: includes/Admin/Enrollments_List_Table.php:325
+msgid "Unpaid — overdue"
+msgstr ""
+
+#: includes/Admin/Enrollments_List_Table.php:334
+msgid "No enrollments match these filters."
+msgstr ""
+
+#: includes/Admin/Enrollments_Page.php:52
+#: includes/Admin/Enrollments_Page.php:53
+#: includes/Admin/Enrollments_Page.php:87
+msgid "Enrollments"
+msgstr ""
+
+#: includes/Admin/Enrollments_Page.php:77
+#: includes/Admin/Enrollment_Detail_Page.php:412
+msgid "You do not have permission to view enrollments."
+msgstr ""
+
+#: includes/Admin/Enrollments_Page.php:88
+#: includes/Admin/Manual_Enrollment_Page.php:82
+#: includes/Admin/Manual_Enrollment_Page.php:347
+#: includes/Admin/Manual_Enrollment_Page.php:409
+msgid "New Manual Enrollment"
+msgstr ""
+
+#: includes/Admin/Enrollments_Page.php:177
+msgid "All terms"
+msgstr ""
+
+#: includes/Admin/Enrollments_Page.php:191
+#: includes/Admin/Terms_Page.php:470
+msgid "All statuses"
+msgstr ""
+
+#: includes/Admin/Enrollments_Page.php:206
+msgid "Overdue only"
+msgstr ""
+
+#: includes/Admin/Enrollments_Page.php:207
+msgid "Over capacity only"
+msgstr ""
+
+#: includes/Admin/Enrollments_Page.php:209
+msgid "Search name, email or participant…"
+msgstr ""
+
+#: includes/Admin/Enrollments_Page.php:211
+#: includes/Admin/Terms_Page.php:503
+#: public/templates/catalog.php:47
+msgid "Filter"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:125
+msgid "You do not have permission to manage enrollments."
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:423
+msgid "Enrollment detail"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:426
+#: includes/Admin/Enrollment_Detail_Page.php:890
+#: includes/Admin/Roster_Ajax.php:183
+msgid "Enrollment not found."
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:427
+#: includes/Admin/Enrollment_Detail_Page.php:447
+msgid "Back to roster"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:448
+msgid "All enrollments"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:461
+msgid "Summary"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:486
+msgid "View customer detail"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:488
+#: includes/Admin/Enrollment_Detail_Page.php:490
+msgid "Account holder"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:490
+msgid "(account no longer exists)"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:496
+msgid "Partner"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:496
+#: includes/Admin/Enrollment_Detail_Page.php:567
+#: includes/Admin/Enrollment_Detail_Page.php:570
+msgid "—"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:500
+#: includes/Admin/Manual_Enrollment_Page.php:487
+msgid "Payment method"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:500
+#: includes/Admin/Manual_Enrollment_Page.php:492
+msgid "Cash"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:500
+#: includes/Admin/Manual_Enrollment_Page.php:491
+msgid "Bank transfer"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:501
+#: includes/Emails/Email_Templates.php:189
+#: includes/Emails/Email_Templates.php:200
+#: includes/Emails/Email_Templates.php:207
+#: includes/Emails/Email_Templates.php:228
+#: public/templates/account-enrollments.php:65
+#: public/templates/enroll-confirmation.php:47
+msgid "Variable symbol"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:502
+#: includes/Compliance/Personal_Data.php:327
+#: public/templates/account-enrollments.php:69
+#: public/templates/enroll-confirmation.php:51
+msgid "Due date"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:511
+#: includes/Admin/Enrollment_Detail_Page.php:521
+#: includes/Compliance/Personal_Data.php:331
+msgid "Paid at"
+msgstr ""
+
+#. translators: %s: admin display name.
+#: includes/Admin/Enrollment_Detail_Page.php:515
+#, php-format
+msgid "marked by %s"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:521
+msgid "Not paid"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:524
+msgid "Created"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:525
+msgid "Last updated"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:543
+msgid "Term list price"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:547
+msgid "Discount breakdown"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:547
+msgid "None"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:549
+msgid "Final price charged"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:563
+msgid "Notes"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:567
+msgid "Customer note"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:570
+msgid "Admin note"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:584
+#: includes/Compliance/Personal_Data.php:127
+msgid "Email history"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:587
+msgid "No emails logged for this enrollment yet."
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:625
+msgid "Actions"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:650
+msgid "Role / partner"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:670
+#: includes/Admin/Manual_Enrollment_Page.php:484
+#: includes/Compliance/Personal_Data.php:315
+msgid "Partner name"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:673
+msgid "Save role / partner"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:689
+msgid "Edit price"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:691
+msgid "New price (CZK)"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:694
+msgid "Reason (required)"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:695
+msgid "e.g. Goodwill discount agreed by phone"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:697
+msgid "Save price"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:716
+msgid "Move to another term"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:718
+msgid "Target term"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:720
+msgid "— select a term —"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:738
+msgid "Price and variable symbol travel unchanged; over-capacity is re-checked on the target term."
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:740
+msgid "Move"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:753
+msgid "Add admin note"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:755
+msgid "Internal note…"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:757
+msgid "Add note"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:775
+msgid "Send payment reminder"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:787
+msgid "Cancel this enrollment? This cannot be undone."
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:789
+msgid "Cancel enrollment"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:854
+msgid "Confirmed (unpaid)"
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:870
+msgid "Manual enrollment created. The customer received the confirmation email with payment instructions."
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:871
+msgid "Enrollment created, but an enrollment email could not be sent (logged as failed — see the Email Log)."
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:872
+msgid "Enrollment cancelled. The customer was notified by email."
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:873
+msgid "Enrollment cancelled, but the notification email could not be sent (logged as failed)."
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:874
+msgid "Could not cancel this enrollment — it may already be cancelled."
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:875
+msgid "Role/partner updated."
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:876
+msgid "Please check the role/partner fields."
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:877
+msgid "Price updated."
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:878
+msgid "Please enter a valid, non-negative price."
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:879
+msgid "A reason is required to change the price."
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:880
+msgid "Enrollment moved to the selected term."
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:881
+msgid "Please select a target term."
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:882
+msgid "Could not move this enrollment — the target term was not found, or it is already the current term."
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:883
+msgid "A cancelled enrollment cannot be moved."
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:884
+msgid "This account/participant already has an enrollment in the target term."
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:885
+msgid "Note added."
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:886
+msgid "Please enter a note."
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:887
+msgid "Payment reminder sent."
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:888
+msgid "The payment reminder could not be sent."
+msgstr ""
+
+#: includes/Admin/Enrollment_Detail_Page.php:889
+msgid "This enrollment is not currently unpaid — no reminder was sent."
+msgstr ""
+
+#: includes/Admin/Lesson_Notify_Page.php:72
+#: includes/Admin/Lesson_Notify_Page.php:73
+#: includes/Admin/Lesson_Notify_Page.php:203
+#: includes/Admin/Term_Lessons_Page.php:328
+msgid "Notify enrollees"
+msgstr ""
+
+#: includes/Admin/Lesson_Notify_Page.php:129
+#: includes/Admin/Lesson_Notify_Page.php:193
+msgid "You do not have permission to send notifications."
+msgstr ""
+
+#: includes/Admin/Lesson_Notify_Page.php:208
+msgid "Lesson not found, or its term no longer exists."
+msgstr ""
+
+#: includes/Admin/Lesson_Notify_Page.php:225
+msgid "This term has no active enrollees — there is nobody to notify."
+msgstr ""
+
+#: includes/Admin/Lesson_Notify_Page.php:226
+#: includes/Admin/Lesson_Notify_Page.php:480
+#: includes/Admin/Term_Lessons_Page.php:338
+msgid "Back to lessons"
+msgstr ""
+
+#. translators: %d: number of recipients.
+#: includes/Admin/Lesson_Notify_Page.php:241
+#, php-format
+msgid "Send to %d enrollee"
+msgid_plural "Send to %d enrollees"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/Admin/Lesson_Notify_Page.php:247
+msgid "Cancel — back to lessons (nothing sent)"
+msgstr ""
+
+#: includes/Admin/Lesson_Notify_Page.php:361
+#: includes/Admin/Term_Lessons_List_Table.php:140
+#: includes/Admin/Term_Lessons_Page.php:312
+#: public/templates/account-schedule.php:40
+#: public/templates/calendar.php:84
+msgid "Moved"
+msgstr ""
+
+#: includes/Admin/Lesson_Notify_Page.php:366
+msgid "Lesson date"
+msgstr ""
+
+#: includes/Admin/Lesson_Notify_Page.php:367
+msgid "Change"
+msgstr ""
+
+#: includes/Admin/Lesson_Notify_Page.php:372
+msgid "Note (included in the email)"
+msgstr ""
+
+#. translators: %d: number of recipients.
+#: includes/Admin/Lesson_Notify_Page.php:387
+#, php-format
+msgid "%d recipient"
+msgid_plural "%d recipients"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/Admin/Lesson_Notify_Page.php:391
+msgid "Active (unpaid or paid) enrollments of this term only; cancelled enrollments are excluded. One email per account holder."
+msgstr ""
+
+#: includes/Admin/Lesson_Notify_Page.php:396
+msgid "Language"
+msgstr ""
+
+#: includes/Admin/Lesson_Notify_Page.php:418
+msgid "Preview"
+msgstr ""
+
+#: includes/Admin/Lesson_Notify_Page.php:435
+msgid "English recipients"
+msgstr ""
+
+#: includes/Admin/Lesson_Notify_Page.php:435
+msgid "Czech recipients"
+msgstr ""
+
+#: includes/Admin/Lesson_Notify_Page.php:436
+msgid "Subject:"
+msgstr ""
+
+#: includes/Admin/Lesson_Notify_Page.php:440
+msgid "Each email is personalised per recipient ({first_name}); the preview shows the first recipient of each language."
+msgstr ""
+
+#. translators: 1: number sent, 2: number failed.
+#: includes/Admin/Lesson_Notify_Page.php:461
+#, php-format
+msgid "Sent %1$d notification(s); %2$d failed (logged with status \"failed\" — see the Email Log)."
+msgstr ""
+
+#. translators: %d: number sent.
+#: includes/Admin/Lesson_Notify_Page.php:473
+#, php-format
+msgid "Sent %d notification(s)."
+msgstr ""
+
+#: includes/Admin/Locations_List_Table.php:52
+#: includes/Admin/Locations_Page.php:399
+msgid "Address"
+msgstr ""
+
+#: includes/Admin/Locations_List_Table.php:79
+#: includes/Admin/Terms_List_Table.php:117
+#: includes/Admin/Term_Lessons_List_Table.php:88
+msgid "Edit"
+msgstr ""
+
+#: includes/Admin/Locations_List_Table.php:87
+msgid "Deactivate"
+msgstr ""
+
+#: includes/Admin/Locations_List_Table.php:93
+msgid "Activate"
+msgstr ""
+
+#: includes/Admin/Locations_List_Table.php:98
+msgid "Delete this location? If it is still used by a course term it will be deactivated instead."
+msgstr ""
+
+#: includes/Admin/Locations_List_Table.php:99
+msgid "Delete"
+msgstr ""
+
+#: includes/Admin/Locations_List_Table.php:125
+msgid "Active"
+msgstr ""
+
+#: includes/Admin/Locations_List_Table.php:126
+msgid "Inactive"
+msgstr ""
+
+#: includes/Admin/Locations_List_Table.php:137
+msgid "No locations yet."
+msgstr ""
+
+#: includes/Admin/Locations_Page.php:81
+#: includes/Admin/Locations_Page.php:82
+#: includes/Admin/Locations_Page.php:364
+msgid "Locations"
+msgstr ""
+
+#: includes/Admin/Locations_Page.php:100
+#: includes/Admin/Locations_Page.php:187
+msgid "You do not have permission to manage locations."
+msgstr ""
+
+#: includes/Admin/Locations_Page.php:233
+#: includes/Admin/Locations_Page.php:432
+msgid "Location not found."
+msgstr ""
+
+#: includes/Admin/Locations_Page.php:365
+#: includes/Admin/Terms_Page.php:431
+#: includes/Post_Types.php:61
+msgid "Add New"
+msgstr ""
+
+#: includes/Admin/Locations_Page.php:383
+msgid "Edit Location"
+msgstr ""
+
+#: includes/Admin/Locations_Page.php:383
+#: includes/Admin/Locations_Page.php:407
+msgid "Add Location"
+msgstr ""
+
+#: includes/Admin/Locations_Page.php:402
+msgid "Map URL"
+msgstr ""
+
+#: includes/Admin/Locations_Page.php:407
+msgid "Update Location"
+msgstr ""
+
+#: includes/Admin/Locations_Page.php:410
+#: includes/Admin/Terms_Page.php:603
+msgid "Back to list"
+msgstr ""
+
+#: includes/Admin/Locations_Page.php:426
+msgid "Location created."
+msgstr ""
+
+#: includes/Admin/Locations_Page.php:427
+msgid "Location updated."
+msgstr ""
+
+#: includes/Admin/Locations_Page.php:428
+msgid "Location deactivated."
+msgstr ""
+
+#: includes/Admin/Locations_Page.php:429
+msgid "Location activated."
+msgstr ""
+
+#: includes/Admin/Locations_Page.php:430
+msgid "Location deleted."
+msgstr ""
+
+#: includes/Admin/Locations_Page.php:431
+msgid "This location is still used by a course term, so it was deactivated instead of deleted."
+msgstr ""
+
+#: includes/Admin/Locations_Page.php:467
+msgid "Name is required."
+msgstr ""
+
+#: includes/Admin/Locations_Page.php:470
+msgid "Name must be 190 characters or fewer."
+msgstr ""
+
+#: includes/Admin/Locations_Page.php:473
+msgid "Address is required."
+msgstr ""
+
+#: includes/Admin/Locations_Page.php:476
+msgid "Address must be 255 characters or fewer."
+msgstr ""
+
+#: includes/Admin/Locations_Page.php:479
+msgid "Map URL must be a valid URL of 255 characters or fewer."
+msgstr ""
+
+#: includes/Admin/Locations_Page.php:482
+#: includes/Admin/Manual_Enrollment_Page.php:685
+#: includes/Admin/Settings_Page.php:274
+#: includes/Admin/Terms_Page.php:890
+#: includes/Admin/Term_Lessons_Page.php:404
+msgid "Invalid input."
+msgstr ""
+
+#: includes/Admin/Manual_Enrollment_Page.php:83
+msgid "New Enrollment"
+msgstr ""
+
+#: includes/Admin/Manual_Enrollment_Page.php:109
+#: includes/Admin/Manual_Enrollment_Page.php:300
+msgid "You do not have permission to create enrollments."
+msgstr ""
+
+#: includes/Admin/Manual_Enrollment_Page.php:348
+msgid "Phone orders: find the customer, or create a new account for them."
+msgstr ""
+
+#: includes/Admin/Manual_Enrollment_Page.php:355
+msgid "Find an existing customer"
+msgstr ""
+
+#: includes/Admin/Manual_Enrollment_Page.php:375
+msgid "No matching customers."
+msgstr ""
+
+#: includes/Admin/Manual_Enrollment_Page.php:383
+msgid "Select"
+msgstr ""
+
+#: includes/Admin/Manual_Enrollment_Page.php:391
+msgid "Or create a new customer"
+msgstr ""
+
+#: includes/Admin/Manual_Enrollment_Page.php:392
+msgid "New customer"
+msgstr ""
+
+#: includes/Admin/Manual_Enrollment_Page.php:433
+msgid "Change customer"
+msgstr ""
+
+#: includes/Admin/Manual_Enrollment_Page.php:436
+#: includes/Compliance/Personal_Data.php:258
+#: public/templates/account-profile.php:80
+#: public/templates/register-form.php:42
+msgid "First name"
+msgstr ""
+
+#: includes/Admin/Manual_Enrollment_Page.php:437
+#: includes/Compliance/Personal_Data.php:262
+#: public/templates/account-profile.php:87
+#: public/templates/register-form.php:50
+msgid "Last name"
+msgstr ""
+
+#: includes/Admin/Manual_Enrollment_Page.php:441
+msgid "A minimal account is created for this customer without sending a verification email; it is marked verified immediately."
+msgstr ""
+
+#: includes/Admin/Manual_Enrollment_Page.php:442
+msgid "Search for an existing customer instead"
+msgstr ""
+
+#: includes/Admin/Manual_Enrollment_Page.php:450
+msgid "— select an open term —"
+msgstr ""
+
+#: includes/Admin/Manual_Enrollment_Page.php:464
+#: includes/Emails/Email_Templates.php:185
+#: includes/Emails/Email_Templates.php:196
+#: public/templates/enroll-form.php:71
+msgid "Participant name"
+msgstr ""
+
+#: includes/Admin/Manual_Enrollment_Page.php:464
+msgid "Leave blank if the customer is enrolling themselves."
+msgstr ""
+
+#: includes/Admin/Manual_Enrollment_Page.php:485
+msgid "Manual price (CZK)"
+msgstr ""
+
+#: includes/Admin/Manual_Enrollment_Page.php:485
+msgid "Leave blank to use the term’s normal computed price."
+msgstr ""
+
+#: includes/Admin/Manual_Enrollment_Page.php:506
+msgid "Create Enrollment"
+msgstr ""
+
+#: includes/Admin/Manual_Enrollment_Page.php:509
+msgid "Back to enrollments"
+msgstr ""
+
+#: includes/Admin/Manual_Enrollment_Page.php:588
+msgid "Please select or create a customer first."
+msgstr ""
+
+#: includes/Admin/Manual_Enrollment_Page.php:628
+msgid "First name is required."
+msgstr ""
+
+#: includes/Admin/Manual_Enrollment_Page.php:631
+msgid "First name must be 190 characters or fewer."
+msgstr ""
+
+#: includes/Admin/Manual_Enrollment_Page.php:634
+msgid "Last name is required."
+msgstr ""
+
+#: includes/Admin/Manual_Enrollment_Page.php:637
+msgid "Last name must be 190 characters or fewer."
+msgstr ""
+
+#: includes/Admin/Manual_Enrollment_Page.php:640
+msgid "Email is required."
+msgstr ""
+
+#: includes/Admin/Manual_Enrollment_Page.php:643
+msgid "Email is invalid."
+msgstr ""
+
+#: includes/Admin/Manual_Enrollment_Page.php:646
+msgid "An account with this email already exists — search for the existing customer instead."
+msgstr ""
+
+#: includes/Admin/Manual_Enrollment_Page.php:649
+msgid "Phone is required."
+msgstr ""
+
+#: includes/Admin/Manual_Enrollment_Page.php:652
+msgid "Phone is invalid."
+msgstr ""
+
+#: includes/Admin/Manual_Enrollment_Page.php:655
+msgid "Select a term."
+msgstr ""
+
+#: includes/Admin/Manual_Enrollment_Page.php:658
+msgid "Selected term not found."
+msgstr ""
+
+#: includes/Admin/Manual_Enrollment_Page.php:661
+msgid "Selected term is not open for enrollment."
+msgstr ""
+
+#: includes/Admin/Manual_Enrollment_Page.php:664
+msgid "Select or create a customer."
+msgstr ""
+
+#: includes/Admin/Manual_Enrollment_Page.php:667
+msgid "Participant name must be 190 characters or fewer."
+msgstr ""
+
+#: includes/Admin/Manual_Enrollment_Page.php:670
+msgid "Invalid role."
+msgstr ""
+
+#: includes/Admin/Manual_Enrollment_Page.php:673
+msgid "Partner name must be 190 characters or fewer."
+msgstr ""
+
+#: includes/Admin/Manual_Enrollment_Page.php:676
+msgid "Manual price must be a non-negative amount."
+msgstr ""
+
+#: includes/Admin/Manual_Enrollment_Page.php:679
+msgid "Could not create the customer account — please try again."
+msgstr ""
+
+#: includes/Admin/Manual_Enrollment_Page.php:682
+msgid "This customer/participant is already enrolled in this term."
+msgstr ""
+
+#: includes/Admin/Roster_Ajax.php:75
+msgid "Could not mark this enrollment paid — it may already be paid or cancelled."
+msgstr ""
+
+#: includes/Admin/Roster_Ajax.php:93
+msgid "Could not unmark this enrollment — it may not currently be paid."
+msgstr ""
+
+#: includes/Admin/Roster_Ajax.php:114
+msgid "This enrollment is not currently marked paid."
+msgstr ""
+
+#: includes/Admin/Roster_Ajax.php:120
+msgid "Customer account not found."
+msgstr ""
+
+#: includes/Admin/Roster_Ajax.php:136
+msgid "The email could not be sent."
+msgstr ""
+
+#: includes/Admin/Roster_Ajax.php:153
+msgid "You do not have permission to do this."
+msgstr ""
+
+#: includes/Admin/Roster_Ajax.php:157
+msgid "Security check failed — please reload the page."
+msgstr ""
+
+#: includes/Admin/Roster_Ajax.php:164
+msgid "Missing enrollment ID."
+msgstr ""
+
+#. translators: %s: date/time the enrollment was marked paid.
+#: includes/Admin/Roster_Ajax.php:211
+#: includes/Admin/Roster_List_Table.php:316
+#, php-format
+msgid "on %s"
+msgstr ""
+
+#: includes/Admin/Roster_List_Table.php:175
+#: includes/Admin/Roster_Page.php:377
+msgid "Overdue"
+msgstr ""
+
+#: includes/Admin/Roster_List_Table.php:302
+#: includes/Admin/Roster_Page.php:376
+msgid "Unmark paid"
+msgstr ""
+
+#: includes/Admin/Roster_List_Table.php:302
+#: includes/Admin/Roster_Page.php:375
+msgid "Mark paid"
+msgstr ""
+
+#: includes/Admin/Roster_List_Table.php:329
+msgid "No enrollments for this term yet."
+msgstr ""
+
+#: includes/Admin/Roster_Page.php:111
+msgid "You do not have permission to view the roster."
+msgstr ""
+
+#: includes/Admin/Roster_Page.php:133
+#: includes/Admin/Roster_Page.php:184
+#: includes/Admin/Roster_Page.php:193
+msgid "Term roster"
+msgstr ""
+
+#: includes/Admin/Roster_Page.php:134
+msgid "Pick a term to see who is enrolled and manage payments."
+msgstr ""
+
+#: includes/Admin/Roster_Page.php:139
+msgid "No terms yet — create one first."
+msgstr ""
+
+#: includes/Admin/Roster_Page.php:150
+#: includes/Admin/Terms_List_Table.php:72
+msgid "Season / Term"
+msgstr ""
+
+#: includes/Admin/Roster_Page.php:151
+#: includes/Admin/Terms_List_Table.php:73
+#: includes/Admin/Terms_Page.php:534
+#: includes/Post_Types.php:60
+#: public/templates/account-schedule.php:24
+#: public/templates/calendar.php:62
+msgid "Course"
+msgstr ""
+
+#: includes/Admin/Roster_Page.php:152
+#: includes/Admin/Terms_List_Table.php:74
+#: includes/Admin/Terms_Page.php:542
+#: public/templates/account-schedule.php:25
+#: public/templates/calendar.php:33
+#: public/templates/calendar.php:63
+msgid "Location"
+msgstr ""
+
+#: includes/Admin/Roster_Page.php:153
+#: includes/Admin/Terms_List_Table.php:76
+msgid "Dates"
+msgstr ""
+
+#: includes/Admin/Roster_Page.php:185
+#: includes/Admin/Roster_Page.php:533
+#: includes/Admin/Terms_Page.php:240
+#: includes/Admin/Terms_Page.php:783
+#: includes/Admin/Term_Lessons_Page.php:187
+msgid "Term not found."
+msgstr ""
+
+#: includes/Admin/Roster_Page.php:186
+msgid "Back to term picker"
+msgstr ""
+
+#: includes/Admin/Roster_Page.php:194
+msgid "Export CSV"
+msgstr ""
+
+#. translators: 1: season label, 2: course title, 3: location name.
+#: includes/Admin/Roster_Page.php:200
+#: includes/Admin/Term_Lessons_Page.php:225
+#, php-format
+msgid "%1$s — %2$s at %3$s"
+msgstr ""
+
+#: includes/Admin/Roster_Page.php:205
+msgid "change term"
+msgstr ""
+
+#. translators: 1: number of enrollments marked paid, 2: total active (non-cancelled) enrollments.
+#: includes/Admin/Roster_Page.php:273
+#, php-format
+msgid "%1$d / %2$d paid"
+msgstr ""
+
+#: includes/Admin/Roster_Page.php:278
+msgid "capacity: unlimited"
+msgstr ""
+
+#. translators: 1: active enrollment count, 2: term capacity.
+#: includes/Admin/Roster_Page.php:281
+#, php-format
+msgid "capacity: %1$d / %2$d"
+msgstr ""
+
+#. translators: 1: solo count, 2: leader count, 3: follower count.
+#: includes/Admin/Roster_Page.php:287
+#, php-format
+msgid "Solo: %1$d · Leader: %2$d · Follower: %3$d"
+msgstr ""
+
+#. translators: 1: amount collected so far, 2: total amount expected.
+#: includes/Admin/Roster_Page.php:294
+#, php-format
+msgid "%1$s Kč collected of %2$s Kč expected"
+msgstr ""
+
+#: includes/Admin/Roster_Page.php:371
+msgid "Send the payment confirmation email now?"
+msgstr ""
+
+#: includes/Admin/Roster_Page.php:372
+msgid "Confirmation email sent."
+msgstr ""
+
+#: includes/Admin/Roster_Page.php:373
+msgid "Could not send the confirmation email."
+msgstr ""
+
+#: includes/Admin/Roster_Page.php:374
+msgid "Something went wrong — please reload and try again."
+msgstr ""
+
+#: includes/Admin/Roster_Page.php:519
+msgid "You do not have permission to export the roster."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:66
+#: includes/Admin/Settings_Page.php:67
+msgid "Settings"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:85
+#: includes/Admin/Settings_Page.php:135
+msgid "You do not have permission to manage settings."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:149
+msgid "Settings saved."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:177
+msgid "Ruben Dance Settings"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:186
+msgid "Payment due-date window (days)"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:189
+msgid "Admin notification email"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:192
+#: includes/Emails/Email_Templates.php:188
+#: includes/Emails/Email_Templates.php:199
+#: includes/Emails/Email_Templates.php:227
+msgid "Bank account number"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:194
+msgid "Shown in payment instructions on the enrollment confirmation page and email."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:196
+msgid "IBAN (for QR payment codes)"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:198
+msgid "Enables the scannable QR platba code on payment instructions (emails and My account). Leave blank to keep payment instructions text-only."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:200
+msgid "Cancelled lessons on the public calendar"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:203
+msgid "Show, struck through"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:204
+msgid "Hide entirely"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:215
+msgid "How [rd_calendar] shows a cancelled lesson (spec F2)."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:217
+msgid "Inactive customer retention (years)"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:219
+msgid "Customer accounts with no non-cancelled enrollment in this many years are anonymized by the monthly retention cron (spec §6.1)."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:223
+msgid "Save Settings"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:252
+msgid "Payment due-date window must be a positive whole number of days."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:255
+msgid "Admin notification email must be a valid email address."
+msgstr ""
+
+#. translators: %d: maximum character length.
+#: includes/Admin/Settings_Page.php:260
+#, php-format
+msgid "Bank account number must be %d characters or fewer."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:265
+msgid "Invalid cancelled-lessons display option."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:268
+msgid "IBAN is not valid — please check the account number and country code."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:271
+msgid "Retention window must be a positive whole number of years."
+msgstr ""
+
+#: includes/Admin/Terms_List_Table.php:75
+msgid "Schedule"
+msgstr ""
+
+#: includes/Admin/Terms_List_Table.php:77
+#: includes/Admin/Terms_Page.php:574
+msgid "Capacity"
+msgstr ""
+
+#: includes/Admin/Terms_List_Table.php:122
+#: includes/Admin/Term_Lessons_Page.php:64
+#: includes/Admin/Term_Lessons_Page.php:65
+#: includes/Admin/Term_Lessons_Page.php:217
+msgid "Lessons"
+msgstr ""
+
+#: includes/Admin/Terms_List_Table.php:127
+msgid "Duplicate"
+msgstr ""
+
+#: includes/Admin/Terms_List_Table.php:163
+msgid "Unlimited"
+msgstr ""
+
+#. translators: %s: start–end time, e.g. "10:00–16:00".
+#: includes/Admin/Terms_List_Table.php:198
+#, php-format
+msgid "Workshop, %s"
+msgstr ""
+
+#: includes/Admin/Terms_List_Table.php:229
+msgid "Monday"
+msgstr ""
+
+#: includes/Admin/Terms_List_Table.php:230
+msgid "Tuesday"
+msgstr ""
+
+#: includes/Admin/Terms_List_Table.php:231
+msgid "Wednesday"
+msgstr ""
+
+#: includes/Admin/Terms_List_Table.php:232
+msgid "Thursday"
+msgstr ""
+
+#: includes/Admin/Terms_List_Table.php:233
+msgid "Friday"
+msgstr ""
+
+#: includes/Admin/Terms_List_Table.php:234
+msgid "Saturday"
+msgstr ""
+
+#: includes/Admin/Terms_List_Table.php:235
+msgid "Sunday"
+msgstr ""
+
+#: includes/Admin/Terms_List_Table.php:248
+#: includes/Admin/Terms_Page.php:584
+msgid "Draft"
+msgstr ""
+
+#: includes/Admin/Terms_List_Table.php:251
+msgid "Open"
+msgstr ""
+
+#: includes/Admin/Terms_List_Table.php:254
+msgid "Closed"
+msgstr ""
+
+#: includes/Admin/Terms_List_Table.php:268
+msgid "No terms found."
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:70
+#: includes/Admin/Terms_Page.php:71
+#: includes/Admin/Terms_Page.php:430
+msgid "Terms"
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:88
+#: includes/Admin/Terms_Page.php:173
+msgid "You do not have permission to manage terms."
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:481
+#: public/templates/calendar.php:35
+#: public/templates/catalog.php:34
+msgid "All locations"
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:493
+msgid "All seasons"
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:519
+msgid "Edit Term"
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:519
+#: includes/Admin/Terms_Page.php:600
+msgid "Add Term"
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:552
+msgid "Course (multi-week)"
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:553
+msgid "Workshop (single lesson)"
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:562
+msgid "Weekday"
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:569
+#: includes/Admin/Term_Lessons_Page.php:301
+msgid "Start time"
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:570
+#: includes/Admin/Term_Lessons_Page.php:304
+msgid "End time"
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:571
+msgid "First date"
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:572
+msgid "Last date"
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:573
+msgid "Instructor"
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:574
+msgid "Leave blank for unlimited."
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:575
+msgid "Price (CZK)"
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:576
+msgid "Early-bird discount (CZK)"
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:577
+msgid "Early-bird deadline"
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:577
+msgid "Required together with the early-bird discount."
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:578
+msgid "Pair discount (CZK)"
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:585
+msgid "Open (enrollable)"
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:586
+msgid "Closed (visible, not enrollable)"
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:593
+msgid "Season label (Czech)"
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:594
+msgid "Season label (English)"
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:595
+msgid "Public note (Czech)"
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:596
+msgid "Public note (English)"
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:600
+msgid "Update Term"
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:782
+msgid "Term duplicated as a new draft — update the dates below."
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:818
+msgid "Course is required."
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:821
+msgid "Selected course does not exist."
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:824
+msgid "Location is required."
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:827
+msgid "Selected location does not exist."
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:830
+msgid "Invalid term type."
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:833
+msgid "Weekday is required for a course term."
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:836
+#: includes/Admin/Term_Lessons_Page.php:389
+msgid "Start time is invalid."
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:839
+#: includes/Admin/Term_Lessons_Page.php:392
+msgid "End time is invalid."
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:842
+#: includes/Admin/Term_Lessons_Page.php:395
+msgid "End time must be after start time."
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:845
+msgid "First date is invalid."
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:848
+msgid "Last date is invalid."
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:851
+msgid "Last date must not be before the first date."
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:854
+msgid "Instructor is required."
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:857
+msgid "Instructor must be 190 characters or fewer."
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:860
+msgid "Capacity must be a positive whole number, or left blank for unlimited."
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:863
+msgid "Price must be a non-negative amount."
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:866
+msgid "Early-bird discount must be a non-negative amount."
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:869
+msgid "Early-bird deadline is invalid."
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:872
+msgid "The early-bird discount and its deadline must be set together."
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:875
+msgid "Pair discount must be a non-negative amount."
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:878
+#: includes/Admin/Term_Lessons_Page.php:398
+msgid "Invalid status."
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:881
+msgid "Season label (Czech) is required."
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:884
+msgid "Season label (Czech) must be 100 characters or fewer."
+msgstr ""
+
+#: includes/Admin/Terms_Page.php:887
+msgid "Season label (English) must be 100 characters or fewer."
+msgstr ""
+
+#: includes/Admin/Term_Lessons_List_Table.php:59
+#: public/templates/account-schedule.php:22
+#: public/templates/calendar.php:60
+msgid "Date"
+msgstr ""
+
+#: includes/Admin/Term_Lessons_List_Table.php:60
+#: public/templates/account-schedule.php:23
+#: public/templates/calendar.php:61
+msgid "Time"
+msgstr ""
+
+#: includes/Admin/Term_Lessons_List_Table.php:134
+#: includes/Admin/Term_Lessons_Page.php:310
+#: public/templates/account-schedule.php:42
+#: public/templates/calendar.php:86
+msgid "Scheduled"
+msgstr ""
+
+#: includes/Admin/Term_Lessons_List_Table.php:151
+msgid "No lessons generated yet — save the term with a valid date range."
+msgstr ""
+
+#: includes/Admin/Term_Lessons_Page.php:109
+#: includes/Admin/Term_Lessons_Page.php:168
+msgid "You do not have permission to manage lessons."
+msgstr ""
+
+#: includes/Admin/Term_Lessons_Page.php:188
+msgid "Back to terms"
+msgstr ""
+
+#: includes/Admin/Term_Lessons_Page.php:231
+msgid "Edit term"
+msgstr ""
+
+#: includes/Admin/Term_Lessons_Page.php:232
+msgid "Back to terms list"
+msgstr ""
+
+#: includes/Admin/Term_Lessons_Page.php:260
+msgid "Lesson not found."
+msgstr ""
+
+#: includes/Admin/Term_Lessons_Page.php:325
+msgid "e.g. State holiday — no class"
+msgstr ""
+
+#: includes/Admin/Term_Lessons_Page.php:329
+msgid "Email enrolled customers about this change"
+msgstr ""
+
+#: includes/Admin/Term_Lessons_Page.php:330
+msgid "When the lesson is saved as cancelled or moved, you will see a preview and confirm before anything is sent."
+msgstr ""
+
+#: includes/Admin/Term_Lessons_Page.php:335
+msgid "Save Lesson"
+msgstr ""
+
+#: includes/Admin/Term_Lessons_Page.php:353
+msgid "Term saved. Lessons regenerated below."
+msgstr ""
+
+#: includes/Admin/Term_Lessons_Page.php:354
+msgid "Lesson updated."
+msgstr ""
+
+#: includes/Admin/Term_Lessons_Page.php:401
+msgid "Note must be 255 characters or fewer."
+msgstr ""
+
+#: includes/Compliance/Personal_Data.php:59
+#: includes/Compliance/Personal_Data.php:74
+msgid "Ruben Dance course enrollments"
+msgstr ""
+
+#: includes/Compliance/Personal_Data.php:110
+msgid "Ruben Dance profile"
+msgstr ""
+
+#: includes/Compliance/Personal_Data.php:118
+msgid "Course enrollments"
+msgstr ""
+
+#: includes/Compliance/Personal_Data.php:168
+msgid "Enrollment records were anonymized rather than deleted, to preserve accounting records, as described in the privacy policy."
+msgstr ""
+
+#: includes/Compliance/Personal_Data.php:216
+msgid "Anonymized customer"
+msgstr ""
+
+#: includes/Compliance/Personal_Data.php:278
+#: includes/Compliance/Personal_Data.php:339
+msgid "Terms & Conditions accepted at"
+msgstr ""
+
+#: includes/Compliance/Personal_Data.php:282
+#: includes/Compliance/Personal_Data.php:335
+msgid "Terms & Conditions version accepted"
+msgstr ""
+
+#: includes/Compliance/Personal_Data.php:292
+msgid "Marketing consent given at"
+msgstr ""
+
+#: includes/Compliance/Personal_Data.php:343
+msgid "Enrolled at"
+msgstr ""
+
+#: includes/Compliance/Personal_Data.php:367
+msgid "Sent at"
+msgstr ""
+
+#: includes/Compliance/Retention_Cron.php:64
+msgid "Once a month (Ruben Dance retention)"
+msgstr ""
+
+#: includes/Course_Fields.php:68
+msgid "Ruben Dance enrollment settings"
+msgstr ""
+
+#: includes/Course_Fields.php:88
+msgid "Dance role (solo / leader / follower) is relevant for this course"
+msgstr ""
+
+#: includes/Course_Fields.php:91
+msgid "Enable for partner dances where enrollees pick a role. Leave off for courses (e.g. kids dance, solo styling) where it makes no sense."
+msgstr ""
+
+#: includes/Emails/Email_Templates.php:149
+msgid "E1 — Account verification"
+msgstr ""
+
+#: includes/Emails/Email_Templates.php:150
+msgid "E2 — Enrollment confirmation"
+msgstr ""
+
+#: includes/Emails/Email_Templates.php:151
+msgid "E3 — Admin notification"
+msgstr ""
+
+#: includes/Emails/Email_Templates.php:152
+msgid "E4 — Payment confirmation"
+msgstr ""
+
+#: includes/Emails/Email_Templates.php:153
+msgid "E5 — Lesson cancelled/moved"
+msgstr ""
+
+#: includes/Emails/Email_Templates.php:154
+msgid "E6 — Enrollment cancelled"
+msgstr ""
+
+#: includes/Emails/Email_Templates.php:155
+msgid "E7 — Payment reminder"
+msgstr ""
+
+#: includes/Emails/Email_Templates.php:156
+msgid "E8 — Voucher inquiry (admin notification)"
+msgstr ""
+
+#: includes/Emails/Email_Templates.php:172
+msgid "Recipient's first name"
+msgstr ""
+
+#: includes/Emails/Email_Templates.php:173
+msgid "Course name"
+msgstr ""
+
+#: includes/Emails/Email_Templates.php:180
+msgid "Verification link"
+msgstr ""
+
+#: includes/Emails/Email_Templates.php:186
+#: includes/Emails/Email_Templates.php:197
+#: includes/Emails/Email_Templates.php:221
+msgid "Term season/weekday/time"
+msgstr ""
+
+#: includes/Emails/Email_Templates.php:187
+#: includes/Emails/Email_Templates.php:198
+#: includes/Emails/Email_Templates.php:206
+#: includes/Emails/Email_Templates.php:226
+msgid "Price (incl. currency)"
+msgstr ""
+
+#: includes/Emails/Email_Templates.php:190
+#: includes/Emails/Email_Templates.php:201
+#: includes/Emails/Email_Templates.php:229
+msgid "Payment due date"
+msgstr ""
+
+#: includes/Emails/Email_Templates.php:191
+msgid "Terms & Conditions link (spec §6.3)"
+msgstr ""
+
+#: includes/Emails/Email_Templates.php:214
+msgid "Affected lesson date"
+msgstr ""
+
+#: includes/Emails/Email_Templates.php:215
+msgid "Cancelled/moved"
+msgstr ""
+
+#: includes/Emails/Email_Templates.php:216
+msgid "Admin's note about the change"
+msgstr ""
+
+#: includes/Emails/Email_Templates.php:234
+msgid "Inquirer's name"
+msgstr ""
+
+#: includes/Emails/Email_Templates.php:235
+msgid "Inquirer's email address"
+msgstr ""
+
+#: includes/Emails/Email_Templates.php:236
+msgid "Inquiry message"
+msgstr ""
+
+#: includes/Front/Access_Restrictions.php:112
+msgid "Please verify your email address before logging in. Check your inbox for the verification link."
+msgstr ""
+
+#: includes/Front/Account_Form_Handler.php:122
+#: includes/Front/Account_Form_Handler.php:166
+#: includes/Front/Account_Form_Handler.php:212
+#: includes/Front/Enrollment_Form_Handler.php:85
+#: includes/Front/Form_Handler.php:131
+#: includes/Front/Form_Handler.php:209
+#: includes/Front/Form_Handler.php:267
+#: includes/Front/Form_Handler.php:345
+#: includes/Front/Voucher_Form_Handler.php:76
+msgid "Your session expired, please try again."
+msgstr ""
+
+#: includes/Front/Account_Page.php:160
+msgid "Please log in to view your account."
+msgstr ""
+
+#: includes/Front/Account_Page.php:366
+msgid "Awaiting payment"
+msgstr ""
+
+#: includes/Front/Account_Page.php:381
+#: includes/Front/Shortcodes.php:221
+msgid "Please enter your first name."
+msgstr ""
+
+#: includes/Front/Account_Page.php:384
+#: includes/Front/Shortcodes.php:224
+msgid "First name is too long."
+msgstr ""
+
+#: includes/Front/Account_Page.php:387
+#: includes/Front/Shortcodes.php:227
+msgid "Please enter your last name."
+msgstr ""
+
+#: includes/Front/Account_Page.php:390
+#: includes/Front/Shortcodes.php:230
+msgid "Last name is too long."
+msgstr ""
+
+#: includes/Front/Account_Page.php:393
+#: includes/Front/Shortcodes.php:242
+msgid "Please enter your phone number."
+msgstr ""
+
+#: includes/Front/Account_Page.php:396
+#: includes/Front/Shortcodes.php:245
+msgid "Please enter a valid phone number."
+msgstr ""
+
+#: includes/Front/Account_Page.php:399
+msgid "Please choose a valid language."
+msgstr ""
+
+#: includes/Front/Account_Page.php:402
+#: includes/Front/Shortcodes.php:248
+#: public/templates/lost-password-form.php:47
+msgid "Password must be at least 8 characters long."
+msgstr ""
+
+#: includes/Front/Account_Page.php:405
+msgid "The passwords do not match."
+msgstr ""
+
+#: includes/Front/Account_Page.php:408
+msgid "Please enter an email address."
+msgstr ""
+
+#: includes/Front/Account_Page.php:411
+#: includes/Front/Shortcodes.php:236
+#: includes/Front/Voucher_Page.php:99
+msgid "Please enter a valid email address."
+msgstr ""
+
+#: includes/Front/Account_Page.php:414
+msgid "This is already your current email address."
+msgstr ""
+
+#: includes/Front/Account_Page.php:417
+msgid "An account with this email already exists."
+msgstr ""
+
+#: includes/Front/Account_Page.php:420
+#: includes/Front/Enroll_Page.php:257
+#: includes/Front/Shortcodes.php:254
+#: includes/Front/Voucher_Page.php:108
+#: public/templates/lost-password-form.php:48
+msgid "Please check the highlighted fields."
+msgstr ""
+
+#: includes/Front/Bot_Guard.php:55
+msgid "Leave this field empty"
+msgstr ""
+
+#: includes/Front/Enrollment_Form_Handler.php:97
+msgid "Please log in to complete your enrollment."
+msgstr ""
+
+#: includes/Front/Enroll_Page.php:236
+msgid "You must agree to the Terms & Conditions to enroll."
+msgstr ""
+
+#: includes/Front/Enroll_Page.php:239
+msgid "Please enter the participant's name."
+msgstr ""
+
+#: includes/Front/Enroll_Page.php:242
+msgid "This term is no longer open for enrollment."
+msgstr ""
+
+#: includes/Front/Enroll_Page.php:245
+msgid "This term could not be found."
+msgstr ""
+
+#: includes/Front/Enroll_Page.php:248
+msgid "Participant name is too long."
+msgstr ""
+
+#: includes/Front/Enroll_Page.php:251
+msgid "Please choose a valid role."
+msgstr ""
+
+#: includes/Front/Enroll_Page.php:254
+msgid "Partner name is too long."
+msgstr ""
+
+#: includes/Front/Footer_Links.php:61
+msgid "Legal"
+msgstr ""
+
+#: includes/Front/Footer_Links.php:62
+#: public/templates/enroll-form.php:123
+#: public/templates/register-form.php:90
+msgid "Terms & Conditions"
+msgstr ""
+
+#: includes/Front/Footer_Links.php:64
+msgid "Privacy Policy"
+msgstr ""
+
+#: includes/Front/Form_Handler.php:190
+msgid "Registration failed, please try again."
+msgstr ""
+
+#: includes/Front/Form_Handler.php:222
+msgid "Too many login attempts. Please try again later."
+msgstr ""
+
+#: includes/Front/Form_Handler.php:245
+msgid "Incorrect email or password."
+msgstr ""
+
+#. translators: %s: password reset link.
+#: includes/Front/Form_Handler.php:326
+#, php-format
+msgid ""
+"Someone requested a password reset for your Ruben Dance account.\n"
+"\n"
+"If this was you, click the link below to choose a new password:\n"
+"%s\n"
+"\n"
+"If you did not request this, you can safely ignore this email."
+msgstr ""
+
+#. translators: %s: password reset link.
+#: includes/Front/Form_Handler.php:333
+#, php-format
+msgid ""
+"Někdo požádal o obnovení hesla k vašemu účtu Ruben Dance.\n"
+"\n"
+"Pokud jste to byli vy, klikněte na odkaz níže a zvolte si nové heslo:\n"
+"%s\n"
+"\n"
+"Pokud jste o obnovení hesla nežádali, tento email prosím ignorujte."
+msgstr ""
+
+#: includes/Front/Shortcodes.php:69
+#: includes/Front/Shortcodes.php:102
+#: includes/Front/Shortcodes.php:163
+msgid "You are already logged in."
+msgstr ""
+
+#: includes/Front/Shortcodes.php:127
+msgid "Too short"
+msgstr ""
+
+#: includes/Front/Shortcodes.php:128
+msgid "Very weak"
+msgstr ""
+
+#: includes/Front/Shortcodes.php:129
+msgid "Medium"
+msgstr ""
+
+#: includes/Front/Shortcodes.php:130
+msgid "Strong"
+msgstr ""
+
+#: includes/Front/Shortcodes.php:131
+msgid "Passwords do not match"
+msgstr ""
+
+#: includes/Front/Shortcodes.php:233
+#: includes/Front/Voucher_Page.php:96
+msgid "Please enter your email address."
+msgstr ""
+
+#: includes/Front/Shortcodes.php:239
+msgid "An account with this email already exists. Try logging in instead."
+msgstr ""
+
+#: includes/Front/Shortcodes.php:251
+msgid "You must agree to the Terms & Conditions to register."
+msgstr ""
+
+#: includes/Front/Voucher_Page.php:90
+msgid "Please enter your name."
+msgstr ""
+
+#: includes/Front/Voucher_Page.php:93
+msgid "Name is too long."
+msgstr ""
+
+#: includes/Front/Voucher_Page.php:102
+msgid "Please enter your message."
+msgstr ""
+
+#: includes/Front/Voucher_Page.php:105
+msgid "Message is too long."
+msgstr ""
+
+#: includes/Post_Types.php:59
+#: includes/Post_Types.php:72
+msgid "Courses"
+msgstr ""
+
+#: includes/Post_Types.php:62
+msgid "Add New Course"
+msgstr ""
+
+#: includes/Post_Types.php:63
+msgid "Edit Course"
+msgstr ""
+
+#: includes/Post_Types.php:64
+msgid "New Course"
+msgstr ""
+
+#: includes/Post_Types.php:65
+msgid "View Course"
+msgstr ""
+
+#: includes/Post_Types.php:66
+msgid "View Courses"
+msgstr ""
+
+#: includes/Post_Types.php:67
+msgid "Search Courses"
+msgstr ""
+
+#: includes/Post_Types.php:68
+msgid "No courses found"
+msgstr ""
+
+#: includes/Post_Types.php:69
+msgid "No courses found in Trash"
+msgstr ""
+
+#: includes/Post_Types.php:70
+msgid "All Courses"
+msgstr ""
+
+#: includes/Post_Types.php:71
+msgid "Course Archives"
+msgstr ""
+
+#: includes/Roles.php:48
+msgid "Ruben Dance Manager"
+msgstr ""
+
+#: includes/Services/Email_Change_Service.php:227
+msgid "Confirm your new Ruben Dance email address"
+msgstr ""
+
+#: includes/Services/Email_Change_Service.php:228
+msgid "Potvrďte novou emailovou adresu Ruben Dance"
+msgstr ""
+
+#. translators: 1: new email address, 2: confirmation link.
+#: includes/Services/Email_Change_Service.php:233
+#, php-format
+msgid ""
+"A change of your Ruben Dance account email to %1$s was requested.\n"
+"\n"
+"Please confirm by clicking the link below:\n"
+"%2$s\n"
+"\n"
+"The link is valid for 48 hours and can only be used once. Your current email stays active until you confirm. If you did not request this, you can safely ignore this email."
+msgstr ""
+
+#. translators: 1: new email address, 2: confirmation link.
+#: includes/Services/Email_Change_Service.php:239
+#, php-format
+msgid ""
+"Byla vyžádána změna emailové adresy vašeho účtu Ruben Dance na %1$s.\n"
+"\n"
+"Potvrďte prosím kliknutím na následující odkaz:\n"
+"%2$s\n"
+"\n"
+"Odkaz je platný 48 hodin a lze jej použít pouze jednou. Vaše současná emailová adresa zůstává aktivní až do potvrzení. Pokud jste o tuto změnu nežádali, tento email prosím ignorujte."
+msgstr ""
+
+#: includes/Taxonomies.php:58
+#: includes/Taxonomies.php:65
+msgid "Dance Styles"
+msgstr ""
+
+#: includes/Taxonomies.php:59
+msgid "Dance Style"
+msgstr ""
+
+#: includes/Taxonomies.php:60
+msgid "Search Dance Styles"
+msgstr ""
+
+#: includes/Taxonomies.php:61
+msgid "All Dance Styles"
+msgstr ""
+
+#: includes/Taxonomies.php:62
+msgid "Edit Dance Style"
+msgstr ""
+
+#: includes/Taxonomies.php:63
+msgid "Add New Dance Style"
+msgstr ""
+
+#: includes/Taxonomies.php:64
+msgid "New Dance Style Name"
+msgstr ""
+
+#: includes/Taxonomies.php:79
+#: includes/Taxonomies.php:86
+msgid "Levels"
+msgstr ""
+
+#: includes/Taxonomies.php:80
+msgid "Level"
+msgstr ""
+
+#: includes/Taxonomies.php:81
+msgid "Search Levels"
+msgstr ""
+
+#: includes/Taxonomies.php:82
+msgid "All Levels"
+msgstr ""
+
+#: includes/Taxonomies.php:83
+msgid "Edit Level"
+msgstr ""
+
+#: includes/Taxonomies.php:84
+msgid "Add New Level"
+msgstr ""
+
+#: includes/Taxonomies.php:85
+msgid "New Level Name"
+msgstr ""
+
+#: public/templates/account-enrollments.php:20
+msgid "You have no enrollments yet."
+msgstr ""
+
+#: public/templates/account-enrollments.php:30
+msgid "Participant:"
+msgstr ""
+
+#: public/templates/account-enrollments.php:34
+msgid "Location:"
+msgstr ""
+
+#: public/templates/account-enrollments.php:37
+msgid "Price:"
+msgstr ""
+
+#: public/templates/account-enrollments.php:47
+msgid "This enrollment was over capacity when made — we will contact you to confirm your spot."
+msgstr ""
+
+#: public/templates/account-enrollments.php:53
+msgid "Payment instructions"
+msgstr ""
+
+#: public/templates/account-enrollments.php:57
+#: public/templates/enroll-confirmation.php:32
+msgid "Amount"
+msgstr ""
+
+#: public/templates/account-enrollments.php:61
+#: public/templates/enroll-confirmation.php:43
+msgid "Bank account"
+msgstr ""
+
+#: public/templates/account-enrollments.php:62
+#: public/templates/enroll-confirmation.php:44
+msgid "(to be confirmed)"
+msgstr ""
+
+#: public/templates/account-enrollments.php:76
+msgid "QR payment code"
+msgstr ""
+
+#: public/templates/account-enrollments.php:77
+msgid "Scan with your banking app to pre-fill the amount and variable symbol."
+msgstr ""
+
+#: public/templates/account-enrollments.php:80
+msgid "Need to cancel? Please contact us — self-service cancellation isn't available."
+msgstr ""
+
+#: public/templates/account-profile.php:49
+msgid "Your new email address has been confirmed."
+msgstr ""
+
+#: public/templates/account-profile.php:51
+msgid "That confirmation link has expired. Please request the email change again."
+msgstr ""
+
+#: public/templates/account-profile.php:53
+msgid "That email address was taken by another account in the meantime. Please request the change again with a different address."
+msgstr ""
+
+#: public/templates/account-profile.php:55
+msgid "That confirmation link is invalid or has already been used."
+msgstr ""
+
+#: public/templates/account-profile.php:60
+msgid "Personal details"
+msgstr ""
+
+#: public/templates/account-profile.php:63
+msgid "Your details have been updated."
+msgstr ""
+
+#: public/templates/account-profile.php:108
+msgid "Save changes"
+msgstr ""
+
+#: public/templates/account-profile.php:113
+msgid "Email address"
+msgstr ""
+
+#: public/templates/account-profile.php:114
+msgid "Current email:"
+msgstr ""
+
+#. translators: %s: pending new email address.
+#: public/templates/account-profile.php:122
+#, php-format
+msgid "A change to %s is pending — check that inbox for a confirmation link."
+msgstr ""
+
+#: public/templates/account-profile.php:131
+msgid "Please check the new address's inbox and click the confirmation link — the change only takes effect once confirmed."
+msgstr ""
+
+#: public/templates/account-profile.php:147
+msgid "New email address"
+msgstr ""
+
+#: public/templates/account-profile.php:153
+msgid "Request email change"
+msgstr ""
+
+#: public/templates/account-profile.php:158
+#: public/templates/login-form.php:44
+#: public/templates/register-form.php:74
+msgid "Password"
+msgstr ""
+
+#: public/templates/account-profile.php:161
+msgid "Your password has been changed."
+msgstr ""
+
+#: public/templates/account-profile.php:177
+#: public/templates/lost-password-form.php:63
+msgid "New password"
+msgstr ""
+
+#: public/templates/account-profile.php:184
+msgid "Confirm new password"
+msgstr ""
+
+#: public/templates/account-profile.php:190
+msgid "Change password"
+msgstr ""
+
+#: public/templates/account-profile.php:195
+msgid "Marketing preferences"
+msgstr ""
+
+#: public/templates/account-profile.php:198
+msgid "Your preference has been saved."
+msgstr ""
+
+#: public/templates/account-profile.php:207
+msgid "I would like to receive occasional news and offers by email."
+msgstr ""
+
+#: public/templates/account-profile.php:210
+msgid "Save preference"
+msgstr ""
+
+#: public/templates/account-schedule.php:17
+msgid "No upcoming lessons."
+msgstr ""
+
+#: public/templates/account.php:20
+msgid "My enrollments"
+msgstr ""
+
+#: public/templates/account.php:21
+msgid "My schedule"
+msgstr ""
+
+#: public/templates/account.php:22
+msgid "Profile"
+msgstr ""
+
+#: public/templates/calendar.php:25
+msgid "Style"
+msgstr ""
+
+#: public/templates/calendar.php:27
+#: public/templates/catalog.php:20
+msgid "All styles"
+msgstr ""
+
+#: public/templates/calendar.php:43
+msgid "Skip to list view"
+msgstr ""
+
+#: public/templates/calendar.php:48
+msgid "Enable JavaScript to see the calendar."
+msgstr ""
+
+#: public/templates/calendar.php:53
+msgid "Upcoming lessons (list view)"
+msgstr ""
+
+#: public/templates/calendar.php:55
+msgid "No upcoming lessons found."
+msgstr ""
+
+#: public/templates/catalog.php:27
+msgid "All levels"
+msgstr ""
+
+#: public/templates/catalog.php:41
+msgid "Any weekday"
+msgstr ""
+
+#: public/templates/catalog.php:51
+msgid "No open terms match your filters right now."
+msgstr ""
+
+#: public/templates/catalog.php:62
+#: public/templates/course-terms.php:24
+msgid "Workshop"
+msgstr ""
+
+#: public/templates/catalog.php:65
+#: public/templates/course-terms.php:27
+msgid "Full"
+msgstr ""
+
+#. translators: 1: early-bird price, 2: deadline date.
+#: public/templates/catalog.php:78
+#: public/templates/course-terms.php:40
+#, php-format
+msgid "Early bird: %1$s Kč until %2$s"
+msgstr ""
+
+#. translators: %s: regular price.
+#: public/templates/catalog.php:87
+#, php-format
+msgid "(regular %s Kč)"
+msgstr ""
+
+#. translators: %s: price.
+#: public/templates/catalog.php:93
+#: public/templates/course-terms.php:49
+#, php-format
+msgid "%s Kč"
+msgstr ""
+
+#: public/templates/catalog.php:102
+#: public/templates/course-terms.php:54
+msgid "Enroll"
+msgstr ""
+
+#: public/templates/course-terms.php:15
+msgid "Open terms"
+msgstr ""
+
+#: public/templates/course-terms.php:18
+msgid "No open terms for this course right now — check back soon."
+msgstr ""
+
+#. translators: %s: course name.
+#: public/templates/enroll-closed.php:21
+#, php-format
+msgid "Enrollment for \"%s\" is not open right now."
+msgstr ""
+
+#: public/templates/enroll-closed.php:26
+msgid "Enrollment for this term is not open right now."
+msgstr ""
+
+#: public/templates/enroll-confirmation.php:17
+msgid "Thank you — your enrollment has been received."
+msgstr ""
+
+#: public/templates/enroll-confirmation.php:25
+msgid "This term is currently at capacity — we will contact you to confirm your spot."
+msgstr ""
+
+#: public/templates/enroll-confirmation.php:57
+msgid "We have also emailed you these payment instructions."
+msgstr ""
+
+#: public/templates/enroll-form.php:36
+#: public/templates/lost-password-form.php:37
+#: public/templates/voucher-form.php:23
+msgid "Too many attempts. Please try again later."
+msgstr ""
+
+#: public/templates/enroll-form.php:38
+msgid "You are already enrolled in this term with this participant."
+msgstr ""
+
+#: public/templates/enroll-form.php:54
+msgid "This term is currently at capacity. You can still sign up — the school will contact you to confirm your spot."
+msgstr ""
+
+#: public/templates/enroll-form.php:65
+msgid "Who is attending?"
+msgstr ""
+
+#: public/templates/enroll-form.php:67
+msgid "Me"
+msgstr ""
+
+#: public/templates/enroll-form.php:68
+msgid "Someone else (e.g. my child)"
+msgstr ""
+
+#: public/templates/enroll-form.php:94
+msgid "Partner name (optional — enrolling as a pair may unlock a discount)"
+msgstr ""
+
+#: public/templates/enroll-form.php:102
+msgid "Note (optional)"
+msgstr ""
+
+#: public/templates/enroll-form.php:107
+msgid "Estimated price:"
+msgstr ""
+
+#: public/templates/enroll-form.php:112
+msgid "(advisory — the final price is always confirmed on the next screen)"
+msgstr ""
+
+#. translators: %s: Terms & Conditions link.
+#: public/templates/enroll-form.php:122
+#: public/templates/register-form.php:89
+#, php-format
+msgid "I agree to the %s."
+msgstr ""
+
+#: public/templates/enroll-form.php:127
+#: public/templates/register-form.php:94
+msgid "I agree to the Terms & Conditions."
+msgstr ""
+
+#. translators: %s: privacy policy link.
+#: public/templates/enroll-form.php:140
+#: public/templates/register-form.php:107
+#, php-format
+msgid "Your personal data will be processed according to our %s."
+msgstr ""
+
+#: public/templates/enroll-form.php:141
+#: public/templates/register-form.php:108
+msgid "privacy policy"
+msgstr ""
+
+#: public/templates/enroll-form.php:145
+#: public/templates/register-form.php:112
+msgid "Your personal data will be processed according to our privacy policy."
+msgstr ""
+
+#: public/templates/enroll-form.php:154
+#: public/templates/register-form.php:120
+msgid "I would also like to receive occasional news and offers by email (optional)."
+msgstr ""
+
+#: public/templates/enroll-form.php:167
+msgid "Enroll with obligation to pay"
+msgstr ""
+
+#: public/templates/enroll-form.php:168
+msgid "Závazně přihlásit s povinností platby"
+msgstr ""
+
+#: public/templates/enroll-form.php:171
+msgid "By clicking this button you agree to a binding enrollment with an obligation to pay."
+msgstr ""
+
+#: public/templates/enroll-login-required.php:17
+msgid "Please log in or create an account to enroll. Once you're signed in, you'll come straight back here to finish your enrollment."
+msgstr ""
+
+#: public/templates/enroll-login-required.php:21
+#: public/templates/login-form.php:52
+#: public/templates/register-form.php:132
+msgid "Log in"
+msgstr ""
+
+#: public/templates/enroll-login-required.php:22
+#: public/templates/login-form.php:58
+msgid "Create an account"
+msgstr ""
+
+#: public/templates/enroll-not-found.php:14
+msgid "We could not find that course term. It may have been removed."
+msgstr ""
+
+#: public/templates/login-form.php:18
+msgid "Your email address has been verified. You can now log in."
+msgstr ""
+
+#: public/templates/login-form.php:20
+msgid "This verification link has expired. Please register again or contact us."
+msgstr ""
+
+#: public/templates/login-form.php:22
+msgid "This verification link is invalid or has already been used."
+msgstr ""
+
+#: public/templates/login-form.php:49
+msgid "Remember me"
+msgstr ""
+
+#: public/templates/login-form.php:56
+msgid "Lost your password?"
+msgstr ""
+
+#: public/templates/lost-password-form.php:22
+msgid "If an account exists for that email address, a password reset link has been sent."
+msgstr ""
+
+#: public/templates/lost-password-form.php:27
+msgid "Your password has been changed. You can now log in with your new password."
+msgstr ""
+
+#: public/templates/lost-password-form.php:32
+msgid "This password reset link is invalid or has expired. Please request a new one."
+msgstr ""
+
+#: public/templates/lost-password-form.php:67
+msgid "Set new password"
+msgstr ""
+
+#: public/templates/lost-password-form.php:80
+msgid "Send reset link"
+msgstr ""
+
+#: public/templates/register-form.php:22
+msgid "Too many registration attempts. Please try again later."
+msgstr ""
+
+#: public/templates/register-form.php:124
+msgid "Create account"
+msgstr ""
+
+#. translators: %s: login link.
+#: public/templates/register-form.php:131
+#, php-format
+msgid "Already have an account? %s"
+msgstr ""
+
+#: public/templates/register-success.php:16
+msgid "Almost done! Please check your inbox and click the verification link to activate your account."
+msgstr ""
+
+#: public/templates/voucher-form.php:60
+msgid "Message"
+msgstr ""
+
+#: public/templates/voucher-form.php:67
+msgid "Send inquiry"
+msgstr ""
+
+#: public/templates/voucher-success.php:16
+msgid "Thank you — we have received your message and will get back to you shortly."
+msgstr ""

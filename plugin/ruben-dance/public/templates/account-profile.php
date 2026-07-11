@@ -62,13 +62,14 @@ $ruben_dance_locale     = (string) ( $ruben_dance_profile_result['submitted']['l
 		<?php if ( 'success' === $ruben_dance_profile_result['state'] ) : ?>
 			<div class="rd-notice rd-notice--success"><p><?php esc_html_e( 'Your details have been updated.', 'ruben-dance' ); ?></p></div>
 		<?php elseif ( array() !== $ruben_dance_profile_result['errors'] ) : ?>
-			<div class="rd-notice rd-notice--error">
+			<div class="rd-notice rd-notice--error" role="alert" tabindex="-1" id="rd-account-profile-errors">
 				<ul>
 					<?php foreach ( $ruben_dance_profile_result['errors'] as $ruben_dance_code ) : ?>
 						<li><?php echo esc_html( Account_Page::error_message( $ruben_dance_code ) ); ?></li>
 					<?php endforeach; ?>
 				</ul>
 			</div>
+			<script>document.getElementById( 'rd-account-profile-errors' ).focus();</script>
 		<?php endif; ?>
 
 		<form method="post" class="rd-account-form">
@@ -77,15 +78,24 @@ $ruben_dance_locale     = (string) ( $ruben_dance_profile_result['submitted']['l
 
 			<p>
 				<label for="rd-account-first-name"><?php esc_html_e( 'First name', 'ruben-dance' ); ?></label><br>
-				<input type="text" id="rd-account-first-name" name="first_name" required="required" autocomplete="given-name" value="<?php echo esc_attr( $ruben_dance_first_name ); ?>">
+				<input type="text" id="rd-account-first-name" name="first_name" required="required" autocomplete="given-name" value="<?php echo esc_attr( $ruben_dance_first_name ); ?>" <?php echo isset( $ruben_dance_profile_result['errors']['first_name'] ) ? 'aria-invalid="true"' : ''; ?> aria-describedby="rd-account-first-name-error">
+				<span id="rd-account-first-name-error" class="rd-field-error">
+					<?php echo isset( $ruben_dance_profile_result['errors']['first_name'] ) ? esc_html( Account_Page::error_message( $ruben_dance_profile_result['errors']['first_name'] ) ) : ''; ?>
+				</span>
 			</p>
 			<p>
 				<label for="rd-account-last-name"><?php esc_html_e( 'Last name', 'ruben-dance' ); ?></label><br>
-				<input type="text" id="rd-account-last-name" name="last_name" required="required" autocomplete="family-name" value="<?php echo esc_attr( $ruben_dance_last_name ); ?>">
+				<input type="text" id="rd-account-last-name" name="last_name" required="required" autocomplete="family-name" value="<?php echo esc_attr( $ruben_dance_last_name ); ?>" <?php echo isset( $ruben_dance_profile_result['errors']['last_name'] ) ? 'aria-invalid="true"' : ''; ?> aria-describedby="rd-account-last-name-error">
+				<span id="rd-account-last-name-error" class="rd-field-error">
+					<?php echo isset( $ruben_dance_profile_result['errors']['last_name'] ) ? esc_html( Account_Page::error_message( $ruben_dance_profile_result['errors']['last_name'] ) ) : ''; ?>
+				</span>
 			</p>
 			<p>
 				<label for="rd-account-phone"><?php esc_html_e( 'Phone', 'ruben-dance' ); ?></label><br>
-				<input type="tel" id="rd-account-phone" name="phone" required="required" autocomplete="tel" value="<?php echo esc_attr( $ruben_dance_phone ); ?>">
+				<input type="tel" id="rd-account-phone" name="phone" required="required" autocomplete="tel" value="<?php echo esc_attr( $ruben_dance_phone ); ?>" <?php echo isset( $ruben_dance_profile_result['errors']['phone'] ) ? 'aria-invalid="true"' : ''; ?> aria-describedby="rd-account-phone-error">
+				<span id="rd-account-phone-error" class="rd-field-error">
+					<?php echo isset( $ruben_dance_profile_result['errors']['phone'] ) ? esc_html( Account_Page::error_message( $ruben_dance_profile_result['errors']['phone'] ) ) : ''; ?>
+				</span>
 			</p>
 			<p>
 				<label for="rd-account-locale"><?php esc_html_e( 'Preferred language', 'ruben-dance' ); ?></label><br>
@@ -120,13 +130,14 @@ $ruben_dance_locale     = (string) ( $ruben_dance_profile_result['submitted']['l
 		<?php if ( 'requested' === $ruben_dance_email_result['state'] ) : ?>
 			<div class="rd-notice rd-notice--success"><p><?php esc_html_e( 'Please check the new address\'s inbox and click the confirmation link — the change only takes effect once confirmed.', 'ruben-dance' ); ?></p></div>
 		<?php elseif ( array() !== $ruben_dance_email_result['errors'] ) : ?>
-			<div class="rd-notice rd-notice--error">
+			<div class="rd-notice rd-notice--error" role="alert" tabindex="-1" id="rd-account-email-errors">
 				<ul>
 					<?php foreach ( $ruben_dance_email_result['errors'] as $ruben_dance_code ) : ?>
 						<li><?php echo esc_html( Account_Page::error_message( $ruben_dance_code ) ); ?></li>
 					<?php endforeach; ?>
 				</ul>
 			</div>
+			<script>document.getElementById( 'rd-account-email-errors' ).focus();</script>
 		<?php endif; ?>
 
 		<form method="post" class="rd-account-form">
@@ -134,7 +145,10 @@ $ruben_dance_locale     = (string) ( $ruben_dance_profile_result['submitted']['l
 			<input type="hidden" name="rd_account_action" value="request_email_change">
 			<p>
 				<label for="rd-account-new-email"><?php esc_html_e( 'New email address', 'ruben-dance' ); ?></label><br>
-				<input type="email" id="rd-account-new-email" name="new_email" required="required" value="<?php echo esc_attr( (string) ( $ruben_dance_email_result['submitted']['new_email'] ?? '' ) ); ?>">
+				<input type="email" id="rd-account-new-email" name="new_email" required="required" value="<?php echo esc_attr( (string) ( $ruben_dance_email_result['submitted']['new_email'] ?? '' ) ); ?>" <?php echo isset( $ruben_dance_email_result['errors']['new_email'] ) ? 'aria-invalid="true"' : ''; ?> aria-describedby="rd-account-new-email-error">
+				<span id="rd-account-new-email-error" class="rd-field-error">
+					<?php echo isset( $ruben_dance_email_result['errors']['new_email'] ) ? esc_html( Account_Page::error_message( $ruben_dance_email_result['errors']['new_email'] ) ) : ''; ?>
+				</span>
 			</p>
 			<p><button type="submit"><?php esc_html_e( 'Request email change', 'ruben-dance' ); ?></button></p>
 		</form>
@@ -146,13 +160,14 @@ $ruben_dance_locale     = (string) ( $ruben_dance_profile_result['submitted']['l
 		<?php if ( 'success' === $ruben_dance_password_result['state'] ) : ?>
 			<div class="rd-notice rd-notice--success"><p><?php esc_html_e( 'Your password has been changed.', 'ruben-dance' ); ?></p></div>
 		<?php elseif ( array() !== $ruben_dance_password_result['errors'] ) : ?>
-			<div class="rd-notice rd-notice--error">
+			<div class="rd-notice rd-notice--error" role="alert" tabindex="-1" id="rd-account-password-errors">
 				<ul>
 					<?php foreach ( $ruben_dance_password_result['errors'] as $ruben_dance_code ) : ?>
 						<li><?php echo esc_html( Account_Page::error_message( $ruben_dance_code ) ); ?></li>
 					<?php endforeach; ?>
 				</ul>
 			</div>
+			<script>document.getElementById( 'rd-account-password-errors' ).focus();</script>
 		<?php endif; ?>
 
 		<form method="post" class="rd-account-form">
@@ -160,11 +175,17 @@ $ruben_dance_locale     = (string) ( $ruben_dance_profile_result['submitted']['l
 			<input type="hidden" name="rd_account_action" value="update_password">
 			<p>
 				<label for="rd-account-new-password"><?php esc_html_e( 'New password', 'ruben-dance' ); ?></label><br>
-				<input type="password" id="rd-account-new-password" name="new_password" required="required" minlength="8" autocomplete="new-password">
+				<input type="password" id="rd-account-new-password" name="new_password" required="required" minlength="8" autocomplete="new-password" <?php echo isset( $ruben_dance_password_result['errors']['new_password'] ) ? 'aria-invalid="true"' : ''; ?> aria-describedby="rd-account-new-password-error">
+				<span id="rd-account-new-password-error" class="rd-field-error">
+					<?php echo isset( $ruben_dance_password_result['errors']['new_password'] ) ? esc_html( Account_Page::error_message( $ruben_dance_password_result['errors']['new_password'] ) ) : ''; ?>
+				</span>
 			</p>
 			<p>
 				<label for="rd-account-new-password-confirm"><?php esc_html_e( 'Confirm new password', 'ruben-dance' ); ?></label><br>
-				<input type="password" id="rd-account-new-password-confirm" name="new_password_confirm" required="required" minlength="8" autocomplete="new-password">
+				<input type="password" id="rd-account-new-password-confirm" name="new_password_confirm" required="required" minlength="8" autocomplete="new-password" <?php echo isset( $ruben_dance_password_result['errors']['new_password_confirm'] ) ? 'aria-invalid="true"' : ''; ?> aria-describedby="rd-account-new-password-confirm-error">
+				<span id="rd-account-new-password-confirm-error" class="rd-field-error">
+					<?php echo isset( $ruben_dance_password_result['errors']['new_password_confirm'] ) ? esc_html( Account_Page::error_message( $ruben_dance_password_result['errors']['new_password_confirm'] ) ) : ''; ?>
+				</span>
 			</p>
 			<p><button type="submit"><?php esc_html_e( 'Change password', 'ruben-dance' ); ?></button></p>
 		</form>

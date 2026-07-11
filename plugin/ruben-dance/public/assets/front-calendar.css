@@ -33,3 +33,26 @@
 	text-decoration: line-through;
 	opacity: 0.65;
 }
+
+/*
+ * Accessibility pass (spec §6.4): the list-view fallback and its skip link
+ * (M16) — a keyboard/screen-reader-usable alternative to the FullCalendar
+ * grid widget above, always rendered server-side.
+ */
+.rd-calendar-list-view:focus {
+	outline: 2px solid #2271b1;
+	outline-offset: 2px;
+}
+
+.rd-calendar-list-table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 1em;
+}
+
+.rd-calendar-list-table th,
+.rd-calendar-list-table td {
+	text-align: left;
+	padding: 0.5em;
+	border-bottom: 1px solid #eee;
+}

@@ -83,6 +83,20 @@ add_action(
 	}
 );
 
+/**
+ * Load the compiled `cs_CZ` translation (M16/§5 Multilingual: "WordPress
+ * i18n (`__()` with text domain `ruben-dance`), CS + EN `.po` files" — the
+ * source strings themselves are the English default, so only a non-English
+ * locale ever needs a `.mo` loaded at all). Not hooked to `plugins_loaded`/
+ * `init`: this file already runs during `plugins_loaded` (WordPress executes
+ * every active plugin's main file then), and every string this plugin
+ * translates is only ever read from inside a *later* hook callback (a menu
+ * page render, a shortcode, a REST callback, ...), never at top-level file
+ * scope — so loading synchronously here, before any of those callbacks are
+ * registered, is early enough for every one of them.
+ */
+load_plugin_textdomain( 'ruben-dance', false, dirname( plugin_basename( RUBEN_DANCE_PLUGIN_FILE ) ) . '/languages' );
+
 \RubenDance\Admin\Menu::register();
 \RubenDance\Admin\Locations_Page::register();
 \RubenDance\Admin\Terms_Page::register();
@@ -113,6 +127,8 @@ add_action(
 \RubenDance\Front\Account_Form_Handler::register();
 \RubenDance\Front\Qr_Code_Ajax::register();
 \RubenDance\Front\Calendar_Page::register();
+\RubenDance\Front\Voucher_Page::register();
+\RubenDance\Front\Voucher_Form_Handler::register();
 \RubenDance\Rest\Lessons_Controller::register();
 \RubenDance\Services\Calendar_Cache::register();
 \RubenDance\Front\Footer_Links::register();

@@ -473,6 +473,39 @@ HTML
 	);
 
 	/**
+	 * The voucher info page (M16/F17/§4.6: "a voucher info page (normal WP
+	 * content, CS + EN) describing the offer, with a short inquiry form").
+	 * Shaped like `self::LEGAL_PAGES` (real body content per language, not a
+	 * bare shortcode) but seeded by its own `seed_voucher_page()` method
+	 * rather than added to that array — a voucher page also carries the
+	 * `[rd_voucher_inquiry]` shortcode inside its content, which the legal
+	 * pages never do.
+	 *
+	 * @var array<int, array{which: string, slug_cs: string, title_cs: string, content_cs: string, slug_en: string, title_en: string, content_en: string}>
+	 */
+	const VOUCHER_PAGE = array(
+		array(
+			'which'      => 'voucher',
+			'slug_cs'    => 'darkove-poukazy',
+			'title_cs'   => 'Dárkové poukazy',
+			'content_cs' => <<<'HTML'
+<p>Hledáte originální dárek pro tanečního nadšence? Dárkový poukaz Ruben Dance lze uplatnit na jakýkoli náš kurz nebo workshop — stačí při přihlášení uvést číslo poukazu do poznámky, my platbu spárujeme a přihlášku potvrdíme.</p>
+<p>Poukazy vystavujeme na libovolnou částku i na konkrétní kurz. Napište nám prosím pár slov o tom, o jaký poukaz máte zájem (částka, kurz, termín předání) a ozveme se s dalšími kroky.</p>
+[rd_voucher_inquiry]
+HTML
+			,
+			'slug_en'    => 'gift-vouchers',
+			'title_en'   => 'Gift Vouchers',
+			'content_en' => <<<'HTML'
+<p>Looking for an original gift for a dance enthusiast? A Ruben Dance gift voucher can be redeemed against any of our courses or workshops — just mention the voucher in the note when enrolling, and we'll match the payment and confirm the enrollment.</p>
+<p>Vouchers can be issued for any amount or for a specific course. Send us a few words about the voucher you're interested in (amount, course, when you'd like to receive it) and we'll get back to you with next steps.</p>
+[rd_voucher_inquiry]
+HTML
+			,
+		),
+	);
+
+	/**
 	 * Five verified customers (M07: "5 verified customers with locales/
 	 * consents varied") — pre-verified via `Registration_Service::register_pre_verified()`
 	 * so admin/enrollment milestone fixtures can use them immediately without
@@ -709,22 +742,24 @@ HTML
 	public function __invoke( array $args, array $assoc_args ): void {
 		unset( $args, $assoc_args ); // Required by the WP-CLI callable signature; unused for now.
 
-		$locations_created   = $this->seed_locations();
-		$courses_created     = $this->seed_courses();
-		$terms_created       = $this->seed_terms();
-		$pages_created       = $this->seed_pages();
-		$legal_pages_created = $this->seed_legal_pages();
-		$customers_created   = $this->seed_customers();
-		$enrollments_created = $this->seed_enrollments();
+		$locations_created    = $this->seed_locations();
+		$courses_created      = $this->seed_courses();
+		$terms_created        = $this->seed_terms();
+		$pages_created        = $this->seed_pages();
+		$legal_pages_created  = $this->seed_legal_pages();
+		$voucher_page_created = $this->seed_voucher_page();
+		$customers_created    = $this->seed_customers();
+		$enrollments_created  = $this->seed_enrollments();
 
 		\WP_CLI::success(
 			sprintf(
-				'ruben-dance: seeded (%d location(s), %d course(s), %d term(s), %d page(s), %d legal page(s), %d customer(s), %d enrollment(s) created).',
+				'ruben-dance: seeded (%d location(s), %d course(s), %d term(s), %d page(s), %d legal page(s), %d voucher page(s), %d customer(s), %d enrollment(s) created).',
 				$locations_created,
 				$courses_created,
 				$terms_created,
 				$pages_created,
 				$legal_pages_created,
+				$voucher_page_created,
 				$customers_created,
 				$enrollments_created
 			)
@@ -1089,6 +1124,84 @@ HTML
 			$map = get_option( \RubenDance\Front\Pages::OPTION, array() );
 
 			foreach ( self::LEGAL_PAGES as $page ) {
+				$pair = $map[ $page['which'] ] ?? array();
+
+				if ( isset( $pair[ Lang::CS ], $pair[ Lang::EN ] ) ) {
+					pll_save_post_translations(
+						array(
+							Lang::CS => (int) $pair[ Lang::CS ],
+							Lang::EN => (int) $pair[ Lang::EN ],
+						)
+					);
+				}
+			}
+		}
+
+		return $created;
+	}
+
+	/**
+	 * Insert the voucher info page (M16/F17), skipping any whose slug already
+	 * exists in that language — the same two-step idempotency
+	 * (`Front\Pages`' own record first, then a slug lookup) `seed_legal_pages()`
+	 * uses, so a previous run's auto-suffixed slug is never duplicated.
+	 *
+	 * @return int Number of pages actually created.
+	 */
+	private function seed_voucher_page(): int {
+		$created = 0;
+
+		$registered = get_option( \RubenDance\Front\Pages::OPTION, array() );
+
+		foreach ( self::VOUCHER_PAGE as $page ) {
+			foreach (
+				array(
+					Lang::CS => array( $page['slug_cs'], $page['title_cs'], $page['content_cs'] ),
+					Lang::EN => array( $page['slug_en'], $page['title_en'], $page['content_en'] ),
+				) as $lang => list( $slug, $title, $content )
+			) {
+				$registered_id = (int) ( $registered[ $page['which'] ][ $lang ] ?? 0 );
+
+				if ( $registered_id > 0 && 'publish' === get_post_status( $registered_id ) ) {
+					continue;
+				}
+
+				$existing_id = $this->find_page_by_slug( $slug );
+
+				if ( null !== $existing_id ) {
+					\RubenDance\Front\Pages::set( $page['which'], $lang, $existing_id );
+					continue;
+				}
+
+				$post_id = wp_insert_post(
+					array(
+						'post_type'    => 'page',
+						'post_title'   => $title,
+						'post_name'    => $slug,
+						'post_content' => $content,
+						'post_status'  => 'publish',
+					),
+					true
+				);
+
+				if ( is_wp_error( $post_id ) || ! $post_id ) {
+					continue;
+				}
+
+				if ( function_exists( 'pll_set_post_language' ) ) {
+					pll_set_post_language( $post_id, $lang );
+				}
+
+				\RubenDance\Front\Pages::set( $page['which'], $lang, (int) $post_id );
+
+				++$created;
+			}
+		}
+
+		if ( function_exists( 'pll_save_post_translations' ) ) {
+			$map = get_option( \RubenDance\Front\Pages::OPTION, array() );
+
+			foreach ( self::VOUCHER_PAGE as $page ) {
 				$pair = $map[ $page['which'] ] ?? array();
 
 				if ( isset( $pair[ Lang::CS ], $pair[ Lang::EN ] ) ) {

@@ -24,7 +24,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<?php endif; ?>
 
 	<?php if ( '' !== $error ) : ?>
-		<div class="rd-notice rd-notice--error"><p><?php echo esc_html( $error ); ?></p></div>
+		<div class="rd-notice rd-notice--error" role="alert" tabindex="-1" id="rd-login-error"><p><?php echo esc_html( $error ); ?></p></div>
+		<script>document.getElementById( 'rd-login-error' ).focus();</script>
 	<?php endif; ?>
 
 	<form method="post" class="rd-auth-form">
@@ -36,12 +37,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<p>
 			<label for="rd-login-email"><?php esc_html_e( 'Email', 'ruben-dance' ); ?></label><br>
-			<input type="email" id="rd-login-email" name="email" required="required" autocomplete="username" value="<?php echo esc_attr( $submitted_email ); ?>">
+			<input type="email" id="rd-login-email" name="email" required="required" autocomplete="username" value="<?php echo esc_attr( $submitted_email ); ?>" <?php echo '' !== $error ? 'aria-invalid="true" aria-describedby="rd-login-error"' : ''; ?>>
 		</p>
 
 		<p>
 			<label for="rd-login-password"><?php esc_html_e( 'Password', 'ruben-dance' ); ?></label><br>
-			<input type="password" id="rd-login-password" name="password" required="required" autocomplete="current-password">
+			<input type="password" id="rd-login-password" name="password" required="required" autocomplete="current-password" <?php echo '' !== $error ? 'aria-invalid="true" aria-describedby="rd-login-error"' : ''; ?>>
 		</p>
 
 		<p>

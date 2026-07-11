@@ -13,6 +13,7 @@ namespace RubenDance\Front;
 use RubenDance\Lang;
 use RubenDance\Repositories\Location_Repository;
 use RubenDance\Rest\Lessons_Controller;
+use RubenDance\Services\Calendar_Service;
 use RubenDance\Settings;
 use RubenDance\Taxonomies;
 
@@ -41,6 +42,19 @@ class Calendar_Page {
 	 * @var string
 	 */
 	const PAGE_KEY = 'calendar';
+
+	/**
+	 * How many days ahead the list-view fallback covers (spec §6.4:
+	 * "keyboard-navigable calendar with a list-view fallback" — a real,
+	 * always-rendered `<table>` of upcoming lessons that needs no JavaScript
+	 * and no pointer/drag interaction to browse, unlike the FullCalendar
+	 * grid). Deliberately short: this is a fallback for finding the next few
+	 * lessons, not a full schedule browser — the calendar widget itself
+	 * still covers any date range.
+	 *
+	 * @var int
+	 */
+	const LIST_VIEW_WINDOW_DAYS = 60;
 
 	/**
 	 * Hook registration.
@@ -72,6 +86,31 @@ class Calendar_Page {
 			array(
 				'style_options'    => self::taxonomy_options( Taxonomies::DANCE_STYLE, $lang ),
 				'location_options' => ( new Location_Repository() )->active(),
+				'upcoming_lessons' => self::upcoming_lessons( $lang ),
+			)
+		);
+	}
+
+	/**
+	 * Unfiltered upcoming lessons for the list-view fallback, reusing the
+	 * same public-safe, already-filtered-for-display data
+	 * `Rest\Lessons_Controller` serves to the JS calendar widget — this
+	 * server-rendered list is never out of sync with what the widget itself
+	 * would show for the same range.
+	 *
+	 * @param string $lang Current display language.
+	 * @return array<int, array<string, mixed>>
+	 */
+	private static function upcoming_lessons( string $lang ): array {
+		$today = current_time( 'Y-m-d' );
+
+		return Calendar_Service::create_default()->lessons_for_feed(
+			array(
+				'from'     => $today,
+				'to'       => gmdate( 'Y-m-d', strtotime( $today ) + self::LIST_VIEW_WINDOW_DAYS * DAY_IN_SECONDS ),
+				'style'    => 0,
+				'location' => 0,
+				'lang'     => $lang,
 			)
 		);
 	}

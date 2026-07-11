@@ -26,6 +26,34 @@
 	border-left-color: #dc3232;
 }
 
+/*
+ * Accessibility pass (spec §6.4): the error-summary notices above
+ * `role="alert" tabindex="-1"` and JS-focused on render (M16) need a visible
+ * focus outline just like any other focusable element — browsers do not
+ * always draw one on a plain `<div>` by default.
+ */
+.rd-notice[tabindex="-1"]:focus {
+	outline: 2px solid #dc3232;
+	outline-offset: 2px;
+}
+
+/*
+ * Per-field validation messages (spec §6.4: "form validation errors visible
+ * + associated (aria-describedby)"). The `<span>` is always present (so the
+ * `aria-describedby` reference always resolves to a real element) but empty
+ * when the field has no error, so it renders nothing visually until needed.
+ */
+.rd-field-error {
+	display: block;
+	color: #dc3232;
+	font-size: 0.85em;
+	margin-top: 0.25em;
+}
+
+.rd-field-error:empty {
+	display: none;
+}
+
 .rd-password-strength {
 	font-size: 0.85em;
 	margin-top: 0.25em;
