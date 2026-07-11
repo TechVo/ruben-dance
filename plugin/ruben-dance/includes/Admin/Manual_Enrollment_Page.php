@@ -11,8 +11,10 @@ declare( strict_types = 1 );
 
 namespace RubenDance\Admin;
 
+use RubenDance\Emails\Enrollment_Created_Emails;
 use RubenDance\Lang;
 use RubenDance\Repositories\Course_Term_Repository;
+use RubenDance\Repositories\Enrollment_Repository;
 use RubenDance\Roles;
 use RubenDance\Services\Duplicate_Enrollment_Exception;
 use RubenDance\Services\Enrollment_Service;
@@ -226,7 +228,26 @@ class Manual_Enrollment_Page {
 			return;
 		}
 
-		wp_safe_redirect( add_query_arg( array( 'rd_notice' => 'manual_enrollment_created' ), Enrollment_Detail_Page::url( $id ) ) );
+		// E2 (customer, their stored locale — Czech for the minimal account
+		// just created above) + E3 (admin address, always CS): spec F14's
+		// trigger is "Enrollment created" regardless of channel, so a phone
+		// order sends the same pair the public form does. The enrollment
+		// always stands — a wp_mail() failure only changes the notice (and
+		// is logged with status `failed` by Email_Sender), never the redirect.
+		$enrollment = ( new Enrollment_Repository() )->find( $id );
+		$emails_ok  = true;
+
+		if ( null !== $enrollment ) {
+			$term      = ( new Course_Term_Repository() )->find( (int) $enrollment['term_id'] );
+			$emails_ok = Enrollment_Created_Emails::send( $enrollment, $term );
+		}
+
+		wp_safe_redirect(
+			add_query_arg(
+				array( 'rd_notice' => $emails_ok ? 'manual_enrollment_created' : 'manual_enrollment_email_failed' ),
+				Enrollment_Detail_Page::url( $id )
+			)
+		);
 		exit;
 	}
 

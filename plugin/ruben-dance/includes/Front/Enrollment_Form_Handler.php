@@ -10,17 +10,13 @@ declare( strict_types = 1 );
 namespace RubenDance\Front;
 
 use RubenDance\Course_Fields;
-use RubenDance\Emails\Email_Sender;
-use RubenDance\Emails\Email_Templates;
-use RubenDance\Emails\Enrollment_Email_Data;
-use RubenDance\Lang;
+use RubenDance\Emails\Enrollment_Created_Emails;
 use RubenDance\Repositories\Course_Term_Repository;
 use RubenDance\Repositories\Enrollment_Repository;
 use RubenDance\Services\Duplicate_Enrollment_Exception;
 use RubenDance\Services\Enrollment_Service;
 use RubenDance\Services\Rate_Limiter;
 use RubenDance\Services\Registration_Service;
-use RubenDance\Settings;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Disallow direct access.
@@ -182,8 +178,13 @@ class Enrollment_Form_Handler {
 
 		$enrollment = ( new Enrollment_Repository() )->find( $id );
 
-		if ( null !== $enrollment && null !== $term ) {
-			self::send_enrollment_emails( $enrollment, $term );
+		// E2 (customer, their locale) + E3 (admin address, always CS) — the
+		// shared "enrollment created" pair (spec F14). A wp_mail() failure is
+		// logged with status `failed` by Email_Sender; there is no admin
+		// screen on this front-end trigger to surface a notice on — the
+		// email-log screen carries it.
+		if ( null !== $enrollment ) {
+			Enrollment_Created_Emails::send( $enrollment, $term );
 		}
 
 		self::$result = array(
@@ -243,53 +244,6 @@ class Enrollment_Form_Handler {
 
 		update_user_meta( $user_id, Registration_Service::META_MARKETING_CONSENT, '1' );
 		update_user_meta( $user_id, Registration_Service::META_MARKETING_CONSENT_AT, current_time( 'mysql' ) );
-	}
-
-	/**
-	 * Send the two "enrollment created" emails (spec F14): E2 to the customer
-	 * in their stored locale (summary incl. participant + payment
-	 * instructions), and E3 to the admin notification address, always in
-	 * Czech ("admin notifications (E3) always CS"), skipped when no address
-	 * is configured in Settings. Both are composed from the editable M13
-	 * templates and logged by `Emails\Email_Sender`; a `wp_mail()` failure is
-	 * recorded there with status `failed` (there is no admin screen on this
-	 * front-end trigger to surface a notice on — the log screen carries it).
-	 *
-	 * @param array<string, mixed> $enrollment Enrollment row.
-	 * @param array<string, mixed> $term       Term row.
-	 */
-	private static function send_enrollment_emails( array $enrollment, array $term ): void {
-		$user = get_userdata( (int) $enrollment['user_id'] );
-
-		if ( false === $user ) {
-			return;
-		}
-
-		$sender        = Email_Sender::create_default();
-		$enrollment_id = (int) $enrollment['id'];
-		$lang          = Enrollment_Email_Data::user_lang( $user->ID );
-
-		$sender->send(
-			Email_Templates::TYPE_E2,
-			$lang,
-			$user->user_email,
-			Enrollment_Email_Data::placeholders( $enrollment, $term, $user, $lang ),
-			$enrollment_id,
-			$user->ID
-		);
-
-		$admin_email = Settings::admin_notification_email();
-
-		if ( '' !== $admin_email ) {
-			$sender->send(
-				Email_Templates::TYPE_E3,
-				Lang::CS,
-				$admin_email,
-				Enrollment_Email_Data::placeholders( $enrollment, $term, $user, Lang::CS ),
-				$enrollment_id,
-				$user->ID
-			);
-		}
 	}
 
 	/**
