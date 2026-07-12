@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-07-12T11:16:56+00:00\n"
+"POT-Creation-Date: 2026-07-12T16:14:14+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: ruben-dance\n"
@@ -229,7 +229,6 @@ msgstr ""
 #: includes/Compliance/Personal_Data.php:319
 #: includes/Compliance/Personal_Data.php:371
 #: public/templates/account-schedule.php:26
-#: public/templates/calendar.php:64
 msgid "Status"
 msgstr ""
 
@@ -284,9 +283,9 @@ msgstr ""
 #: includes/Admin/Term_Lessons_List_Table.php:137
 #: includes/Admin/Term_Lessons_Page.php:311
 #: includes/Front/Account_Page.php:362
-#: includes/Front/Calendar_Page.php:174
+#: includes/Front/Calendar_Page.php:224
 #: public/templates/account-schedule.php:38
-#: public/templates/calendar.php:82
+#: public/templates/calendar.php:118
 msgid "Cancelled"
 msgstr ""
 
@@ -890,7 +889,7 @@ msgstr ""
 #: includes/Admin/Term_Lessons_List_Table.php:140
 #: includes/Admin/Term_Lessons_Page.php:312
 #: public/templates/account-schedule.php:40
-#: public/templates/calendar.php:84
+#: public/templates/calendar.php:120
 msgid "Moved"
 msgstr ""
 
@@ -1345,7 +1344,7 @@ msgstr ""
 #: includes/Admin/Terms_Page.php:534
 #: includes/Post_Types.php:60
 #: public/templates/account-schedule.php:24
-#: public/templates/calendar.php:62
+#: public/templates/calendar.php:92
 msgid "Course"
 msgstr ""
 
@@ -1353,9 +1352,9 @@ msgstr ""
 #: includes/Admin/Terms_List_Table.php:74
 #: includes/Admin/Terms_Page.php:542
 #: public/templates/account-schedule.php:25
-#: public/templates/calendar.php:33
-#: public/templates/calendar.php:63
-#: public/templates/catalog.php:123
+#: public/templates/calendar.php:48
+#: public/templates/calendar.php:93
+#: public/templates/catalog.php:126
 msgid "Location"
 msgstr ""
 
@@ -1625,8 +1624,8 @@ msgid "You do not have permission to manage terms."
 msgstr ""
 
 #: includes/Admin/Terms_Page.php:481
-#: public/templates/calendar.php:35
-#: public/templates/catalog.php:125
+#: public/templates/calendar.php:50
+#: public/templates/catalog.php:128
 msgid "All locations"
 msgstr ""
 
@@ -1652,7 +1651,7 @@ msgid "Workshop (single lesson)"
 msgstr ""
 
 #: includes/Admin/Terms_Page.php:562
-#: public/templates/catalog.php:133
+#: public/templates/catalog.php:136
 msgid "Weekday"
 msgstr ""
 
@@ -1836,20 +1835,18 @@ msgstr ""
 
 #: includes/Admin/Term_Lessons_List_Table.php:59
 #: public/templates/account-schedule.php:22
-#: public/templates/calendar.php:60
+#: public/templates/calendar.php:91
 msgid "Date"
 msgstr ""
 
 #: includes/Admin/Term_Lessons_List_Table.php:60
 #: public/templates/account-schedule.php:23
-#: public/templates/calendar.php:61
 msgid "Time"
 msgstr ""
 
 #: includes/Admin/Term_Lessons_List_Table.php:134
 #: includes/Admin/Term_Lessons_Page.php:310
 #: public/templates/account-schedule.php:42
-#: public/templates/calendar.php:86
 msgid "Scheduled"
 msgstr ""
 
@@ -2407,7 +2404,7 @@ msgid "Levels"
 msgstr ""
 
 #: includes/Taxonomies.php:80
-#: public/templates/catalog.php:107
+#: public/templates/catalog.php:110
 msgid "Level"
 msgstr ""
 
@@ -2591,32 +2588,62 @@ msgstr ""
 msgid "Profile"
 msgstr ""
 
-#: public/templates/calendar.php:25
+#: public/templates/calendar.php:34
+msgid "Calendar view"
+msgstr ""
+
+#: public/templates/calendar.php:35
+msgid "Week"
+msgstr ""
+
+#: public/templates/calendar.php:36
+msgid "Month"
+msgstr ""
+
+#: public/templates/calendar.php:40
 msgid "Style"
 msgstr ""
 
-#: public/templates/calendar.php:27
+#: public/templates/calendar.php:42
 msgid "All styles"
 msgstr ""
 
-#: public/templates/calendar.php:43
+#: public/templates/calendar.php:60
+msgid "Previous period"
+msgstr ""
+
+#: public/templates/calendar.php:61
+msgid "Next period"
+msgstr ""
+
+#: public/templates/calendar.php:64
 msgid "Skip to list view"
 msgstr ""
 
-#: public/templates/calendar.php:48
+#: public/templates/calendar.php:70
 msgid "Enable JavaScript to see the calendar."
 msgstr ""
 
-#: public/templates/calendar.php:53
+#: public/templates/calendar.php:75
 msgid "Upcoming lessons (list view)"
 msgstr ""
 
-#: public/templates/calendar.php:55
+#. translators: %d: number of days the list view covers.
+#: public/templates/calendar.php:80
+#, php-format
+msgid "Next %d days · works without JavaScript"
+msgstr ""
+
+#: public/templates/calendar.php:86
 msgid "No upcoming lessons found."
 msgstr ""
 
+#: public/templates/calendar.php:110
+msgid "Workshop:"
+msgstr ""
+
 #: public/templates/catalog.php:73
-#: public/templates/catalog.php:151
+#: public/templates/catalog.php:154
 msgid "Clear all"
 msgstr ""
 
@@ -2629,52 +2656,52 @@ msgstr ""
 msgid "Dance style"
 msgstr ""
 
-#: public/templates/catalog.php:95
-#: public/templates/catalog.php:111
+#: public/templates/catalog.php:97
+#: public/templates/catalog.php:114
 msgid "All"
 msgstr ""
 
-#: public/templates/catalog.php:137
+#: public/templates/catalog.php:140
 msgid "Any"
 msgstr ""
 
-#: public/templates/catalog.php:149
+#: public/templates/catalog.php:152
 msgid "Show results"
 msgstr ""
 
 #. translators: %d: number of open terms found.
-#: public/templates/catalog.php:162
+#: public/templates/catalog.php:165
 #, php-format
 msgid "%d result"
 msgid_plural "%d results"
 msgstr[0] ""
 msgstr[1] ""
 
-#: public/templates/catalog.php:171
+#: public/templates/catalog.php:174
 msgid "No courses match your filters"
 msgstr ""
 
-#: public/templates/catalog.php:173
+#: public/templates/catalog.php:176
 msgid "Clear filters"
 msgstr ""
 
-#: public/templates/catalog.php:206
+#: public/templates/catalog.php:209
 msgid "Workshop — one-off event"
 msgstr ""
 
 #. translators: %s: early-bird deadline date.
-#: public/templates/catalog.php:226
+#: public/templates/catalog.php:229
 #: public/templates/course-terms.php:47
 #, php-format
 msgid "Early-bird until %s"
 msgstr ""
 
-#: public/templates/catalog.php:235
+#: public/templates/catalog.php:238
 #: public/templates/course-terms.php:59
 msgid "Full — we'll contact you"
 msgstr ""
 
-#: public/templates/catalog.php:239
+#: public/templates/catalog.php:242
 #: public/templates/course-terms.php:63
 msgid "Enroll"
 msgstr ""

@@ -1,37 +1,434 @@
 /**
- * Minimal styling for the [rd_calendar] shortcode. Deliberately unopinionated
- * (see front-catalog.css's docblock for the same reasoning) — this only
- * keeps the bare markup usable and guarantees the calendar never forces a
- * horizontal scroll on the page itself (spec M10 acceptance criterion:
- * "usable on a phone-sized viewport ... no horizontal page scroll"). Any
- * horizontal overflow (a narrow phone rendering a multi-column week view) is
- * contained to the calendar's own scroll box, never the page body.
+ * `[rd_calendar]` styling (design/screens.html #3d mobile 390 — day-list
+ * week + list-view fallback — and #4d desktop 1280 — 7-column week grid).
+ * Builds on rd-design.css's tokens/shared components (`.rd-card`,
+ * `.rd-filter-chip`, `.rd-chip`/`.rd-chip--coral`/`.rd-chip--yellow`/
+ * `.rd-chip--cancelled`/`.rd-chip--workshop`, `.rd-h2`, `.rd-text`) — loaded
+ * first as a dependency (see `Calendar_Page::enqueue_assets()`) — so this
+ * file only adds layout, never redeclares a color/radius/shape.
+ *
+ * FullCalendar itself renders its own CSS at runtime (it has no separate
+ * stylesheet file to enqueue — `Calendar_Page` only loads its JS bundle);
+ * that runtime style tag can end up *after* this one in the cascade, so a
+ * handful of rules below that override FullCalendar's own event/background
+ * colors carry `!important` — flagged inline each time — rather than
+ * relying on source order alone.
+ *
+ * Screen classes are prefixed `rd-cal-*`/`rd-cal__*` (not `rd-calendar-*`,
+ * the pre-D4 prefix) specifically so they cannot collide with the theme's
+ * own selectors — D3's catalog milestone hit exactly this collision with
+ * `rd-course-card*` and had to rename.
  */
+
 .rd-calendar-wrap {
 	max-width: 100%;
 }
 
-.rd-calendar-filters {
+/* ==========================================================================
+   Toolbar — view toggle, style/location filters, prev/next + range label,
+   skip-to-list link (design #3d/#4d top block).
+   ========================================================================== */
+
+.rd-cal__toolbar {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	margin-bottom: 14px;
+}
+
+.rd-cal__toolbar-row {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-	gap: 0.5em;
-	margin: 0 0 1em;
+	gap: 10px;
 }
+
+.rd-cal__view-toggle {
+	display: inline-flex;
+	gap: 2px;
+	background: var(--rd-cocoa-08);
+	border-radius: var(--rd-radius-pill);
+	padding: 3px;
+}
+
+.rd-cal__view-btn {
+	font-family: inherit;
+	font-size: 12.5px;
+	font-weight: 700;
+	border: none;
+	background: transparent;
+	color: var(--rd-cocoa-55);
+	border-radius: var(--rd-radius-pill);
+	padding: 7px 14px;
+	cursor: pointer;
+}
+
+.rd-cal__view-btn.is-active {
+	background: var(--rd-cocoa);
+	color: var(--rd-cream);
+}
+
+.rd-cal__view-btn:focus-visible {
+	outline: 3px solid var(--rd-cocoa);
+	outline-offset: 2px;
+}
+
+.rd-cal__filters {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin: 0;
+}
+
+.rd-cal__filter-select {
+	font-family: inherit;
+	cursor: pointer;
+}
+
+.rd-cal__nav-row {
+	gap: 14px;
+}
+
+.rd-cal__nav-buttons {
+	display: inline-flex;
+	gap: 6px;
+}
+
+.rd-cal__nav-btn {
+	width: 32px;
+	height: 32px;
+	flex: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-family: inherit;
+	font-weight: 700;
+	font-size: 15px;
+	line-height: 1;
+	border-radius: var(--rd-radius-pill);
+	border: 1.5px solid var(--rd-cocoa-30);
+	background: var(--rd-white);
+	color: var(--rd-cocoa);
+	cursor: pointer;
+}
+
+.rd-cal__nav-btn:hover {
+	background: var(--rd-cocoa-08);
+}
+
+.rd-cal__nav-btn:focus-visible {
+	outline: 3px solid var(--rd-cocoa);
+	outline-offset: 2px;
+}
+
+.rd-cal__range-label {
+	font-weight: 800;
+	font-size: 15px;
+	min-height: 1.2em;
+}
+
+.rd-cal__skip-link {
+	font-size: 12.5px;
+	font-weight: 700;
+	color: var(--rd-coral);
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+.rd-cal__skip-link::before {
+	content: '↓ ';
+	text-decoration: none;
+}
+
+@media (min-width: 768px) {
+	.rd-cal__toolbar-row {
+		flex-wrap: nowrap;
+		justify-content: space-between;
+	}
+
+	.rd-cal__nav-row {
+		justify-content: flex-start;
+	}
+
+	.rd-cal__range-label {
+		font-size: 17px;
+	}
+
+	.rd-cal__skip-link {
+		margin-left: auto;
+	}
+
+	.rd-cal__nav-btn {
+		width: 34px;
+		height: 34px;
+	}
+}
+
+/* ==========================================================================
+   Calendar container — white rd-card around the FullCalendar grid itself.
+   ========================================================================== */
 
 .rd-calendar {
 	max-width: 100%;
 	overflow-x: auto;
+	padding: 12px;
 }
 
 .rd-calendar .fc {
 	min-width: 280px;
+	font-family: inherit;
+
+	/* FullCalendar CSS-variable theme (design tokens, not new colors). */
+	--fc-border-color: var(--rd-cocoa-08);
+	--fc-page-bg-color: transparent;
+	--fc-neutral-bg-color: var(--rd-cocoa-08);
+	--fc-list-event-hover-bg-color: var(--rd-cream);
+	--fc-today-bg-color: var(--rd-cream);
+	--fc-event-selected-overlay-color: transparent;
+	--fc-more-link-bg-color: var(--rd-cocoa-08);
+	--fc-more-link-text-color: var(--rd-cocoa);
 }
 
-.rd-event-cancelled .fc-event-title,
-.rd-event-cancelled .fc-event-time {
-	text-decoration: line-through;
+/* Neutralize FullCalendar's own default event coloring — the actual chip
+ * colors come entirely from `.rd-chip`/`.rd-chip--*` (rd-design.css),
+ * added via calendar.js's `eventClassNames`. `!important`: see file
+ * docblock (FullCalendar's own runtime style tag can win on source order).
+ * Un-does FullCalendar's own default link styling too (it wraps any event
+ * that carries a `url`, which every lesson here does, in a plain `<a>`) —
+ * `.rd-chip`'s own background/border-left (rd-design.css) provides the
+ * actual color; this only strips the browser/FullCalendar defaults that
+ * would otherwise show through or fight it. */
+.rd-calendar .fc-event,
+.rd-calendar .fc-daygrid-event {
+	border: none !important;
+	color: inherit !important;
+	text-decoration: none !important;
+}
+
+/* Re-assert `.rd-chip--*`'s colors (rd-design.css) against FullCalendar's
+ * own same-or-higher-specificity `.fc-daygrid-event.fc-event { background:
+ * var(--fc-event-bg-color) }` rule. `!important`: see file docblock. */
+.rd-calendar .fc-event.rd-chip--coral {
+	background: var(--rd-chip-coral-bg) !important;
+	border-left: 4px solid var(--rd-coral) !important;
+}
+
+.rd-calendar .fc-event.rd-chip--yellow {
+	background: var(--rd-chip-yellow-bg) !important;
+	border-left: 4px solid var(--rd-yellow) !important;
+}
+
+.rd-calendar .fc-event.rd-chip--cancelled {
+	background: var(--rd-chip-cancelled-bg) !important;
+	border-left: 4px solid var(--rd-chip-cancelled-border) !important;
+	color: var(--rd-cocoa-55) !important;
+}
+
+.rd-calendar .fc-event.rd-chip--workshop {
+	background: var(--rd-white) !important;
+	border: 2px dashed var(--rd-coral) !important;
+	border-left: 4px solid var(--rd-coral) !important;
+}
+
+@media (min-width: 768px) {
+	.rd-calendar {
+		padding: 16px;
+	}
+}
+
+/* ==========================================================================
+   Day-grid column headers — month view keeps FullCalendar's own header;
+   desktop week view (#4d) gets the custom "PO 14" pairing from calendar.js's
+   `dayHeaderContent`.
+   ========================================================================== */
+
+.rd-calendar .fc-col-header-cell {
+	border-bottom: 2px solid var(--rd-cocoa-08);
+}
+
+.rd-calendar .fc-col-header-cell-cushion {
+	padding: 8px 4px;
+	color: var(--rd-cocoa);
+	font-weight: 700;
+	text-decoration: none;
+}
+
+.rd-cal-daygrid-head {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 2px;
+}
+
+.rd-cal-daygrid-head__dow {
+	font-size: 11px;
+	font-weight: 700;
+	color: var(--rd-cocoa-50);
+}
+
+.rd-cal-daygrid-head__day {
+	font-size: 16px;
+	font-weight: 800;
+}
+
+/* The per-cell date-number badge is redundant once the desktop week header
+ * already shows the date (see calendar.js's `dayHeaderContent`); month view
+ * still needs it (its header only names weekdays once, not per week). */
+.rd-cal-view--dayGridWeek .fc-daygrid-day-top {
+	display: none;
+}
+
+.rd-cal-view--dayGridWeek .fc-daygrid-day-frame {
+	min-height: 150px;
+	padding-top: 8px;
+}
+
+/* ==========================================================================
+   Event chip layout — `.rd-chip`'s colors/border/radius come from
+   rd-design.css; this only lays out the custom `eventContent` markup
+   (`.rd-chip__inner` + time/title/location/status) calendar.js renders
+   inside every chip, in every view.
+   ========================================================================== */
+
+.rd-calendar .fc-daygrid-event,
+.rd-calendar .fc-list-event {
+	margin: 0 2px 6px;
+}
+
+.rd-chip__inner {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 0 6px;
+	line-height: 1.35;
+	white-space: normal;
+}
+
+.rd-chip__time {
+	font-weight: 700;
+}
+
+.rd-chip__location {
 	opacity: 0.65;
+	font-size: 0.95em;
+}
+
+.rd-chip__location::before {
+	content: '· ';
+}
+
+.rd-chip__status {
+	font-weight: 700;
+}
+
+.rd-chip--cancelled .rd-chip__time,
+.rd-chip--cancelled .rd-chip__title {
+	text-decoration: line-through;
+}
+
+/* Desktop week grid (#4d): location drops to its own dimmed line under the
+ * title instead of running inline after it. */
+.rd-cal-view--dayGridWeek .rd-chip__inner {
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 2px;
+}
+
+.rd-cal-view--dayGridWeek .rd-chip__location::before {
+	content: '';
+}
+
+/* ==========================================================================
+   Mobile day-list week (#3d) — FullCalendar's `listWeek`, reformatted via
+   calendar.js's `listDayFormat` ("po 10" weekday + day) and re-flowed from a
+   `<table>` into stacked blocks so each day's group and each event chip can
+   take the design's rounded/colored treatment (a `<tr>`'s background/
+   radius/margin do not reliably paint in table layout).
+   ========================================================================== */
+
+.rd-cal-view--listWeek .fc-list-table,
+.rd-cal-view--listWeek .fc-list-table tbody,
+.rd-cal-view--listWeek .fc-list-day,
+.rd-cal-view--listWeek .fc-list-event {
+	display: block;
+	width: 100%;
+}
+
+.rd-cal-view--listWeek .fc-list-day-cushion {
+	display: flex;
+	align-items: baseline;
+	gap: 8px;
+	padding: 10px 6px 8px;
+	background: transparent !important;
+	border-bottom: 1px solid var(--rd-cocoa-15);
+}
+
+/* "PO 10" — the design's per-day label (#3d), painted onto the single
+ * list-day text run FullCalendar renders (weekday + day number, from
+ * `listDayFormat`). Uppercased, bold, cocoa; kept on one run since the two
+ * parts share one text node. */
+.rd-cal-view--listWeek .fc-list-day-text {
+	font-size: 15px;
+	font-weight: 800;
+	text-transform: uppercase;
+	color: var(--rd-cocoa);
+	text-decoration: none;
+}
+
+/* Time + dot columns are redundant: the chip's own content (calendar.js's
+ * `renderEventContent`) already shows a bold time. */
+.rd-cal-view--listWeek .fc-list-event-time,
+.rd-cal-view--listWeek .fc-list-event-graphic {
+	display: none;
+}
+
+.rd-cal-view--listWeek .fc-list-event-title {
+	display: block;
+	padding: 8px 10px;
+	margin: 6px 6px 0;
+}
+
+.rd-cal-view--listWeek .fc-list-event {
+	margin: 0;
+}
+
+/* The chip modifier classes land on the `<tr class="fc-list-event">` (the
+ * FullCalendar "event root" for this view); repaint the now-visible title
+ * cell inside it with the same variant instead of the (hidden, `display:
+ * block`-with-no-box) row. `!important`: see file docblock. */
+.rd-cal-view--listWeek .fc-list-event.rd-chip--coral .fc-list-event-title {
+	background: var(--rd-chip-coral-bg) !important;
+	border-left: 4px solid var(--rd-coral) !important;
+	border-radius: var(--rd-radius-chip);
+}
+
+.rd-cal-view--listWeek .fc-list-event.rd-chip--yellow .fc-list-event-title {
+	background: var(--rd-chip-yellow-bg) !important;
+	border-left: 4px solid var(--rd-yellow) !important;
+	border-radius: var(--rd-radius-chip);
+}
+
+.rd-cal-view--listWeek .fc-list-event.rd-chip--cancelled .fc-list-event-title {
+	background: var(--rd-chip-cancelled-bg) !important;
+	border-left: 4px solid var(--rd-chip-cancelled-border) !important;
+	border-radius: var(--rd-radius-chip);
+	color: var(--rd-cocoa-55);
+}
+
+.rd-cal-view--listWeek .fc-list-event.rd-chip--workshop .fc-list-event-title {
+	background: var(--rd-white) !important;
+	border: 2px dashed var(--rd-coral) !important;
+	border-left: 4px solid var(--rd-coral) !important;
+	border-radius: var(--rd-radius-chip);
+}
+
+.rd-cal-view--listWeek .fc-list-event-title a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.rd-cal-view--listWeek .fc-list-empty {
+	padding: 20px;
 }
 
 /*
@@ -39,20 +436,89 @@
  * (M16) — a keyboard/screen-reader-usable alternative to the FullCalendar
  * grid widget above, always rendered server-side.
  */
-.rd-calendar-list-view:focus {
+.rd-cal__list:focus {
 	outline: 2px solid #2271b1;
 	outline-offset: 2px;
 }
 
-.rd-calendar-list-table {
-	width: 100%;
-	border-collapse: collapse;
-	margin-top: 1em;
+.rd-cal__list {
+	margin-top: 28px;
 }
 
-.rd-calendar-list-table th,
-.rd-calendar-list-table td {
+.rd-cal__list-heading {
+	margin-bottom: 4px;
+}
+
+.rd-cal__list-sub {
+	color: var(--rd-cocoa-55);
+	font-size: 12px;
+	margin: 0 0 12px;
+}
+
+.rd-cal__list-table {
+	width: 100%;
+	border-collapse: collapse;
+	overflow: hidden;
+	font-size: 13px;
+}
+
+.rd-cal__list-table th,
+.rd-cal__list-table td {
 	text-align: left;
-	padding: 0.5em;
-	border-bottom: 1px solid #eee;
+	padding: 11px 14px;
+}
+
+.rd-cal__list-table thead th {
+	background: var(--rd-cocoa-06);
+	font-size: 11px;
+	font-weight: 800;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	color: var(--rd-cocoa-55);
+}
+
+.rd-cal__list-table tbody tr {
+	border-top: 1px solid var(--rd-cocoa-08);
+}
+
+.rd-cal__list-row__date {
+	white-space: nowrap;
+}
+
+.rd-cal__list-row__time {
+	display: block;
+}
+
+.rd-cal__list-row__course a {
+	color: var(--rd-cocoa);
+	text-decoration: none;
+}
+
+.rd-cal__list-row__course a:hover {
+	text-decoration: underline;
+}
+
+.rd-cal__list-row__location {
+	color: var(--rd-cocoa-60);
+}
+
+.rd-cal__list-row--cancelled {
+	color: var(--rd-cocoa-50);
+}
+
+.rd-cal__list-row--cancelled .rd-cal__list-row__date,
+.rd-cal__list-row--cancelled .rd-cal__list-row__course a,
+.rd-cal__list-row--cancelled .rd-cal__list-row__course {
+	text-decoration: line-through;
+	color: inherit;
+}
+
+.rd-cal__list-row--cancelled .rd-cal__list-row__location {
+	color: inherit;
+}
+
+@media (min-width: 480px) {
+	.rd-cal__list-row__time {
+		display: inline;
+	}
 }

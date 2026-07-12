@@ -10,6 +10,7 @@ declare( strict_types = 1 );
 
 namespace RubenDance\Front;
 
+use RubenDance\Admin\Terms_List_Table;
 use RubenDance\Lang;
 use RubenDance\Repositories\Location_Repository;
 use RubenDance\Rest\Lessons_Controller;
@@ -87,6 +88,7 @@ class Calendar_Page {
 				'style_options'    => self::taxonomy_options( Taxonomies::DANCE_STYLE, $lang ),
 				'location_options' => ( new Location_Repository() )->active(),
 				'upcoming_lessons' => self::upcoming_lessons( $lang ),
+				'list_view_days'   => self::LIST_VIEW_WINDOW_DAYS,
 			)
 		);
 	}
@@ -96,7 +98,11 @@ class Calendar_Page {
 	 * same public-safe, already-filtered-for-display data
 	 * `Rest\Lessons_Controller` serves to the JS calendar widget — this
 	 * server-rendered list is never out of sync with what the widget itself
-	 * would show for the same range.
+	 * would show for the same range. Each row also gets `weekday_short`/
+	 * `date_short` (D4, design/screens.html #3d's "Po 14. 9." list-row date
+	 * format) computed here rather than in the template, matching this
+	 * codebase's existing convention of formatting decisions living in PHP
+	 * classes, not template partials (see `Term_Presenter`).
 	 *
 	 * @param string $lang Current display language.
 	 * @return array<int, array<string, mixed>>
@@ -104,7 +110,7 @@ class Calendar_Page {
 	private static function upcoming_lessons( string $lang ): array {
 		$today = current_time( 'Y-m-d' );
 
-		return Calendar_Service::create_default()->lessons_for_feed(
+		$lessons = Calendar_Service::create_default()->lessons_for_feed(
 			array(
 				'from'     => $today,
 				'to'       => gmdate( 'Y-m-d', strtotime( $today ) + self::LIST_VIEW_WINDOW_DAYS * DAY_IN_SECONDS ),
@@ -113,6 +119,50 @@ class Calendar_Page {
 				'lang'     => $lang,
 			)
 		);
+
+		foreach ( $lessons as &$lesson ) {
+			$lesson['weekday_short'] = self::weekday_short( (string) $lesson['date'] );
+			$lesson['date_short']    = self::date_short( (string) $lesson['date'] );
+		}
+		unset( $lesson ); // Break the reference now that the loop is done.
+
+		return $lessons;
+	}
+
+	/**
+	 * A lesson date's translated 2-letter weekday abbreviation ("Po", "Mon",
+	 * ...) for the list-view fallback's date column. Reuses
+	 * `Admin\Terms_List_Table::weekday_labels()` — already the plugin's one
+	 * source of translated weekday names (`Front\Course_Content` also reaches
+	 * into `Admin\Terms_List_Table` for the same reason) — and abbreviates it
+	 * the same way `public/templates/catalog.php`'s weekday filter chips do
+	 * (`mb_substr( $label, 0, 2 )`), rather than `date_i18n()`'s locale-pack-
+	 * dependent day names.
+	 *
+	 * @param string $date `Y-m-d` lesson date.
+	 * @return string
+	 */
+	private static function weekday_short( string $date ): string {
+		$iso_weekday = (int) gmdate( 'N', (int) strtotime( $date ) );
+
+		$label = Terms_List_Table::weekday_labels()[ $iso_weekday ] ?? '';
+
+		return mb_substr( $label, 0, 2 );
+	}
+
+	/**
+	 * A lesson date's numeric "day. month." label ("14. 9.") for the
+	 * list-view fallback's date column — deliberately numeric-only (no
+	 * month *name*) so it never depends on a WordPress core locale pack
+	 * being installed, unlike `date_i18n()`.
+	 *
+	 * @param string $date `Y-m-d` lesson date.
+	 * @return string
+	 */
+	private static function date_short( string $date ): string {
+		$timestamp = (int) strtotime( $date );
+
+		return gmdate( 'j. n.', $timestamp );
 	}
 
 	/**

@@ -86,7 +86,7 @@ class Calendar_Service {
 	 *
 	 * @param array{from: string, to: string, style: int, location: int, lang: string} $filters Validated filter values (`style`/`location` = 0 means "no filter").
 	 * @return array<int, array<string, mixed>> Public-safe lesson rows
-	 *                                          (id, date, start, end, title, url, style, location, status),
+	 *                                          (id, date, start, end, title, url, style, location, status, type),
 	 *                                          ordered by date/time ascending. No user/enrollment data, ever.
 	 */
 	public function lessons_for_feed( array $filters ): array {
@@ -172,6 +172,13 @@ class Calendar_Service {
 				'style'    => $course['style'],
 				'location' => null === $location ? '' : (string) $location['name'],
 				'status'   => self::effective_status( $lesson, $term ),
+				// D4: the term's `type` column ('course'|Term_Service::TYPE_WORKSHOP),
+				// carried through so the front-end calendar/list view can give a
+				// workshop lesson its dashed-border chip treatment (design
+				// screens.html #3d/#4d) the same way Catalog_Page already flags a
+				// workshop-only course. Public-safe: just a term column, no
+				// enrollment/user data.
+				'type'     => (string) $term['type'],
 			);
 		}
 

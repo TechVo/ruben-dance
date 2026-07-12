@@ -673,6 +673,17 @@
 	text-decoration: line-through;
 }
 
+/* D4: workshop lesson (design/README.md "Workshop vždy odlišen dashed coral
+ * rámečkem (karta i event chip)") — same dashed-border treatment as
+ * .rd-badge--workshop above, applied to a calendar chip instead of a badge.
+ * Takes precedence visually over the coral/yellow background variants (a
+ * workshop lesson gets this instead of --coral/--yellow, not on top of it). */
+.rd-chip--workshop {
+	background: var(--rd-white);
+	border: 2px dashed var(--rd-coral);
+	border-left: 4px solid var(--rd-coral);
+}
+
 /* ==========================================================================
    Language switcher pill (#2a nav example).
    Markup contract: <div class="rd-lang-switch"><a href="?lang=cs"
