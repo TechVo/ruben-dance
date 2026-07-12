@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Disallow direct access.
 }
 ?>
-<div class="rd-enroll rd-enroll-confirmation">
+<div class="rd-app rd-enroll rd-enroll-confirmation">
 	<div class="rd-notice rd-notice--success">
 		<p><?php esc_html_e( 'Thank you — your enrollment has been received.', 'ruben-dance' ); ?></p>
 	</div>

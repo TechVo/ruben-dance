@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Disallow direct access.
 }
 ?>
-<div class="rd-catalog">
+<div class="rd-app rd-catalog">
 	<form method="get" action="<?php echo esc_url( $page_url ); ?>" class="rd-catalog-filters">
 		<select name="style">
 			<option value="0"><?php esc_html_e( 'All styles', 'ruben-dance' ); ?></option>

@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Disallow direct access.
 }
 ?>
-<div class="rd-voucher-inquiry">
+<div class="rd-app rd-voucher-inquiry">
 	<?php if ( $rate_limited ) : ?>
 		<div class="rd-notice rd-notice--error" role="alert" tabindex="-1" id="rd-voucher-rate-limited">
 			<p><?php esc_html_e( 'Too many attempts. Please try again later.', 'ruben-dance' ); ?></p>

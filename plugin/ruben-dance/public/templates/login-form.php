@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Disallow direct access.
 }
 ?>
-<div class="rd-auth rd-auth--login">
+<div class="rd-app rd-auth rd-auth--login">
 	<?php if ( '' !== $notice ) : ?>
 		<?php if ( 'ok' === $notice ) : ?>
 			<div class="rd-notice rd-notice--success"><p><?php esc_html_e( 'Your email address has been verified. You can now log in.', 'ruben-dance' ); ?></p></div>

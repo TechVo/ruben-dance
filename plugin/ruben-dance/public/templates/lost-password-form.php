@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Disallow direct access.
 }
 ?>
-<div class="rd-auth rd-auth--lost-password">
+<div class="rd-app rd-auth rd-auth--lost-password">
 	<?php if ( 'request_done' === $state ) : ?>
 		<div class="rd-notice rd-notice--success">
 			<p><?php esc_html_e( 'If an account exists for that email address, a password reset link has been sent.', 'ruben-dance' ); ?></p>

@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Disallow direct access.
 }
 ?>
-<div class="rd-enroll rd-enroll--login-required">
+<div class="rd-app rd-enroll rd-enroll--login-required">
 	<div class="rd-notice">
 		<p><?php esc_html_e( 'Please log in or create an account to enroll. Once you\'re signed in, you\'ll come straight back here to finish your enrollment.', 'ruben-dance' ); ?></p>
 	</div>

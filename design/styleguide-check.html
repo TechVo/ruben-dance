@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>D1 styleguide check — rd-design.css</title>
+<!--
+  Living documentation for the D1 design foundation (see design/README.md
+  and design/screens.html #2a/#3a). Not part of the plugin build — this is a
+  throwaway static harness that loads the real, shipped
+  plugin/ruben-dance/public/assets/{rd-fonts,rd-design}.css via relative
+  paths and instantiates every shared component class, so a screenshot of
+  this page can be diffed against #2a/#3a by eye whenever rd-design.css
+  changes. Kept committed intentionally (task D1 instructions: "Keep the
+  file committed as living documentation").
+-->
+<link rel="stylesheet" href="../plugin/ruben-dance/public/assets/rd-fonts.css">
+<link rel="stylesheet" href="../plugin/ruben-dance/public/assets/rd-design.css">
+<style>
+	/* Harness-only chrome, not part of rd-design.css: page background + the
+	   grey section scaffolding that groups components for the screenshot.
+	   None of this is scoped under .rd-app on purpose, so it's obvious in a
+	   diff which rules came from rd-design.css and which are harness-only. */
+	body {
+		margin: 0;
+		background: #f0eee9;
+		font-family: system-ui, sans-serif;
+	}
+	.section {
+		padding: 24px;
+		border-bottom: 1px solid rgba(0, 0, 0, .08);
+	}
+	.section-label {
+		font: 700 11px/1.2 system-ui, sans-serif;
+		text-transform: uppercase;
+		letter-spacing: .08em;
+		color: rgba(0, 0, 0, .45);
+		margin: 0 0 12px;
+	}
+	.row {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 12px;
+		align-items: center;
+	}
+	.stack {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+	.swatch {
+		width: 96px;
+	}
+	.swatch-box {
+		height: 56px;
+		border-radius: 12px;
+		border: 1px solid rgba(0, 0, 0, .1);
+	}
+	.swatch-label {
+		font: 600 11px/1.3 system-ui, sans-serif;
+		margin-top: 4px;
+	}
+	.demo-card {
+		background: #fff;
+		border-radius: 18px;
+		padding: 20px;
+	}
+	.two-col {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 14px;
+	}
+	@media (max-width: 600px) {
+		.two-col {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
+</head>
+<body>
+
+<div class="rd-app" style="background:#FDF6EA;padding:0 0 24px">
+
+	<div class="section">
+		<p class="section-label">Palette</p>
+		<div class="row">
+			<div class="swatch"><div class="swatch-box" style="background:#E8604C"></div><div class="swatch-label">Coral #E8604C</div></div>
+			<div class="swatch"><div class="swatch-box" style="background:#F08A24"></div><div class="swatch-label">Orange #F08A24</div></div>
+			<div class="swatch"><div class="swatch-box" style="background:#F5B840"></div><div class="swatch-label">Yellow #F5B840</div></div>
+			<div class="swatch"><div class="swatch-box" style="background:#2B1710"></div><div class="swatch-label">Cocoa #2B1710</div></div>
+			<div class="swatch"><div class="swatch-box" style="background:#FDF6EA;border-color:rgba(43,23,16,.15)"></div><div class="swatch-label">Cream #FDF6EA</div></div>
+			<div class="swatch"><div class="swatch-box" style="background:#FFFFFF;border-color:rgba(43,23,16,.15)"></div><div class="swatch-label">White #FFFFFF</div></div>
+		</div>
+	</div>
+
+	<div class="section">
+		<p class="section-label">Typography</p>
+		<div class="demo-card stack">
+			<div class="row" style="align-items:baseline;gap:18px"><span style="flex:none;width:110px;font-size:11px;color:rgba(43,23,16,.5)">H1 44/800</span><h1 class="rd-h1">Tančete <span style="color:#E8604C">v Karibiku</span></h1></div>
+			<div class="row" style="align-items:baseline;gap:18px"><span style="flex:none;width:110px;font-size:11px;color:rgba(43,23,16,.5)">H2 26/800</span><h2 class="rd-h2">Co se u nás naučíte</h2></div>
+			<div class="row" style="align-items:baseline;gap:18px"><span style="flex:none;width:110px;font-size:11px;color:rgba(43,23,16,.5)">H3 17/700</span><h3 class="rd-h3">Kubánská salsa</h3></div>
+			<div class="row" style="align-items:baseline;gap:18px"><span style="flex:none;width:110px;font-size:11px;color:rgba(43,23,16,.5)">Text 15/400</span><p class="rd-text">Kurzy salsy a bachaty v Praze pod vedením rodilých tanečníků.</p></div>
+			<div class="row" style="align-items:baseline;gap:18px"><span style="flex:none;width:110px;font-size:11px;color:rgba(43,23,16,.5)">Eyebrow 11/800</span><span class="rd-eyebrow" style="display:inline;color:#E8604C">Váš lektor</span></div>
+		</div>
+	</div>
+
+	<div class="section">
+		<p class="section-label">Buttons</p>
+		<div class="demo-card row">
+			<a href="#" class="rd-btn rd-btn--primary">Primární</a>
+			<a href="#" class="rd-btn rd-btn--secondary">Sekundární</a>
+			<a href="#" class="rd-btn rd-btn--small">Malé · Přihlásit</a>
+			<a href="#" class="rd-btn rd-btn--text">Textový odkaz →</a>
+			<a href="#" class="rd-btn rd-btn--primary rd-btn--disabled">Neaktivní</a>
+			<a href="#" class="rd-btn rd-btn--primary" id="focus-demo">Tlačítko s focusem</a>
+		</div>
+	</div>
+
+	<div class="section">
+		<p class="section-label">Status badges</p>
+		<div class="demo-card row">
+			<span class="rd-badge rd-badge--pending">Čeká na platbu</span>
+			<span class="rd-badge rd-badge--paid">Zaplaceno</span>
+			<span class="rd-badge rd-badge--cancelled">Zrušeno</span>
+			<span class="rd-badge rd-badge--full">Obsazeno</span>
+			<span class="rd-badge rd-badge--early">Early-bird do 31. 8.</span>
+			<span class="rd-badge rd-badge--workshop">Workshop</span>
+		</div>
+	</div>
+
+	<div class="section">
+		<p class="section-label">Lang switcher &amp; filter chips</p>
+		<div class="demo-card row">
+			<div class="rd-lang-switch"><a href="#" class="is-active">CZ</a><a href="#">EN</a></div>
+			<a href="#" class="rd-filter-chip rd-filter-chip--active">Filtry <span class="rd-filter-chip__count">2</span></a>
+			<a href="#" class="rd-filter-chip rd-filter-chip--active">Salsa ✕</a>
+			<a href="#" class="rd-filter-chip">Lokalita ▾</a>
+			<a href="#" class="rd-filter-chip">Den ▾</a>
+		</div>
+	</div>
+
+	<div class="section two-col">
+		<div>
+			<p class="section-label">Payment block</p>
+			<div class="rd-payment">
+				<div class="rd-payment__status">⏱ Čeká na platbu</div>
+				<div class="rd-payment__amount">2 160 Kč</div>
+				<div class="rd-payment__rows">
+					<div class="rd-payment__row"><span>Číslo účtu</span><strong>123456789/0100</strong></div>
+					<div class="rd-payment__row"><span>Variabilní symbol</span><strong>202609421</strong></div>
+					<div class="rd-payment__row"><span>Splatnost</span><strong>25. 9. 2026</strong></div>
+				</div>
+				<div class="rd-payment__qr">
+					<div class="rd-payment__qr-box">QR<br>kód</div>
+					<div class="rd-payment__qr-text"><strong>QR platba</strong><br>Naskenujte v bankovní aplikaci — údaje se vyplní samy.</div>
+				</div>
+			</div>
+		</div>
+		<div>
+			<p class="section-label">Price breakdown</p>
+			<div class="rd-price">
+				<div class="rd-price__rows">
+					<div class="rd-price__row"><span>Kubánská salsa · září–prosinec</span><span class="rd-price__base-strike">2 800 Kč</span></div>
+					<div class="rd-price__row rd-price__row--discount"><span>★ Early-bird do 31. 8.</span><strong>− 400 Kč</strong></div>
+					<div class="rd-price__row rd-price__row--discount"><span>Sleva za partnera</span><strong>− 240 Kč</strong></div>
+					<div class="rd-price__total"><strong>Celkem</strong><strong class="rd-price__total-value">2 160 Kč</strong></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="section">
+		<p class="section-label">Calendar event chips</p>
+		<div class="demo-card stack" style="gap:8px">
+			<div class="rd-chip rd-chip--coral"><strong>18:00</strong> Salsa začátečníci · Malá Strana</div>
+			<div class="rd-chip rd-chip--yellow"><strong>19:00</strong> Bachata pokročilí · Dejvice</div>
+			<div class="rd-chip rd-chip--cancelled"><span class="rd-chip__title"><strong>19:30</strong> Bachata mírně pokročilí</span> · <strong>zrušeno</strong></div>
+		</div>
+	</div>
+
+	<div class="section">
+		<p class="section-label">Alert bars</p>
+		<div class="stack">
+			<div class="rd-alert rd-alert--success"><strong class="rd-alert__icon">✓</strong><span><strong>Hotovo.</strong> Přihláška byla odeslána.</span></div>
+			<div class="rd-alert rd-alert--warning"><strong class="rd-alert__icon">!</strong><span><strong>Termín je plný.</strong> Přihlásit se můžete, ozveme se vám.</span></div>
+			<div class="rd-alert rd-alert--error"><strong class="rd-alert__icon">✕</strong><span><strong>Formulář obsahuje 2 chyby.</strong> Opravte je prosím níže.</span></div>
+			<div class="rd-alert rd-alert--info"><strong class="rd-alert__icon">i</strong><span>Potvrzení jsme poslali na váš e-mail.</span></div>
+		</div>
+	</div>
+
+	<div class="section two-col">
+		<div>
+			<p class="section-label">Form fields</p>
+			<div class="demo-card stack">
+				<div class="rd-field">
+					<label>Jméno</label>
+					<input class="rd-field__input" type="text" placeholder="Vaše jméno">
+				</div>
+				<div class="rd-field">
+					<label>Kurz</label>
+					<select class="rd-field__input">
+						<option>Kubánská salsa — začátečníci</option>
+					</select>
+				</div>
+				<div class="rd-field rd-field--error">
+					<label>E-mail <span class="rd-field__required">*</span></label>
+					<input class="rd-field__input" type="text" value="jana@email">
+					<p class="rd-field__error">Zadejte platný e-mail, např. jana@email.cz</p>
+				</div>
+				<label class="rd-checkbox-row">
+					<input type="checkbox" class="rd-checkbox-row__input" checked>
+					<span class="rd-checkbox-row__box" aria-hidden="true"></span>
+					<span class="rd-checkbox-row__text">Souhlasím s <a href="#" style="color:#E8604C;font-weight:700">obchodními podmínkami</a>. <span style="color:#B3372A">*</span></span>
+				</label>
+			</div>
+		</div>
+		<div>
+			<p class="section-label">Empty state &amp; skeleton</p>
+			<div class="stack">
+				<div class="rd-empty-state">
+					<div class="rd-empty-state__icon">🕺</div>
+					<p class="rd-empty-state__text">Žádné kurzy neodpovídají filtrům</p>
+					<a href="#" class="rd-empty-state__action">Zrušit filtry</a>
+				</div>
+				<div class="demo-card rd-skeleton">
+					<div class="rd-skeleton-bar" style="width:70%"></div>
+					<div class="rd-skeleton-bar" style="width:90%"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="section">
+		<p class="section-label">Card component</p>
+		<div class="rd-card" style="padding:16px;max-width:280px">
+			<h3 class="rd-h3">Karta kurzu</h3>
+			<p class="rd-text" style="margin-top:4px">Podtitulek nebo krátký popis.</p>
+		</div>
+	</div>
+
+</div>
+
+<script>
+	// Force :focus-visible on the focus-ring demo button so the outline is
+	// captured in the screenshot without a real keyboard interaction.
+	document.getElementById('focus-demo').focus();
+</script>
+</body>
+</html>

@@ -56,7 +56,7 @@ class Course_Content {
 		wp_enqueue_style(
 			'rd-front-catalog',
 			plugins_url( 'public/assets/front-catalog.css', RUBEN_DANCE_PLUGIN_FILE ),
-			array(),
+			array( 'rd-design' ),
 			RUBEN_DANCE_VERSION
 		);
 	}

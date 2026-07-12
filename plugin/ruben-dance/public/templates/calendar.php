@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Disallow direct access.
 }
 ?>
-<div class="rd-calendar-wrap">
+<div class="rd-app rd-calendar-wrap">
 	<form class="rd-calendar-filters" onsubmit="return false;">
 		<label for="rd-calendar-style"><?php esc_html_e( 'Style', 'ruben-dance' ); ?></label>
 		<select id="rd-calendar-style">

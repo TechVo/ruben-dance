@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Disallow direct access.
 }
 ?>
-<div class="rd-account">
+<div class="rd-app rd-account">
 	<nav class="rd-account-tabs">
 		<a href="<?php echo esc_url( $tab_urls[ Account_Page::TAB_ENROLLMENTS ] ); ?>" class="rd-account-tab<?php echo Account_Page::TAB_ENROLLMENTS === $tab ? ' is-active' : ''; ?>"><?php esc_html_e( 'My enrollments', 'ruben-dance' ); ?></a>
 		<a href="<?php echo esc_url( $tab_urls[ Account_Page::TAB_SCHEDULE ] ); ?>" class="rd-account-tab<?php echo Account_Page::TAB_SCHEDULE === $tab ? ' is-active' : ''; ?>"><?php esc_html_e( 'My schedule', 'ruben-dance' ); ?></a>

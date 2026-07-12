@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Disallow direct access.
 }
 ?>
-<div class="rd-auth rd-auth--register">
+<div class="rd-app rd-auth rd-auth--register">
 	<?php if ( $rate_limited ) : ?>
 		<div class="rd-notice rd-notice--error"><p><?php esc_html_e( 'Too many registration attempts. Please try again later.', 'ruben-dance' ); ?></p></div>
 	<?php endif; ?>

@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Disallow direct access.
 }
 ?>
-<div class="rd-voucher-inquiry rd-voucher-inquiry--success">
+<div class="rd-app rd-voucher-inquiry rd-voucher-inquiry--success">
 	<div class="rd-notice rd-notice--success">
 		<p><?php esc_html_e( 'Thank you — we have received your message and will get back to you shortly.', 'ruben-dance' ); ?></p>
 	</div>

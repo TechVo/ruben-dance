@@ -54,7 +54,7 @@ class Shortcodes {
 		wp_enqueue_style(
 			'rd-front-auth',
 			plugins_url( 'public/assets/front-auth.css', RUBEN_DANCE_PLUGIN_FILE ),
-			array(),
+			array( 'rd-design' ),
 			RUBEN_DANCE_VERSION
 		);
 	}

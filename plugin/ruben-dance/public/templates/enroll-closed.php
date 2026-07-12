@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Disallow direct access.
 }
 ?>
-<div class="rd-enroll">
+<div class="rd-app rd-enroll">
 	<div class="rd-notice rd-notice--error">
 		<p>
 			<?php if ( '' !== $course_title ) : ?>

@@ -29,7 +29,7 @@ $ruben_dance_role_labels = array(
 	'follower' => __( 'Follower', 'ruben-dance' ),
 );
 ?>
-<div class="rd-enroll">
+<div class="rd-app rd-enroll">
 	<h2><?php echo esc_html( $course_title ); ?> — <?php echo esc_html( $season ); ?></h2>
 
 	<?php if ( 'rate_limited' === $notice ) : ?>

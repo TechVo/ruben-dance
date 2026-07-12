@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Disallow direct access.
 }
 ?>
-<div class="rd-catalog rd-course-terms">
+<div class="rd-app rd-catalog rd-course-terms">
 	<h2><?php esc_html_e( 'Open terms', 'ruben-dance' ); ?></h2>
 
 	<?php if ( array() === $terms ) : ?>

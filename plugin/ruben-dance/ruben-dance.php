@@ -116,6 +116,7 @@ load_plugin_textdomain( 'ruben-dance', false, dirname( plugin_basename( RUBEN_DA
 \RubenDance\Taxonomies::register();
 \RubenDance\Polylang_Setup::register();
 \RubenDance\Course_Fields::register();
+\RubenDance\Front\Design_Assets::register();
 \RubenDance\Front\Shortcodes::register();
 \RubenDance\Front\Form_Handler::register();
 \RubenDance\Front\Access_Restrictions::register();

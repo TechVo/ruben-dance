@@ -85,7 +85,7 @@ class Account_Page {
 		wp_enqueue_style(
 			'rd-front-account',
 			plugins_url( 'public/assets/front-account.css', RUBEN_DANCE_PLUGIN_FILE ),
-			array(),
+			array( 'rd-design' ),
 			RUBEN_DANCE_VERSION
 		);
 	}
