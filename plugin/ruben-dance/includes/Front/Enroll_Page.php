@@ -9,10 +9,12 @@ declare( strict_types = 1 );
 
 namespace RubenDance\Front;
 
+use RubenDance\Admin\Terms_List_Table;
 use RubenDance\Course_Fields;
 use RubenDance\Lang;
 use RubenDance\Repositories\Course_Term_Repository;
 use RubenDance\Repositories\Enrollment_Repository;
+use RubenDance\Repositories\Location_Repository;
 use RubenDance\Services\Enrollment_Service;
 use RubenDance\Services\Registration_Service;
 use RubenDance\Services\Term_Presenter;
@@ -99,6 +101,13 @@ class Enroll_Page {
 		$enroll_url = add_query_arg( 'term_id', $term_id, self::page_url( $lang ) );
 
 		if ( ! is_user_logged_in() ) {
+			wp_enqueue_style(
+				'rd-front-enroll',
+				plugins_url( 'public/assets/front-enroll.css', RUBEN_DANCE_PLUGIN_FILE ),
+				array( 'rd-design' ),
+				RUBEN_DANCE_VERSION
+			);
+
 			return self::render_template(
 				'enroll-login-required',
 				array(
@@ -122,26 +131,153 @@ class Enroll_Page {
 	private static function render_success( array $result, Lang $lang_helper, string $lang ): string {
 		$enrollment = $result['enrollment'] ?? null;
 
+		wp_enqueue_style(
+			'rd-front-enroll',
+			plugins_url( 'public/assets/front-enroll.css', RUBEN_DANCE_PLUGIN_FILE ),
+			array( 'rd-design' ),
+			RUBEN_DANCE_VERSION
+		);
+
+		// Both the real-enrollment and bot-guard "fake success" paths reach
+		// here only after Enrollment_Form_Handler::handle_submit() already
+		// required is_user_logged_in(), so a current user always exists —
+		// the confirmation's "we emailed you at ..." line can therefore
+		// always show an address, even for the fake-success case that
+		// deliberately carries no enrollment row (spec: indistinguishable
+		// from a real one to whatever submitted the form).
+		$email = wp_get_current_user()->user_email;
+
 		// Bot-guard "fake success" (Enrollment_Form_Handler) carries no
 		// enrollment row — show a generic thank-you, indistinguishable from
 		// a real one to whatever submitted the form.
 		if ( null === $enrollment ) {
-			return self::render_template( 'enroll-confirmation', array( 'enrollment' => null ) );
+			return self::render_template(
+				'enroll-confirmation',
+				array(
+					'enrollment'  => null,
+					'email'       => $email,
+					'account_url' => Pages::url( Account_Page::PAGE_KEY, $lang ),
+					'catalog_url' => Pages::url( Catalog_Page::PAGE_KEY, $lang ),
+				)
+			);
 		}
 
 		$term         = ( new Course_Term_Repository() )->find( (int) $enrollment['term_id'] );
 		$course_title = null === $term ? '' : get_the_title( $lang_helper->resolve_post( (int) $term['course_id'], $lang ) );
 		$season       = null === $term ? '' : ( Lang::EN === $lang && '' !== trim( (string) $term['season_label_en'] ) ? (string) $term['season_label_en'] : (string) $term['season_label_cs'] );
 
+		$location = null === $term ? null : ( new Location_Repository() )->find( (int) $term['location_id'] );
+
+		$participant_name = trim( (string) $enrollment['participant_name'] );
+
+		if ( '' === $participant_name ) {
+			$participant_name = wp_get_current_user()->display_name;
+		}
+
+		$presenter = new Term_Presenter();
+
 		return self::render_template(
 			'enroll-confirmation',
 			array(
-				'enrollment'   => $enrollment,
-				'course_title' => $course_title,
-				'season'       => $season,
-				'bank_account' => Settings::bank_account(),
+				'enrollment'       => $enrollment,
+				'email'            => $email,
+				'course_title'     => $course_title,
+				'season'           => $season,
+				'weekday'          => null === $term ? '' : ( Terms_List_Table::weekday_labels()[ (int) $term['weekday'] ] ?? '' ),
+				'time'             => null === $term ? '' : Terms_List_Table::format_time( (string) $term['start_time'] ),
+				'location'         => null === $location ? '' : (string) $location['name'],
+				'participant_name' => $participant_name,
+				'base_price'       => null === $term ? '' : $presenter->format_price( (string) $term['price'] ),
+				'discount_rows'    => self::discount_rows( $enrollment['discount_note'] ?? null ),
+				'total_price'      => $presenter->format_price( (string) $enrollment['price'] ),
+				'bank_account'     => Settings::bank_account(),
+				'due_date'         => date_i18n( 'j. n. Y', (int) strtotime( (string) $enrollment['due_date'] ) ),
+				'qr_url'           => self::qr_url( $enrollment ),
+				'account_url'      => Pages::url( Account_Page::PAGE_KEY, $lang ),
+				'catalog_url'      => Pages::url( Catalog_Page::PAGE_KEY, $lang ),
 			)
 		);
+	}
+
+	/**
+	 * Split a persisted `discount_note` audit string (e.g. "early-bird
+	 * −400, partner −240" — see `Services\Pricing_Service::compute()`) into
+	 * rows for the confirmation screen's price breakdown. Parses the note
+	 * itself rather than re-deriving discounts from the term's *current*
+	 * configuration, since the note is the honest historical record of what
+	 * applied at enrollment time (spec §3.2) — the term's early-bird
+	 * deadline or discount amounts may have changed since.
+	 *
+	 * @param string|null $discount_note Raw `discount_note` column value.
+	 * @return array<int, array{label: string, amount: string}>
+	 */
+	private static function discount_rows( ?string $discount_note ): array {
+		$discount_note = trim( (string) $discount_note );
+
+		if ( '' === $discount_note ) {
+			return array();
+		}
+
+		$rows = array();
+
+		foreach ( explode( ',', $discount_note ) as $ruben_dance_part ) {
+			$ruben_dance_part = trim( $ruben_dance_part );
+
+			if ( 1 === preg_match( '/^early-bird\s+(.+)$/u', $ruben_dance_part, $ruben_dance_matches ) ) {
+				$rows[] = array(
+					'label'  => __( '★ Early-bird', 'ruben-dance' ),
+					'amount' => $ruben_dance_matches[1],
+				);
+			} elseif ( 1 === preg_match( '/^partner\s+(.+)$/u', $ruben_dance_part, $ruben_dance_matches ) ) {
+				$rows[] = array(
+					'label'  => __( 'Partner discount', 'ruben-dance' ),
+					'amount' => $ruben_dance_matches[1],
+				);
+			}
+		}
+
+		return $rows;
+	}
+
+	/**
+	 * The QR-payment-code `<img>` URL for the just-created enrollment (spec
+	 * F16), or `''` when the feature doesn't apply — mirrors
+	 * `Account_Page`'s own `qr_url()` (kept as a separate copy rather than a
+	 * shared dependency between the two front-end classes, the same way
+	 * `render_template()` below is deliberately duplicated). A freshly
+	 * created enrollment is always `STATUS_CONFIRMED`
+	 * (`Services\Enrollment_Service::create()`), so the status check here is
+	 * belt-and-braces rather than expected to ever fail in practice.
+	 *
+	 * @param array<string, mixed> $enrollment Enrollment row.
+	 * @return string
+	 */
+	private static function qr_url( array $enrollment ): string {
+		if ( Enrollment_Service::STATUS_CONFIRMED !== (string) $enrollment['status'] || '' === Settings::iban() ) {
+			return '';
+		}
+
+		return Qr_Code_Ajax::url( (int) $enrollment['id'] );
+	}
+
+	/**
+	 * The form-field element ID a validation error's anchor link (error
+	 * summary, spec F3) should point at, or the form's own ID as a fallback
+	 * for account-level errors (`_form`, `term_id`, `user_id`) that have no
+	 * single field to jump to.
+	 *
+	 * @param string $field Error array key, as produced by `Enrollment_Form_Handler`/`Services\Enrollment_Service::validate()`.
+	 * @return string
+	 */
+	public static function error_anchor( string $field ): string {
+		$map = array(
+			'participant_name' => 'rd-enroll-participant-name',
+			'role'             => 'rd-enroll-role',
+			'partner_name'     => 'rd-enroll-partner-name',
+			'tc_accepted'      => 'rd-enroll-tc',
+		);
+
+		return $map[ $field ] ?? 'rd-enroll-form';
 	}
 
 	/**
@@ -161,6 +297,22 @@ class Enroll_Page {
 		$today        = current_time( 'Y-m-d' );
 		$early_bird   = $presenter->early_bird( $term, $today );
 
+		// Captured before display formatting below turns `$early_bird['price']`
+		// into a thousands-separated string ("2 400") that `parseFloat()`
+		// (enroll-price.js) can no longer read correctly.
+		$early_bird_raw_price = null !== $early_bird ? $early_bird['price'] : '';
+
+		if ( null !== $early_bird ) {
+			// Display-only formatting (design #3e/#4e: "2 400 Kč" + strike +
+			// deadline date) — the raw values `Term_Presenter::early_bird()`
+			// returns are what `Pricing_Service::compute()` still recomputes
+			// from at submit time, untouched by this. Mirrors
+			// `Front\Catalog_Page`/`Front\Course_Content`'s identical
+			// formatting of the same array shape.
+			$early_bird['price'] = $presenter->format_price( $early_bird['price'] );
+			$early_bird['until'] = date_i18n( 'j. n. Y', (int) strtotime( $early_bird['until'] ) );
+		}
+
 		$roles_relevant = Course_Fields::is_roles_relevant( (int) $term['course_id'] );
 
 		$user                      = wp_get_current_user();
@@ -171,9 +323,16 @@ class Enroll_Page {
 
 		$notice = null !== $result ? (string) $result['state'] : '';
 
+		$location = ( new Location_Repository() )->find( (int) $term['location_id'] );
+
+		$course_id = (int) $term['course_id'];
+
+		$discount_early_amount = null !== $early_bird ? $presenter->format_price( (string) $term['discount_early'] ) : '';
+		$discount_pair_amount  = null !== $term['discount_pair'] && '' !== (string) $term['discount_pair'] ? $presenter->format_price( (string) $term['discount_pair'] ) : '';
+
 		wp_enqueue_style(
-			'rd-front-catalog',
-			plugins_url( 'public/assets/front-catalog.css', RUBEN_DANCE_PLUGIN_FILE ),
+			'rd-front-enroll',
+			plugins_url( 'public/assets/front-enroll.css', RUBEN_DANCE_PLUGIN_FILE ),
 			array( 'rd-design' ),
 			RUBEN_DANCE_VERSION
 		);
@@ -191,7 +350,7 @@ class Enroll_Page {
 			'rdEnrollPriceL10n',
 			array(
 				'price'          => (string) $term['price'],
-				'earlyBirdPrice' => null === $early_bird ? '' : $early_bird['price'],
+				'earlyBirdPrice' => $early_bird_raw_price,
 				'pairDiscount'   => null === $term['discount_pair'] ? '' : (string) $term['discount_pair'],
 				'currency'       => Lang::EN === $lang ? 'CZK' : 'Kč',
 			)
@@ -203,10 +362,18 @@ class Enroll_Page {
 				'term'                      => $term,
 				'term_id'                   => $term_id,
 				'lang'                      => $lang,
-				'course_title'              => get_the_title( $lang_helper->resolve_post( (int) $term['course_id'], $lang ) ),
+				'course_title'              => get_the_title( $lang_helper->resolve_post( $course_id, $lang ) ),
+				'course_url'                => (string) get_permalink( $lang_helper->resolve_post( $course_id, $lang ) ),
 				'season'                    => Lang::EN === $lang && '' !== trim( (string) $term['season_label_en'] ) ? (string) $term['season_label_en'] : (string) $term['season_label_cs'],
+				'weekday'                   => Terms_List_Table::weekday_labels()[ (int) $term['weekday'] ] ?? '',
+				'time'                      => Terms_List_Table::format_time( (string) $term['start_time'] ) . '–' . Terms_List_Table::format_time( (string) $term['end_time'] ),
+				'location'                  => null === $location ? '' : (string) $location['name'],
+				'formatted_price'           => $presenter->format_price( (string) $term['price'] ),
+				'is_workshop'               => 'workshop' === (string) $term['type'],
 				'is_full'                   => $is_full,
 				'early_bird'                => $early_bird,
+				'discount_early_amount'     => $discount_early_amount,
+				'discount_pair_amount'      => $discount_pair_amount,
 				'roles_relevant'            => $roles_relevant,
 				'roles'                     => Enrollment_Service::ROLES,
 				'already_marketing_consent' => $already_marketing_consent,

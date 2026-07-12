@@ -1,0 +1,438 @@
+/**
+ * `[rd_enroll]` styling — design/screens.html #3e (mobile 390 — term
+ * summary, capacity/error alerts, login-required block, participant/role
+ * segmented controls, live price breakdown) / #4e (desktop 1280 — 2-column
+ * form + sticky summary sidebar) for the enrollment form itself, and #3f
+ * (mobile) / #4f (desktop, 2 columns) for the post-submit confirmation +
+ * payment/QR block.
+ *
+ * Builds on rd-design.css's tokens/shared components (`.rd-card`,
+ * `.rd-btn`/`.rd-btn--*`, `.rd-badge`/`.rd-badge--*`, `.rd-field`/
+ * `.rd-field--error`, `.rd-checkbox-row`, `.rd-alert`/`.rd-alert--*`,
+ * `.rd-payment`/`.rd-payment__*`, `.rd-price`/`.rd-price__*`, `.rd-eyebrow`,
+ * `.rd-h2`/`.rd-h3`) — loaded first as a dependency (see
+ * `Front\Enroll_Page`'s `wp_enqueue_style()` calls) — so this file only adds
+ * layout, never redeclares a color/radius/shape. The login-required block
+ * and the confirmation's payment block both reuse `.rd-payment` outright
+ * (same "white card, 2px yellow border" shape design/README.md defines for
+ * both), rather than a screen-local copy.
+ *
+ * Screen classes are prefixed `rd-enr-*` (not `rd-enroll-*`, which
+ * `enroll-price.js` and `Enrollment_Form_Handler`'s markup IDs already use
+ * for non-styling hooks) specifically so they cannot collide with the
+ * theme's own selectors — see D3's `rd-course-card*` rename for why this
+ * matters.
+ *
+ * Mobile-first: base rules match #3e/#3f (390), also centered at a 560px
+ * column for tablet (per the design's own "tablet 834: centrovaný sloupec
+ * 560" annotation on #4e). Desktop 2-column layouts switch in at 1024px —
+ * the same breakpoint rd-design.css's own type-scale bump and D3/D4's
+ * sidebar/toolbar layouts already use.
+ */
+
+.rd-enroll {
+	max-width: 560px;
+	margin: 0 auto;
+}
+
+@media (min-width: 1024px) {
+	.rd-enroll {
+		max-width: 1100px;
+	}
+}
+
+/* ==========================================================================
+   Back link + heading.
+   ========================================================================== */
+
+.rd-enr-back {
+	display: inline-block;
+	font-size: 13.5px;
+	font-weight: 700;
+	color: var(--rd-cocoa);
+	text-decoration: none;
+}
+
+.rd-enr-heading {
+	margin-top: 10px;
+}
+
+/* ==========================================================================
+   Term summary card (#3e/#4e "Vybraný termín" — dark cocoa card).
+   ========================================================================== */
+
+.rd-enr-summary {
+	background: var(--rd-cocoa);
+	color: var(--rd-cream);
+	border-radius: var(--rd-radius-card-sm);
+	padding: 16px;
+}
+
+.rd-enr-summary .rd-eyebrow {
+	color: var(--rd-yellow);
+}
+
+.rd-enr-summary__title {
+	font-weight: 800;
+	font-size: 17px;
+	margin-top: 4px;
+}
+
+.rd-enr-summary__meta {
+	font-size: 13px;
+	opacity: .85;
+	margin-top: 4px;
+	line-height: 1.5;
+}
+
+.rd-enr-summary__price-row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
+	margin-top: 10px;
+}
+
+.rd-enr-summary__price {
+	font-size: 16px;
+}
+
+.rd-enr-summary__price-strike {
+	text-decoration: line-through;
+	opacity: .6;
+	font-size: 13px;
+}
+
+/* ==========================================================================
+   Alerts (capacity/error/rate-limit/duplicate) — `.rd-alert` itself is
+   D1; this only stacks however many of them apply.
+   ========================================================================== */
+
+.rd-enr-alerts {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.rd-enr-alerts .rd-alert a {
+	color: inherit;
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+/* ==========================================================================
+   Form layout — grid areas so the visual order can differ from the DOM's
+   (accessibility-driven: summary → alerts → interactive fields → price/
+   submit, the same order in both breakpoints) without duplicating markup
+   per breakpoint.
+   ========================================================================== */
+
+.rd-enr-layout {
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-areas:
+		"summary"
+		"alerts"
+		"fields"
+		"price";
+	gap: 14px;
+	margin-top: 14px;
+}
+
+.rd-enr-layout .rd-enr-summary {
+	grid-area: summary;
+}
+
+.rd-enr-layout .rd-enr-alerts {
+	grid-area: alerts;
+}
+
+.rd-enr-fields {
+	grid-area: fields;
+}
+
+.rd-enr-layout .rd-enr-price {
+	grid-area: price;
+}
+
+@media (min-width: 1024px) {
+	.rd-enr-layout {
+		grid-template-columns: 1fr 380px;
+		grid-template-areas:
+			"alerts alerts"
+			"fields summary"
+			"fields price";
+		gap: 24px;
+		align-items: start;
+	}
+}
+
+/* ==========================================================================
+   Fields card.
+   ========================================================================== */
+
+.rd-enr-fields {
+	padding: 18px;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+@media (min-width: 1024px) {
+	.rd-enr-fields {
+		padding: 26px;
+		gap: 18px;
+	}
+}
+
+.rd-enr-field-group {
+	border: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.rd-enr-legend {
+	font-size: 12.5px;
+	font-weight: 700;
+}
+
+.rd-enr-legend__hint {
+	font-weight: 400;
+	color: var(--rd-cocoa-55);
+}
+
+.rd-enr-hint {
+	margin: 0;
+	font-size: 11.5px;
+	color: var(--rd-cocoa-55);
+}
+
+/* ==========================================================================
+   Segmented pill controls (participant "Já/Někdo jiný" toggle, dance-role
+   toggle). Same hidden-native-input + sibling-label technique as
+   rd-design.css's `.rd-checkbox-row` — the real `<input>` stays in the
+   document (visually hidden, not `display: none`) so it's still focusable/
+   operable by keyboard and screen readers.
+   ========================================================================== */
+
+.rd-enr-toggle {
+	display: flex;
+	gap: 2px;
+	background: var(--rd-cocoa-07);
+	border-radius: var(--rd-radius-pill);
+	padding: 3px;
+	max-width: 320px;
+}
+
+.rd-enr-toggle__option {
+	flex: 1;
+	cursor: pointer;
+}
+
+.rd-enr-toggle__input {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: 0;
+	opacity: 0;
+}
+
+.rd-enr-toggle__label {
+	display: block;
+	text-align: center;
+	border-radius: var(--rd-radius-pill);
+	padding: 9px 0;
+	font-size: 13px;
+	font-weight: 700;
+	color: var(--rd-cocoa-55);
+}
+
+.rd-enr-toggle__input:checked + .rd-enr-toggle__label {
+	background: var(--rd-cocoa);
+	color: var(--rd-cream);
+}
+
+.rd-enr-toggle__input:focus-visible + .rd-enr-toggle__label {
+	outline: 3px solid var(--rd-cocoa);
+	outline-offset: 2px;
+}
+
+.rd-enr-role {
+	display: flex;
+	gap: 8px;
+	max-width: 420px;
+	margin-top: 4px;
+}
+
+.rd-enr-role__option {
+	flex: 1;
+	cursor: pointer;
+}
+
+.rd-enr-role__input {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: 0;
+	opacity: 0;
+}
+
+.rd-enr-role__label {
+	display: block;
+	text-align: center;
+	border: 1.5px solid var(--rd-cocoa-30);
+	border-radius: var(--rd-radius-pill);
+	padding: 10px 0;
+	font-size: 13px;
+	font-weight: 700;
+}
+
+.rd-enr-role__input:checked + .rd-enr-role__label {
+	border-color: var(--rd-cocoa);
+	background: var(--rd-cocoa);
+	color: var(--rd-cream);
+}
+
+.rd-enr-role__input:focus-visible + .rd-enr-role__label {
+	outline: 3px solid var(--rd-cocoa);
+	outline-offset: 2px;
+}
+
+/* Checkbox error state (T&C required, spec §6.3) — `.rd-checkbox-row__box`
+ * is D1; only the border color changes here. */
+.rd-enr-checkbox--error .rd-checkbox-row__box {
+	border-color: var(--rd-error-fg);
+}
+
+/* ==========================================================================
+   Price card + submit (`.rd-price`/`.rd-price__*` are D1; this only adds
+   the submit button + helper notes that sit inside the same card).
+   ========================================================================== */
+
+.rd-enr-submit {
+	width: 100%;
+	margin-top: 14px;
+}
+
+.rd-enr-en-note {
+	margin: 8px 0 0;
+	font-size: 11.5px;
+	color: var(--rd-cocoa-55);
+	text-align: center;
+}
+
+.rd-enr-advisory {
+	margin: 4px 0 0;
+	font-size: 12px;
+	color: var(--rd-cocoa-55);
+	text-align: center;
+}
+
+/* ==========================================================================
+   Login-required block (#3e's yellow-bordered "Nejdřív se přihlaste" card —
+   reuses `.rd-payment`'s "white card, 2px yellow border" shape outright).
+   ========================================================================== */
+
+.rd-enr-login-card {
+	margin-top: 14px;
+}
+
+.rd-enr-login-card .rd-h3 {
+	margin-bottom: 4px;
+}
+
+.rd-enr-login-actions {
+	display: flex;
+	gap: 8px;
+	margin-top: 12px;
+}
+
+.rd-enr-login-actions .rd-btn {
+	flex: 1;
+}
+
+/* ==========================================================================
+   Confirmation screen (#3f mobile / #4f desktop).
+   ========================================================================== */
+
+.rd-enr-success {
+	text-align: center;
+	padding: 8px 0 4px;
+}
+
+.rd-enr-success__icon {
+	width: 56px;
+	height: 56px;
+	border-radius: var(--rd-radius-pill);
+	background: var(--rd-success-bg);
+	color: var(--rd-success-fg);
+	font-size: 26px;
+	font-weight: 800;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 0 auto;
+}
+
+.rd-enr-success__text {
+	margin: 6px 0 0;
+	font-size: 13.5px;
+	color: var(--rd-cocoa-70);
+}
+
+@media (min-width: 1024px) {
+	.rd-enr-success__icon {
+		width: 64px;
+		height: 64px;
+		font-size: 30px;
+	}
+}
+
+.rd-enr-confirm-grid {
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+	margin-top: 18px;
+}
+
+@media (min-width: 1024px) {
+	.rd-enr-confirm-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 16px;
+		align-items: start;
+	}
+}
+
+.rd-enr-order-summary .rd-price__row strong {
+	text-align: right;
+}
+
+.rd-enr-capacity-note {
+	margin-top: 12px;
+}
+
+.rd-enr-actions {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	margin-top: 16px;
+}
+
+.rd-enr-actions .rd-btn {
+	width: 100%;
+}
+
+@media (min-width: 1024px) {
+	.rd-enr-actions {
+		flex-direction: row;
+		justify-content: center;
+	}
+
+	.rd-enr-actions .rd-btn {
+		width: auto;
+	}
+}

@@ -12,8 +12,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 <div class="rd-app rd-enroll">
-	<div class="rd-notice rd-notice--error">
-		<p>
+	<div class="rd-alert rd-alert--error">
+		<strong class="rd-alert__icon">✕</strong>
+		<span>
 			<?php if ( '' !== $course_title ) : ?>
 				<?php
 				printf(
@@ -25,6 +26,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<?php else : ?>
 				<?php esc_html_e( 'Enrollment for this term is not open right now.', 'ruben-dance' ); ?>
 			<?php endif; ?>
-		</p>
+		</span>
 	</div>
 </div>

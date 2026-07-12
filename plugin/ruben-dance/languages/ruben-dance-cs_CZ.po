@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ruben Dance 0.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/ruben-dance\n"
-"POT-Creation-Date: 2026-07-12T16:14:14+00:00\n"
+"POT-Creation-Date: 2026-07-12T19:33:27+00:00\n"
 "PO-Revision-Date: 2026-07-11 12:00+0100\n"
 "Last-Translator: Ruben Dance <info@ruben-dance.cz>\n"
 "Language-Team: Czech\n"
@@ -189,6 +189,7 @@ msgstr "Zatím žádné přihlášky."
 #: includes/Admin/Enrollment_Detail_Page.php:465
 #: includes/Admin/Lesson_Notify_Page.php:365
 #: includes/Admin/Manual_Enrollment_Page.php:448
+#: public/templates/enroll-confirmation.php:41
 msgid "Term"
 msgstr "Termín"
 
@@ -197,6 +198,7 @@ msgstr "Termín"
 #: includes/Admin/Enrollment_Detail_Page.php:476
 #: includes/Admin/Roster_List_Table.php:93 includes/Admin/Roster_Page.php:559
 #: includes/Compliance/Personal_Data.php:307
+#: public/templates/enroll-confirmation.php:42
 msgid "Participant"
 msgstr "Účastník"
 
@@ -245,6 +247,7 @@ msgstr "(majitel účtu)"
 #: includes/Admin/Enrollment_Detail_Page.php:80
 #: includes/Admin/Enrollment_Detail_Page.php:81
 #: includes/Admin/Manual_Enrollment_Page.php:445
+#: public/templates/enroll-form.php:53
 msgid "Enrollment"
 msgstr "Přihláška"
 
@@ -424,7 +427,6 @@ msgstr "Neznámý typ šablony nebo jazyk."
 #: includes/Admin/Manual_Enrollment_Page.php:466
 #: includes/Admin/Roster_List_Table.php:95 includes/Admin/Roster_Page.php:561
 #: includes/Compliance/Personal_Data.php:311
-#: public/templates/enroll-form.php:81
 msgid "Role"
 msgstr "Role"
 
@@ -450,6 +452,7 @@ msgstr "Nad kapacitu"
 #: includes/Admin/Roster_List_Table.php:179
 #: includes/Admin/Term_Lessons_List_Table.php:62
 #: includes/Admin/Term_Lessons_Page.php:324
+#: public/templates/enroll-form.php:164
 msgid "Note"
 msgstr "Poznámka"
 
@@ -458,7 +461,7 @@ msgstr "Poznámka"
 #: includes/Admin/Enrollment_Detail_Page.php:835
 #: includes/Admin/Manual_Enrollment_Page.php:470
 #: includes/Admin/Roster_List_Table.php:263 includes/Admin/Roster_Page.php:610
-#: public/templates/enroll-form.php:27
+#: public/templates/enroll-form.php:34
 msgid "Solo"
 msgstr "Sólo"
 
@@ -467,7 +470,7 @@ msgstr "Sólo"
 #: includes/Admin/Enrollment_Detail_Page.php:829
 #: includes/Admin/Manual_Enrollment_Page.php:471
 #: includes/Admin/Roster_List_Table.php:264 includes/Admin/Roster_Page.php:604
-#: public/templates/enroll-form.php:28
+#: public/templates/enroll-form.php:35
 msgid "Leader"
 msgstr "Vedoucí"
 
@@ -476,7 +479,7 @@ msgstr "Vedoucí"
 #: includes/Admin/Enrollment_Detail_Page.php:832
 #: includes/Admin/Manual_Enrollment_Page.php:472
 #: includes/Admin/Roster_List_Table.php:265 includes/Admin/Roster_Page.php:607
-#: public/templates/enroll-form.php:29
+#: public/templates/enroll-form.php:36
 msgid "Follower"
 msgstr "Vedená/ý"
 
@@ -608,14 +611,14 @@ msgstr "Bankovní převod"
 #: includes/Emails/Email_Templates.php:207
 #: includes/Emails/Email_Templates.php:228
 #: public/templates/account-enrollments.php:65
-#: public/templates/enroll-confirmation.php:47
+#: public/templates/enroll-confirmation.php:70
 msgid "Variable symbol"
 msgstr "Variabilní symbol"
 
 #: includes/Admin/Enrollment_Detail_Page.php:502
 #: includes/Compliance/Personal_Data.php:327
 #: public/templates/account-enrollments.php:69
-#: public/templates/enroll-confirmation.php:51
+#: public/templates/enroll-confirmation.php:71
 msgid "Due date"
 msgstr "Datum splatnosti"
 
@@ -691,6 +694,7 @@ msgstr "Role / partner"
 #: includes/Admin/Enrollment_Detail_Page.php:670
 #: includes/Admin/Manual_Enrollment_Page.php:484
 #: includes/Compliance/Personal_Data.php:315
+#: public/templates/enroll-form.php:158
 msgid "Partner name"
 msgstr "Jméno partnera/partnerky"
 
@@ -1190,7 +1194,7 @@ msgstr "— vyberte otevřený termín —"
 
 #: includes/Admin/Manual_Enrollment_Page.php:464
 #: includes/Emails/Email_Templates.php:185
-#: includes/Emails/Email_Templates.php:196 public/templates/enroll-form.php:71
+#: includes/Emails/Email_Templates.php:196 public/templates/enroll-form.php:137
 msgid "Participant name"
 msgstr "Jméno účastníka"
 
@@ -1380,6 +1384,7 @@ msgstr "Sezóna / termín"
 #: includes/Admin/Roster_Page.php:151 includes/Admin/Terms_List_Table.php:73
 #: includes/Admin/Terms_Page.php:534 includes/Post_Types.php:60
 #: public/templates/account-schedule.php:24 public/templates/calendar.php:92
+#: public/templates/enroll-confirmation.php:40
 msgid "Course"
 msgstr "Kurz"
 
@@ -2116,6 +2121,7 @@ msgid "Please log in to view your account."
 msgstr "Pro zobrazení svého účtu se prosím přihlaste."
 
 #: includes/Front/Account_Page.php:366
+#: public/templates/enroll-confirmation.php:66
 msgid "Awaiting payment"
 msgstr "Čeká na platbu"
 
@@ -2173,7 +2179,7 @@ msgstr "Toto je již vaše aktuální e-mailová adresa."
 msgid "An account with this email already exists."
 msgstr "Účet s tímto e-mailem již existuje."
 
-#: includes/Front/Account_Page.php:420 includes/Front/Enroll_Page.php:257
+#: includes/Front/Account_Page.php:420 includes/Front/Enroll_Page.php:424
 #: includes/Front/Shortcodes.php:254 includes/Front/Voucher_Page.php:108
 #: public/templates/lost-password-form.php:48
 msgid "Please check the highlighted fields."
@@ -2187,31 +2193,39 @@ msgstr "Toto pole ponechte prázdné"
 msgid "Please log in to complete your enrollment."
 msgstr "Pro dokončení přihlášky se prosím přihlaste."
 
-#: includes/Front/Enroll_Page.php:236
+#: includes/Front/Enroll_Page.php:228
+msgid "★ Early-bird"
+msgstr "★ Early-bird"
+
+#: includes/Front/Enroll_Page.php:233 public/templates/enroll-form.php:222
+msgid "Partner discount"
+msgstr "Sleva za partnera"
+
+#: includes/Front/Enroll_Page.php:403
 msgid "You must agree to the Terms & Conditions to enroll."
 msgstr "Pro přihlášení na kurz musíte souhlasit s obchodními podmínkami."
 
-#: includes/Front/Enroll_Page.php:239
+#: includes/Front/Enroll_Page.php:406
 msgid "Please enter the participant's name."
 msgstr "Zadejte prosím jméno účastníka."
 
-#: includes/Front/Enroll_Page.php:242
+#: includes/Front/Enroll_Page.php:409
 msgid "This term is no longer open for enrollment."
 msgstr "Tento termín již není otevřen pro přihlášky."
 
-#: includes/Front/Enroll_Page.php:245
+#: includes/Front/Enroll_Page.php:412
 msgid "This term could not be found."
 msgstr "Tento termín nebyl nalezen."
 
-#: includes/Front/Enroll_Page.php:248
+#: includes/Front/Enroll_Page.php:415
 msgid "Participant name is too long."
 msgstr "Jméno účastníka je příliš dlouhé."
 
-#: includes/Front/Enroll_Page.php:251
+#: includes/Front/Enroll_Page.php:418
 msgid "Please choose a valid role."
 msgstr "Vyberte prosím platnou roli."
 
-#: includes/Front/Enroll_Page.php:254
+#: includes/Front/Enroll_Page.php:421
 msgid "Partner name is too long."
 msgstr "Jméno partnera/partnerky je příliš dlouhé."
 
@@ -2219,7 +2233,7 @@ msgstr "Jméno partnera/partnerky je příliš dlouhé."
 msgid "Legal"
 msgstr "Právní informace"
 
-#: includes/Front/Footer_Links.php:72 public/templates/enroll-form.php:123
+#: includes/Front/Footer_Links.php:72 public/templates/enroll-form.php:177
 #: public/templates/register-form.php:90
 msgid "Terms & Conditions"
 msgstr "Obchodní podmínky"
@@ -2486,21 +2500,21 @@ msgid "Payment instructions"
 msgstr "Platební pokyny"
 
 #: public/templates/account-enrollments.php:57
-#: public/templates/enroll-confirmation.php:32
 msgid "Amount"
 msgstr "Částka"
 
 #: public/templates/account-enrollments.php:61
-#: public/templates/enroll-confirmation.php:43
+#: public/templates/enroll-confirmation.php:69
 msgid "Bank account"
 msgstr "Bankovní účet"
 
 #: public/templates/account-enrollments.php:62
-#: public/templates/enroll-confirmation.php:44
+#: public/templates/enroll-confirmation.php:69
 msgid "(to be confirmed)"
 msgstr "(bude upřesněno)"
 
 #: public/templates/account-enrollments.php:76
+#: public/templates/enroll-confirmation.php:77
 msgid "QR payment code"
 msgstr "QR platební kód"
 
@@ -2739,6 +2753,7 @@ msgstr "Workshop — jednorázová akce"
 
 #. translators: %s: early-bird deadline date.
 #: public/templates/catalog.php:229 public/templates/course-terms.php:47
+#: public/templates/enroll-form.php:212
 #, php-format
 msgid "Early-bird until %s"
 msgstr "Early-bird do %s"
@@ -2767,25 +2782,45 @@ msgstr "Napište nám a dáme vám vědět, jakmile termín otevřeme."
 msgid "Contact us"
 msgstr "Kontaktovat nás"
 
-#: public/templates/course-terms.php:56
+#: public/templates/course-terms.php:56 public/templates/enroll-form.php:79
 msgid "Workshop"
 msgstr "Workshop"
 
 #. translators: %s: course name.
-#: public/templates/enroll-closed.php:21
+#: public/templates/enroll-closed.php:22
 #, php-format
 msgid "Enrollment for \"%s\" is not open right now."
 msgstr "Přihlášky na \"%s\" aktuálně nejsou otevřené."
 
-#: public/templates/enroll-closed.php:26
+#: public/templates/enroll-closed.php:27
 msgid "Enrollment for this term is not open right now."
 msgstr "Přihlášky na tento termín aktuálně nejsou otevřené."
 
-#: public/templates/enroll-confirmation.php:17
-msgid "Thank you — your enrollment has been received."
-msgstr "Děkujeme — vaše přihláška byla přijata."
+#: public/templates/enroll-confirmation.php:23
+msgid "Enrollment received!"
+msgstr "Přihláška přijata!"
 
-#: public/templates/enroll-confirmation.php:25
+#. translators: %s: customer's email address.
+#: public/templates/enroll-confirmation.php:28
+#, php-format
+msgid "We've sent a confirmation to %s."
+msgstr "Potvrzení jsme poslali na %s."
+
+#: public/templates/enroll-confirmation.php:38
+msgid "Order summary"
+msgstr "Shrnutí objednávky"
+
+#: public/templates/enroll-confirmation.php:43
+#: public/templates/enroll-form.php:202
+msgid "Base price"
+msgstr "Základní cena"
+
+#: public/templates/enroll-confirmation.php:52
+#: public/templates/enroll-form.php:227
+msgid "Total"
+msgstr "Celkem"
+
+#: public/templates/enroll-confirmation.php:60
 msgid ""
 "This term is currently at capacity — we will contact you to confirm your "
 "spot."
@@ -2793,21 +2828,57 @@ msgstr ""
 "Tento termín je aktuálně nad kapacitou — ozveme se vám a potvrdíme vaše "
 "místo."
 
-#: public/templates/enroll-confirmation.php:57
-msgid "We have also emailed you these payment instructions."
-msgstr "Tyto platební pokyny jsme vám také zaslali e-mailem."
+#: public/templates/enroll-confirmation.php:80
+msgid "QR payment"
+msgstr "QR platba"
 
-#: public/templates/enroll-form.php:36
+#: public/templates/enroll-confirmation.php:81
+msgid ""
+"Scan with your banking app — the amount, account and variable symbol fill in "
+"automatically."
+msgstr ""
+"Naskenujte v bankovní aplikaci — částka, účet i variabilní symbol se vyplní "
+"automaticky."
+
+#: public/templates/enroll-confirmation.php:90
+msgid "Go to My account"
+msgstr "Přejít do Můj účet"
+
+#: public/templates/enroll-confirmation.php:91
+msgid "Back to courses"
+msgstr "Zpět na kurzy"
+
+#: public/templates/enroll-form.php:46
+msgid "Enroll with obligation to pay"
+msgstr ""
+
+#: public/templates/enroll-form.php:47
+msgid "Závazně přihlásit s povinností platby"
+msgstr ""
+
+#: public/templates/enroll-form.php:51
+msgid "Back to course"
+msgstr "Zpět na kurz"
+
+#: public/templates/enroll-form.php:62
+msgid "Selected term"
+msgstr "Vybraný termín"
+
+#: public/templates/enroll-form.php:74
+msgid "Early-bird"
+msgstr "Early-bird"
+
+#: public/templates/enroll-form.php:86
 #: public/templates/lost-password-form.php:37
 #: public/templates/voucher-form.php:23
 msgid "Too many attempts. Please try again later."
 msgstr "Příliš mnoho pokusů. Zkuste to prosím později."
 
-#: public/templates/enroll-form.php:38
+#: public/templates/enroll-form.php:88
 msgid "You are already enrolled in this term with this participant."
 msgstr "S tímto účastníkem jste do tohoto termínu již přihlášeni."
 
-#: public/templates/enroll-form.php:54
+#: public/templates/enroll-form.php:92
 msgid ""
 "This term is currently at capacity. You can still sign up — the school will "
 "contact you to confirm your spot."
@@ -2815,77 +2886,77 @@ msgstr ""
 "Tento termín je aktuálně nad kapacitou. I přesto se můžete přihlásit — škola "
 "vás bude kontaktovat kvůli potvrzení místa."
 
-#: public/templates/enroll-form.php:65
+#. translators: %d: number of form errors.
+#: public/templates/enroll-form.php:104
+#, php-format
+msgid "The form has %d error:"
+msgid_plural "The form has %d errors:"
+msgstr[0] "Formulář obsahuje %d chybu:"
+msgstr[1] "Formulář obsahuje %d chyby:"
+msgstr[2] "Formulář obsahuje %d chyb:"
+
+#: public/templates/enroll-form.php:122
 msgid "Who is attending?"
 msgstr "Kdo se účastní?"
 
-#: public/templates/enroll-form.php:67
+#: public/templates/enroll-form.php:126
 msgid "Me"
 msgstr "Já"
 
-#: public/templates/enroll-form.php:68
-msgid "Someone else (e.g. my child)"
-msgstr "Někdo jiný (např. mé dítě)"
+#: public/templates/enroll-form.php:130
+msgid "Someone else"
+msgstr "Někdo jiný"
 
-#: public/templates/enroll-form.php:94
-msgid "Partner name (optional — enrolling as a pair may unlock a discount)"
+#: public/templates/enroll-form.php:133
+msgid "E.g. a parent enrolling their child — enter their name below."
+msgstr "Např. rodič přihlašuje dítě — jeho jméno vyplňte níže."
+
+#: public/templates/enroll-form.php:144
+msgid "Dance role"
+msgstr "Taneční role"
+
+#: public/templates/enroll-form.php:144
+msgid "for partner courses"
+msgstr "u párových kurzů"
+
+#: public/templates/enroll-form.php:158
+msgid "optional — enrolling as a pair may unlock a discount"
+msgstr "nepovinné — přihlášení jako pár může odemknout slevu"
+
+#: public/templates/enroll-form.php:164 public/templates/enroll-form.php:193
+msgid "optional"
+msgstr "nepovinné"
+
+#. translators: 1: Terms & Conditions link, 2: privacy policy link.
+#: public/templates/enroll-form.php:176
+#, php-format
+msgid "I agree to the %1$s and acknowledge the %2$s."
 msgstr ""
-"Jméno partnera/partnerky (volitelné — přihlášení jako pár může odemknout "
-"slevu)"
+"Souhlasím s %1$s a beru na vědomí zpracování osobních údajů podle %2$s."
 
-#: public/templates/enroll-form.php:102
-msgid "Note (optional)"
-msgstr "Poznámka (volitelné)"
-
-#: public/templates/enroll-form.php:107
-msgid "Estimated price:"
-msgstr "Odhadovaná cena:"
-
-#: public/templates/enroll-form.php:112
-msgid "(advisory — the final price is always confirmed on the next screen)"
-msgstr "(orientační — konečná cena je vždy potvrzena na další obrazovce)"
-
-#. translators: %s: Terms & Conditions link.
-#: public/templates/enroll-form.php:122 public/templates/register-form.php:89
-#, php-format
-msgid "I agree to the %s."
-msgstr "Souhlasím s %s."
-
-#: public/templates/enroll-form.php:127 public/templates/register-form.php:94
-msgid "I agree to the Terms & Conditions."
-msgstr "Souhlasím s obchodními podmínkami."
-
-#. translators: %s: privacy policy link.
-#: public/templates/enroll-form.php:140 public/templates/register-form.php:107
-#, php-format
-msgid "Your personal data will be processed according to our %s."
-msgstr "Vaše osobní údaje budou zpracovány podle našich %s."
-
-#: public/templates/enroll-form.php:141 public/templates/register-form.php:108
+#: public/templates/enroll-form.php:178 public/templates/register-form.php:108
 msgid "privacy policy"
 msgstr "zásad ochrany osobních údajů"
 
-#: public/templates/enroll-form.php:145 public/templates/register-form.php:112
-msgid "Your personal data will be processed according to our privacy policy."
+#: public/templates/enroll-form.php:182
+msgid "I agree to the Terms & Conditions and acknowledge the privacy policy."
 msgstr ""
-"Vaše osobní údaje budou zpracovány podle našich zásad ochrany osobních údajů."
+"Souhlasím s obchodními podmínkami a beru na vědomí zpracování osobních údajů "
+"podle zásad ochrany osobních údajů."
 
-#: public/templates/enroll-form.php:154 public/templates/register-form.php:120
-msgid ""
-"I would also like to receive occasional news and offers by email (optional)."
-msgstr ""
-"Chtěl(a) bych také dostávat příležitostné novinky a nabídky e-mailem "
-"(volitelné)."
+#: public/templates/enroll-form.php:193
+msgid "I would also like to receive occasional news and offers by email"
+msgstr "Chci také příležitostně dostávat novinky a nabídky e-mailem"
 
-#: public/templates/enroll-form.php:167
-msgid "Enroll with obligation to pay"
-msgstr ""
+#: public/templates/enroll-form.php:199
+msgid "Price — calculated live"
+msgstr "Cena — počítá se průběžně"
 
-#: public/templates/enroll-form.php:168
-msgid "Závazně přihlásit s povinností platby"
-msgstr ""
+#: public/templates/enroll-form.php:236
+msgid "(advisory — the final price is always confirmed on the next screen)"
+msgstr "(orientační — konečná cena je vždy potvrzena na další obrazovce)"
 
-#: public/templates/enroll-form.php:171
+#: public/templates/enroll-form.php:237
 msgid ""
 "By clicking this button you agree to a binding enrollment with an obligation "
 "to pay."
@@ -2893,13 +2964,13 @@ msgstr ""
 "Kliknutím na toto tlačítko souhlasíte se závaznou přihláškou s povinností "
 "platby."
 
-#: public/templates/enroll-login-required.php:17
-msgid ""
-"Please log in or create an account to enroll. Once you're signed in, you'll "
-"come straight back here to finish your enrollment."
-msgstr ""
-"Pro přihlášení na kurz se prosím přihlaste nebo si vytvořte účet. Po "
-"přihlášení budete rovnou vráceni sem k dokončení přihlášky."
+#: public/templates/enroll-login-required.php:18
+msgid "Please log in first"
+msgstr "Nejdřív se přihlaste"
+
+#: public/templates/enroll-login-required.php:19
+msgid "You'll finish your enrollment right back here — nothing will be lost."
+msgstr "Přihlášku pak dokončíte tady — nic se neztratí."
 
 #: public/templates/enroll-login-required.php:21
 #: public/templates/login-form.php:52 public/templates/register-form.php:132
@@ -2911,7 +2982,7 @@ msgstr "Přihlásit se"
 msgid "Create an account"
 msgstr "Vytvořit účet"
 
-#: public/templates/enroll-not-found.php:14
+#: public/templates/enroll-not-found.php:15
 msgid "We could not find that course term. It may have been removed."
 msgstr "Tento termín kurzu se nepodařilo najít. Možná byl odstraněn."
 
@@ -2970,6 +3041,34 @@ msgstr "Odeslat odkaz pro obnovení"
 msgid "Too many registration attempts. Please try again later."
 msgstr "Příliš mnoho pokusů o registraci. Zkuste to prosím později."
 
+#. translators: %s: Terms & Conditions link.
+#: public/templates/register-form.php:89
+#, php-format
+msgid "I agree to the %s."
+msgstr "Souhlasím s %s."
+
+#: public/templates/register-form.php:94
+msgid "I agree to the Terms & Conditions."
+msgstr "Souhlasím s obchodními podmínkami."
+
+#. translators: %s: privacy policy link.
+#: public/templates/register-form.php:107
+#, php-format
+msgid "Your personal data will be processed according to our %s."
+msgstr "Vaše osobní údaje budou zpracovány podle našich %s."
+
+#: public/templates/register-form.php:112
+msgid "Your personal data will be processed according to our privacy policy."
+msgstr ""
+"Vaše osobní údaje budou zpracovány podle našich zásad ochrany osobních údajů."
+
+#: public/templates/register-form.php:120
+msgid ""
+"I would also like to receive occasional news and offers by email (optional)."
+msgstr ""
+"Chtěl(a) bych také dostávat příležitostné novinky a nabídky e-mailem "
+"(volitelné)."
+
 #: public/templates/register-form.php:124
 msgid "Create account"
 msgstr "Vytvořit účet"
@@ -3000,6 +3099,33 @@ msgstr "Odeslat dotaz"
 msgid ""
 "Thank you — we have received your message and will get back to you shortly."
 msgstr "Děkujeme — vaši zprávu jsme přijali a brzy se vám ozveme."
+
+#~ msgid "Thank you — your enrollment has been received."
+#~ msgstr "Děkujeme — vaše přihláška byla přijata."
+
+#~ msgid "We have also emailed you these payment instructions."
+#~ msgstr "Tyto platební pokyny jsme vám také zaslali e-mailem."
+
+#~ msgid "Someone else (e.g. my child)"
+#~ msgstr "Někdo jiný (např. mé dítě)"
+
+#~ msgid "Partner name (optional — enrolling as a pair may unlock a discount)"
+#~ msgstr ""
+#~ "Jméno partnera/partnerky (volitelné — přihlášení jako pár může odemknout "
+#~ "slevu)"
+
+#~ msgid "Note (optional)"
+#~ msgstr "Poznámka (volitelné)"
+
+#~ msgid "Estimated price:"
+#~ msgstr "Odhadovaná cena:"
+
+#~ msgid ""
+#~ "Please log in or create an account to enroll. Once you're signed in, "
+#~ "you'll come straight back here to finish your enrollment."
+#~ msgstr ""
+#~ "Pro přihlášení na kurz se prosím přihlaste nebo si vytvořte účet. Po "
+#~ "přihlášení budete rovnou vráceni sem k dokončení přihlášky."
 
 #~ msgid "All levels"
 #~ msgstr "Všechny úrovně"

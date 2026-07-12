@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-07-12T16:14:14+00:00\n"
+"POT-Creation-Date: 2026-07-12T19:33:27+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: ruben-dance\n"
@@ -194,6 +194,7 @@ msgstr ""
 #: includes/Admin/Enrollment_Detail_Page.php:465
 #: includes/Admin/Lesson_Notify_Page.php:365
 #: includes/Admin/Manual_Enrollment_Page.php:448
+#: public/templates/enroll-confirmation.php:41
 msgid "Term"
 msgstr ""
 
@@ -203,6 +204,7 @@ msgstr ""
 #: includes/Admin/Roster_List_Table.php:93
 #: includes/Admin/Roster_Page.php:559
 #: includes/Compliance/Personal_Data.php:307
+#: public/templates/enroll-confirmation.php:42
 msgid "Participant"
 msgstr ""
 
@@ -252,6 +254,7 @@ msgstr ""
 #: includes/Admin/Enrollment_Detail_Page.php:80
 #: includes/Admin/Enrollment_Detail_Page.php:81
 #: includes/Admin/Manual_Enrollment_Page.php:445
+#: public/templates/enroll-form.php:53
 msgid "Enrollment"
 msgstr ""
 
@@ -420,7 +423,6 @@ msgstr ""
 #: includes/Admin/Roster_List_Table.php:95
 #: includes/Admin/Roster_Page.php:561
 #: includes/Compliance/Personal_Data.php:311
-#: public/templates/enroll-form.php:81
 msgid "Role"
 msgstr ""
 
@@ -446,6 +448,7 @@ msgstr ""
 #: includes/Admin/Roster_List_Table.php:179
 #: includes/Admin/Term_Lessons_List_Table.php:62
 #: includes/Admin/Term_Lessons_Page.php:324
+#: public/templates/enroll-form.php:164
 msgid "Note"
 msgstr ""
 
@@ -455,7 +458,7 @@ msgstr ""
 #: includes/Admin/Manual_Enrollment_Page.php:470
 #: includes/Admin/Roster_List_Table.php:263
 #: includes/Admin/Roster_Page.php:610
-#: public/templates/enroll-form.php:27
+#: public/templates/enroll-form.php:34
 msgid "Solo"
 msgstr ""
 
@@ -465,7 +468,7 @@ msgstr ""
 #: includes/Admin/Manual_Enrollment_Page.php:471
 #: includes/Admin/Roster_List_Table.php:264
 #: includes/Admin/Roster_Page.php:604
-#: public/templates/enroll-form.php:28
+#: public/templates/enroll-form.php:35
 msgid "Leader"
 msgstr ""
 
@@ -475,7 +478,7 @@ msgstr ""
 #: includes/Admin/Manual_Enrollment_Page.php:472
 #: includes/Admin/Roster_List_Table.php:265
 #: includes/Admin/Roster_Page.php:607
-#: public/templates/enroll-form.php:29
+#: public/templates/enroll-form.php:36
 msgid "Follower"
 msgstr ""
 
@@ -609,14 +612,14 @@ msgstr ""
 #: includes/Emails/Email_Templates.php:207
 #: includes/Emails/Email_Templates.php:228
 #: public/templates/account-enrollments.php:65
-#: public/templates/enroll-confirmation.php:47
+#: public/templates/enroll-confirmation.php:70
 msgid "Variable symbol"
 msgstr ""
 
 #: includes/Admin/Enrollment_Detail_Page.php:502
 #: includes/Compliance/Personal_Data.php:327
 #: public/templates/account-enrollments.php:69
-#: public/templates/enroll-confirmation.php:51
+#: public/templates/enroll-confirmation.php:71
 msgid "Due date"
 msgstr ""
 
@@ -692,6 +695,7 @@ msgstr ""
 #: includes/Admin/Enrollment_Detail_Page.php:670
 #: includes/Admin/Manual_Enrollment_Page.php:484
 #: includes/Compliance/Personal_Data.php:315
+#: public/templates/enroll-form.php:158
 msgid "Partner name"
 msgstr ""
 
@@ -1154,7 +1158,7 @@ msgstr ""
 #: includes/Admin/Manual_Enrollment_Page.php:464
 #: includes/Emails/Email_Templates.php:185
 #: includes/Emails/Email_Templates.php:196
-#: public/templates/enroll-form.php:71
+#: public/templates/enroll-form.php:137
 msgid "Participant name"
 msgstr ""
 
@@ -1345,6 +1349,7 @@ msgstr ""
 #: includes/Post_Types.php:60
 #: public/templates/account-schedule.php:24
 #: public/templates/calendar.php:92
+#: public/templates/enroll-confirmation.php:40
 msgid "Course"
 msgstr ""
 
@@ -2074,6 +2079,7 @@ msgid "Please log in to view your account."
 msgstr ""
 
 #: includes/Front/Account_Page.php:366
+#: public/templates/enroll-confirmation.php:66
 msgid "Awaiting payment"
 msgstr ""
 
@@ -2140,7 +2146,7 @@ msgid "An account with this email already exists."
 msgstr ""
 
 #: includes/Front/Account_Page.php:420
-#: includes/Front/Enroll_Page.php:257
+#: includes/Front/Enroll_Page.php:424
 #: includes/Front/Shortcodes.php:254
 #: includes/Front/Voucher_Page.php:108
 #: public/templates/lost-password-form.php:48
@@ -2155,31 +2161,40 @@ msgstr ""
 msgid "Please log in to complete your enrollment."
 msgstr ""
 
-#: includes/Front/Enroll_Page.php:236
+#: includes/Front/Enroll_Page.php:228
+msgid "★ Early-bird"
+msgstr ""
+
+#: includes/Front/Enroll_Page.php:233
+#: public/templates/enroll-form.php:222
+msgid "Partner discount"
+msgstr ""
+
+#: includes/Front/Enroll_Page.php:403
 msgid "You must agree to the Terms & Conditions to enroll."
 msgstr ""
 
-#: includes/Front/Enroll_Page.php:239
+#: includes/Front/Enroll_Page.php:406
 msgid "Please enter the participant's name."
 msgstr ""
 
-#: includes/Front/Enroll_Page.php:242
+#: includes/Front/Enroll_Page.php:409
 msgid "This term is no longer open for enrollment."
 msgstr ""
 
-#: includes/Front/Enroll_Page.php:245
+#: includes/Front/Enroll_Page.php:412
 msgid "This term could not be found."
 msgstr ""
 
-#: includes/Front/Enroll_Page.php:248
+#: includes/Front/Enroll_Page.php:415
 msgid "Participant name is too long."
 msgstr ""
 
-#: includes/Front/Enroll_Page.php:251
+#: includes/Front/Enroll_Page.php:418
 msgid "Please choose a valid role."
 msgstr ""
 
-#: includes/Front/Enroll_Page.php:254
+#: includes/Front/Enroll_Page.php:421
 msgid "Partner name is too long."
 msgstr ""
 
@@ -2188,7 +2203,7 @@ msgid "Legal"
 msgstr ""
 
 #: includes/Front/Footer_Links.php:72
-#: public/templates/enroll-form.php:123
+#: public/templates/enroll-form.php:177
 #: public/templates/register-form.php:90
 msgid "Terms & Conditions"
 msgstr ""
@@ -2453,21 +2468,21 @@ msgid "Payment instructions"
 msgstr ""
 
 #: public/templates/account-enrollments.php:57
-#: public/templates/enroll-confirmation.php:32
 msgid "Amount"
 msgstr ""
 
 #: public/templates/account-enrollments.php:61
-#: public/templates/enroll-confirmation.php:43
+#: public/templates/enroll-confirmation.php:69
 msgid "Bank account"
 msgstr ""
 
 #: public/templates/account-enrollments.php:62
-#: public/templates/enroll-confirmation.php:44
+#: public/templates/enroll-confirmation.php:69
 msgid "(to be confirmed)"
 msgstr ""
 
 #: public/templates/account-enrollments.php:76
+#: public/templates/enroll-confirmation.php:77
 msgid "QR payment code"
 msgstr ""
 
@@ -2692,6 +2707,7 @@ msgstr ""
 #. translators: %s: early-bird deadline date.
 #: public/templates/catalog.php:229
 #: public/templates/course-terms.php:47
+#: public/templates/enroll-form.php:212
 #, php-format
 msgid "Early-bird until %s"
 msgstr ""
@@ -2723,121 +2739,176 @@ msgid "Contact us"
 msgstr ""
 
 #: public/templates/course-terms.php:56
+#: public/templates/enroll-form.php:79
 msgid "Workshop"
 msgstr ""
 
 #. translators: %s: course name.
-#: public/templates/enroll-closed.php:21
+#: public/templates/enroll-closed.php:22
 #, php-format
 msgid "Enrollment for \"%s\" is not open right now."
 msgstr ""
 
-#: public/templates/enroll-closed.php:26
+#: public/templates/enroll-closed.php:27
 msgid "Enrollment for this term is not open right now."
 msgstr ""
 
-#: public/templates/enroll-confirmation.php:17
-msgid "Thank you — your enrollment has been received."
+#: public/templates/enroll-confirmation.php:23
+msgid "Enrollment received!"
 msgstr ""
 
-#: public/templates/enroll-confirmation.php:25
+#. translators: %s: customer's email address.
+#: public/templates/enroll-confirmation.php:28
+#, php-format
+msgid "We've sent a confirmation to %s."
+msgstr ""
+
+#: public/templates/enroll-confirmation.php:38
+msgid "Order summary"
+msgstr ""
+
+#: public/templates/enroll-confirmation.php:43
+#: public/templates/enroll-form.php:202
+msgid "Base price"
+msgstr ""
+
+#: public/templates/enroll-confirmation.php:52
+#: public/templates/enroll-form.php:227
+msgid "Total"
+msgstr ""
+
+#: public/templates/enroll-confirmation.php:60
 msgid "This term is currently at capacity — we will contact you to confirm your spot."
 msgstr ""
 
-#: public/templates/enroll-confirmation.php:57
-msgid "We have also emailed you these payment instructions."
+#: public/templates/enroll-confirmation.php:80
+msgid "QR payment"
 msgstr ""
 
-#: public/templates/enroll-form.php:36
+#: public/templates/enroll-confirmation.php:81
+msgid "Scan with your banking app — the amount, account and variable symbol fill in automatically."
+msgstr ""
+
+#: public/templates/enroll-confirmation.php:90
+msgid "Go to My account"
+msgstr ""
+
+#: public/templates/enroll-confirmation.php:91
+msgid "Back to courses"
+msgstr ""
+
+#: public/templates/enroll-form.php:46
+msgid "Enroll with obligation to pay"
+msgstr ""
+
+#: public/templates/enroll-form.php:47
+msgid "Závazně přihlásit s povinností platby"
+msgstr ""
+
+#: public/templates/enroll-form.php:51
+msgid "Back to course"
+msgstr ""
+
+#: public/templates/enroll-form.php:62
+msgid "Selected term"
+msgstr ""
+
+#: public/templates/enroll-form.php:74
+msgid "Early-bird"
+msgstr ""
+
+#: public/templates/enroll-form.php:86
 #: public/templates/lost-password-form.php:37
 #: public/templates/voucher-form.php:23
 msgid "Too many attempts. Please try again later."
 msgstr ""
 
-#: public/templates/enroll-form.php:38
+#: public/templates/enroll-form.php:88
 msgid "You are already enrolled in this term with this participant."
 msgstr ""
 
-#: public/templates/enroll-form.php:54
+#: public/templates/enroll-form.php:92
 msgid "This term is currently at capacity. You can still sign up — the school will contact you to confirm your spot."
 msgstr ""
 
-#: public/templates/enroll-form.php:65
+#. translators: %d: number of form errors.
+#: public/templates/enroll-form.php:104
+#, php-format
+msgid "The form has %d error:"
+msgid_plural "The form has %d errors:"
+msgstr[0] ""
+msgstr[1] ""
+
+#: public/templates/enroll-form.php:122
 msgid "Who is attending?"
 msgstr ""
 
-#: public/templates/enroll-form.php:67
+#: public/templates/enroll-form.php:126
 msgid "Me"
 msgstr ""
 
-#: public/templates/enroll-form.php:68
-msgid "Someone else (e.g. my child)"
+#: public/templates/enroll-form.php:130
+msgid "Someone else"
 msgstr ""
 
-#: public/templates/enroll-form.php:94
-msgid "Partner name (optional — enrolling as a pair may unlock a discount)"
+#: public/templates/enroll-form.php:133
+msgid "E.g. a parent enrolling their child — enter their name below."
 msgstr ""
 
-#: public/templates/enroll-form.php:102
-msgid "Note (optional)"
+#: public/templates/enroll-form.php:144
+msgid "Dance role"
 msgstr ""
 
-#: public/templates/enroll-form.php:107
-msgid "Estimated price:"
+#: public/templates/enroll-form.php:144
+msgid "for partner courses"
 msgstr ""
 
-#: public/templates/enroll-form.php:112
-msgid "(advisory — the final price is always confirmed on the next screen)"
+#: public/templates/enroll-form.php:158
+msgid "optional — enrolling as a pair may unlock a discount"
 msgstr ""
 
-#. translators: %s: Terms & Conditions link.
-#: public/templates/enroll-form.php:122
-#: public/templates/register-form.php:89
+#: public/templates/enroll-form.php:164
+#: public/templates/enroll-form.php:193
+msgid "optional"
+msgstr ""
+
+#. translators: 1: Terms & Conditions link, 2: privacy policy link.
+#: public/templates/enroll-form.php:176
 #, php-format
-msgid "I agree to the %s."
+msgid "I agree to the %1$s and acknowledge the %2$s."
 msgstr ""
 
-#: public/templates/enroll-form.php:127
-#: public/templates/register-form.php:94
-msgid "I agree to the Terms & Conditions."
-msgstr ""
-
-#. translators: %s: privacy policy link.
-#: public/templates/enroll-form.php:140
-#: public/templates/register-form.php:107
-#, php-format
-msgid "Your personal data will be processed according to our %s."
-msgstr ""
-
-#: public/templates/enroll-form.php:141
+#: public/templates/enroll-form.php:178
 #: public/templates/register-form.php:108
 msgid "privacy policy"
 msgstr ""
 
-#: public/templates/enroll-form.php:145
-#: public/templates/register-form.php:112
-msgid "Your personal data will be processed according to our privacy policy."
+#: public/templates/enroll-form.php:182
+msgid "I agree to the Terms & Conditions and acknowledge the privacy policy."
 msgstr ""
 
-#: public/templates/enroll-form.php:154
-#: public/templates/register-form.php:120
-msgid "I would also like to receive occasional news and offers by email (optional)."
+#: public/templates/enroll-form.php:193
+msgid "I would also like to receive occasional news and offers by email"
 msgstr ""
 
-#: public/templates/enroll-form.php:167
-msgid "Enroll with obligation to pay"
+#: public/templates/enroll-form.php:199
+msgid "Price — calculated live"
 msgstr ""
 
-#: public/templates/enroll-form.php:168
-msgid "Závazně přihlásit s povinností platby"
+#: public/templates/enroll-form.php:236
+msgid "(advisory — the final price is always confirmed on the next screen)"
 msgstr ""
 
-#: public/templates/enroll-form.php:171
+#: public/templates/enroll-form.php:237
 msgid "By clicking this button you agree to a binding enrollment with an obligation to pay."
 msgstr ""
 
-#: public/templates/enroll-login-required.php:17
-msgid "Please log in or create an account to enroll. Once you're signed in, you'll come straight back here to finish your enrollment."
+#: public/templates/enroll-login-required.php:18
+msgid "Please log in first"
+msgstr ""
+
+#: public/templates/enroll-login-required.php:19
+msgid "You'll finish your enrollment right back here — nothing will be lost."
 msgstr ""
 
 #: public/templates/enroll-login-required.php:21
@@ -2851,7 +2922,7 @@ msgstr ""
 msgid "Create an account"
 msgstr ""
 
-#: public/templates/enroll-not-found.php:14
+#: public/templates/enroll-not-found.php:15
 msgid "We could not find that course term. It may have been removed."
 msgstr ""
 
@@ -2897,6 +2968,30 @@ msgstr ""
 
 #: public/templates/register-form.php:22
 msgid "Too many registration attempts. Please try again later."
+msgstr ""
+
+#. translators: %s: Terms & Conditions link.
+#: public/templates/register-form.php:89
+#, php-format
+msgid "I agree to the %s."
+msgstr ""
+
+#: public/templates/register-form.php:94
+msgid "I agree to the Terms & Conditions."
+msgstr ""
+
+#. translators: %s: privacy policy link.
+#: public/templates/register-form.php:107
+#, php-format
+msgid "Your personal data will be processed according to our %s."
+msgstr ""
+
+#: public/templates/register-form.php:112
+msgid "Your personal data will be processed according to our privacy policy."
+msgstr ""
+
+#: public/templates/register-form.php:120
+msgid "I would also like to receive occasional news and offers by email (optional)."
 msgstr ""
 
 #: public/templates/register-form.php:124
