@@ -47,9 +47,13 @@ class Form_Handler {
 	public static ?array $register_result = null;
 
 	/**
-	 * Login form result: null (untouched), or array{ error: string, submitted_email: string }.
+	 * Login form result: null (untouched), or array{ error: string, code: string, submitted_email: string }.
+	 * `code` is a `WP_Error` error code (currently only ever `''` or
+	 * `rd_account_unverified`) — kept separate from the human-readable
+	 * `error` message purely so `Shortcodes`/the template can pick which
+	 * `.rd-alert--*` variant to render without parsing translated text.
 	 *
-	 * @var array{error: string, submitted_email: string}|null
+	 * @var array{error: string, code: string, submitted_email: string}|null
 	 */
 	public static ?array $login_result = null;
 
@@ -207,6 +211,7 @@ class Form_Handler {
 		if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'rd_login' ) ) {
 			self::$login_result = array(
 				'error'           => __( 'Your session expired, please try again.', 'ruben-dance' ),
+				'code'            => '',
 				'submitted_email' => '',
 			);
 			return;
@@ -220,6 +225,7 @@ class Form_Handler {
 		if ( Rate_Limiter::create_default()->too_many_attempts( 'login', self::client_ip(), self::MAX_ATTEMPTS_LOGIN, self::RATE_LIMIT_WINDOW_SECONDS ) ) {
 			self::$login_result = array(
 				'error'           => __( 'Too many login attempts. Please try again later.', 'ruben-dance' ),
+				'code'            => '',
 				'submitted_email' => $email,
 			);
 			return;
@@ -246,6 +252,7 @@ class Form_Handler {
 
 			self::$login_result = array(
 				'error'           => $message,
+				'code'            => (string) $user->get_error_code(),
 				'submitted_email' => $email,
 			);
 			return;

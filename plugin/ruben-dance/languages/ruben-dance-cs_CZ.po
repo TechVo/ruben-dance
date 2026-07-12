@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ruben Dance 0.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/ruben-dance\n"
-"POT-Creation-Date: 2026-07-12T19:33:27+00:00\n"
+"POT-Creation-Date: 2026-07-12T19:50:11+00:00\n"
 "PO-Revision-Date: 2026-07-11 12:00+0100\n"
 "Last-Translator: Ruben Dance <info@ruben-dance.cz>\n"
 "Language-Team: Czech\n"
@@ -50,9 +50,9 @@ msgstr "Jméno"
 #: includes/Admin/Lesson_Notify_Page.php:395
 #: includes/Admin/Manual_Enrollment_Page.php:378
 #: includes/Admin/Manual_Enrollment_Page.php:438
-#: includes/Compliance/Personal_Data.php:266 public/templates/login-form.php:39
-#: public/templates/lost-password-form.php:76
-#: public/templates/register-form.php:58 public/templates/voucher-form.php:52
+#: includes/Compliance/Personal_Data.php:266 public/templates/login-form.php:68
+#: public/templates/lost-password-form.php:92
+#: public/templates/register-form.php:78 public/templates/voucher-form.php:52
 msgid "Email"
 msgstr "E-mail"
 
@@ -61,7 +61,7 @@ msgstr "E-mail"
 #: includes/Admin/Manual_Enrollment_Page.php:439
 #: includes/Compliance/Personal_Data.php:270
 #: public/templates/account-profile.php:94
-#: public/templates/register-form.php:66
+#: public/templates/register-form.php:86
 msgid "Phone"
 msgstr "Telefon"
 
@@ -1165,14 +1165,14 @@ msgstr "Změnit zákazníka"
 #: includes/Admin/Manual_Enrollment_Page.php:436
 #: includes/Compliance/Personal_Data.php:258
 #: public/templates/account-profile.php:80
-#: public/templates/register-form.php:42
+#: public/templates/register-form.php:60
 msgid "First name"
 msgstr "Jméno"
 
 #: includes/Admin/Manual_Enrollment_Page.php:437
 #: includes/Compliance/Personal_Data.php:262
 #: public/templates/account-profile.php:87
-#: public/templates/register-form.php:50
+#: public/templates/register-form.php:68
 msgid "Last name"
 msgstr "Příjmení"
 
@@ -2110,8 +2110,8 @@ msgstr ""
 #: includes/Front/Account_Form_Handler.php:166
 #: includes/Front/Account_Form_Handler.php:212
 #: includes/Front/Enrollment_Form_Handler.php:85
-#: includes/Front/Form_Handler.php:131 includes/Front/Form_Handler.php:209
-#: includes/Front/Form_Handler.php:267 includes/Front/Form_Handler.php:345
+#: includes/Front/Form_Handler.php:135 includes/Front/Form_Handler.php:213
+#: includes/Front/Form_Handler.php:274 includes/Front/Form_Handler.php:352
 #: includes/Front/Voucher_Form_Handler.php:76
 msgid "Your session expired, please try again."
 msgstr "Vaše relace vypršela, zkuste to prosím znovu."
@@ -2125,27 +2125,27 @@ msgstr "Pro zobrazení svého účtu se prosím přihlaste."
 msgid "Awaiting payment"
 msgstr "Čeká na platbu"
 
-#: includes/Front/Account_Page.php:381 includes/Front/Shortcodes.php:221
+#: includes/Front/Account_Page.php:381 includes/Front/Shortcodes.php:223
 msgid "Please enter your first name."
 msgstr "Zadejte prosím své jméno."
 
-#: includes/Front/Account_Page.php:384 includes/Front/Shortcodes.php:224
+#: includes/Front/Account_Page.php:384 includes/Front/Shortcodes.php:226
 msgid "First name is too long."
 msgstr "Jméno je příliš dlouhé."
 
-#: includes/Front/Account_Page.php:387 includes/Front/Shortcodes.php:227
+#: includes/Front/Account_Page.php:387 includes/Front/Shortcodes.php:229
 msgid "Please enter your last name."
 msgstr "Zadejte prosím své příjmení."
 
-#: includes/Front/Account_Page.php:390 includes/Front/Shortcodes.php:230
+#: includes/Front/Account_Page.php:390 includes/Front/Shortcodes.php:232
 msgid "Last name is too long."
 msgstr "Příjmení je příliš dlouhé."
 
-#: includes/Front/Account_Page.php:393 includes/Front/Shortcodes.php:242
+#: includes/Front/Account_Page.php:393 includes/Front/Shortcodes.php:244
 msgid "Please enter your phone number."
 msgstr "Zadejte prosím své telefonní číslo."
 
-#: includes/Front/Account_Page.php:396 includes/Front/Shortcodes.php:245
+#: includes/Front/Account_Page.php:396 includes/Front/Shortcodes.php:247
 msgid "Please enter a valid phone number."
 msgstr "Zadejte prosím platné telefonní číslo."
 
@@ -2153,8 +2153,8 @@ msgstr "Zadejte prosím platné telefonní číslo."
 msgid "Please choose a valid language."
 msgstr "Vyberte prosím platný jazyk."
 
-#: includes/Front/Account_Page.php:402 includes/Front/Shortcodes.php:248
-#: public/templates/lost-password-form.php:47
+#: includes/Front/Account_Page.php:402 includes/Front/Shortcodes.php:250
+#: public/templates/lost-password-form.php:63
 msgid "Password must be at least 8 characters long."
 msgstr "Heslo musí mít nejméně 8 znaků."
 
@@ -2166,7 +2166,7 @@ msgstr "Hesla se neshodují."
 msgid "Please enter an email address."
 msgstr "Zadejte prosím e-mailovou adresu."
 
-#: includes/Front/Account_Page.php:411 includes/Front/Shortcodes.php:236
+#: includes/Front/Account_Page.php:411 includes/Front/Shortcodes.php:238
 #: includes/Front/Voucher_Page.php:99
 msgid "Please enter a valid email address."
 msgstr "Zadejte prosím platnou e-mailovou adresu."
@@ -2180,8 +2180,8 @@ msgid "An account with this email already exists."
 msgstr "Účet s tímto e-mailem již existuje."
 
 #: includes/Front/Account_Page.php:420 includes/Front/Enroll_Page.php:424
-#: includes/Front/Shortcodes.php:254 includes/Front/Voucher_Page.php:108
-#: public/templates/lost-password-form.php:48
+#: includes/Front/Shortcodes.php:256 includes/Front/Voucher_Page.php:108
+#: public/templates/lost-password-form.php:64
 msgid "Please check the highlighted fields."
 msgstr "Zkontrolujte prosím zvýrazněná pole."
 
@@ -2234,7 +2234,7 @@ msgid "Legal"
 msgstr "Právní informace"
 
 #: includes/Front/Footer_Links.php:72 public/templates/enroll-form.php:177
-#: public/templates/register-form.php:90
+#: public/templates/register-form.php:120
 msgid "Terms & Conditions"
 msgstr "Obchodní podmínky"
 
@@ -2242,20 +2242,20 @@ msgstr "Obchodní podmínky"
 msgid "Privacy Policy"
 msgstr "Zásady ochrany osobních údajů"
 
-#: includes/Front/Form_Handler.php:190
+#: includes/Front/Form_Handler.php:194
 msgid "Registration failed, please try again."
 msgstr "Registrace se nezdařila, zkuste to prosím znovu."
 
-#: includes/Front/Form_Handler.php:222
+#: includes/Front/Form_Handler.php:227
 msgid "Too many login attempts. Please try again later."
 msgstr "Příliš mnoho pokusů o přihlášení. Zkuste to prosím později."
 
-#: includes/Front/Form_Handler.php:245
+#: includes/Front/Form_Handler.php:251
 msgid "Incorrect email or password."
 msgstr "Nesprávný e-mail nebo heslo."
 
 #. translators: %s: password reset link.
-#: includes/Front/Form_Handler.php:326
+#: includes/Front/Form_Handler.php:333
 #, php-format
 msgid ""
 "Someone requested a password reset for your Ruben Dance account.\n"
@@ -2267,7 +2267,7 @@ msgid ""
 msgstr ""
 
 #. translators: %s: password reset link.
-#: includes/Front/Form_Handler.php:333
+#: includes/Front/Form_Handler.php:340
 #, php-format
 msgid ""
 "Někdo požádal o obnovení hesla k vašemu účtu Ruben Dance.\n"
@@ -2278,40 +2278,40 @@ msgid ""
 "Pokud jste o obnovení hesla nežádali, tento email prosím ignorujte."
 msgstr ""
 
-#: includes/Front/Shortcodes.php:69 includes/Front/Shortcodes.php:102
-#: includes/Front/Shortcodes.php:163
+#: includes/Front/Shortcodes.php:69 includes/Front/Shortcodes.php:104
+#: includes/Front/Shortcodes.php:165
 msgid "You are already logged in."
 msgstr "Již jste přihlášeni."
 
-#: includes/Front/Shortcodes.php:127
+#: includes/Front/Shortcodes.php:129
 msgid "Too short"
 msgstr "Příliš krátké"
 
-#: includes/Front/Shortcodes.php:128
+#: includes/Front/Shortcodes.php:130
 msgid "Very weak"
 msgstr "Velmi slabé"
 
-#: includes/Front/Shortcodes.php:129
+#: includes/Front/Shortcodes.php:131
 msgid "Medium"
 msgstr "Střední"
 
-#: includes/Front/Shortcodes.php:130
+#: includes/Front/Shortcodes.php:132
 msgid "Strong"
 msgstr "Silné"
 
-#: includes/Front/Shortcodes.php:131
+#: includes/Front/Shortcodes.php:133
 msgid "Passwords do not match"
 msgstr "Hesla se neshodují"
 
-#: includes/Front/Shortcodes.php:233 includes/Front/Voucher_Page.php:96
+#: includes/Front/Shortcodes.php:235 includes/Front/Voucher_Page.php:96
 msgid "Please enter your email address."
 msgstr "Zadejte prosím svou e-mailovou adresu."
 
-#: includes/Front/Shortcodes.php:239
+#: includes/Front/Shortcodes.php:241
 msgid "An account with this email already exists. Try logging in instead."
 msgstr "Účet s tímto e-mailem již existuje. Zkuste se raději přihlásit."
 
-#: includes/Front/Shortcodes.php:251
+#: includes/Front/Shortcodes.php:253
 msgid "You must agree to the Terms & Conditions to register."
 msgstr "Pro registraci musíte souhlasit s obchodními podmínkami."
 
@@ -2598,8 +2598,8 @@ msgstr "Nová e-mailová adresa"
 msgid "Request email change"
 msgstr "Požádat o změnu e-mailu"
 
-#: public/templates/account-profile.php:158 public/templates/login-form.php:44
-#: public/templates/register-form.php:74
+#: public/templates/account-profile.php:158 public/templates/login-form.php:73
+#: public/templates/register-form.php:95
 msgid "Password"
 msgstr "Heslo"
 
@@ -2608,7 +2608,7 @@ msgid "Your password has been changed."
 msgstr "Vaše heslo bylo změněno."
 
 #: public/templates/account-profile.php:177
-#: public/templates/lost-password-form.php:63
+#: public/templates/lost-password-form.php:79
 msgid "New password"
 msgstr "Nové heslo"
 
@@ -2869,7 +2869,7 @@ msgid "Early-bird"
 msgstr "Early-bird"
 
 #: public/templates/enroll-form.php:86
-#: public/templates/lost-password-form.php:37
+#: public/templates/lost-password-form.php:52
 #: public/templates/voucher-form.php:23
 msgid "Too many attempts. Please try again later."
 msgstr "Příliš mnoho pokusů. Zkuste to prosím později."
@@ -2934,7 +2934,7 @@ msgid "I agree to the %1$s and acknowledge the %2$s."
 msgstr ""
 "Souhlasím s %1$s a beru na vědomí zpracování osobních údajů podle %2$s."
 
-#: public/templates/enroll-form.php:178 public/templates/register-form.php:108
+#: public/templates/enroll-form.php:178 public/templates/register-form.php:135
 msgid "privacy policy"
 msgstr "zásad ochrany osobních údajů"
 
@@ -2973,12 +2973,13 @@ msgid "You'll finish your enrollment right back here — nothing will be lost."
 msgstr "Přihlášku pak dokončíte tady — nic se neztratí."
 
 #: public/templates/enroll-login-required.php:21
-#: public/templates/login-form.php:52 public/templates/register-form.php:132
+#: public/templates/login-form.php:29 public/templates/login-form.php:83
+#: public/templates/register-form.php:159
 msgid "Log in"
 msgstr "Přihlásit se"
 
 #: public/templates/enroll-login-required.php:22
-#: public/templates/login-form.php:58
+#: public/templates/login-form.php:87
 msgid "Create an account"
 msgstr "Vytvořit účet"
 
@@ -2986,30 +2987,36 @@ msgstr "Vytvořit účet"
 msgid "We could not find that course term. It may have been removed."
 msgstr "Tento termín kurzu se nepodařilo najít. Možná byl odstraněn."
 
-#: public/templates/login-form.php:18
+#: public/templates/login-form.php:36
 msgid "Your email address has been verified. You can now log in."
 msgstr "Vaše e-mailová adresa byla ověřena. Nyní se můžete přihlásit."
 
-#: public/templates/login-form.php:20
+#: public/templates/login-form.php:41
 msgid ""
 "This verification link has expired. Please register again or contact us."
 msgstr ""
 "Platnost tohoto ověřovacího odkazu vypršela. Zaregistrujte se prosím znovu "
 "nebo nás kontaktujte."
 
-#: public/templates/login-form.php:22
+#: public/templates/login-form.php:46
 msgid "This verification link is invalid or has already been used."
 msgstr "Tento ověřovací odkaz je neplatný, nebo již byl použit."
 
-#: public/templates/login-form.php:49
+#: public/templates/login-form.php:80
 msgid "Remember me"
 msgstr "Zapamatovat si mě"
 
-#: public/templates/login-form.php:56
+#: public/templates/login-form.php:86
+#: public/templates/lost-password-form.php:26
 msgid "Lost your password?"
 msgstr "Zapomněli jste heslo?"
 
-#: public/templates/lost-password-form.php:22
+#: public/templates/lost-password-form.php:25
+#: public/templates/lost-password-form.php:83
+msgid "Set new password"
+msgstr "Nastavit nové heslo"
+
+#: public/templates/lost-password-form.php:34
 msgid ""
 "If an account exists for that email address, a password reset link has been "
 "sent."
@@ -3017,69 +3024,70 @@ msgstr ""
 "Pokud pro tuto e-mailovou adresu existuje účet, byl odeslán odkaz pro "
 "obnovení hesla."
 
-#: public/templates/lost-password-form.php:27
+#: public/templates/lost-password-form.php:40
 msgid ""
 "Your password has been changed. You can now log in with your new password."
 msgstr "Vaše heslo bylo změněno. Nyní se můžete přihlásit s novým heslem."
 
-#: public/templates/lost-password-form.php:32
+#: public/templates/lost-password-form.php:46
 msgid ""
 "This password reset link is invalid or has expired. Please request a new one."
 msgstr ""
 "Platnost tohoto odkazu pro obnovení hesla vypršela, nebo je neplatný. "
 "Požádejte prosím o nový."
 
-#: public/templates/lost-password-form.php:67
-msgid "Set new password"
-msgstr "Nastavit nové heslo"
-
-#: public/templates/lost-password-form.php:80
+#: public/templates/lost-password-form.php:96
 msgid "Send reset link"
 msgstr "Odeslat odkaz pro obnovení"
 
-#: public/templates/register-form.php:22
+#: public/templates/register-form.php:26
+#: public/templates/register-success.php:18
+msgid "Register"
+msgstr "Registrace"
+
+#: public/templates/register-form.php:33
 msgid "Too many registration attempts. Please try again later."
 msgstr "Příliš mnoho pokusů o registraci. Zkuste to prosím později."
 
 #. translators: %s: Terms & Conditions link.
-#: public/templates/register-form.php:89
+#: public/templates/register-form.php:119
 #, php-format
 msgid "I agree to the %s."
 msgstr "Souhlasím s %s."
 
-#: public/templates/register-form.php:94
+#: public/templates/register-form.php:124
 msgid "I agree to the Terms & Conditions."
 msgstr "Souhlasím s obchodními podmínkami."
 
 #. translators: %s: privacy policy link.
-#: public/templates/register-form.php:107
+#: public/templates/register-form.php:134
 #, php-format
 msgid "Your personal data will be processed according to our %s."
 msgstr "Vaše osobní údaje budou zpracovány podle našich %s."
 
-#: public/templates/register-form.php:112
+#: public/templates/register-form.php:139
 msgid "Your personal data will be processed according to our privacy policy."
 msgstr ""
 "Vaše osobní údaje budou zpracovány podle našich zásad ochrany osobních údajů."
 
-#: public/templates/register-form.php:120
+#: public/templates/register-form.php:148
 msgid ""
 "I would also like to receive occasional news and offers by email (optional)."
 msgstr ""
 "Chtěl(a) bych také dostávat příležitostné novinky a nabídky e-mailem "
 "(volitelné)."
 
-#: public/templates/register-form.php:124
+#: public/templates/register-form.php:151
 msgid "Create account"
 msgstr "Vytvořit účet"
 
 #. translators: %s: login link.
-#: public/templates/register-form.php:131
+#: public/templates/register-form.php:158
 #, php-format
 msgid "Already have an account? %s"
 msgstr "Již máte účet? %s"
 
-#: public/templates/register-success.php:16
+#: public/templates/register-success.php:22
 msgid ""
 "Almost done! Please check your inbox and click the verification link to "
 "activate your account."

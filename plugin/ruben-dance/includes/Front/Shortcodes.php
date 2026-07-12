@@ -71,6 +71,7 @@ class Shortcodes {
 
 		$result = Form_Handler::$login_result ?? array(
 			'error'           => '',
+			'code'            => '',
 			'submitted_email' => '',
 		);
 
@@ -83,6 +84,7 @@ class Shortcodes {
 			'login-form',
 			array(
 				'error'             => $result['error'],
+				'error_code'        => $result['code'] ?? '',
 				'submitted_email'   => $result['submitted_email'],
 				'notice'            => $notice,
 				'redirect_to'       => $redirect_to,
