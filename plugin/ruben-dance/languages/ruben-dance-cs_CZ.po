@@ -4,6 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ruben Dance 0.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/ruben-dance\n"
+"POT-Creation-Date: 2026-07-12T11:16:56+00:00\n"
 "PO-Revision-Date: 2026-07-11 12:00+0100\n"
 "Last-Translator: Ruben Dance <info@ruben-dance.cz>\n"
 "Language-Team: Czech\n"
@@ -16,9 +17,7 @@ msgstr ""
 
 #. Plugin Name of the plugin
 #. Author of the plugin
-#: ruben-dance.php
-#: includes/Admin/Menu.php:45
-#: includes/Admin/Menu.php:46
+#: ruben-dance.php includes/Admin/Menu.php:45 includes/Admin/Menu.php:46
 #: includes/Admin/Menu.php:62
 msgid "Ruben Dance"
 msgstr "Ruben Dance"
@@ -30,8 +29,11 @@ msgstr "https://ruben-dance.cz/"
 
 #. Description of the plugin
 #: ruben-dance.php
-msgid "Custom reservation system for Ruben Dance courses, terms, lessons and enrollments."
-msgstr "Vlastní rezervační systém pro kurzy, termíny, lekce a přihlášky Ruben Dance."
+msgid ""
+"Custom reservation system for Ruben Dance courses, terms, lessons and "
+"enrollments."
+msgstr ""
+"Vlastní rezervační systém pro kurzy, termíny, lekce a přihlášky Ruben Dance."
 
 #: includes/Admin/Customers_List_Table.php:64
 #: includes/Admin/Customer_Detail_Page.php:119
@@ -48,11 +50,9 @@ msgstr "Jméno"
 #: includes/Admin/Lesson_Notify_Page.php:395
 #: includes/Admin/Manual_Enrollment_Page.php:378
 #: includes/Admin/Manual_Enrollment_Page.php:438
-#: includes/Compliance/Personal_Data.php:266
-#: public/templates/login-form.php:39
+#: includes/Compliance/Personal_Data.php:266 public/templates/login-form.php:39
 #: public/templates/lost-password-form.php:76
-#: public/templates/register-form.php:58
-#: public/templates/voucher-form.php:52
+#: public/templates/register-form.php:58 public/templates/voucher-form.php:52
 msgid "Email"
 msgstr "E-mail"
 
@@ -101,8 +101,7 @@ msgstr "Čeština"
 #: includes/Admin/Customer_Detail_Page.php:129
 #: includes/Admin/Customer_Detail_Page.php:134
 #: includes/Admin/Enrollment_Detail_Page.php:499
-#: includes/Admin/Roster_Page.php:623
-#: includes/Compliance/Personal_Data.php:288
+#: includes/Admin/Roster_Page.php:623 includes/Compliance/Personal_Data.php:288
 msgid "Yes"
 msgstr "Ano"
 
@@ -110,8 +109,7 @@ msgstr "Ano"
 #: includes/Admin/Customer_Detail_Page.php:129
 #: includes/Admin/Customer_Detail_Page.php:134
 #: includes/Admin/Enrollment_Detail_Page.php:499
-#: includes/Admin/Roster_Page.php:629
-#: includes/Compliance/Personal_Data.php:289
+#: includes/Admin/Roster_Page.php:629 includes/Compliance/Personal_Data.php:289
 msgid "No"
 msgstr "Ne"
 
@@ -119,8 +117,7 @@ msgstr "Ne"
 msgid "No customers found."
 msgstr "Nebyli nalezeni žádní zákazníci."
 
-#: includes/Admin/Customers_Page.php:45
-#: includes/Admin/Customers_Page.php:46
+#: includes/Admin/Customers_Page.php:45 includes/Admin/Customers_Page.php:46
 #: includes/Admin/Customers_Page.php:97
 msgid "Customers"
 msgstr "Zákazníci"
@@ -135,8 +132,7 @@ msgstr "Nemáte oprávnění zobrazit zákazníky."
 msgid "Search name or email…"
 msgstr "Hledat jméno nebo e-mail…"
 
-#: includes/Admin/Customers_Page.php:103
-#: includes/Admin/Email_Log_Page.php:98
+#: includes/Admin/Customers_Page.php:103 includes/Admin/Email_Log_Page.php:98
 #: includes/Admin/Manual_Enrollment_Page.php:359
 msgid "Search"
 msgstr "Hledat"
@@ -160,8 +156,7 @@ msgstr "Zpět na zákazníky"
 
 #: includes/Admin/Customer_Detail_Page.php:116
 #: includes/Admin/Enrollments_List_Table.php:105
-#: includes/Admin/Roster_List_Table.php:94
-#: includes/Admin/Roster_Page.php:560
+#: includes/Admin/Roster_List_Table.php:94 includes/Admin/Roster_Page.php:560
 msgid "Contact"
 msgstr "Kontakt"
 
@@ -200,8 +195,7 @@ msgstr "Termín"
 #: includes/Admin/Customer_Detail_Page.php:177
 #: includes/Admin/Enrollments_List_Table.php:104
 #: includes/Admin/Enrollment_Detail_Page.php:476
-#: includes/Admin/Roster_List_Table.php:93
-#: includes/Admin/Roster_Page.php:559
+#: includes/Admin/Roster_List_Table.php:93 includes/Admin/Roster_Page.php:559
 #: includes/Compliance/Personal_Data.php:307
 msgid "Participant"
 msgstr "Účastník"
@@ -221,15 +215,13 @@ msgstr "Cena"
 #: includes/Admin/Enrollment_Detail_Page.php:498
 #: includes/Admin/Enrollment_Detail_Page.php:596
 #: includes/Admin/Locations_List_Table.php:53
-#: includes/Admin/Roster_Page.php:154
-#: includes/Admin/Terms_List_Table.php:79
+#: includes/Admin/Roster_Page.php:154 includes/Admin/Terms_List_Table.php:79
 #: includes/Admin/Terms_Page.php:582
 #: includes/Admin/Term_Lessons_List_Table.php:61
 #: includes/Admin/Term_Lessons_Page.php:307
 #: includes/Compliance/Personal_Data.php:319
 #: includes/Compliance/Personal_Data.php:371
-#: public/templates/account-schedule.php:26
-#: public/templates/calendar.php:64
+#: public/templates/account-schedule.php:26 public/templates/calendar.php:64
 msgid "Status"
 msgstr "Stav"
 
@@ -257,8 +249,7 @@ msgid "Enrollment"
 msgstr "Přihláška"
 
 #: includes/Admin/Customer_Detail_Page.php:203
-#: includes/Admin/Roster_Page.php:53
-#: includes/Admin/Roster_Page.php:54
+#: includes/Admin/Roster_Page.php:53 includes/Admin/Roster_Page.php:54
 msgid "Roster"
 msgstr "Seznam přihlášených"
 
@@ -266,8 +257,7 @@ msgstr "Seznam přihlášených"
 #: includes/Admin/Enrollments_List_Table.php:318
 #: includes/Admin/Enrollments_Page.php:193
 #: includes/Admin/Enrollment_Detail_Page.php:848
-#: includes/Admin/Roster_List_Table.php:97
-#: includes/Admin/Roster_Page.php:562
+#: includes/Admin/Roster_List_Table.php:97 includes/Admin/Roster_Page.php:562
 #: includes/Front/Account_Page.php:359
 msgid "Paid"
 msgstr "Zaplaceno"
@@ -277,16 +267,12 @@ msgstr "Zaplaceno"
 #: includes/Admin/Enrollments_Page.php:194
 #: includes/Admin/Enrollment_Detail_Page.php:851
 #: includes/Admin/Lesson_Notify_Page.php:362
-#: includes/Admin/Roster_List_Table.php:163
-#: includes/Admin/Roster_Page.php:626
-#: includes/Admin/Terms_List_Table.php:257
-#: includes/Admin/Terms_Page.php:587
+#: includes/Admin/Roster_List_Table.php:163 includes/Admin/Roster_Page.php:626
+#: includes/Admin/Terms_List_Table.php:257 includes/Admin/Terms_Page.php:587
 #: includes/Admin/Term_Lessons_List_Table.php:137
-#: includes/Admin/Term_Lessons_Page.php:311
-#: includes/Front/Account_Page.php:362
+#: includes/Admin/Term_Lessons_Page.php:311 includes/Front/Account_Page.php:362
 #: includes/Front/Calendar_Page.php:174
-#: public/templates/account-schedule.php:38
-#: public/templates/calendar.php:82
+#: public/templates/account-schedule.php:38 public/templates/calendar.php:82
 msgid "Cancelled"
 msgstr "Zrušeno"
 
@@ -296,8 +282,7 @@ msgstr "Zrušeno"
 msgid "Unpaid"
 msgstr "Nezaplaceno"
 
-#: includes/Admin/Email_Log_Page.php:52
-#: includes/Admin/Email_Log_Page.php:53
+#: includes/Admin/Email_Log_Page.php:52 includes/Admin/Email_Log_Page.php:53
 #: includes/Admin/Email_Log_Page.php:92
 msgid "Email Log"
 msgstr "Log e-mailů"
@@ -307,8 +292,12 @@ msgid "You do not have permission to view the email log."
 msgstr "Nemáte oprávnění zobrazit log e-mailů."
 
 #: includes/Admin/Email_Log_Page.php:93
-msgid "Every email the plugin sent (or failed to send). Only metadata and the subject are stored — never full bodies (GDPR §6.1)."
-msgstr "Každý e-mail, který plugin odeslal (nebo se ho nepodařilo odeslat). Ukládají se pouze metadata a předmět — nikdy celý obsah (GDPR §6.1)."
+msgid ""
+"Every email the plugin sent (or failed to send). Only metadata and the "
+"subject are stored — never full bodies (GDPR §6.1)."
+msgstr ""
+"Každý e-mail, který plugin odeslal (nebo se ho nepodařilo odeslat). Ukládají "
+"se pouze metadata a předmět — nikdy celý obsah (GDPR §6.1)."
 
 #: includes/Admin/Email_Log_Page.php:97
 msgid "Search recipient, subject or type…"
@@ -318,16 +307,14 @@ msgstr "Hledat příjemce, předmět nebo typ…"
 msgid "No log entries match."
 msgstr "Žádné záznamy v logu neodpovídají."
 
-#: includes/Admin/Email_Log_Page.php:122
-#: includes/Admin/Email_Log_Page.php:142
+#: includes/Admin/Email_Log_Page.php:122 includes/Admin/Email_Log_Page.php:142
 #: includes/Admin/Enrollment_Detail_Page.php:592
 msgid "Sent"
 msgstr "Odesláno"
 
 #: includes/Admin/Email_Log_Page.php:123
 #: includes/Admin/Enrollment_Detail_Page.php:593
-#: includes/Admin/Terms_Page.php:550
-#: includes/Compliance/Personal_Data.php:359
+#: includes/Admin/Terms_Page.php:550 includes/Compliance/Personal_Data.php:359
 msgid "Type"
 msgstr "Typ"
 
@@ -373,16 +360,24 @@ msgid "You do not have permission to manage email templates."
 msgstr "Nemáte oprávnění spravovat šablony e-mailů."
 
 #: includes/Admin/Email_Templates_Page.php:208
-msgid "Note: the E3 admin notification is always sent in Czech (spec F14); the English variant here is never used."
-msgstr "Poznámka: administrátorské upozornění E3 se vždy odesílá česky (spec F14); anglická varianta zde se nikdy nepoužije."
+msgid ""
+"Note: the E3 admin notification is always sent in Czech (spec F14); the "
+"English variant here is never used."
+msgstr ""
+"Poznámka: administrátorské upozornění E3 se vždy odesílá česky (spec F14); "
+"anglická varianta zde se nikdy nepoužije."
 
 #: includes/Admin/Email_Templates_Page.php:231
 msgid "Body (HTML)"
 msgstr "Text (HTML)"
 
 #: includes/Admin/Email_Templates_Page.php:233
-msgid "Sent as HTML. Placeholder values are HTML-escaped automatically; unknown or empty placeholders are removed."
-msgstr "Odesíláno jako HTML. Hodnoty zástupných symbolů jsou automaticky HTML-escapovány; neznámé nebo prázdné zástupné symboly jsou odstraněny."
+msgid ""
+"Sent as HTML. Placeholder values are HTML-escaped automatically; unknown or "
+"empty placeholders are removed."
+msgstr ""
+"Odesíláno jako HTML. Hodnoty zástupných symbolů jsou automaticky HTML-"
+"escapovány; neznámé nebo prázdné zástupné symboly jsou odstraněny."
 
 #: includes/Admin/Email_Templates_Page.php:235
 msgid "Available placeholders"
@@ -403,12 +398,21 @@ msgid "Template saved. The next send of this type uses it."
 msgstr "Šablona uložena. Příští odeslání tohoto typu ji použije."
 
 #: includes/Admin/Email_Templates_Page.php:311
-msgid "Template saved and test email sent to your address (also recorded in the email log)."
-msgstr "Šablona uložena a testovací e-mail odeslán na vaši adresu (zaznamenáno i v logu e-mailů)."
+msgid ""
+"Template saved and test email sent to your address (also recorded in the "
+"email log)."
+msgstr ""
+"Šablona uložena a testovací e-mail odeslán na vaši adresu (zaznamenáno i v "
+"logu e-mailů)."
 
 #: includes/Admin/Email_Templates_Page.php:312
-msgid "Template saved, but the test email could not be sent (logged with status \"failed\") — check the site’s mail configuration."
-msgstr "Šablona uložena, ale testovací e-mail se nepodařilo odeslat (zaznamenáno se stavem „nepodařilo se odeslat“) — zkontrolujte nastavení odesílání e-mailů webu."
+msgid ""
+"Template saved, but the test email could not be sent (logged with status "
+"\"failed\") — check the site’s mail configuration."
+msgstr ""
+"Šablona uložena, ale testovací e-mail se nepodařilo odeslat (zaznamenáno se "
+"stavem „nepodařilo se odeslat“) — zkontrolujte nastavení odesílání e-mailů "
+"webu."
 
 #: includes/Admin/Email_Templates_Page.php:313
 msgid "Unknown template type or language."
@@ -418,8 +422,7 @@ msgstr "Neznámý typ šablony nebo jazyk."
 #: includes/Admin/Enrollment_Detail_Page.php:493
 #: includes/Admin/Enrollment_Detail_Page.php:652
 #: includes/Admin/Manual_Enrollment_Page.php:466
-#: includes/Admin/Roster_List_Table.php:95
-#: includes/Admin/Roster_Page.php:561
+#: includes/Admin/Roster_List_Table.php:95 includes/Admin/Roster_Page.php:561
 #: includes/Compliance/Personal_Data.php:311
 #: public/templates/enroll-form.php:81
 msgid "Role"
@@ -454,8 +457,7 @@ msgstr "Poznámka"
 #: includes/Admin/Enrollment_Detail_Page.php:656
 #: includes/Admin/Enrollment_Detail_Page.php:835
 #: includes/Admin/Manual_Enrollment_Page.php:470
-#: includes/Admin/Roster_List_Table.php:263
-#: includes/Admin/Roster_Page.php:610
+#: includes/Admin/Roster_List_Table.php:263 includes/Admin/Roster_Page.php:610
 #: public/templates/enroll-form.php:27
 msgid "Solo"
 msgstr "Sólo"
@@ -464,8 +466,7 @@ msgstr "Sólo"
 #: includes/Admin/Enrollment_Detail_Page.php:657
 #: includes/Admin/Enrollment_Detail_Page.php:829
 #: includes/Admin/Manual_Enrollment_Page.php:471
-#: includes/Admin/Roster_List_Table.php:264
-#: includes/Admin/Roster_Page.php:604
+#: includes/Admin/Roster_List_Table.php:264 includes/Admin/Roster_Page.php:604
 #: public/templates/enroll-form.php:28
 msgid "Leader"
 msgstr "Vedoucí"
@@ -474,8 +475,7 @@ msgstr "Vedoucí"
 #: includes/Admin/Enrollment_Detail_Page.php:658
 #: includes/Admin/Enrollment_Detail_Page.php:832
 #: includes/Admin/Manual_Enrollment_Page.php:472
-#: includes/Admin/Roster_List_Table.php:265
-#: includes/Admin/Roster_Page.php:607
+#: includes/Admin/Roster_List_Table.php:265 includes/Admin/Roster_Page.php:607
 #: public/templates/enroll-form.php:29
 msgid "Follower"
 msgstr "Vedená/ý"
@@ -517,8 +517,7 @@ msgstr "Nová ruční přihláška"
 msgid "All terms"
 msgstr "Všechny termíny"
 
-#: includes/Admin/Enrollments_Page.php:191
-#: includes/Admin/Terms_Page.php:470
+#: includes/Admin/Enrollments_Page.php:191 includes/Admin/Terms_Page.php:470
 msgid "All statuses"
 msgstr "Všechny stavy"
 
@@ -534,9 +533,7 @@ msgstr "Pouze nad kapacitu"
 msgid "Search name, email or participant…"
 msgstr "Hledat jméno, e-mail nebo účastníka…"
 
-#: includes/Admin/Enrollments_Page.php:211
-#: includes/Admin/Terms_Page.php:503
-#: public/templates/catalog.php:47
+#: includes/Admin/Enrollments_Page.php:211 includes/Admin/Terms_Page.php:503
 msgid "Filter"
 msgstr "Filtrovat"
 
@@ -734,8 +731,12 @@ msgid "— select a term —"
 msgstr "— vyberte termín —"
 
 #: includes/Admin/Enrollment_Detail_Page.php:738
-msgid "Price and variable symbol travel unchanged; over-capacity is re-checked on the target term."
-msgstr "Cena a variabilní symbol se přenášejí beze změny; překročení kapacity se znovu kontroluje na cílovém termínu."
+msgid ""
+"Price and variable symbol travel unchanged; over-capacity is re-checked on "
+"the target term."
+msgstr ""
+"Cena a variabilní symbol se přenášejí beze změny; překročení kapacity se "
+"znovu kontroluje na cílovém termínu."
 
 #: includes/Admin/Enrollment_Detail_Page.php:740
 msgid "Move"
@@ -770,20 +771,32 @@ msgid "Confirmed (unpaid)"
 msgstr "Potvrzeno (nezaplaceno)"
 
 #: includes/Admin/Enrollment_Detail_Page.php:870
-msgid "Manual enrollment created. The customer received the confirmation email with payment instructions."
-msgstr "Ruční přihláška vytvořena. Zákazník obdržel potvrzovací e-mail s platebními údaji."
+msgid ""
+"Manual enrollment created. The customer received the confirmation email with "
+"payment instructions."
+msgstr ""
+"Ruční přihláška vytvořena. Zákazník obdržel potvrzovací e-mail s platebními "
+"údaji."
 
 #: includes/Admin/Enrollment_Detail_Page.php:871
-msgid "Enrollment created, but an enrollment email could not be sent (logged as failed — see the Email Log)."
-msgstr "Přihláška vytvořena, ale potvrzovací e-mail se nepodařilo odeslat (zaznamenáno jako nepodařilé — viz log e-mailů)."
+msgid ""
+"Enrollment created, but an enrollment email could not be sent (logged as "
+"failed — see the Email Log)."
+msgstr ""
+"Přihláška vytvořena, ale potvrzovací e-mail se nepodařilo odeslat "
+"(zaznamenáno jako nepodařilé — viz log e-mailů)."
 
 #: includes/Admin/Enrollment_Detail_Page.php:872
 msgid "Enrollment cancelled. The customer was notified by email."
 msgstr "Přihláška zrušena. Zákazník byl informován e-mailem."
 
 #: includes/Admin/Enrollment_Detail_Page.php:873
-msgid "Enrollment cancelled, but the notification email could not be sent (logged as failed)."
-msgstr "Přihláška zrušena, ale informační e-mail se nepodařilo odeslat (zaznamenáno jako nepodařilé)."
+msgid ""
+"Enrollment cancelled, but the notification email could not be sent (logged "
+"as failed)."
+msgstr ""
+"Přihláška zrušena, ale informační e-mail se nepodařilo odeslat (zaznamenáno "
+"jako nepodařilé)."
 
 #: includes/Admin/Enrollment_Detail_Page.php:874
 msgid "Could not cancel this enrollment — it may already be cancelled."
@@ -818,8 +831,12 @@ msgid "Please select a target term."
 msgstr "Vyberte prosím cílový termín."
 
 #: includes/Admin/Enrollment_Detail_Page.php:882
-msgid "Could not move this enrollment — the target term was not found, or it is already the current term."
-msgstr "Přihlášku se nepodařilo přesunout — cílový termín nebyl nalezen, nebo je již aktuálním termínem."
+msgid ""
+"Could not move this enrollment — the target term was not found, or it is "
+"already the current term."
+msgstr ""
+"Přihlášku se nepodařilo přesunout — cílový termín nebyl nalezen, nebo je již "
+"aktuálním termínem."
 
 #: includes/Admin/Enrollment_Detail_Page.php:883
 msgid "A cancelled enrollment cannot be moved."
@@ -891,8 +908,7 @@ msgstr "Zrušit — zpět na lekce (nic nebylo odesláno)"
 #: includes/Admin/Lesson_Notify_Page.php:361
 #: includes/Admin/Term_Lessons_List_Table.php:140
 #: includes/Admin/Term_Lessons_Page.php:312
-#: public/templates/account-schedule.php:40
-#: public/templates/calendar.php:84
+#: public/templates/account-schedule.php:40 public/templates/calendar.php:84
 msgid "Moved"
 msgstr "Přesunuto"
 
@@ -918,8 +934,12 @@ msgstr[1] "%d příjemci"
 msgstr[2] "%d příjemců"
 
 #: includes/Admin/Lesson_Notify_Page.php:391
-msgid "Active (unpaid or paid) enrollments of this term only; cancelled enrollments are excluded. One email per account holder."
-msgstr "Pouze aktivní (nezaplacené nebo zaplacené) přihlášky tohoto termínu; zrušené přihlášky jsou vyloučeny. Jeden e-mail na majitele účtu."
+msgid ""
+"Active (unpaid or paid) enrollments of this term only; cancelled enrollments "
+"are excluded. One email per account holder."
+msgstr ""
+"Pouze aktivní (nezaplacené nebo zaplacené) přihlášky tohoto termínu; zrušené "
+"přihlášky jsou vyloučeny. Jeden e-mail na majitele účtu."
 
 #: includes/Admin/Lesson_Notify_Page.php:396
 msgid "Language"
@@ -942,14 +962,22 @@ msgid "Subject:"
 msgstr "Předmět:"
 
 #: includes/Admin/Lesson_Notify_Page.php:440
-msgid "Each email is personalised per recipient ({first_name}); the preview shows the first recipient of each language."
-msgstr "Každý e-mail je personalizován pro příjemce ({first_name}); náhled zobrazuje prvního příjemce v každém jazyce."
+msgid ""
+"Each email is personalised per recipient ({first_name}); the preview shows "
+"the first recipient of each language."
+msgstr ""
+"Každý e-mail je personalizován pro příjemce ({first_name}); náhled zobrazuje "
+"prvního příjemce v každém jazyce."
 
 #. translators: 1: number sent, 2: number failed.
 #: includes/Admin/Lesson_Notify_Page.php:461
 #, php-format
-msgid "Sent %1$d notification(s); %2$d failed (logged with status \"failed\" — see the Email Log)."
-msgstr "Odesláno %1$d upozornění; %2$d se nepodařilo odeslat (zaznamenáno se stavem „nepodařilo se odeslat“ — viz log e-mailů)."
+msgid ""
+"Sent %1$d notification(s); %2$d failed (logged with status \"failed\" — see "
+"the Email Log)."
+msgstr ""
+"Odesláno %1$d upozornění; %2$d se nepodařilo odeslat (zaznamenáno se stavem "
+"„nepodařilo se odeslat“ — viz log e-mailů)."
 
 #. translators: %d: number sent.
 #: includes/Admin/Lesson_Notify_Page.php:473
@@ -977,8 +1005,12 @@ msgid "Activate"
 msgstr "Aktivovat"
 
 #: includes/Admin/Locations_List_Table.php:98
-msgid "Delete this location? If it is still used by a course term it will be deactivated instead."
-msgstr "Smazat toto místo konání? Pokud je stále používáno u termínu kurzu, bude místo smazání deaktivováno."
+msgid ""
+"Delete this location? If it is still used by a course term it will be "
+"deactivated instead."
+msgstr ""
+"Smazat toto místo konání? Pokud je stále používáno u termínu kurzu, bude "
+"místo smazání deaktivováno."
 
 #: includes/Admin/Locations_List_Table.php:99
 msgid "Delete"
@@ -996,24 +1028,20 @@ msgstr "Neaktivní"
 msgid "No locations yet."
 msgstr "Zatím žádná místa konání."
 
-#: includes/Admin/Locations_Page.php:81
-#: includes/Admin/Locations_Page.php:82
+#: includes/Admin/Locations_Page.php:81 includes/Admin/Locations_Page.php:82
 #: includes/Admin/Locations_Page.php:364
 msgid "Locations"
 msgstr "Místa konání"
 
-#: includes/Admin/Locations_Page.php:100
-#: includes/Admin/Locations_Page.php:187
+#: includes/Admin/Locations_Page.php:100 includes/Admin/Locations_Page.php:187
 msgid "You do not have permission to manage locations."
 msgstr "Nemáte oprávnění spravovat místa konání."
 
-#: includes/Admin/Locations_Page.php:233
-#: includes/Admin/Locations_Page.php:432
+#: includes/Admin/Locations_Page.php:233 includes/Admin/Locations_Page.php:432
 msgid "Location not found."
 msgstr "Místo konání nebylo nalezeno."
 
-#: includes/Admin/Locations_Page.php:365
-#: includes/Admin/Terms_Page.php:431
+#: includes/Admin/Locations_Page.php:365 includes/Admin/Terms_Page.php:431
 #: includes/Post_Types.php:61
 msgid "Add New"
 msgstr "Přidat nové"
@@ -1022,8 +1050,7 @@ msgstr "Přidat nové"
 msgid "Edit Location"
 msgstr "Upravit místo konání"
 
-#: includes/Admin/Locations_Page.php:383
-#: includes/Admin/Locations_Page.php:407
+#: includes/Admin/Locations_Page.php:383 includes/Admin/Locations_Page.php:407
 msgid "Add Location"
 msgstr "Přidat místo konání"
 
@@ -1035,8 +1062,7 @@ msgstr "URL mapy"
 msgid "Update Location"
 msgstr "Uložit místo konání"
 
-#: includes/Admin/Locations_Page.php:410
-#: includes/Admin/Terms_Page.php:603
+#: includes/Admin/Locations_Page.php:410 includes/Admin/Terms_Page.php:603
 msgid "Back to list"
 msgstr "Zpět na seznam"
 
@@ -1061,8 +1087,12 @@ msgid "Location deleted."
 msgstr "Místo konání smazáno."
 
 #: includes/Admin/Locations_Page.php:431
-msgid "This location is still used by a course term, so it was deactivated instead of deleted."
-msgstr "Toto místo konání je stále používáno u termínu kurzu, proto bylo místo smazání deaktivováno."
+msgid ""
+"This location is still used by a course term, so it was deactivated instead "
+"of deleted."
+msgstr ""
+"Toto místo konání je stále používáno u termínu kurzu, proto bylo místo "
+"smazání deaktivováno."
 
 #: includes/Admin/Locations_Page.php:467
 msgid "Name is required."
@@ -1086,8 +1116,7 @@ msgstr "URL mapy musí být platná adresa URL s nejvýše 255 znaky."
 
 #: includes/Admin/Locations_Page.php:482
 #: includes/Admin/Manual_Enrollment_Page.php:685
-#: includes/Admin/Settings_Page.php:274
-#: includes/Admin/Terms_Page.php:890
+#: includes/Admin/Settings_Page.php:274 includes/Admin/Terms_Page.php:890
 #: includes/Admin/Term_Lessons_Page.php:404
 msgid "Invalid input."
 msgstr "Neplatný vstup."
@@ -1144,8 +1173,12 @@ msgid "Last name"
 msgstr "Příjmení"
 
 #: includes/Admin/Manual_Enrollment_Page.php:441
-msgid "A minimal account is created for this customer without sending a verification email; it is marked verified immediately."
-msgstr "Tomuto zákazníkovi je vytvořen minimální účet bez odeslání ověřovacího e-mailu; je okamžitě označen jako ověřený."
+msgid ""
+"A minimal account is created for this customer without sending a "
+"verification email; it is marked verified immediately."
+msgstr ""
+"Tomuto zákazníkovi je vytvořen minimální účet bez odeslání ověřovacího e-"
+"mailu; je okamžitě označen jako ověřený."
 
 #: includes/Admin/Manual_Enrollment_Page.php:442
 msgid "Search for an existing customer instead"
@@ -1157,8 +1190,7 @@ msgstr "— vyberte otevřený termín —"
 
 #: includes/Admin/Manual_Enrollment_Page.php:464
 #: includes/Emails/Email_Templates.php:185
-#: includes/Emails/Email_Templates.php:196
-#: public/templates/enroll-form.php:71
+#: includes/Emails/Email_Templates.php:196 public/templates/enroll-form.php:71
 msgid "Participant name"
 msgstr "Jméno účastníka"
 
@@ -1211,8 +1243,12 @@ msgid "Email is invalid."
 msgstr "E-mail je neplatný."
 
 #: includes/Admin/Manual_Enrollment_Page.php:646
-msgid "An account with this email already exists — search for the existing customer instead."
-msgstr "Účet s tímto e-mailem již existuje — vyhledejte prosím existujícího zákazníka."
+msgid ""
+"An account with this email already exists — search for the existing customer "
+"instead."
+msgstr ""
+"Účet s tímto e-mailem již existuje — vyhledejte prosím existujícího "
+"zákazníka."
 
 #: includes/Admin/Manual_Enrollment_Page.php:649
 msgid "Phone is required."
@@ -1263,12 +1299,16 @@ msgid "This customer/participant is already enrolled in this term."
 msgstr "Tento zákazník/účastník je v tomto termínu již přihlášen."
 
 #: includes/Admin/Roster_Ajax.php:75
-msgid "Could not mark this enrollment paid — it may already be paid or cancelled."
-msgstr "Tuto přihlášku se nepodařilo označit jako zaplacenou — možná je již zaplacená nebo zrušená."
+msgid ""
+"Could not mark this enrollment paid — it may already be paid or cancelled."
+msgstr ""
+"Tuto přihlášku se nepodařilo označit jako zaplacenou — možná je již "
+"zaplacená nebo zrušená."
 
 #: includes/Admin/Roster_Ajax.php:93
 msgid "Could not unmark this enrollment — it may not currently be paid."
-msgstr "Toto označení se nepodařilo zrušit — přihláška možná aktuálně není zaplacená."
+msgstr ""
+"Toto označení se nepodařilo zrušit — přihláška možná aktuálně není zaplacená."
 
 #: includes/Admin/Roster_Ajax.php:114
 msgid "This enrollment is not currently marked paid."
@@ -1295,24 +1335,20 @@ msgid "Missing enrollment ID."
 msgstr "Chybí ID přihlášky."
 
 #. translators: %s: date/time the enrollment was marked paid.
-#: includes/Admin/Roster_Ajax.php:211
-#: includes/Admin/Roster_List_Table.php:316
+#: includes/Admin/Roster_Ajax.php:211 includes/Admin/Roster_List_Table.php:316
 #, php-format
 msgid "on %s"
 msgstr "dne %s"
 
-#: includes/Admin/Roster_List_Table.php:175
-#: includes/Admin/Roster_Page.php:377
+#: includes/Admin/Roster_List_Table.php:175 includes/Admin/Roster_Page.php:377
 msgid "Overdue"
 msgstr "Po splatnosti"
 
-#: includes/Admin/Roster_List_Table.php:302
-#: includes/Admin/Roster_Page.php:376
+#: includes/Admin/Roster_List_Table.php:302 includes/Admin/Roster_Page.php:376
 msgid "Unmark paid"
 msgstr "Zrušit označení zaplaceno"
 
-#: includes/Admin/Roster_List_Table.php:302
-#: includes/Admin/Roster_Page.php:375
+#: includes/Admin/Roster_List_Table.php:302 includes/Admin/Roster_Page.php:375
 msgid "Mark paid"
 msgstr "Označit jako zaplaceno"
 
@@ -1324,8 +1360,7 @@ msgstr "V tomto termínu zatím nejsou žádné přihlášky."
 msgid "You do not have permission to view the roster."
 msgstr "Nemáte oprávnění zobrazit seznam přihlášených."
 
-#: includes/Admin/Roster_Page.php:133
-#: includes/Admin/Roster_Page.php:184
+#: includes/Admin/Roster_Page.php:133 includes/Admin/Roster_Page.php:184
 #: includes/Admin/Roster_Page.php:193
 msgid "Term roster"
 msgstr "Seznam přihlášených k termínu"
@@ -1338,38 +1373,29 @@ msgstr "Vyberte termín pro zobrazení přihlášených a správu plateb."
 msgid "No terms yet — create one first."
 msgstr "Zatím žádné termíny — nejprve nějaký vytvořte."
 
-#: includes/Admin/Roster_Page.php:150
-#: includes/Admin/Terms_List_Table.php:72
+#: includes/Admin/Roster_Page.php:150 includes/Admin/Terms_List_Table.php:72
 msgid "Season / Term"
 msgstr "Sezóna / termín"
 
-#: includes/Admin/Roster_Page.php:151
-#: includes/Admin/Terms_List_Table.php:73
-#: includes/Admin/Terms_Page.php:534
-#: includes/Post_Types.php:60
-#: public/templates/account-schedule.php:24
-#: public/templates/calendar.php:62
+#: includes/Admin/Roster_Page.php:151 includes/Admin/Terms_List_Table.php:73
+#: includes/Admin/Terms_Page.php:534 includes/Post_Types.php:60
+#: public/templates/account-schedule.php:24 public/templates/calendar.php:62
 msgid "Course"
 msgstr "Kurz"
 
-#: includes/Admin/Roster_Page.php:152
-#: includes/Admin/Terms_List_Table.php:74
-#: includes/Admin/Terms_Page.php:542
-#: public/templates/account-schedule.php:25
-#: public/templates/calendar.php:33
-#: public/templates/calendar.php:63
+#: includes/Admin/Roster_Page.php:152 includes/Admin/Terms_List_Table.php:74
+#: includes/Admin/Terms_Page.php:542 public/templates/account-schedule.php:25
+#: public/templates/calendar.php:33 public/templates/calendar.php:63
+#: public/templates/catalog.php:123
 msgid "Location"
 msgstr "Místo konání"
 
-#: includes/Admin/Roster_Page.php:153
-#: includes/Admin/Terms_List_Table.php:76
+#: includes/Admin/Roster_Page.php:153 includes/Admin/Terms_List_Table.php:76
 msgid "Dates"
 msgstr "Termíny"
 
-#: includes/Admin/Roster_Page.php:185
-#: includes/Admin/Roster_Page.php:533
-#: includes/Admin/Terms_Page.php:240
-#: includes/Admin/Terms_Page.php:783
+#: includes/Admin/Roster_Page.php:185 includes/Admin/Roster_Page.php:533
+#: includes/Admin/Terms_Page.php:240 includes/Admin/Terms_Page.php:783
 #: includes/Admin/Term_Lessons_Page.php:187
 msgid "Term not found."
 msgstr "Termín nebyl nalezen."
@@ -1383,8 +1409,7 @@ msgid "Export CSV"
 msgstr "Exportovat CSV"
 
 #. translators: 1: season label, 2: course title, 3: location name.
-#: includes/Admin/Roster_Page.php:200
-#: includes/Admin/Term_Lessons_Page.php:225
+#: includes/Admin/Roster_Page.php:200 includes/Admin/Term_Lessons_Page.php:225
 #, php-format
 msgid "%1$s — %2$s at %3$s"
 msgstr "%1$s — %2$s v %3$s"
@@ -1441,13 +1466,11 @@ msgstr "Něco se pokazilo — načtěte prosím stránku znovu a zkuste to znovu
 msgid "You do not have permission to export the roster."
 msgstr "Nemáte oprávnění exportovat seznam přihlášených."
 
-#: includes/Admin/Settings_Page.php:66
-#: includes/Admin/Settings_Page.php:67
+#: includes/Admin/Settings_Page.php:66 includes/Admin/Settings_Page.php:67
 msgid "Settings"
 msgstr "Nastavení"
 
-#: includes/Admin/Settings_Page.php:85
-#: includes/Admin/Settings_Page.php:135
+#: includes/Admin/Settings_Page.php:85 includes/Admin/Settings_Page.php:135
 msgid "You do not have permission to manage settings."
 msgstr "Nemáte oprávnění spravovat nastavení."
 
@@ -1467,24 +1490,31 @@ msgstr "Lhůta splatnosti platby (dny)"
 msgid "Admin notification email"
 msgstr "E-mail pro administrátorská upozornění"
 
-#: includes/Admin/Settings_Page.php:192
-#: includes/Emails/Email_Templates.php:188
+#: includes/Admin/Settings_Page.php:192 includes/Emails/Email_Templates.php:188
 #: includes/Emails/Email_Templates.php:199
 #: includes/Emails/Email_Templates.php:227
 msgid "Bank account number"
 msgstr "Číslo bankovního účtu"
 
 #: includes/Admin/Settings_Page.php:194
-msgid "Shown in payment instructions on the enrollment confirmation page and email."
-msgstr "Zobrazuje se v platebních pokynech na potvrzovací stránce přihlášky a v e-mailu."
+msgid ""
+"Shown in payment instructions on the enrollment confirmation page and email."
+msgstr ""
+"Zobrazuje se v platebních pokynech na potvrzovací stránce přihlášky a v e-"
+"mailu."
 
 #: includes/Admin/Settings_Page.php:196
 msgid "IBAN (for QR payment codes)"
 msgstr "IBAN (pro QR platební kódy)"
 
 #: includes/Admin/Settings_Page.php:198
-msgid "Enables the scannable QR platba code on payment instructions (emails and My account). Leave blank to keep payment instructions text-only."
-msgstr "Zapíná zobrazení skenovatelného QR kódu platby u platebních pokynů (e-maily a Můj účet). Ponechte prázdné, pokud mají platební pokyny zůstat pouze textové."
+msgid ""
+"Enables the scannable QR platba code on payment instructions (emails and My "
+"account). Leave blank to keep payment instructions text-only."
+msgstr ""
+"Zapíná zobrazení skenovatelného QR kódu platby u platebních pokynů (e-maily "
+"a Můj účet). Ponechte prázdné, pokud mají platební pokyny zůstat pouze "
+"textové."
 
 #: includes/Admin/Settings_Page.php:200
 msgid "Cancelled lessons on the public calendar"
@@ -1507,8 +1537,12 @@ msgid "Inactive customer retention (years)"
 msgstr "Uchovávání neaktivních zákazníků (roky)"
 
 #: includes/Admin/Settings_Page.php:219
-msgid "Customer accounts with no non-cancelled enrollment in this many years are anonymized by the monthly retention cron (spec §6.1)."
-msgstr "Zákaznické účty bez nezrušené přihlášky po tento počet let jsou anonymizovány měsíční úlohou pro uchovávání údajů (spec §6.1)."
+msgid ""
+"Customer accounts with no non-cancelled enrollment in this many years are "
+"anonymized by the monthly retention cron (spec §6.1)."
+msgstr ""
+"Zákaznické účty bez nezrušené přihlášky po tento počet let jsou "
+"anonymizovány měsíční úlohou pro uchovávání údajů (spec §6.1)."
 
 #: includes/Admin/Settings_Page.php:223
 msgid "Save Settings"
@@ -1520,7 +1554,8 @@ msgstr "Lhůta splatnosti platby musí být kladné celé číslo dní."
 
 #: includes/Admin/Settings_Page.php:255
 msgid "Admin notification email must be a valid email address."
-msgstr "E-mail pro administrátorská upozornění musí být platná e-mailová adresa."
+msgstr ""
+"E-mail pro administrátorská upozornění musí být platná e-mailová adresa."
 
 #. translators: %d: maximum character length.
 #: includes/Admin/Settings_Page.php:260
@@ -1544,8 +1579,7 @@ msgstr "Doba uchovávání musí být kladné celé číslo let."
 msgid "Schedule"
 msgstr "Rozvrh"
 
-#: includes/Admin/Terms_List_Table.php:77
-#: includes/Admin/Terms_Page.php:574
+#: includes/Admin/Terms_List_Table.php:77 includes/Admin/Terms_Page.php:574
 msgid "Capacity"
 msgstr "Kapacita"
 
@@ -1598,8 +1632,7 @@ msgstr "Sobota"
 msgid "Sunday"
 msgstr "Neděle"
 
-#: includes/Admin/Terms_List_Table.php:248
-#: includes/Admin/Terms_Page.php:584
+#: includes/Admin/Terms_List_Table.php:248 includes/Admin/Terms_Page.php:584
 msgid "Draft"
 msgstr "Koncept"
 
@@ -1615,20 +1648,17 @@ msgstr "Uzavřeno"
 msgid "No terms found."
 msgstr "Nebyly nalezeny žádné termíny."
 
-#: includes/Admin/Terms_Page.php:70
-#: includes/Admin/Terms_Page.php:71
+#: includes/Admin/Terms_Page.php:70 includes/Admin/Terms_Page.php:71
 #: includes/Admin/Terms_Page.php:430
 msgid "Terms"
 msgstr "Termíny"
 
-#: includes/Admin/Terms_Page.php:88
-#: includes/Admin/Terms_Page.php:173
+#: includes/Admin/Terms_Page.php:88 includes/Admin/Terms_Page.php:173
 msgid "You do not have permission to manage terms."
 msgstr "Nemáte oprávnění spravovat termíny."
 
-#: includes/Admin/Terms_Page.php:481
-#: public/templates/calendar.php:35
-#: public/templates/catalog.php:34
+#: includes/Admin/Terms_Page.php:481 public/templates/calendar.php:35
+#: public/templates/catalog.php:125
 msgid "All locations"
 msgstr "Všechna místa konání"
 
@@ -1640,8 +1670,7 @@ msgstr "Všechny sezóny"
 msgid "Edit Term"
 msgstr "Upravit termín"
 
-#: includes/Admin/Terms_Page.php:519
-#: includes/Admin/Terms_Page.php:600
+#: includes/Admin/Terms_Page.php:519 includes/Admin/Terms_Page.php:600
 msgid "Add Term"
 msgstr "Přidat termín"
 
@@ -1653,17 +1682,15 @@ msgstr "Kurz (víceleta výuka)"
 msgid "Workshop (single lesson)"
 msgstr "Workshop (jednorázová lekce)"
 
-#: includes/Admin/Terms_Page.php:562
+#: includes/Admin/Terms_Page.php:562 public/templates/catalog.php:133
 msgid "Weekday"
 msgstr "Den v týdnu"
 
-#: includes/Admin/Terms_Page.php:569
-#: includes/Admin/Term_Lessons_Page.php:301
+#: includes/Admin/Terms_Page.php:569 includes/Admin/Term_Lessons_Page.php:301
 msgid "Start time"
 msgstr "Čas zahájení"
 
-#: includes/Admin/Terms_Page.php:570
-#: includes/Admin/Term_Lessons_Page.php:304
+#: includes/Admin/Terms_Page.php:570 includes/Admin/Term_Lessons_Page.php:304
 msgid "End time"
 msgstr "Čas ukončení"
 
@@ -1759,18 +1786,15 @@ msgstr "Neplatný typ termínu."
 msgid "Weekday is required for a course term."
 msgstr "U kurzu je vyžadován den v týdnu."
 
-#: includes/Admin/Terms_Page.php:836
-#: includes/Admin/Term_Lessons_Page.php:389
+#: includes/Admin/Terms_Page.php:836 includes/Admin/Term_Lessons_Page.php:389
 msgid "Start time is invalid."
 msgstr "Čas zahájení je neplatný."
 
-#: includes/Admin/Terms_Page.php:839
-#: includes/Admin/Term_Lessons_Page.php:392
+#: includes/Admin/Terms_Page.php:839 includes/Admin/Term_Lessons_Page.php:392
 msgid "End time is invalid."
 msgstr "Čas ukončení je neplatný."
 
-#: includes/Admin/Terms_Page.php:842
-#: includes/Admin/Term_Lessons_Page.php:395
+#: includes/Admin/Terms_Page.php:842 includes/Admin/Term_Lessons_Page.php:395
 msgid "End time must be after start time."
 msgstr "Čas ukončení musí být po čase zahájení."
 
@@ -1796,7 +1820,9 @@ msgstr "Lektor musí mít nejvýše 190 znaků."
 
 #: includes/Admin/Terms_Page.php:860
 msgid "Capacity must be a positive whole number, or left blank for unlimited."
-msgstr "Kapacita musí být kladné celé číslo, nebo ponechána prázdná pro neomezenou kapacitu."
+msgstr ""
+"Kapacita musí být kladné celé číslo, nebo ponechána prázdná pro neomezenou "
+"kapacitu."
 
 #: includes/Admin/Terms_Page.php:863
 msgid "Price must be a non-negative amount."
@@ -1812,14 +1838,14 @@ msgstr "Uzávěrka včasné registrace je neplatná."
 
 #: includes/Admin/Terms_Page.php:872
 msgid "The early-bird discount and its deadline must be set together."
-msgstr "Sleva při včasné registraci a její uzávěrka musí být nastaveny společně."
+msgstr ""
+"Sleva při včasné registraci a její uzávěrka musí být nastaveny společně."
 
 #: includes/Admin/Terms_Page.php:875
 msgid "Pair discount must be a non-negative amount."
 msgstr "Sleva pro páry musí být nezáporná částka."
 
-#: includes/Admin/Terms_Page.php:878
-#: includes/Admin/Term_Lessons_Page.php:398
+#: includes/Admin/Terms_Page.php:878 includes/Admin/Term_Lessons_Page.php:398
 msgid "Invalid status."
 msgstr "Neplatný stav."
 
@@ -1836,27 +1862,25 @@ msgid "Season label (English) must be 100 characters or fewer."
 msgstr "Označení sezóny (anglicky) musí mít nejvýše 100 znaků."
 
 #: includes/Admin/Term_Lessons_List_Table.php:59
-#: public/templates/account-schedule.php:22
-#: public/templates/calendar.php:60
+#: public/templates/account-schedule.php:22 public/templates/calendar.php:60
 msgid "Date"
 msgstr "Datum"
 
 #: includes/Admin/Term_Lessons_List_Table.php:60
-#: public/templates/account-schedule.php:23
-#: public/templates/calendar.php:61
+#: public/templates/account-schedule.php:23 public/templates/calendar.php:61
 msgid "Time"
 msgstr "Čas"
 
 #: includes/Admin/Term_Lessons_List_Table.php:134
 #: includes/Admin/Term_Lessons_Page.php:310
-#: public/templates/account-schedule.php:42
-#: public/templates/calendar.php:86
+#: public/templates/account-schedule.php:42 public/templates/calendar.php:86
 msgid "Scheduled"
 msgstr "Naplánováno"
 
 #: includes/Admin/Term_Lessons_List_Table.php:151
 msgid "No lessons generated yet — save the term with a valid date range."
-msgstr "Zatím nebyly vygenerovány žádné lekce — uložte termín s platným rozsahem dat."
+msgstr ""
+"Zatím nebyly vygenerovány žádné lekce — uložte termín s platným rozsahem dat."
 
 #: includes/Admin/Term_Lessons_Page.php:109
 #: includes/Admin/Term_Lessons_Page.php:168
@@ -1888,8 +1912,12 @@ msgid "Email enrolled customers about this change"
 msgstr "Upozornit e-mailem přihlášené zákazníky na tuto změnu"
 
 #: includes/Admin/Term_Lessons_Page.php:330
-msgid "When the lesson is saved as cancelled or moved, you will see a preview and confirm before anything is sent."
-msgstr "Po uložení lekce jako zrušené nebo přesunuté uvidíte náhled a budete moci potvrdit odeslání."
+msgid ""
+"When the lesson is saved as cancelled or moved, you will see a preview and "
+"confirm before anything is sent."
+msgstr ""
+"Po uložení lekce jako zrušené nebo přesunuté uvidíte náhled a budete moci "
+"potvrdit odeslání."
 
 #: includes/Admin/Term_Lessons_Page.php:335
 msgid "Save Lesson"
@@ -1921,8 +1949,12 @@ msgid "Course enrollments"
 msgstr "Přihlášky na kurzy"
 
 #: includes/Compliance/Personal_Data.php:168
-msgid "Enrollment records were anonymized rather than deleted, to preserve accounting records, as described in the privacy policy."
-msgstr "Záznamy přihlášek byly anonymizovány místo smazání, aby byly zachovány účetní záznamy, jak popisují zásady ochrany osobních údajů."
+msgid ""
+"Enrollment records were anonymized rather than deleted, to preserve "
+"accounting records, as described in the privacy policy."
+msgstr ""
+"Záznamy přihlášek byly anonymizovány místo smazání, aby byly zachovány "
+"účetní záznamy, jak popisují zásady ochrany osobních údajů."
 
 #: includes/Compliance/Personal_Data.php:216
 msgid "Anonymized customer"
@@ -1963,8 +1995,12 @@ msgid "Dance role (solo / leader / follower) is relevant for this course"
 msgstr "U tohoto kurzu je relevantní taneční role (sólo / vedoucí / vedená/ý)"
 
 #: includes/Course_Fields.php:91
-msgid "Enable for partner dances where enrollees pick a role. Leave off for courses (e.g. kids dance, solo styling) where it makes no sense."
-msgstr "Zapněte pro párové tance, kde si přihlášení vybírají roli. Nechte vypnuté u kurzů (např. dětský tanec, sólo styling), kde to nedává smysl."
+msgid ""
+"Enable for partner dances where enrollees pick a role. Leave off for courses "
+"(e.g. kids dance, solo styling) where it makes no sense."
+msgstr ""
+"Zapněte pro párové tance, kde si přihlášení vybírají roli. Nechte vypnuté u "
+"kurzů (např. dětský tanec, sólo styling), kde to nedává smysl."
 
 #: includes/Emails/Email_Templates.php:149
 msgid "E1 — Account verification"
@@ -2058,17 +2094,19 @@ msgid "Inquiry message"
 msgstr "Text dotazu"
 
 #: includes/Front/Access_Restrictions.php:112
-msgid "Please verify your email address before logging in. Check your inbox for the verification link."
-msgstr "Před přihlášením prosím ověřte svou e-mailovou adresu. Ověřovací odkaz najdete ve své e-mailové schránce."
+msgid ""
+"Please verify your email address before logging in. Check your inbox for the "
+"verification link."
+msgstr ""
+"Před přihlášením prosím ověřte svou e-mailovou adresu. Ověřovací odkaz "
+"najdete ve své e-mailové schránce."
 
 #: includes/Front/Account_Form_Handler.php:122
 #: includes/Front/Account_Form_Handler.php:166
 #: includes/Front/Account_Form_Handler.php:212
 #: includes/Front/Enrollment_Form_Handler.php:85
-#: includes/Front/Form_Handler.php:131
-#: includes/Front/Form_Handler.php:209
-#: includes/Front/Form_Handler.php:267
-#: includes/Front/Form_Handler.php:345
+#: includes/Front/Form_Handler.php:131 includes/Front/Form_Handler.php:209
+#: includes/Front/Form_Handler.php:267 includes/Front/Form_Handler.php:345
 #: includes/Front/Voucher_Form_Handler.php:76
 msgid "Your session expired, please try again."
 msgstr "Vaše relace vypršela, zkuste to prosím znovu."
@@ -2081,33 +2119,27 @@ msgstr "Pro zobrazení svého účtu se prosím přihlaste."
 msgid "Awaiting payment"
 msgstr "Čeká na platbu"
 
-#: includes/Front/Account_Page.php:381
-#: includes/Front/Shortcodes.php:221
+#: includes/Front/Account_Page.php:381 includes/Front/Shortcodes.php:221
 msgid "Please enter your first name."
 msgstr "Zadejte prosím své jméno."
 
-#: includes/Front/Account_Page.php:384
-#: includes/Front/Shortcodes.php:224
+#: includes/Front/Account_Page.php:384 includes/Front/Shortcodes.php:224
 msgid "First name is too long."
 msgstr "Jméno je příliš dlouhé."
 
-#: includes/Front/Account_Page.php:387
-#: includes/Front/Shortcodes.php:227
+#: includes/Front/Account_Page.php:387 includes/Front/Shortcodes.php:227
 msgid "Please enter your last name."
 msgstr "Zadejte prosím své příjmení."
 
-#: includes/Front/Account_Page.php:390
-#: includes/Front/Shortcodes.php:230
+#: includes/Front/Account_Page.php:390 includes/Front/Shortcodes.php:230
 msgid "Last name is too long."
 msgstr "Příjmení je příliš dlouhé."
 
-#: includes/Front/Account_Page.php:393
-#: includes/Front/Shortcodes.php:242
+#: includes/Front/Account_Page.php:393 includes/Front/Shortcodes.php:242
 msgid "Please enter your phone number."
 msgstr "Zadejte prosím své telefonní číslo."
 
-#: includes/Front/Account_Page.php:396
-#: includes/Front/Shortcodes.php:245
+#: includes/Front/Account_Page.php:396 includes/Front/Shortcodes.php:245
 msgid "Please enter a valid phone number."
 msgstr "Zadejte prosím platné telefonní číslo."
 
@@ -2115,8 +2147,7 @@ msgstr "Zadejte prosím platné telefonní číslo."
 msgid "Please choose a valid language."
 msgstr "Vyberte prosím platný jazyk."
 
-#: includes/Front/Account_Page.php:402
-#: includes/Front/Shortcodes.php:248
+#: includes/Front/Account_Page.php:402 includes/Front/Shortcodes.php:248
 #: public/templates/lost-password-form.php:47
 msgid "Password must be at least 8 characters long."
 msgstr "Heslo musí mít nejméně 8 znaků."
@@ -2129,8 +2160,7 @@ msgstr "Hesla se neshodují."
 msgid "Please enter an email address."
 msgstr "Zadejte prosím e-mailovou adresu."
 
-#: includes/Front/Account_Page.php:411
-#: includes/Front/Shortcodes.php:236
+#: includes/Front/Account_Page.php:411 includes/Front/Shortcodes.php:236
 #: includes/Front/Voucher_Page.php:99
 msgid "Please enter a valid email address."
 msgstr "Zadejte prosím platnou e-mailovou adresu."
@@ -2143,10 +2173,8 @@ msgstr "Toto je již vaše aktuální e-mailová adresa."
 msgid "An account with this email already exists."
 msgstr "Účet s tímto e-mailem již existuje."
 
-#: includes/Front/Account_Page.php:420
-#: includes/Front/Enroll_Page.php:257
-#: includes/Front/Shortcodes.php:254
-#: includes/Front/Voucher_Page.php:108
+#: includes/Front/Account_Page.php:420 includes/Front/Enroll_Page.php:257
+#: includes/Front/Shortcodes.php:254 includes/Front/Voucher_Page.php:108
 #: public/templates/lost-password-form.php:48
 msgid "Please check the highlighted fields."
 msgstr "Zkontrolujte prosím zvýrazněná pole."
@@ -2187,17 +2215,16 @@ msgstr "Vyberte prosím platnou roli."
 msgid "Partner name is too long."
 msgstr "Jméno partnera/partnerky je příliš dlouhé."
 
-#: includes/Front/Footer_Links.php:61
+#: includes/Front/Footer_Links.php:71
 msgid "Legal"
 msgstr "Právní informace"
 
-#: includes/Front/Footer_Links.php:62
-#: public/templates/enroll-form.php:123
+#: includes/Front/Footer_Links.php:72 public/templates/enroll-form.php:123
 #: public/templates/register-form.php:90
 msgid "Terms & Conditions"
 msgstr "Obchodní podmínky"
 
-#: includes/Front/Footer_Links.php:64
+#: includes/Front/Footer_Links.php:74
 msgid "Privacy Policy"
 msgstr "Zásady ochrany osobních údajů"
 
@@ -2237,8 +2264,7 @@ msgid ""
 "Pokud jste o obnovení hesla nežádali, tento email prosím ignorujte."
 msgstr ""
 
-#: includes/Front/Shortcodes.php:69
-#: includes/Front/Shortcodes.php:102
+#: includes/Front/Shortcodes.php:69 includes/Front/Shortcodes.php:102
 #: includes/Front/Shortcodes.php:163
 msgid "You are already logged in."
 msgstr "Již jste přihlášeni."
@@ -2263,8 +2289,7 @@ msgstr "Silné"
 msgid "Passwords do not match"
 msgstr "Hesla se neshodují"
 
-#: includes/Front/Shortcodes.php:233
-#: includes/Front/Voucher_Page.php:96
+#: includes/Front/Shortcodes.php:233 includes/Front/Voucher_Page.php:96
 msgid "Please enter your email address."
 msgstr "Zadejte prosím svou e-mailovou adresu."
 
@@ -2292,8 +2317,7 @@ msgstr "Zadejte prosím svou zprávu."
 msgid "Message is too long."
 msgstr "Zpráva je příliš dlouhá."
 
-#: includes/Post_Types.php:59
-#: includes/Post_Types.php:72
+#: includes/Post_Types.php:59 includes/Post_Types.php:72
 msgid "Courses"
 msgstr "Kurzy"
 
@@ -2358,7 +2382,9 @@ msgid ""
 "Please confirm by clicking the link below:\n"
 "%2$s\n"
 "\n"
-"The link is valid for 48 hours and can only be used once. Your current email stays active until you confirm. If you did not request this, you can safely ignore this email."
+"The link is valid for 48 hours and can only be used once. Your current email "
+"stays active until you confirm. If you did not request this, you can safely "
+"ignore this email."
 msgstr ""
 
 #. translators: 1: new email address, 2: confirmation link.
@@ -2370,11 +2396,12 @@ msgid ""
 "Potvrďte prosím kliknutím na následující odkaz:\n"
 "%2$s\n"
 "\n"
-"Odkaz je platný 48 hodin a lze jej použít pouze jednou. Vaše současná emailová adresa zůstává aktivní až do potvrzení. Pokud jste o tuto změnu nežádali, tento email prosím ignorujte."
+"Odkaz je platný 48 hodin a lze jej použít pouze jednou. Vaše současná "
+"emailová adresa zůstává aktivní až do potvrzení. Pokud jste o tuto změnu "
+"nežádali, tento email prosím ignorujte."
 msgstr ""
 
-#: includes/Taxonomies.php:58
-#: includes/Taxonomies.php:65
+#: includes/Taxonomies.php:58 includes/Taxonomies.php:65
 msgid "Dance Styles"
 msgstr "Taneční styly"
 
@@ -2402,12 +2429,11 @@ msgstr "Přidat nový taneční styl"
 msgid "New Dance Style Name"
 msgstr "Název nového tanečního stylu"
 
-#: includes/Taxonomies.php:79
-#: includes/Taxonomies.php:86
+#: includes/Taxonomies.php:79 includes/Taxonomies.php:86
 msgid "Levels"
 msgstr "Úrovně"
 
-#: includes/Taxonomies.php:80
+#: includes/Taxonomies.php:80 public/templates/catalog.php:107
 msgid "Level"
 msgstr "Úroveň"
 
@@ -2448,8 +2474,12 @@ msgid "Price:"
 msgstr "Cena:"
 
 #: public/templates/account-enrollments.php:47
-msgid "This enrollment was over capacity when made — we will contact you to confirm your spot."
-msgstr "Tato přihláška byla při vytvoření nad kapacitou — ozveme se vám a potvrdíme vaše místo."
+msgid ""
+"This enrollment was over capacity when made — we will contact you to confirm "
+"your spot."
+msgstr ""
+"Tato přihláška byla při vytvoření nad kapacitou — ozveme se vám a potvrdíme "
+"vaše místo."
 
 #: public/templates/account-enrollments.php:53
 msgid "Payment instructions"
@@ -2476,23 +2506,36 @@ msgstr "QR platební kód"
 
 #: public/templates/account-enrollments.php:77
 msgid "Scan with your banking app to pre-fill the amount and variable symbol."
-msgstr "Naskenujte v bankovní aplikaci pro automatické vyplnění částky a variabilního symbolu."
+msgstr ""
+"Naskenujte v bankovní aplikaci pro automatické vyplnění částky a "
+"variabilního symbolu."
 
 #: public/templates/account-enrollments.php:80
-msgid "Need to cancel? Please contact us — self-service cancellation isn't available."
-msgstr "Potřebujete zrušit přihlášku? Kontaktujte nás prosím — svépomocné zrušení není k dispozici."
+msgid ""
+"Need to cancel? Please contact us — self-service cancellation isn't "
+"available."
+msgstr ""
+"Potřebujete zrušit přihlášku? Kontaktujte nás prosím — svépomocné zrušení "
+"není k dispozici."
 
 #: public/templates/account-profile.php:49
 msgid "Your new email address has been confirmed."
 msgstr "Vaše nová e-mailová adresa byla potvrzena."
 
 #: public/templates/account-profile.php:51
-msgid "That confirmation link has expired. Please request the email change again."
-msgstr "Platnost tohoto potvrzovacího odkazu vypršela. Požádejte prosím o změnu e-mailu znovu."
+msgid ""
+"That confirmation link has expired. Please request the email change again."
+msgstr ""
+"Platnost tohoto potvrzovacího odkazu vypršela. Požádejte prosím o změnu e-"
+"mailu znovu."
 
 #: public/templates/account-profile.php:53
-msgid "That email address was taken by another account in the meantime. Please request the change again with a different address."
-msgstr "Tuto e-mailovou adresu si mezitím zaregistroval jiný účet. Požádejte prosím o změnu znovu s jinou adresou."
+msgid ""
+"That email address was taken by another account in the meantime. Please "
+"request the change again with a different address."
+msgstr ""
+"Tuto e-mailovou adresu si mezitím zaregistroval jiný účet. Požádejte prosím "
+"o změnu znovu s jinou adresou."
 
 #: public/templates/account-profile.php:55
 msgid "That confirmation link is invalid or has already been used."
@@ -2522,11 +2565,16 @@ msgstr "Aktuální e-mail:"
 #: public/templates/account-profile.php:122
 #, php-format
 msgid "A change to %s is pending — check that inbox for a confirmation link."
-msgstr "Probíhá změna na %s — potvrzovací odkaz najdete ve schránce této adresy."
+msgstr ""
+"Probíhá změna na %s — potvrzovací odkaz najdete ve schránce této adresy."
 
 #: public/templates/account-profile.php:131
-msgid "Please check the new address's inbox and click the confirmation link — the change only takes effect once confirmed."
-msgstr "Zkontrolujte prosím schránku nové adresy a klikněte na potvrzovací odkaz — změna se projeví až po potvrzení."
+msgid ""
+"Please check the new address's inbox and click the confirmation link — the "
+"change only takes effect once confirmed."
+msgstr ""
+"Zkontrolujte prosím schránku nové adresy a klikněte na potvrzovací odkaz — "
+"změna se projeví až po potvrzení."
 
 #: public/templates/account-profile.php:147
 msgid "New email address"
@@ -2536,8 +2584,7 @@ msgstr "Nová e-mailová adresa"
 msgid "Request email change"
 msgstr "Požádat o změnu e-mailu"
 
-#: public/templates/account-profile.php:158
-#: public/templates/login-form.php:44
+#: public/templates/account-profile.php:158 public/templates/login-form.php:44
 #: public/templates/register-form.php:74
 msgid "Password"
 msgstr "Heslo"
@@ -2596,7 +2643,6 @@ msgid "Style"
 msgstr "Styl"
 
 #: public/templates/calendar.php:27
-#: public/templates/catalog.php:20
 msgid "All styles"
 msgstr "Všechny styly"
 
@@ -2616,60 +2662,84 @@ msgstr "Nadcházející lekce (seznamové zobrazení)"
 msgid "No upcoming lessons found."
 msgstr "Nebyly nalezeny žádné nadcházející lekce."
 
-#: public/templates/catalog.php:27
-msgid "All levels"
-msgstr "Všechny úrovně"
+#: public/templates/catalog.php:73 public/templates/catalog.php:151
+msgid "Clear all"
+msgstr "Zrušit vše"
 
-#: public/templates/catalog.php:41
-msgid "Any weekday"
-msgstr "Kterýkoli den"
+#: public/templates/catalog.php:81 public/templates/catalog.php:86
+msgid "Filters"
+msgstr "Filtry"
 
-#: public/templates/catalog.php:51
-msgid "No open terms match your filters right now."
-msgstr "Vašim filtrům aktuálně neodpovídají žádné otevřené termíny."
+#: public/templates/catalog.php:91
+msgid "Dance style"
+msgstr "Taneční styl"
 
-#: public/templates/catalog.php:62
-#: public/templates/course-terms.php:24
-msgid "Workshop"
-msgstr "Workshop"
+#: public/templates/catalog.php:95 public/templates/catalog.php:111
+msgid "All"
+msgstr "Vše"
 
-#: public/templates/catalog.php:65
-#: public/templates/course-terms.php:27
-msgid "Full"
-msgstr "Plná kapacita"
+#: public/templates/catalog.php:137
+msgid "Any"
+msgstr "Libovolný"
 
-#. translators: 1: early-bird price, 2: deadline date.
-#: public/templates/catalog.php:78
-#: public/templates/course-terms.php:40
+#: public/templates/catalog.php:149
+msgid "Show results"
+msgstr "Zobrazit výsledky"
+
+#. translators: %d: number of open terms found.
+#: public/templates/catalog.php:162
 #, php-format
-msgid "Early bird: %1$s Kč until %2$s"
-msgstr "Včasná registrace: %1$s Kč do %2$s"
+msgid "%d result"
+msgid_plural "%d results"
+msgstr[0] "%d výsledek"
+msgstr[1] "%d výsledky"
+msgstr[2] "%d výsledků"
 
-#. translators: %s: regular price.
-#: public/templates/catalog.php:87
+#: public/templates/catalog.php:171
+msgid "No courses match your filters"
+msgstr "Žádné kurzy neodpovídají filtrům"
+
+#: public/templates/catalog.php:173
+msgid "Clear filters"
+msgstr "Zrušit filtry"
+
+#: public/templates/catalog.php:206
+msgid "Workshop — one-off event"
+msgstr "Workshop — jednorázová akce"
+
+#. translators: %s: early-bird deadline date.
+#: public/templates/catalog.php:226 public/templates/course-terms.php:47
 #, php-format
-msgid "(regular %s Kč)"
-msgstr "(běžná cena %s Kč)"
+msgid "Early-bird until %s"
+msgstr "Early-bird do %s"
 
-#. translators: %s: price.
-#: public/templates/catalog.php:93
-#: public/templates/course-terms.php:49
-#, php-format
-msgid "%s Kč"
-msgstr "%s Kč"
+#: public/templates/catalog.php:235 public/templates/course-terms.php:59
+msgid "Full — we'll contact you"
+msgstr "Obsazeno — ozveme se"
 
-#: public/templates/catalog.php:102
-#: public/templates/course-terms.php:54
+#: public/templates/catalog.php:239 public/templates/course-terms.php:63
 msgid "Enroll"
 msgstr "Přihlásit se"
 
-#: public/templates/course-terms.php:15
+#: public/templates/course-terms.php:19
 msgid "Open terms"
 msgstr "Otevřené termíny"
 
-#: public/templates/course-terms.php:18
-msgid "No open terms for this course right now — check back soon."
-msgstr "Pro tento kurz aktuálně nejsou otevřené žádné termíny — zkuste to prosím později."
+#: public/templates/course-terms.php:23
+msgid "No open terms for this course right now."
+msgstr "Momentálně nejsou vypsané žádné termíny."
+
+#: public/templates/course-terms.php:24
+msgid "Write to us and we'll let you know as soon as a term opens."
+msgstr "Napište nám a dáme vám vědět, jakmile termín otevřeme."
+
+#: public/templates/course-terms.php:25
+msgid "Contact us"
+msgstr "Kontaktovat nás"
+
+#: public/templates/course-terms.php:56
+msgid "Workshop"
+msgstr "Workshop"
 
 #. translators: %s: course name.
 #: public/templates/enroll-closed.php:21
@@ -2686,8 +2756,12 @@ msgid "Thank you — your enrollment has been received."
 msgstr "Děkujeme — vaše přihláška byla přijata."
 
 #: public/templates/enroll-confirmation.php:25
-msgid "This term is currently at capacity — we will contact you to confirm your spot."
-msgstr "Tento termín je aktuálně nad kapacitou — ozveme se vám a potvrdíme vaše místo."
+msgid ""
+"This term is currently at capacity — we will contact you to confirm your "
+"spot."
+msgstr ""
+"Tento termín je aktuálně nad kapacitou — ozveme se vám a potvrdíme vaše "
+"místo."
 
 #: public/templates/enroll-confirmation.php:57
 msgid "We have also emailed you these payment instructions."
@@ -2704,8 +2778,12 @@ msgid "You are already enrolled in this term with this participant."
 msgstr "S tímto účastníkem jste do tohoto termínu již přihlášeni."
 
 #: public/templates/enroll-form.php:54
-msgid "This term is currently at capacity. You can still sign up — the school will contact you to confirm your spot."
-msgstr "Tento termín je aktuálně nad kapacitou. I přesto se můžete přihlásit — škola vás bude kontaktovat kvůli potvrzení místa."
+msgid ""
+"This term is currently at capacity. You can still sign up — the school will "
+"contact you to confirm your spot."
+msgstr ""
+"Tento termín je aktuálně nad kapacitou. I přesto se můžete přihlásit — škola "
+"vás bude kontaktovat kvůli potvrzení místa."
 
 #: public/templates/enroll-form.php:65
 msgid "Who is attending?"
@@ -2721,7 +2799,9 @@ msgstr "Někdo jiný (např. mé dítě)"
 
 #: public/templates/enroll-form.php:94
 msgid "Partner name (optional — enrolling as a pair may unlock a discount)"
-msgstr "Jméno partnera/partnerky (volitelné — přihlášení jako pár může odemknout slevu)"
+msgstr ""
+"Jméno partnera/partnerky (volitelné — přihlášení jako pár může odemknout "
+"slevu)"
 
 #: public/templates/enroll-form.php:102
 msgid "Note (optional)"
@@ -2736,38 +2816,36 @@ msgid "(advisory — the final price is always confirmed on the next screen)"
 msgstr "(orientační — konečná cena je vždy potvrzena na další obrazovce)"
 
 #. translators: %s: Terms & Conditions link.
-#: public/templates/enroll-form.php:122
-#: public/templates/register-form.php:89
+#: public/templates/enroll-form.php:122 public/templates/register-form.php:89
 #, php-format
 msgid "I agree to the %s."
 msgstr "Souhlasím s %s."
 
-#: public/templates/enroll-form.php:127
-#: public/templates/register-form.php:94
+#: public/templates/enroll-form.php:127 public/templates/register-form.php:94
 msgid "I agree to the Terms & Conditions."
 msgstr "Souhlasím s obchodními podmínkami."
 
 #. translators: %s: privacy policy link.
-#: public/templates/enroll-form.php:140
-#: public/templates/register-form.php:107
+#: public/templates/enroll-form.php:140 public/templates/register-form.php:107
 #, php-format
 msgid "Your personal data will be processed according to our %s."
 msgstr "Vaše osobní údaje budou zpracovány podle našich %s."
 
-#: public/templates/enroll-form.php:141
-#: public/templates/register-form.php:108
+#: public/templates/enroll-form.php:141 public/templates/register-form.php:108
 msgid "privacy policy"
 msgstr "zásad ochrany osobních údajů"
 
-#: public/templates/enroll-form.php:145
-#: public/templates/register-form.php:112
+#: public/templates/enroll-form.php:145 public/templates/register-form.php:112
 msgid "Your personal data will be processed according to our privacy policy."
-msgstr "Vaše osobní údaje budou zpracovány podle našich zásad ochrany osobních údajů."
+msgstr ""
+"Vaše osobní údaje budou zpracovány podle našich zásad ochrany osobních údajů."
 
-#: public/templates/enroll-form.php:154
-#: public/templates/register-form.php:120
-msgid "I would also like to receive occasional news and offers by email (optional)."
-msgstr "Chtěl(a) bych také dostávat příležitostné novinky a nabídky e-mailem (volitelné)."
+#: public/templates/enroll-form.php:154 public/templates/register-form.php:120
+msgid ""
+"I would also like to receive occasional news and offers by email (optional)."
+msgstr ""
+"Chtěl(a) bych také dostávat příležitostné novinky a nabídky e-mailem "
+"(volitelné)."
 
 #: public/templates/enroll-form.php:167
 msgid "Enroll with obligation to pay"
@@ -2778,16 +2856,23 @@ msgid "Závazně přihlásit s povinností platby"
 msgstr ""
 
 #: public/templates/enroll-form.php:171
-msgid "By clicking this button you agree to a binding enrollment with an obligation to pay."
-msgstr "Kliknutím na toto tlačítko souhlasíte se závaznou přihláškou s povinností platby."
+msgid ""
+"By clicking this button you agree to a binding enrollment with an obligation "
+"to pay."
+msgstr ""
+"Kliknutím na toto tlačítko souhlasíte se závaznou přihláškou s povinností "
+"platby."
 
 #: public/templates/enroll-login-required.php:17
-msgid "Please log in or create an account to enroll. Once you're signed in, you'll come straight back here to finish your enrollment."
-msgstr "Pro přihlášení na kurz se prosím přihlaste nebo si vytvořte účet. Po přihlášení budete rovnou vráceni sem k dokončení přihlášky."
+msgid ""
+"Please log in or create an account to enroll. Once you're signed in, you'll "
+"come straight back here to finish your enrollment."
+msgstr ""
+"Pro přihlášení na kurz se prosím přihlaste nebo si vytvořte účet. Po "
+"přihlášení budete rovnou vráceni sem k dokončení přihlášky."
 
 #: public/templates/enroll-login-required.php:21
-#: public/templates/login-form.php:52
-#: public/templates/register-form.php:132
+#: public/templates/login-form.php:52 public/templates/register-form.php:132
 msgid "Log in"
 msgstr "Přihlásit se"
 
@@ -2805,8 +2890,11 @@ msgid "Your email address has been verified. You can now log in."
 msgstr "Vaše e-mailová adresa byla ověřena. Nyní se můžete přihlásit."
 
 #: public/templates/login-form.php:20
-msgid "This verification link has expired. Please register again or contact us."
-msgstr "Platnost tohoto ověřovacího odkazu vypršela. Zaregistrujte se prosím znovu nebo nás kontaktujte."
+msgid ""
+"This verification link has expired. Please register again or contact us."
+msgstr ""
+"Platnost tohoto ověřovacího odkazu vypršela. Zaregistrujte se prosím znovu "
+"nebo nás kontaktujte."
 
 #: public/templates/login-form.php:22
 msgid "This verification link is invalid or has already been used."
@@ -2821,16 +2909,24 @@ msgid "Lost your password?"
 msgstr "Zapomněli jste heslo?"
 
 #: public/templates/lost-password-form.php:22
-msgid "If an account exists for that email address, a password reset link has been sent."
-msgstr "Pokud pro tuto e-mailovou adresu existuje účet, byl odeslán odkaz pro obnovení hesla."
+msgid ""
+"If an account exists for that email address, a password reset link has been "
+"sent."
+msgstr ""
+"Pokud pro tuto e-mailovou adresu existuje účet, byl odeslán odkaz pro "
+"obnovení hesla."
 
 #: public/templates/lost-password-form.php:27
-msgid "Your password has been changed. You can now log in with your new password."
+msgid ""
+"Your password has been changed. You can now log in with your new password."
 msgstr "Vaše heslo bylo změněno. Nyní se můžete přihlásit s novým heslem."
 
 #: public/templates/lost-password-form.php:32
-msgid "This password reset link is invalid or has expired. Please request a new one."
-msgstr "Platnost tohoto odkazu pro obnovení hesla vypršela, nebo je neplatný. Požádejte prosím o nový."
+msgid ""
+"This password reset link is invalid or has expired. Please request a new one."
+msgstr ""
+"Platnost tohoto odkazu pro obnovení hesla vypršela, nebo je neplatný. "
+"Požádejte prosím o nový."
 
 #: public/templates/lost-password-form.php:67
 msgid "Set new password"
@@ -2855,8 +2951,12 @@ msgid "Already have an account? %s"
 msgstr "Již máte účet? %s"
 
 #: public/templates/register-success.php:16
-msgid "Almost done! Please check your inbox and click the verification link to activate your account."
-msgstr "Skoro hotovo! Zkontrolujte prosím svou e-mailovou schránku a kliknutím na ověřovací odkaz aktivujte svůj účet."
+msgid ""
+"Almost done! Please check your inbox and click the verification link to "
+"activate your account."
+msgstr ""
+"Skoro hotovo! Zkontrolujte prosím svou e-mailovou schránku a kliknutím na "
+"ověřovací odkaz aktivujte svůj účet."
 
 #: public/templates/voucher-form.php:60
 msgid "Message"
@@ -2867,5 +2967,35 @@ msgid "Send inquiry"
 msgstr "Odeslat dotaz"
 
 #: public/templates/voucher-success.php:16
-msgid "Thank you — we have received your message and will get back to you shortly."
+msgid ""
+"Thank you — we have received your message and will get back to you shortly."
 msgstr "Děkujeme — vaši zprávu jsme přijali a brzy se vám ozveme."
+
+#~ msgid "All levels"
+#~ msgstr "Všechny úrovně"
+
+#~ msgid "Any weekday"
+#~ msgstr "Kterýkoli den"
+
+#~ msgid "No open terms match your filters right now."
+#~ msgstr "Vašim filtrům aktuálně neodpovídají žádné otevřené termíny."
+
+#~ msgid "Full"
+#~ msgstr "Plná kapacita"
+
+#, php-format
+#~ msgid "Early bird: %1$s Kč until %2$s"
+#~ msgstr "Včasná registrace: %1$s Kč do %2$s"
+
+#, php-format
+#~ msgid "(regular %s Kč)"
+#~ msgstr "(běžná cena %s Kč)"
+
+#, php-format
+#~ msgid "%s Kč"
+#~ msgstr "%s Kč"
+
+#~ msgid "No open terms for this course right now — check back soon."
+#~ msgstr ""
+#~ "Pro tento kurz aktuálně nejsou otevřené žádné termíny — zkuste to prosím "
+#~ "později."

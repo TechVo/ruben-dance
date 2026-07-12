@@ -107,6 +107,13 @@ class Catalog_Page {
 				$location     = $locations[ $location_id ];
 				$active_count = $enrollments->count_active_for_term( (int) $term['id'] );
 
+				$early_bird = $presenter->early_bird( $term, $today );
+
+				if ( null !== $early_bird ) {
+					$early_bird['price'] = $presenter->format_price( $early_bird['price'] );
+					$early_bird['until'] = date_i18n( 'j. n. Y', (int) strtotime( $early_bird['until'] ) );
+				}
+
 				$display_terms[] = array(
 					'id'         => (int) $term['id'],
 					'type'       => (string) $term['type'],
@@ -116,8 +123,8 @@ class Catalog_Page {
 					'date_from'  => (string) $term['date_from'],
 					'date_to'    => (string) $term['date_to'],
 					'location'   => null === $location ? '' : (string) $location['name'],
-					'price'      => (string) $term['price'],
-					'early_bird' => $presenter->early_bird( $term, $today ),
+					'price'      => $presenter->format_price( (string) $term['price'] ),
+					'early_bird' => $early_bird,
 					'is_full'    => $presenter->is_full( $term, $active_count ),
 					'note'       => Lang::EN === $lang && '' !== trim( (string) ( $term['note_public_en'] ?? '' ) ) ? (string) $term['note_public_en'] : (string) ( $term['note_public_cs'] ?? '' ),
 					'enroll_url' => add_query_arg( 'term_id', (int) $term['id'], Pages::url( Enroll_Page::PAGE_KEY, $lang ) ),
@@ -125,16 +132,23 @@ class Catalog_Page {
 			}
 
 			$display_groups[] = array(
-				'title' => get_the_title( $course_post_id ),
-				'url'   => get_permalink( $course_post_id ),
-				'terms' => $display_terms,
+				'title'   => get_the_title( $course_post_id ),
+				'url'     => get_permalink( $course_post_id ),
+				'excerpt' => wp_trim_words( get_the_excerpt( $course_post_id ), 18, '…' ),
+				'style'   => self::first_term_name( $course_post_id, Taxonomies::DANCE_STYLE ),
+				'level'   => self::first_term_name( $course_post_id, Taxonomies::LEVEL ),
+				'photo'   => Placeholder_Photo::for_post( $course_post_id, count( $display_groups ) ),
+				'terms'   => $display_terms,
 			);
 		}
+
+		$results_count = array_sum( array_map( static fn( array $group ): int => count( $group['terms'] ), $display_groups ) );
 
 		return self::render_template(
 			'catalog',
 			array(
 				'groups'           => $display_groups,
+				'results_count'    => $results_count,
 				'filters'          => $filters,
 				'style_options'    => self::taxonomy_options( Taxonomies::DANCE_STYLE, $lang ),
 				'level_options'    => self::taxonomy_options( Taxonomies::LEVEL, $lang ),
@@ -161,6 +175,27 @@ class Catalog_Page {
 			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only: selects which rows the catalog shows, no state change.
 			'weekday'     => isset( $_GET['weekday'] ) ? absint( $_GET['weekday'] ) : 0,
 		);
+	}
+
+	/**
+	 * The first taxonomy term name attached to a post (design #3b/#4b course
+	 * card badges: one style pill + one level pill). Courses only ever carry
+	 * one style/level term in practice (spec F1's fixtures, `Seed_Command::COURSES`),
+	 * so "first" is effectively "the" term; this stays defensive rather than
+	 * assuming exactly one.
+	 *
+	 * @param int    $post_id  Post ID (already resolved to the display language).
+	 * @param string $taxonomy Taxonomy slug.
+	 * @return string Term name, or '' when the post has none.
+	 */
+	private static function first_term_name( int $post_id, string $taxonomy ): string {
+		$terms = get_the_terms( $post_id, $taxonomy );
+
+		if ( ! is_array( $terms ) || array() === $terms ) {
+			return '';
+		}
+
+		return (string) $terms[0]->name;
 	}
 
 	/**

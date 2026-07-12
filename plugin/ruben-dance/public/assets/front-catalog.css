@@ -1,67 +1,453 @@
 /**
- * Minimal styling for the [rd_catalog]/[rd_enroll] shortcodes and the
- * rd_course single-view term list. Deliberately unopinionated — the site's
- * theme is expected to own real visual design; this only keeps the bare
- * markup usable. Also defines `.rd-notice--warning`, used by these templates
- * but not declared by M07's front-auth.css (which only needed success/error).
+ * Catalog ([rd_catalog], design/screens.html #3b/#4a/#4b) and course-detail
+ * term list (Course_Content → public/templates/course-terms.php, #3c/#4c)
+ * styling. Builds on rd-design.css's tokens/shared components (.rd-btn,
+ * .rd-badge, .rd-card, .rd-filter-chip, .rd-empty-state, .rd-eyebrow, …) —
+ * loaded first as a dependency (see Catalog_Page::enqueue_styles()) — so
+ * this file only adds layout, never redeclares a color/radius/shape.
+ *
+ * Mobile-first: base rules match #3b (390). Tablet grid at 768px (#4a).
+ * Desktop filter sidebar at 1024px (#4b) — the catalog's own annotation is
+ * explicit that only the desktop mockup moves filters into a left panel;
+ * the course card grid itself is already 2 columns from 768px up.
+ *
+ * The bottom "legacy shortcode buttons" section keeps a handful of
+ * pre-D3 classnames (.rd-button, .rd-notice--warning, .rd-enroll-summary,
+ * .rd-enroll-form) alive for templates this milestone does not touch
+ * (enroll-login-required.php, account-enrollments.php, account-schedule.php,
+ * the enroll form itself) — D3 only restyles the catalog and course-detail
+ * templates, not the enrollment/account ones (separate milestones).
  */
-.rd-notice--warning {
-	border-left-color: #d98500;
-}
 
-.rd-catalog-filters {
+/* ==========================================================================
+   Catalog toolbar — active filter chips.
+   ========================================================================== */
+
+.rd-catalog__active-chips {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 0.5em;
-	margin: 0 0 1.5em;
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 14px;
 }
+
+.rd-catalog__clear-all {
+	font-size: 13px;
+}
+
+/* ==========================================================================
+   Layout — mobile/tablet stack; desktop gets a 260px filter sidebar.
+   ========================================================================== */
+
+.rd-catalog__layout {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+@media (min-width: 1024px) {
+	.rd-catalog__layout {
+		display: grid;
+		grid-template-columns: 260px 1fr;
+		gap: 24px;
+		align-items: start;
+	}
+}
+
+/* ==========================================================================
+   Filters — a <details> disclosure (same no-JS pattern as header.php's
+   mobile menu) on mobile/tablet; forced into a persistent sidebar card on
+   desktop (summary becomes inert, content always shown).
+   ========================================================================== */
+
+.rd-catalog__filters {
+	margin: 0;
+}
+
+/* Mobile/tablet: the expanded filter panel gets a white card so the form
+ * reads as one surface over the cream page background. */
+.rd-catalog__filters[open] {
+	background: var(--rd-white);
+	border-radius: var(--rd-radius-card-sm);
+	padding: 14px;
+}
+
+.rd-catalog__filters-toggle {
+	display: inline-flex;
+	cursor: pointer;
+	list-style: none;
+}
+
+.rd-catalog__filters-toggle::-webkit-details-marker {
+	display: none;
+}
+
+.rd-catalog__filters-toggle:focus-visible .rd-catalog__filters-chip {
+	outline: 3px solid var(--rd-cocoa);
+	outline-offset: 3px;
+}
+
+.rd-catalog__filters-heading {
+	display: none;
+}
+
+.rd-catalog__filter-form {
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+	margin-top: 14px;
+}
+
+.rd-catalog__filter-group {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.rd-catalog__chip-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+}
+
+/* Style facet — #4b's vertical checkbox list. The inputs are radios (the
+ * backend filter is single-select), painted as square check boxes to match
+ * the mockup; checking one visibly unchecks the previous. */
+
+.rd-catalog__check-list {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	font-size: 13.5px;
+}
+
+.rd-catalog__check-row {
+	display: flex;
+	gap: 9px;
+	align-items: center;
+	cursor: pointer;
+}
+
+.rd-catalog__check-row input {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: 0;
+	opacity: 0;
+}
+
+.rd-catalog__check-box {
+	flex: none;
+	width: 18px;
+	height: 18px;
+	border: 2px solid var(--rd-cocoa-30);
+	border-radius: 5px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 11px;
+	font-weight: 800;
+	color: var(--rd-white);
+}
+
+.rd-catalog__check-row input:checked + .rd-catalog__check-box {
+	background: var(--rd-coral);
+	border-color: var(--rd-cocoa);
+}
+
+.rd-catalog__check-row input:checked + .rd-catalog__check-box::before {
+	content: '✓';
+}
+
+.rd-catalog__check-row input:focus-visible + .rd-catalog__check-box {
+	outline: 3px solid var(--rd-cocoa);
+	outline-offset: 2px;
+}
+
+.rd-catalog__radio-chip {
+	position: relative;
+	display: inline-flex;
+	cursor: pointer;
+}
+
+.rd-catalog__radio-chip input {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: 0;
+	opacity: 0;
+}
+
+.rd-catalog__radio-chip input:focus-visible + .rd-filter-chip {
+	outline: 3px solid var(--rd-cocoa);
+	outline-offset: 2px;
+}
+
+.rd-catalog__select {
+	width: 100%;
+	font-family: inherit;
+	font-size: 13.5px;
+	font-weight: 600;
+	color: var(--rd-cocoa);
+	background: var(--rd-white);
+	border: 1.5px solid var(--rd-cocoa-25);
+	border-radius: var(--rd-radius-field);
+	padding: 11px 13px;
+}
+
+.rd-catalog__select:focus {
+	outline: none;
+	border-color: var(--rd-coral);
+}
+
+.rd-catalog__filter-actions {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	flex-wrap: wrap;
+}
+
+@media (min-width: 1024px) {
+	.rd-catalog__filters,
+	.rd-catalog__filters[open] {
+		background: var(--rd-white);
+		border-radius: var(--rd-radius-card-lg);
+		padding: 20px;
+	}
+
+	/* The sidebar's filter form is always visible: override the UA's
+	 * closed-<details> content hiding (`details:not([open])::details-content
+	 * { content-visibility: hidden }` in Chromium/Firefox/Safari UA sheets).
+	 * In a browser without ::details-content support the summary below stays
+	 * clickable, so the panel is still reachable — just collapsed at first. */
+	.rd-catalog__filters:not([open])::details-content {
+		content-visibility: visible;
+	}
+
+	.rd-catalog__filters-toggle {
+		width: 100%;
+	}
+
+	.rd-catalog__filters-chip {
+		display: none;
+	}
+
+	.rd-catalog__filters-heading {
+		display: block;
+		font-weight: 800;
+		font-size: 16px;
+	}
+
+	.rd-catalog__filter-form {
+		margin-top: 18px;
+	}
+}
+
+/* ==========================================================================
+   Results.
+   ========================================================================== */
+
+.rd-catalog__count {
+	margin-bottom: 14px;
+}
+
+.rd-catalog__grid {
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+}
+
+@media (min-width: 768px) {
+	.rd-catalog__grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 14px;
+	}
+}
+
+/* ==========================================================================
+   Course card.
+   ========================================================================== */
+
+.rd-cat-course {
+	overflow: hidden;
+}
+
+.rd-cat-course--workshop {
+	border: 2px dashed var(--rd-coral);
+	box-shadow: none;
+	padding: 16px;
+}
+
+.rd-cat-course--workshop .rd-cat-course__body {
+	padding: 0;
+}
+
+.rd-cat-course__photo {
+	display: block;
+	position: relative;
+	height: 130px;
+	background-size: cover;
+	background-position: center 30%;
+}
+
+.rd-cat-course__photo-badges {
+	position: absolute;
+	left: 12px;
+	bottom: 10px;
+	display: flex;
+	gap: 6px;
+}
+
+.rd-cat-course__badge {
+	font-size: 11px;
+	font-weight: 800;
+	background: var(--rd-cream);
+	color: var(--rd-cocoa);
+	border-radius: var(--rd-radius-pill);
+	padding: 5px 10px;
+}
+
+.rd-cat-course__badge--level {
+	background: var(--rd-yellow);
+}
+
+.rd-cat-course__body {
+	padding: 16px;
+}
+
+.rd-cat-course__title {
+	margin: 0;
+	font-size: 19px;
+	font-weight: 800;
+	letter-spacing: -0.01em;
+}
+
+.rd-cat-course__title a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.rd-cat-course__excerpt {
+	margin-top: 6px;
+}
+
+@media (min-width: 1024px) {
+	.rd-cat-course__photo {
+		height: 150px;
+	}
+}
+
+/* ==========================================================================
+   Term list + term card — shared by catalog.php and course-terms.php
+   (design #3b/#4b card rows and #3c/#4c "Vypsané termíny" rows use the
+   same white pill-button row).
+   ========================================================================== */
 
 .rd-term-list {
 	display: flex;
-	flex-wrap: wrap;
-	gap: 1em;
+	flex-direction: column;
+	gap: 8px;
+	margin-top: 12px;
 }
 
 .rd-term-card {
-	position: relative;
-	border: 1px solid #ddd;
-	border-radius: 4px;
-	padding: 1em;
-	min-width: 220px;
-	flex: 1 1 240px;
+	border: 1.5px solid var(--rd-cocoa-15);
+	border-radius: 14px;
+	padding: 12px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
 }
 
+/* A workshop-type term row inside course-terms.php's mixed list (design
+ * #3a/#3b's dashed coral treatment). Catalog cards whose course is
+ * workshop-only get the same treatment one level up, on the whole card
+ * (see .rd-cat-course--workshop) instead of repeating it per row. */
 .rd-term-card--workshop {
-	border-color: #8a5fd6;
+	border: 2px dashed var(--rd-coral);
 }
 
-.rd-badge {
-	display: inline-block;
-	font-size: 0.75em;
-	font-weight: 600;
-	padding: 0.15em 0.5em;
-	border-radius: 3px;
-	margin: 0 0.25em 0.5em 0;
-	color: #fff;
+.rd-term-card__info {
+	flex: 1;
+	min-width: 0;
+	font-size: 13px;
+	line-height: 1.4;
 }
 
-.rd-badge--full {
-	background: #dc3232;
+.rd-term-card__schedule {
+	margin: 0;
 }
 
-.rd-badge--workshop {
-	background: #8a5fd6;
+.rd-term-card__price {
+	margin: 4px 0 0;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 6px;
 }
 
-.rd-term-price {
-	font-weight: 600;
+.rd-term-card__price-now {
+	font-weight: 700;
 }
 
-.rd-price-strike {
-	text-decoration: line-through;
-	font-weight: 400;
-	opacity: 0.7;
-	font-size: 0.9em;
+.rd-term-card__price-now--early {
+	color: var(--rd-success-fg);
+}
+
+.rd-term-card .rd-badge {
+	font-size: 10.5px;
+	padding: 3px 8px;
+}
+
+.rd-term-card__cta {
+	flex: none;
+}
+
+.rd-term-card__cta.rd-btn--primary {
+	padding: 11px 15px;
+	font-size: 13px;
+}
+
+.rd-term-card__cta.rd-btn--secondary {
+	padding: 9px 13px;
+	font-size: 13px;
+}
+
+/* Course-detail-only: "Vypsané termíny" heading + empty state spacing.
+ * The detail's term rows sit directly on the cream page background, so
+ * they render as white cards (#3c) instead of the catalog's outlined rows
+ * (which already sit inside a white course card). */
+
+.rd-course-terms {
+	margin-top: 24px;
+}
+
+.rd-course-terms__heading {
+	margin: 0 0 12px;
+}
+
+.rd-course-terms .rd-term-card {
+	background: var(--rd-white);
+	border: none;
+	border-radius: 16px;
+	padding: 14px;
+}
+
+.rd-course-terms .rd-term-card--workshop {
+	border: 2px dashed var(--rd-coral);
+}
+
+/* ==========================================================================
+   Legacy shortcode buttons — kept for templates D3 does not restyle
+   (enroll-login-required.php, account-enrollments.php's payment table,
+   the enroll form). Do not extend; new work should use rd-btn/rd-card
+   (rd-design.css) instead.
+   ========================================================================== */
+
+.rd-notice--warning {
+	border-left-color: #d98500;
 }
 
 .rd-button {

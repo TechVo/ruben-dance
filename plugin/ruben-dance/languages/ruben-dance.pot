@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-07-11T18:40:03+00:00\n"
+"POT-Creation-Date: 2026-07-12T11:16:56+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: ruben-dance\n"
@@ -536,7 +536,6 @@ msgstr ""
 
 #: includes/Admin/Enrollments_Page.php:211
 #: includes/Admin/Terms_Page.php:503
-#: public/templates/catalog.php:47
 msgid "Filter"
 msgstr ""
 
@@ -1356,6 +1355,7 @@ msgstr ""
 #: public/templates/account-schedule.php:25
 #: public/templates/calendar.php:33
 #: public/templates/calendar.php:63
+#: public/templates/catalog.php:123
 msgid "Location"
 msgstr ""
 
@@ -1626,7 +1626,7 @@ msgstr ""
 
 #: includes/Admin/Terms_Page.php:481
 #: public/templates/calendar.php:35
-#: public/templates/catalog.php:34
+#: public/templates/catalog.php:125
 msgid "All locations"
 msgstr ""
 
@@ -1652,6 +1652,7 @@ msgid "Workshop (single lesson)"
 msgstr ""
 
 #: includes/Admin/Terms_Page.php:562
+#: public/templates/catalog.php:133
 msgid "Weekday"
 msgstr ""
 
@@ -2185,17 +2186,17 @@ msgstr ""
 msgid "Partner name is too long."
 msgstr ""
 
-#: includes/Front/Footer_Links.php:61
+#: includes/Front/Footer_Links.php:71
 msgid "Legal"
 msgstr ""
 
-#: includes/Front/Footer_Links.php:62
+#: includes/Front/Footer_Links.php:72
 #: public/templates/enroll-form.php:123
 #: public/templates/register-form.php:90
 msgid "Terms & Conditions"
 msgstr ""
 
-#: includes/Front/Footer_Links.php:64
+#: includes/Front/Footer_Links.php:74
 msgid "Privacy Policy"
 msgstr ""
 
@@ -2406,6 +2407,7 @@ msgid "Levels"
 msgstr ""
 
 #: includes/Taxonomies.php:80
+#: public/templates/catalog.php:107
 msgid "Level"
 msgstr ""
 
@@ -2594,7 +2596,6 @@ msgid "Style"
 msgstr ""
 
 #: public/templates/calendar.php:27
-#: public/templates/catalog.php:20
 msgid "All styles"
 msgstr ""
 
@@ -2614,59 +2615,88 @@ msgstr ""
 msgid "No upcoming lessons found."
 msgstr ""
 
-#: public/templates/catalog.php:27
-msgid "All levels"
+#: public/templates/catalog.php:73
+#: public/templates/catalog.php:151
+msgid "Clear all"
 msgstr ""
 
-#: public/templates/catalog.php:41
-msgid "Any weekday"
+#: public/templates/catalog.php:81
+#: public/templates/catalog.php:86
+msgid "Filters"
 msgstr ""
 
-#: public/templates/catalog.php:51
-msgid "No open terms match your filters right now."
+#: public/templates/catalog.php:91
+msgid "Dance style"
 msgstr ""
 
-#: public/templates/catalog.php:62
-#: public/templates/course-terms.php:24
-msgid "Workshop"
+#: public/templates/catalog.php:95
+#: public/templates/catalog.php:111
+msgid "All"
 msgstr ""
 
-#: public/templates/catalog.php:65
-#: public/templates/course-terms.php:27
-msgid "Full"
+#: public/templates/catalog.php:137
+msgid "Any"
 msgstr ""
 
-#. translators: 1: early-bird price, 2: deadline date.
-#: public/templates/catalog.php:78
-#: public/templates/course-terms.php:40
+#: public/templates/catalog.php:149
+msgid "Show results"
+msgstr ""
+
+#. translators: %d: number of open terms found.
+#: public/templates/catalog.php:162
 #, php-format
-msgid "Early bird: %1$s Kč until %2$s"
+msgid "%d result"
+msgid_plural "%d results"
+msgstr[0] ""
+msgstr[1] ""
+
+#: public/templates/catalog.php:171
+msgid "No courses match your filters"
 msgstr ""
 
-#. translators: %s: regular price.
-#: public/templates/catalog.php:87
+#: public/templates/catalog.php:173
+msgid "Clear filters"
+msgstr ""
+
+#: public/templates/catalog.php:206
+msgid "Workshop — one-off event"
+msgstr ""
+
+#. translators: %s: early-bird deadline date.
+#: public/templates/catalog.php:226
+#: public/templates/course-terms.php:47
 #, php-format
-msgid "(regular %s Kč)"
+msgid "Early-bird until %s"
 msgstr ""
 
-#. translators: %s: price.
-#: public/templates/catalog.php:93
-#: public/templates/course-terms.php:49
-#, php-format
-msgid "%s Kč"
+#: public/templates/catalog.php:235
+#: public/templates/course-terms.php:59
+msgid "Full — we'll contact you"
 msgstr ""
 
-#: public/templates/catalog.php:102
-#: public/templates/course-terms.php:54
+#: public/templates/catalog.php:239
+#: public/templates/course-terms.php:63
 msgid "Enroll"
 msgstr ""
 
-#: public/templates/course-terms.php:15
+#: public/templates/course-terms.php:19
 msgid "Open terms"
 msgstr ""
 
-#: public/templates/course-terms.php:18
-msgid "No open terms for this course right now — check back soon."
+#: public/templates/course-terms.php:23
+msgid "No open terms for this course right now."
+msgstr ""
+
+#: public/templates/course-terms.php:24
+msgid "Write to us and we'll let you know as soon as a term opens."
+msgstr ""
+
+#: public/templates/course-terms.php:25
+msgid "Contact us"
+msgstr ""
+
+#: public/templates/course-terms.php:56
+msgid "Workshop"
 msgstr ""
 
 #. translators: %s: course name.

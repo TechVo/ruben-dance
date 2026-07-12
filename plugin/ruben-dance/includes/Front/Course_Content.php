@@ -78,10 +78,29 @@ class Course_Content {
 		$lang        = $lang_helper->current();
 		$course_id   = $lang_helper->resolve_post( (int) $post->ID, Lang::CS );
 
+		return $content . self::render_template( 'course-terms', array( 'terms' => self::terms_for_display( $course_id, $lang ) ) );
+	}
+
+	/**
+	 * Open terms for a course, formatted for display — the same shape
+	 * `append_terms()` feeds `public/templates/course-terms.php`. Exposed
+	 * as its own method (rather than kept private inside `append_terms()`)
+	 * so the theme's course-detail template (design #4c's right-column
+	 * "nearest open term"/location/instructor cards, which sit outside the
+	 * `the_content` blob `append_terms()` produces) can pull the same,
+	 * already-enriched rows without duplicating this business logic —
+	 * mirrors how `functions.php`'s `rd_theme_*()` helpers already read
+	 * plugin data directly, guarded by `class_exists()`.
+	 *
+	 * @param int    $course_id Czech (canonical) course post ID.
+	 * @param string $lang      Display language.
+	 * @return array<int, array<string, mixed>>
+	 */
+	public static function terms_for_display( int $course_id, string $lang ): array {
 		$rows = ( new Course_Term_Repository() )->open_for_courses( array( $course_id ) );
 
 		if ( array() === $rows ) {
-			return $content . self::render_template( 'course-terms', array( 'terms' => array() ) );
+			return array();
 		}
 
 		$presenter     = new Term_Presenter();
@@ -102,21 +121,33 @@ class Course_Content {
 			$location     = $locations[ $location_id ];
 			$active_count = $enrollments->count_active_for_term( (int) $term['id'] );
 
+			$early_bird = $presenter->early_bird( $term, $today );
+
+			if ( null !== $early_bird ) {
+				$early_bird['price'] = $presenter->format_price( $early_bird['price'] );
+				$early_bird['until'] = date_i18n( 'j. n. Y', (int) strtotime( $early_bird['until'] ) );
+			}
+
 			$display_terms[] = array(
-				'id'         => (int) $term['id'],
-				'type'       => (string) $term['type'],
-				'season'     => Lang::EN === $lang && '' !== trim( (string) $term['season_label_en'] ) ? (string) $term['season_label_en'] : (string) $term['season_label_cs'],
-				'weekday'    => Terms_List_Table::weekday_labels()[ (int) $term['weekday'] ] ?? '',
-				'time'       => Terms_List_Table::format_time( (string) $term['start_time'] ) . '–' . Terms_List_Table::format_time( (string) $term['end_time'] ),
-				'location'   => null === $location ? '' : (string) $location['name'],
-				'price'      => (string) $term['price'],
-				'early_bird' => $presenter->early_bird( $term, $today ),
-				'is_full'    => $presenter->is_full( $term, $active_count ),
-				'enroll_url' => add_query_arg( 'term_id', (int) $term['id'], Enroll_Page::page_url( $lang ) ),
+				'id'               => (int) $term['id'],
+				'type'             => (string) $term['type'],
+				'season'           => Lang::EN === $lang && '' !== trim( (string) $term['season_label_en'] ) ? (string) $term['season_label_en'] : (string) $term['season_label_cs'],
+				'weekday'          => Terms_List_Table::weekday_labels()[ (int) $term['weekday'] ] ?? '',
+				'time'             => Terms_List_Table::format_time( (string) $term['start_time'] ) . '–' . Terms_List_Table::format_time( (string) $term['end_time'] ),
+				'date_from'        => (string) $term['date_from'],
+				'instructor'       => (string) $term['instructor'],
+				'capacity'         => null === $term['capacity'] || '' === (string) $term['capacity'] ? 0 : (int) $term['capacity'],
+				'location'         => null === $location ? '' : (string) $location['name'],
+				'location_address' => null === $location ? '' : (string) $location['address'],
+				'location_map_url' => null === $location ? '' : (string) ( $location['map_url'] ?? '' ),
+				'price'            => $presenter->format_price( (string) $term['price'] ),
+				'early_bird'       => $early_bird,
+				'is_full'          => $presenter->is_full( $term, $active_count ),
+				'enroll_url'       => add_query_arg( 'term_id', (int) $term['id'], Enroll_Page::page_url( $lang ) ),
 			);
 		}
 
-		return $content . self::render_template( 'course-terms', array( 'terms' => $display_terms ) );
+		return $display_terms;
 	}
 
 	/**

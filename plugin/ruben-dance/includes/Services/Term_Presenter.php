@@ -75,4 +75,20 @@ class Term_Presenter {
 			'until' => (string) $until,
 		);
 	}
+
+	/**
+	 * A raw DECIMAL price string ("2400.00") formatted for display the way
+	 * the design's mockups show CZK amounts ("2 400"): space thousands
+	 * separator, decimals only when the amount actually has them.
+	 *
+	 * @param string $price Raw price value, as stored/returned by the DB.
+	 * @return string
+	 */
+	public function format_price( string $price ): string {
+		$value = (float) $price;
+
+		$decimals = abs( $value - floor( $value ) ) > 0.004 ? 2 : 0;
+
+		return number_format( $value, $decimals, ',', ' ' );
+	}
 }
