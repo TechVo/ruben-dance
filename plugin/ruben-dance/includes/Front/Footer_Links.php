@@ -47,9 +47,19 @@ class Footer_Links {
 	 * always renders both links — the same "never a fatal error, worst case
 	 * a link to the home page" contract every other `Pages::url()` call site
 	 * in the plugin relies on.
+	 *
+	 * Skipped when the active theme declares `add_theme_support(
+	 * 'rd-footer-links' )` (the `ruben-dance` theme, D2, does this in its
+	 * `functions.php`) — that theme already renders these same two links,
+	 * properly styled, inside its own `footer.php` (design #3a's dark cocoa
+	 * footer), so this class's plain, inline-styled fallback would otherwise
+	 * print a second, visually broken copy directly beneath it. Themes that
+	 * don't declare the flag (the scenario this class exists for in the
+	 * first place — see class docblock) still get this fallback exactly as
+	 * before.
 	 */
 	public static function render(): void {
-		if ( is_admin() ) {
+		if ( is_admin() || current_theme_supports( 'rd-footer-links' ) ) {
 			return;
 		}
 

@@ -1,0 +1,18 @@
+/*
+Theme Name: Ruben Dance
+Theme URI: https://ruben-dance.cz
+Author: Ruben Dance
+Author URI: https://ruben-dance.cz
+Description: Lightweight classic theme for the Ruben Dance reservation site — header, footer and homepage built on the rd-design token/component system shared with the ruben-dance plugin (see plugin/ruben-dance/public/assets/rd-design.css and design/README.md).
+Version: 0.1.0
+Requires at least: 6.4
+Requires PHP: 8.1
+License: GPL-2.0-or-later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: ruben-dance-theme
+
+This file only needs to exist with the header above for WordPress to
+recognize the theme; all real styling lives in assets/theme.css (enqueued by
+functions.php) so it can sit alongside the plugin's rd-design.css without a
+cache-busting rename dance every edit.
+*/

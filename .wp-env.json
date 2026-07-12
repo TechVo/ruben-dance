@@ -5,6 +5,9 @@
 		"./plugin/ruben-dance",
 		"https://downloads.wordpress.org/plugin/polylang.zip"
 	],
+	"themes": [
+		"./theme/ruben-dance"
+	],
 	"config": {
 		"WP_DEBUG": true,
 		"WP_DEBUG_LOG": true,
