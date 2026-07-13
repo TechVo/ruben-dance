@@ -108,6 +108,11 @@ a {
 	white-space: nowrap;
 }
 
+.rd-logo:focus-visible {
+	outline: 3px solid var(--rd-cocoa);
+	outline-offset: 3px;
+}
+
 .rd-logo__dot {
 	color: var(--rd-coral);
 }
@@ -127,6 +132,11 @@ a {
 
 .rd-nav-desktop a:not(.rd-btn):hover {
 	color: var(--rd-coral);
+}
+
+.rd-nav-desktop a:not(.rd-btn):focus-visible {
+	outline: 3px solid var(--rd-cocoa);
+	outline-offset: 3px;
 }
 
 .rd-nav-desktop__cta {
@@ -304,10 +314,22 @@ a {
 
 .rd-site-footer__logo {
 	font-size: 18px;
+	/* `.rd-logo` sets color: var(--rd-cocoa) for the cream-background header
+	 * instance — on the footer's dark cocoa panel that made "RUBEN"/"DANCE"
+	 * exactly match the background (invisible text, only the coral dot
+	 * showed). Override to the footer's own text color. */
+	color: var(--rd-cream);
 }
 
 .rd-site-footer__logo .rd-logo__dot {
 	color: var(--rd-coral);
+}
+
+/* `.rd-logo:focus-visible`'s cocoa outline (correct on the cream header)
+ * would be invisible against this panel's own cocoa background — same
+ * light/dark-surface swap as the color override above. */
+.rd-site-footer__logo:focus-visible {
+	outline-color: var(--rd-cream);
 }
 
 .rd-site-footer__legal,
@@ -323,6 +345,14 @@ a {
 	color: var(--rd-cream);
 	text-decoration: underline;
 	text-underline-offset: 3px;
+}
+
+.rd-site-footer__legal a:focus-visible,
+.rd-site-footer__contact a:focus-visible {
+	/* Cream, not the site's usual cocoa ring — this panel's own background
+	 * is cocoa, so a cocoa outline would be invisible here. */
+	outline: 3px solid var(--rd-cream);
+	outline-offset: 3px;
 }
 
 .rd-site-footer__contact {

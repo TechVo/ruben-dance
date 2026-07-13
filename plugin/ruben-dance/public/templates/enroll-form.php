@@ -230,9 +230,6 @@ $ruben_dance_submit_label = Lang::EN === $lang
 			</div>
 
 			<button type="submit" class="rd-btn rd-btn--primary rd-enr-submit"><?php echo esc_html( $ruben_dance_submit_label ); ?></button>
-			<?php if ( Lang::EN !== $lang ) : ?>
-				<p class="rd-enr-en-note">EN: “Enroll with obligation to pay”</p>
-			<?php endif; ?>
 			<p class="rd-enr-advisory"><?php esc_html_e( '(advisory — the final price is always confirmed on the next screen)', 'ruben-dance' ); ?></p>
 			<p class="rd-enr-advisory"><em><?php esc_html_e( 'By clicking this button you agree to a binding enrollment with an obligation to pay.', 'ruben-dance' ); ?></em></p>
 		</div>
