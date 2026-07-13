@@ -1,96 +1,548 @@
 /**
- * Minimal styling for the [rd_account] shortcode. Deliberately
- * unopinionated — the site's theme is expected to own real visual design;
- * this only keeps the tabs/tables/forms usable. Shares .rd-notice/.rd-badge/
- * .rd-enroll-summary rules with front-catalog.css/front-auth.css where the
- * same shapes apply (the payment-instructions table mirrors the confirmation
- * page's).
+ * `[rd_account]` styling — design/screens.html #3h (mobile 390 — segmented
+ * pill tabs, stacked cards) / #4i (tablet 834 — same pill tabs, 2-column
+ * content) / #4h (desktop 1280 — left sidebar nav card, content to the
+ * right).
+ *
+ * Builds on rd-design.css's tokens/shared components (`.rd-card`, `.rd-btn`/
+ * `.rd-btn--*`, `.rd-badge`/`.rd-badge--*`, `.rd-field`/`.rd-field--error`,
+ * `.rd-alert`/`.rd-alert--*`, `.rd-payment`, `.rd-empty-state`) — loaded
+ * first as a dependency (see `Account_Page::enqueue_styles()`) — so this
+ * file only adds layout plus the handful of components that are unique to
+ * this screen (`.rd-acc-lang-toggle`, `.rd-acc-switch`, `.rd-acc-password`),
+ * the same way front-auth.css's own `.rd-password-strength` isn't in D1
+ * either.
+ *
+ * Screen classes are prefixed `rd-acc-*` (not `rd-account-*`, the pre-D7
+ * names) so nothing here collides with the theme's own selectors — same
+ * reasoning D3/D5/D6's own renames give.
+ *
+ * Mobile-first: base rules match #3h (390). Tablet 2-column content switches
+ * in at 768px; the nav becomes a sidebar and the enrollments/compact-group
+ * grids reflow again at 1024px — the same desktop breakpoint rd-design.css's
+ * type-scale bump and D3-D6's layouts already use.
  */
-.rd-account-tabs {
+
+/* ==========================================================================
+   Shell: nav + content. One nav markup (account.php), reflowed by breakpoint
+   instead of rendered twice — same "one markup, CSS reflows it" approach
+   catalog.php's filter panel already uses for its own mobile/desktop switch.
+   ========================================================================== */
+
+.rd-acc-shell {
 	display: flex;
-	gap: 0.5em;
-	margin: 0 0 1.5em;
-	border-bottom: 1px solid #ddd;
+	flex-direction: column;
+	gap: 16px;
 }
 
-.rd-account-tab {
-	padding: 0.5em 1em;
-	text-decoration: none;
-	border-bottom: 2px solid transparent;
+.rd-acc-nav {
+	display: flex;
+	gap: 2px;
+	background: var(--rd-cocoa-07);
+	border-radius: var(--rd-radius-pill);
+	padding: 3px;
 }
 
-.rd-account-tab.is-active {
-	border-bottom-color: #2271b1;
-	font-weight: 600;
+.rd-acc-nav__heading {
+	display: none;
 }
 
-.rd-account-enrollment {
-	border: 1px solid #ddd;
-	border-radius: 4px;
-	padding: 1em;
-	margin: 0 0 1em;
-}
-
-.rd-account-enrollment-meta {
-	list-style: none;
-	margin: 0.5em 0;
-	padding: 0;
-}
-
-.rd-badge--status-confirmed {
-	background: #d98500;
-}
-
-.rd-badge--status-paid {
-	background: #46b450;
-}
-
-.rd-badge--status-cancelled {
-	background: #646970;
-}
-
-.rd-account-qr-payment {
+.rd-acc-nav__tab {
+	flex: 1;
 	text-align: center;
-	margin-top: 1em;
+	padding: 9px 0;
+	font-size: 12.5px;
+	font-weight: 700;
+	color: var(--rd-cocoa-55);
+	text-decoration: none;
+	border-radius: var(--rd-radius-pill);
 }
 
-.rd-account-qr-payment img {
-	max-width: 100%;
-	height: auto;
+.rd-acc-nav__tab.is-active {
+	background: var(--rd-cocoa);
+	color: var(--rd-cream);
 }
 
-.rd-account-schedule-table {
-	width: 100%;
-	border-collapse: collapse;
+.rd-acc-nav__tab:focus-visible,
+.rd-acc-nav__logout:focus-visible {
+	outline: 3px solid var(--rd-cocoa);
+	outline-offset: 2px;
 }
 
-.rd-account-schedule-table th,
-.rd-account-schedule-table td {
-	text-align: left;
-	padding: 0.5em;
-	border-bottom: 1px solid #eee;
+.rd-acc-nav__logout {
+	display: none;
 }
 
-.rd-account-schedule-row--cancelled {
-	opacity: 0.6;
+.rd-acc-content__title {
+	display: none;
 }
 
-.rd-badge--cancelled {
-	background: #dc3232;
+@media (min-width: 768px) {
+	.rd-acc-nav {
+		max-width: 460px;
+	}
 }
 
-.rd-badge--moved {
-	background: #d98500;
+@media (min-width: 1024px) {
+	.rd-acc-shell {
+		display: grid;
+		grid-template-columns: 250px 1fr;
+		gap: 24px;
+		align-items: start;
+	}
+
+	.rd-acc-nav {
+		flex-direction: column;
+		gap: 2px;
+		max-width: none;
+		background: var(--rd-white);
+		border-radius: var(--rd-radius-card-lg);
+		box-shadow: 0 1px 3px rgba(43, 23, 16, .08);
+		padding: 16px;
+	}
+
+	.rd-acc-nav__heading {
+		display: block;
+		padding: 10px 14px;
+		font-weight: 800;
+		font-size: 17px;
+	}
+
+	.rd-acc-nav__tab {
+		text-align: left;
+		padding: 12px 14px;
+		font-size: 14px;
+		border-radius: 12px;
+	}
+
+	.rd-acc-nav__tab:not(.is-active):hover {
+		background: var(--rd-cocoa-06);
+	}
+
+	.rd-acc-nav__logout {
+		display: block;
+		padding: 12px 14px;
+		border-radius: 12px;
+		color: var(--rd-cocoa-55);
+		font-weight: 600;
+		font-size: 13.5px;
+		text-decoration: none;
+	}
+
+	.rd-acc-nav__logout:hover {
+		color: var(--rd-coral);
+	}
+
+	.rd-acc-content__title {
+		display: block;
+		margin: 0 0 14px;
+	}
 }
 
-.rd-account-profile-section {
-	margin: 0 0 2em;
+/* ==========================================================================
+   "My enrollments" tab (#3h/#4i/#4h). One card per enrollment awaiting
+   payment gets the full treatment (payment block, own grid row); paid/
+   cancelled enrollments are grouped into `.rd-acc-enr-compact-group` so they
+   can be packed 2-up beside (tablet) or below (desktop) the unpaid card(s) —
+   `.rd-acc-enr--unpaid` always spans the grid's full width, whatever else is
+   in the same row does not.
+   ========================================================================== */
+
+.rd-acc-enr-grid {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
 }
 
-.rd-account-form p {
-	margin: 0 0 1em;
+.rd-acc-enr-compact-group {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
 }
 
-.rd-account-form label {
-	font-weight: 600;
+.rd-acc-enr {
+	padding: 16px;
 }
+
+.rd-acc-enr--compact {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.rd-acc-enr--cancelled {
+	opacity: .75;
+}
+
+.rd-acc-enr__head {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	gap: 10px;
+}
+
+.rd-acc-enr__title {
+	margin: 0;
+	font-size: 16px;
+	font-weight: 800;
+}
+
+.rd-acc-enr--cancelled .rd-acc-enr__title {
+	text-decoration: line-through;
+}
+
+.rd-acc-enr__meta {
+	margin: 2px 0 0;
+	font-size: 12.5px;
+	color: var(--rd-cocoa-65);
+}
+
+.rd-acc-enr__capacity-note {
+	margin-top: 12px;
+}
+
+.rd-acc-enr__payment {
+	margin-top: 12px;
+}
+
+.rd-acc-enr__note {
+	margin: 10px 0 0;
+	font-size: 12px;
+	color: var(--rd-cocoa-60);
+}
+
+@media (min-width: 768px) {
+	.rd-acc-enr-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 14px;
+	}
+
+	.rd-acc-enr--unpaid {
+		grid-column: 1;
+	}
+
+	.rd-acc-enr-compact-group {
+		grid-column: 2;
+	}
+
+	.rd-acc-enr {
+		padding: 18px;
+	}
+}
+
+@media (min-width: 1024px) {
+	.rd-acc-enr--unpaid {
+		grid-column: 1 / -1;
+	}
+
+	.rd-acc-enr-compact-group {
+		grid-column: 1 / -1;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 14px;
+	}
+
+	.rd-acc-enr {
+		padding: 20px;
+	}
+
+	.rd-acc-enr__title {
+		font-size: 19px;
+	}
+}
+
+/* ==========================================================================
+   "My schedule" tab (#3h).
+   ========================================================================== */
+
+.rd-acc-schedule__heading {
+	margin: 0 0 10px;
+}
+
+.rd-acc-sched-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.rd-acc-sched-row {
+	background: var(--rd-white);
+	border-radius: var(--rd-radius-card-sm);
+	padding: 12px 14px;
+	font-size: 13px;
+	line-height: 1.45;
+}
+
+.rd-acc-sched-row--warning {
+	background: var(--rd-warning-bg);
+	border: 1.5px solid var(--rd-warning-fg);
+}
+
+.rd-acc-sched-row__title--strike {
+	text-decoration: line-through;
+}
+
+.rd-acc-sched-row__status {
+	color: var(--rd-warning-fg);
+}
+
+.rd-acc-sched-row__meta,
+.rd-acc-sched-row__note {
+	display: block;
+	margin-top: 2px;
+	color: var(--rd-cocoa-60);
+}
+
+.rd-acc-sched-row--warning .rd-acc-sched-row__meta,
+.rd-acc-sched-row--warning .rd-acc-sched-row__note {
+	color: var(--rd-cocoa-70);
+}
+
+/* ==========================================================================
+   "Profile" tab (#3h): one white card holding every (functionally separate)
+   form.
+   ========================================================================== */
+
+.rd-acc-profile-card {
+	padding: 18px;
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+}
+
+@media (min-width: 1024px) {
+	.rd-acc-profile-card {
+		padding: 22px;
+	}
+}
+
+.rd-acc-profile-section {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.rd-acc-profile-section:not(:first-child) {
+	padding-top: 18px;
+	border-top: 1px solid var(--rd-cocoa-15);
+}
+
+.rd-acc-profile-section__label {
+	margin-bottom: -2px;
+}
+
+.rd-acc-profile-static {
+	font-size: 14px;
+	color: var(--rd-cocoa);
+	background: var(--rd-cocoa-06);
+	border-radius: var(--rd-radius-field);
+	padding: 12px 14px;
+}
+
+.rd-acc-form {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.rd-acc-form__row {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 10px;
+}
+
+.rd-acc-save-btn {
+	align-self: flex-start;
+	background: var(--rd-cocoa);
+	color: var(--rd-cream);
+}
+
+.rd-acc-save-btn:hover {
+	background: var(--rd-coral);
+	color: var(--rd-white);
+}
+
+.rd-acc-email-pending {
+	align-items: flex-start;
+}
+
+.rd-acc-email-pending__resend {
+	margin-left: 6px;
+	color: var(--rd-warning-fg);
+	font-weight: 700;
+	text-decoration: underline;
+	text-underline-offset: 2px;
+	white-space: nowrap;
+}
+
+/* Password disclosure (#3h's "Změnit heslo →" link) — a plain <details>, no
+ * JS: the summary is styled as the link the mock shows, the fields
+ * underneath are the exact pre-D7 form, just hidden until opened. */
+.rd-acc-password {
+	padding-top: 18px;
+	border-top: 1px solid var(--rd-cocoa-15);
+}
+
+.rd-acc-password[open] .rd-acc-password__toggle {
+	margin-bottom: 12px;
+}
+
+.rd-acc-password__toggle {
+	cursor: pointer;
+	color: var(--rd-coral);
+	font-weight: 700;
+	font-size: 13.5px;
+	list-style: none;
+}
+
+.rd-acc-password__toggle::-webkit-details-marker {
+	display: none;
+}
+
+.rd-acc-password__toggle:hover {
+	color: var(--rd-coral-hover);
+}
+
+.rd-acc-profile-section--marketing {
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px 16px;
+}
+
+.rd-acc-marketing-form {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 16px;
+	flex-wrap: wrap;
+}
+
+.rd-acc-profile-empty {
+	margin-top: 16px;
+}
+
+/* --------------------------------------------------------------------------
+   Language segmented toggle (#3h "Preferovaný jazyk"). Markup contract:
+   <div class="rd-acc-lang-toggle"><label class="rd-acc-lang-toggle__option">
+   <input class="rd-acc-lang-toggle__input" type="radio">
+   <span class="rd-acc-lang-toggle__pill">…</span></label>…</div>
+   Same visually-hidden-input + styled-sibling technique catalog.php's
+   `.rd-catalog__radio-chip` already uses.
+   -------------------------------------------------------------------------- */
+
+.rd-acc-lang-toggle {
+	display: inline-flex;
+	gap: 2px;
+	background: var(--rd-cocoa-07);
+	border-radius: var(--rd-radius-pill);
+	padding: 3px;
+	align-self: flex-start;
+}
+
+.rd-acc-lang-toggle__option {
+	position: relative;
+	display: inline-flex;
+	cursor: pointer;
+}
+
+.rd-acc-lang-toggle__input {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: 0;
+	opacity: 0;
+}
+
+.rd-acc-lang-toggle__pill {
+	padding: 6px 16px;
+	border-radius: var(--rd-radius-pill);
+	font-size: 12.5px;
+	font-weight: 700;
+	color: var(--rd-cocoa-55);
+}
+
+.rd-acc-lang-toggle__input:checked + .rd-acc-lang-toggle__pill {
+	background: var(--rd-cocoa);
+	color: var(--rd-cream);
+}
+
+.rd-acc-lang-toggle__input:focus-visible + .rd-acc-lang-toggle__pill {
+	outline: 3px solid var(--rd-cocoa);
+	outline-offset: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   Marketing consent switch (#3h "Novinky a pozvánky" — green when on).
+   Markup contract: <label class="rd-acc-switch"><input type="checkbox"
+   class="rd-acc-switch__input"><span class="rd-acc-switch__track"><span
+   class="rd-acc-switch__thumb"></span></span><span
+   class="rd-acc-switch__label">…</span></label>
+   -------------------------------------------------------------------------- */
+
+.rd-acc-switch {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	cursor: pointer;
+}
+
+.rd-acc-switch__input {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: 0;
+	opacity: 0;
+}
+
+.rd-acc-switch__track {
+	flex: none;
+	width: 48px;
+	height: 28px;
+	border-radius: var(--rd-radius-pill);
+	background: var(--rd-cocoa-25);
+	position: relative;
+	transition: background-color .15s ease;
+}
+
+.rd-acc-switch__thumb {
+	position: absolute;
+	top: 3px;
+	left: 3px;
+	width: 22px;
+	height: 22px;
+	border-radius: var(--rd-radius-pill);
+	background: var(--rd-white);
+	transition: left .15s ease;
+}
+
+.rd-acc-switch__input:checked + .rd-acc-switch__track {
+	background: var(--rd-success-fg);
+}
+
+.rd-acc-switch__input:checked + .rd-acc-switch__track .rd-acc-switch__thumb {
+	left: 23px;
+}
+
+.rd-acc-switch__input:focus-visible + .rd-acc-switch__track {
+	outline: 3px solid var(--rd-cocoa);
+	outline-offset: 2px;
+}
+
+.rd-acc-switch__label {
+	font-size: 13px;
+	line-height: 1.4;
+	color: var(--rd-cocoa);
+}
+
+/* ==========================================================================
+   Pre-D7 shared baseline — front-auth.css's own docblock already notes that
+   `.rd-notice`/`.rd-field-error` there were this tab's baseline; this tab no
+   longer uses either (it uses `.rd-alert`/`.rd-field__error` instead), so
+   nothing from that file is depended on here any more.
+   ========================================================================== */

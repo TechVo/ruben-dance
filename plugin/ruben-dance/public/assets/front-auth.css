@@ -27,12 +27,12 @@
  * `[rd_lost_password]` shortcode is present) — pre-D6, that made the
  * ".rd-notice"/".rd-field-error"/".rd-auth-form" rules below a de facto
  * sitewide baseline that other not-yet-redesigned screens (`[rd_voucher]`'s
- * form/success templates, `[rd_account]`'s profile tab, the calendar's
- * no-JS fallback notice) still depend on today. Those rules are kept
- * byte-for-byte unchanged at the bottom of this file even though this
- * milestone's own auth templates no longer use them (they use `.rd-card`/
- * `.rd-alert`/`.rd-field__error` instead) — removing them would silently
- * regress those other screens' styling.
+ * form/success templates, the calendar's no-JS fallback notice) still depend
+ * on today — `[rd_account]`'s profile tab used to as well, but D7 moved it
+ * onto `.rd-alert`/`.rd-field__error` instead, same as this file's own auth
+ * templates. Those rules are kept byte-for-byte unchanged at the bottom of
+ * this file even though neither this milestone's nor D7's templates use them
+ * any more — removing them would silently regress the screens that still do.
  */
 
 .rd-auth {
@@ -267,10 +267,11 @@
 
 /* ==========================================================================
    Pre-D6 shared baseline — kept unchanged (see this file's docblock) for
-   screens this milestone doesn't touch: `[rd_voucher]` (public/templates/
-   voucher-form.php, voucher-success.php), `[rd_account]`'s profile tab
-   (account-profile.php), account-enrollments.php's warning notice, and
-   calendar.php's no-JS fallback notice.
+   screens neither this milestone nor D7 touch: `[rd_voucher]` (public/
+   templates/voucher-form.php, voucher-success.php) and calendar.php's no-JS
+   fallback notice. `[rd_account]`'s templates (account-profile.php,
+   account-enrollments.php's over-capacity notice) depended on this baseline
+   pre-D7; D7 moved them onto `.rd-alert`/`.rd-field__error` instead.
    ========================================================================== */
 
 .rd-auth-form p {

@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-07-12T19:50:11+00:00\n"
+"POT-Creation-Date: 2026-07-13T13:01:12+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: ruben-dance\n"
@@ -49,9 +49,10 @@ msgstr ""
 #: includes/Admin/Manual_Enrollment_Page.php:378
 #: includes/Admin/Manual_Enrollment_Page.php:438
 #: includes/Compliance/Personal_Data.php:266
+#: public/templates/account-profile.php:140
 #: public/templates/login-form.php:68
 #: public/templates/lost-password-form.php:92
-#: public/templates/register-form.php:78
+#: public/templates/register-form.php:74
 #: public/templates/voucher-form.php:52
 msgid "Email"
 msgstr ""
@@ -60,8 +61,8 @@ msgstr ""
 #: includes/Admin/Customer_Detail_Page.php:123
 #: includes/Admin/Manual_Enrollment_Page.php:439
 #: includes/Compliance/Personal_Data.php:270
-#: public/templates/account-profile.php:94
-#: public/templates/register-form.php:86
+#: public/templates/account-profile.php:110
+#: public/templates/register-form.php:80
 msgid "Phone"
 msgstr ""
 
@@ -85,7 +86,7 @@ msgstr ""
 #: includes/Admin/Customer_Detail_Page.php:126
 #: includes/Admin/Email_Templates_Page.php:196
 #: includes/Admin/Lesson_Notify_Page.php:403
-#: public/templates/account-profile.php:104
+#: public/templates/account-profile.php:124
 msgid "English"
 msgstr ""
 
@@ -93,7 +94,7 @@ msgstr ""
 #: includes/Admin/Customer_Detail_Page.php:126
 #: includes/Admin/Email_Templates_Page.php:196
 #: includes/Admin/Lesson_Notify_Page.php:403
-#: public/templates/account-profile.php:103
+#: public/templates/account-profile.php:120
 msgid "Czech"
 msgstr ""
 
@@ -167,7 +168,7 @@ msgstr ""
 
 #: includes/Admin/Customer_Detail_Page.php:126
 #: includes/Compliance/Personal_Data.php:274
-#: public/templates/account-profile.php:101
+#: public/templates/account-profile.php:116
 msgid "Preferred language"
 msgstr ""
 
@@ -230,7 +231,6 @@ msgstr ""
 #: includes/Admin/Term_Lessons_Page.php:307
 #: includes/Compliance/Personal_Data.php:319
 #: includes/Compliance/Personal_Data.php:371
-#: public/templates/account-schedule.php:26
 msgid "Status"
 msgstr ""
 
@@ -270,7 +270,7 @@ msgstr ""
 #: includes/Admin/Enrollment_Detail_Page.php:848
 #: includes/Admin/Roster_List_Table.php:97
 #: includes/Admin/Roster_Page.php:562
-#: includes/Front/Account_Page.php:359
+#: includes/Front/Account_Page.php:409
 msgid "Paid"
 msgstr ""
 
@@ -285,7 +285,7 @@ msgstr ""
 #: includes/Admin/Terms_Page.php:587
 #: includes/Admin/Term_Lessons_List_Table.php:137
 #: includes/Admin/Term_Lessons_Page.php:311
-#: includes/Front/Account_Page.php:362
+#: includes/Front/Account_Page.php:412
 #: includes/Front/Calendar_Page.php:224
 #: public/templates/account-schedule.php:38
 #: public/templates/calendar.php:118
@@ -611,14 +611,14 @@ msgstr ""
 #: includes/Emails/Email_Templates.php:200
 #: includes/Emails/Email_Templates.php:207
 #: includes/Emails/Email_Templates.php:228
-#: public/templates/account-enrollments.php:65
+#: public/templates/account-enrollments.php:81
 #: public/templates/enroll-confirmation.php:70
 msgid "Variable symbol"
 msgstr ""
 
 #: includes/Admin/Enrollment_Detail_Page.php:502
 #: includes/Compliance/Personal_Data.php:327
-#: public/templates/account-enrollments.php:69
+#: public/templates/account-enrollments.php:82
 #: public/templates/enroll-confirmation.php:71
 msgid "Due date"
 msgstr ""
@@ -1131,15 +1131,15 @@ msgstr ""
 
 #: includes/Admin/Manual_Enrollment_Page.php:436
 #: includes/Compliance/Personal_Data.php:258
-#: public/templates/account-profile.php:80
+#: public/templates/account-profile.php:98
 #: public/templates/register-form.php:60
 msgid "First name"
 msgstr ""
 
 #: includes/Admin/Manual_Enrollment_Page.php:437
 #: includes/Compliance/Personal_Data.php:262
-#: public/templates/account-profile.php:87
-#: public/templates/register-form.php:68
+#: public/templates/account-profile.php:103
+#: public/templates/register-form.php:66
 msgid "Last name"
 msgstr ""
 
@@ -1347,7 +1347,6 @@ msgstr ""
 #: includes/Admin/Terms_List_Table.php:73
 #: includes/Admin/Terms_Page.php:534
 #: includes/Post_Types.php:60
-#: public/templates/account-schedule.php:24
 #: public/templates/calendar.php:92
 #: public/templates/enroll-confirmation.php:40
 msgid "Course"
@@ -1356,7 +1355,6 @@ msgstr ""
 #: includes/Admin/Roster_Page.php:152
 #: includes/Admin/Terms_List_Table.php:74
 #: includes/Admin/Terms_Page.php:542
-#: public/templates/account-schedule.php:25
 #: public/templates/calendar.php:48
 #: public/templates/calendar.php:93
 #: public/templates/catalog.php:126
@@ -1839,19 +1837,16 @@ msgid "Season label (English) must be 100 characters or fewer."
 msgstr ""
 
 #: includes/Admin/Term_Lessons_List_Table.php:59
-#: public/templates/account-schedule.php:22
 #: public/templates/calendar.php:91
 msgid "Date"
 msgstr ""
 
 #: includes/Admin/Term_Lessons_List_Table.php:60
-#: public/templates/account-schedule.php:23
 msgid "Time"
 msgstr ""
 
 #: includes/Admin/Term_Lessons_List_Table.php:134
 #: includes/Admin/Term_Lessons_Page.php:310
-#: public/templates/account-schedule.php:42
 msgid "Scheduled"
 msgstr ""
 
@@ -2078,74 +2073,87 @@ msgstr ""
 msgid "Please log in to view your account."
 msgstr ""
 
-#: includes/Front/Account_Page.php:366
+#: includes/Front/Account_Page.php:416
+#: public/templates/account-enrollments.php:77
 #: public/templates/enroll-confirmation.php:66
 msgid "Awaiting payment"
 msgstr ""
 
-#: includes/Front/Account_Page.php:381
+#: includes/Front/Account_Page.php:454
+msgid "My schedule"
+msgstr ""
+
+#: includes/Front/Account_Page.php:457
+msgid "Profile"
+msgstr ""
+
+#: includes/Front/Account_Page.php:461
+msgid "My enrollments"
+msgstr ""
+
+#: includes/Front/Account_Page.php:476
 #: includes/Front/Shortcodes.php:223
 msgid "Please enter your first name."
 msgstr ""
 
-#: includes/Front/Account_Page.php:384
+#: includes/Front/Account_Page.php:479
 #: includes/Front/Shortcodes.php:226
 msgid "First name is too long."
 msgstr ""
 
-#: includes/Front/Account_Page.php:387
+#: includes/Front/Account_Page.php:482
 #: includes/Front/Shortcodes.php:229
 msgid "Please enter your last name."
 msgstr ""
 
-#: includes/Front/Account_Page.php:390
+#: includes/Front/Account_Page.php:485
 #: includes/Front/Shortcodes.php:232
 msgid "Last name is too long."
 msgstr ""
 
-#: includes/Front/Account_Page.php:393
+#: includes/Front/Account_Page.php:488
 #: includes/Front/Shortcodes.php:244
 msgid "Please enter your phone number."
 msgstr ""
 
-#: includes/Front/Account_Page.php:396
+#: includes/Front/Account_Page.php:491
 #: includes/Front/Shortcodes.php:247
 msgid "Please enter a valid phone number."
 msgstr ""
 
-#: includes/Front/Account_Page.php:399
+#: includes/Front/Account_Page.php:494
 msgid "Please choose a valid language."
 msgstr ""
 
-#: includes/Front/Account_Page.php:402
+#: includes/Front/Account_Page.php:497
 #: includes/Front/Shortcodes.php:250
 #: public/templates/lost-password-form.php:63
 msgid "Password must be at least 8 characters long."
 msgstr ""
 
-#: includes/Front/Account_Page.php:405
+#: includes/Front/Account_Page.php:500
 msgid "The passwords do not match."
 msgstr ""
 
-#: includes/Front/Account_Page.php:408
+#: includes/Front/Account_Page.php:503
 msgid "Please enter an email address."
 msgstr ""
 
-#: includes/Front/Account_Page.php:411
+#: includes/Front/Account_Page.php:506
 #: includes/Front/Shortcodes.php:238
 #: includes/Front/Voucher_Page.php:99
 msgid "Please enter a valid email address."
 msgstr ""
 
-#: includes/Front/Account_Page.php:414
+#: includes/Front/Account_Page.php:509
 msgid "This is already your current email address."
 msgstr ""
 
-#: includes/Front/Account_Page.php:417
+#: includes/Front/Account_Page.php:512
 msgid "An account with this email already exists."
 msgstr ""
 
-#: includes/Front/Account_Page.php:420
+#: includes/Front/Account_Page.php:515
 #: includes/Front/Enroll_Page.php:424
 #: includes/Front/Shortcodes.php:256
 #: includes/Front/Voucher_Page.php:108
@@ -2204,7 +2212,7 @@ msgstr ""
 
 #: includes/Front/Footer_Links.php:72
 #: public/templates/enroll-form.php:177
-#: public/templates/register-form.php:120
+#: public/templates/register-form.php:110
 msgid "Terms & Conditions"
 msgstr ""
 
@@ -2443,164 +2451,153 @@ msgstr ""
 msgid "New Level Name"
 msgstr ""
 
-#: public/templates/account-enrollments.php:20
+#: public/templates/account-enrollments.php:46
+#: public/templates/account-profile.php:240
 msgid "You have no enrollments yet."
 msgstr ""
 
-#: public/templates/account-enrollments.php:30
-msgid "Participant:"
-msgstr ""
-
-#: public/templates/account-enrollments.php:34
-msgid "Location:"
-msgstr ""
-
-#: public/templates/account-enrollments.php:37
-msgid "Price:"
-msgstr ""
-
 #: public/templates/account-enrollments.php:47
+#: public/templates/account-profile.php:241
+#: public/templates/account-schedule.php:23
+msgid "Browse courses"
+msgstr ""
+
+#: public/templates/account-enrollments.php:72
+#: public/templates/account-enrollments.php:126
 msgid "This enrollment was over capacity when made — we will contact you to confirm your spot."
 msgstr ""
 
-#: public/templates/account-enrollments.php:53
-msgid "Payment instructions"
-msgstr ""
-
-#: public/templates/account-enrollments.php:57
-msgid "Amount"
-msgstr ""
-
-#: public/templates/account-enrollments.php:61
+#: public/templates/account-enrollments.php:80
 #: public/templates/enroll-confirmation.php:69
 msgid "Bank account"
 msgstr ""
 
-#: public/templates/account-enrollments.php:62
+#: public/templates/account-enrollments.php:80
 #: public/templates/enroll-confirmation.php:69
 msgid "(to be confirmed)"
 msgstr ""
 
-#: public/templates/account-enrollments.php:76
+#: public/templates/account-enrollments.php:88
 #: public/templates/enroll-confirmation.php:77
 msgid "QR payment code"
 msgstr ""
 
-#: public/templates/account-enrollments.php:77
-msgid "Scan with your banking app to pre-fill the amount and variable symbol."
+#: public/templates/account-enrollments.php:91
+#: public/templates/enroll-confirmation.php:80
+msgid "QR payment"
 msgstr ""
 
-#: public/templates/account-enrollments.php:80
+#: public/templates/account-enrollments.php:92
+#: public/templates/enroll-confirmation.php:81
+msgid "Scan with your banking app — the amount, account and variable symbol fill in automatically."
+msgstr ""
+
+#: public/templates/account-enrollments.php:98
 msgid "Need to cancel? Please contact us — self-service cancellation isn't available."
 msgstr ""
 
-#: public/templates/account-profile.php:49
+#: public/templates/account-profile.php:63
 msgid "Your new email address has been confirmed."
 msgstr ""
 
-#: public/templates/account-profile.php:51
+#: public/templates/account-profile.php:65
 msgid "That confirmation link has expired. Please request the email change again."
 msgstr ""
 
-#: public/templates/account-profile.php:53
+#: public/templates/account-profile.php:67
 msgid "That email address was taken by another account in the meantime. Please request the change again with a different address."
 msgstr ""
 
-#: public/templates/account-profile.php:55
+#: public/templates/account-profile.php:69
 msgid "That confirmation link is invalid or has already been used."
 msgstr ""
 
-#: public/templates/account-profile.php:60
+#: public/templates/account-profile.php:76
 msgid "Personal details"
 msgstr ""
 
-#: public/templates/account-profile.php:63
+#: public/templates/account-profile.php:79
 msgid "Your details have been updated."
 msgstr ""
 
-#: public/templates/account-profile.php:108
+#: public/templates/account-profile.php:132
 msgid "Save changes"
 msgstr ""
 
-#: public/templates/account-profile.php:113
+#: public/templates/account-profile.php:137
 msgid "Email address"
 msgstr ""
 
-#: public/templates/account-profile.php:114
-msgid "Current email:"
-msgstr ""
-
 #. translators: %s: pending new email address.
-#: public/templates/account-profile.php:122
+#: public/templates/account-profile.php:151
 #, php-format
 msgid "A change to %s is pending — check that inbox for a confirmation link."
 msgstr ""
 
-#: public/templates/account-profile.php:131
-msgid "Please check the new address's inbox and click the confirmation link — the change only takes effect once confirmed."
-msgstr ""
-
-#: public/templates/account-profile.php:147
-msgid "New email address"
-msgstr ""
-
-#: public/templates/account-profile.php:153
-msgid "Request email change"
-msgstr ""
-
-#: public/templates/account-profile.php:158
-#: public/templates/login-form.php:73
-#: public/templates/register-form.php:95
-msgid "Password"
+#: public/templates/account-profile.php:155
+msgid "Resend"
 msgstr ""
 
 #: public/templates/account-profile.php:161
+msgid "Please check the new address's inbox and click the confirmation link — the change only takes effect once confirmed."
+msgstr ""
+
+#: public/templates/account-profile.php:178
+msgid "New email address"
+msgstr ""
+
+#: public/templates/account-profile.php:182
+msgid "Request email change"
+msgstr ""
+
+#: public/templates/account-profile.php:187
+#: public/templates/account-profile.php:216
+msgid "Change password"
+msgstr ""
+
+#: public/templates/account-profile.php:190
 msgid "Your password has been changed."
 msgstr ""
 
-#: public/templates/account-profile.php:177
+#: public/templates/account-profile.php:207
 #: public/templates/lost-password-form.php:79
 msgid "New password"
 msgstr ""
 
-#: public/templates/account-profile.php:184
+#: public/templates/account-profile.php:212
 msgid "Confirm new password"
 msgstr ""
 
-#: public/templates/account-profile.php:190
-msgid "Change password"
-msgstr ""
-
-#: public/templates/account-profile.php:195
-msgid "Marketing preferences"
-msgstr ""
-
-#: public/templates/account-profile.php:198
+#: public/templates/account-profile.php:222
 msgid "Your preference has been saved."
 msgstr ""
 
-#: public/templates/account-profile.php:207
+#: public/templates/account-profile.php:231
 msgid "I would like to receive occasional news and offers by email."
 msgstr ""
 
-#: public/templates/account-profile.php:210
+#: public/templates/account-profile.php:233
 msgid "Save preference"
 msgstr ""
 
-#: public/templates/account-schedule.php:17
+#: public/templates/account-schedule.php:22
 msgid "No upcoming lessons."
 msgstr ""
 
-#: public/templates/account.php:20
-msgid "My enrollments"
+#: public/templates/account-schedule.php:26
+msgid "Upcoming lessons"
 msgstr ""
 
-#: public/templates/account.php:21
-msgid "My schedule"
+#: public/templates/account.php:29
+msgid "Account navigation"
 msgstr ""
 
-#: public/templates/account.php:22
-msgid "Profile"
+#: public/templates/account.php:30
+msgid "My account"
+msgstr ""
+
+#: public/templates/account.php:38
+msgid "Log out"
 msgstr ""
 
 #: public/templates/calendar.php:34
@@ -2781,14 +2778,6 @@ msgstr ""
 msgid "This term is currently at capacity — we will contact you to confirm your spot."
 msgstr ""
 
-#: public/templates/enroll-confirmation.php:80
-msgid "QR payment"
-msgstr ""
-
-#: public/templates/enroll-confirmation.php:81
-msgid "Scan with your banking app — the amount, account and variable symbol fill in automatically."
-msgstr ""
-
 #: public/templates/enroll-confirmation.php:90
 msgid "Go to My account"
 msgstr ""
@@ -2879,7 +2868,7 @@ msgid "I agree to the %1$s and acknowledge the %2$s."
 msgstr ""
 
 #: public/templates/enroll-form.php:178
-#: public/templates/register-form.php:135
+#: public/templates/register-form.php:125
 msgid "privacy policy"
 msgstr ""
 
@@ -2914,7 +2903,7 @@ msgstr ""
 #: public/templates/enroll-login-required.php:21
 #: public/templates/login-form.php:29
 #: public/templates/login-form.php:83
-#: public/templates/register-form.php:159
+#: public/templates/register-form.php:149
 msgid "Log in"
 msgstr ""
 
@@ -2937,6 +2926,11 @@ msgstr ""
 
 #: public/templates/login-form.php:46
 msgid "This verification link is invalid or has already been used."
+msgstr ""
+
+#: public/templates/login-form.php:73
+#: public/templates/register-form.php:87
+msgid "Password"
 msgstr ""
 
 #: public/templates/login-form.php:80
@@ -2979,35 +2973,35 @@ msgid "Too many registration attempts. Please try again later."
 msgstr ""
 
 #. translators: %s: Terms & Conditions link.
-#: public/templates/register-form.php:119
+#: public/templates/register-form.php:109
 #, php-format
 msgid "I agree to the %s."
 msgstr ""
 
-#: public/templates/register-form.php:124
+#: public/templates/register-form.php:114
 msgid "I agree to the Terms & Conditions."
 msgstr ""
 
 #. translators: %s: privacy policy link.
-#: public/templates/register-form.php:134
+#: public/templates/register-form.php:124
 #, php-format
 msgid "Your personal data will be processed according to our %s."
 msgstr ""
 
-#: public/templates/register-form.php:139
+#: public/templates/register-form.php:129
 msgid "Your personal data will be processed according to our privacy policy."
 msgstr ""
 
-#: public/templates/register-form.php:148
+#: public/templates/register-form.php:138
 msgid "I would also like to receive occasional news and offers by email (optional)."
 msgstr ""
 
-#: public/templates/register-form.php:151
+#: public/templates/register-form.php:141
 msgid "Create account"
 msgstr ""
 
 #. translators: %s: login link.
-#: public/templates/register-form.php:158
+#: public/templates/register-form.php:148
 #, php-format
 msgid "Already have an account? %s"
 msgstr ""

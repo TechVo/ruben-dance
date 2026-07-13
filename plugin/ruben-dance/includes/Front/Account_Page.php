@@ -180,17 +180,28 @@ class Account_Page {
 
 		$service = Account_Service::create_default();
 
+		// Always fetched (not just on the enrollments tab, as pre-D7): the
+		// profile tab's own empty-state nudge (design/screens.html #3h) needs
+		// to know whether the customer has ever enrolled in anything at all,
+		// regardless of which tab is currently open. `Account_Service`'s
+		// query is a single cheap, already-ownership-filtered `SELECT`, so
+		// this is a presentation-only cost, not a new capability.
+		$raw_enrollments = $service->enrollments_for( $user_id );
+
 		return self::render_template(
 			'account',
 			array(
-				'tab'          => $tab,
-				'tab_urls'     => $tab_urls,
-				'lang'         => $lang,
-				'email_notice' => $email_notice,
-				'enrollments'  => self::TAB_ENROLLMENTS === $tab ? self::display_enrollments( $service->enrollments_for( $user_id ), $lang_helper, $lang ) : array(),
-				'schedule'     => self::TAB_SCHEDULE === $tab ? self::display_schedule( $service->schedule_for( $user_id, current_time( 'Y-m-d' ) ), $lang_helper, $lang ) : array(),
-				'profile'      => self::profile_data( $user ),
-				'bank_account' => Settings::bank_account(),
+				'tab'             => $tab,
+				'tab_urls'        => $tab_urls,
+				'lang'            => $lang,
+				'email_notice'    => $email_notice,
+				'enrollments'     => self::TAB_ENROLLMENTS === $tab ? self::display_enrollments( $raw_enrollments, $lang_helper, $lang ) : array(),
+				'has_enrollments' => array() !== $raw_enrollments,
+				'schedule'        => self::TAB_SCHEDULE === $tab ? self::display_schedule( $service->schedule_for( $user_id, current_time( 'Y-m-d' ) ), $lang_helper, $lang ) : array(),
+				'profile'         => self::profile_data( $user ),
+				'bank_account'    => Settings::bank_account(),
+				'catalog_url'     => Pages::url( Catalog_Page::PAGE_KEY, $lang ),
+				'logout_url'      => wp_logout_url( home_url( '/' ) ),
 			)
 		);
 	}
@@ -244,7 +255,11 @@ class Account_Page {
 				'discount_note'    => (string) ( $row['discount_note'] ?? '' ),
 				'status'           => (string) $row['status'],
 				'over_capacity'    => ! empty( $row['over_capacity'] ),
-				'due_date'         => (string) $row['due_date'],
+				// "25. 9. 2026" — matches Enroll_Page::confirmation()'s own
+				// `date_i18n( 'j. n. Y', ... )` formatting of the same column, so
+				// the due date reads identically here and on the confirmation
+				// page it was first shown on.
+				'due_date'         => '' === (string) $row['due_date'] ? '' : date_i18n( 'j. n. Y', (int) strtotime( (string) $row['due_date'] ) ),
 				'variable_symbol'  => (string) $row['variable_symbol'],
 				'qr_url'           => self::qr_url( $row ),
 			);
@@ -313,16 +328,51 @@ class Account_Page {
 			$location = $locations_cache[ $location_id ];
 
 			$display[] = array(
-				'date'         => (string) $lesson['lesson_date'],
-				'time'         => Terms_List_Table::format_time( (string) $lesson['start_time'] ) . '–' . Terms_List_Table::format_time( (string) $lesson['end_time'] ),
-				'course_title' => get_the_title( $lang_helper->resolve_post( (int) $term['course_id'], $lang ) ),
-				'location'     => null === $location ? '' : (string) $location['name'],
-				'status'       => (string) $lesson['status'],
-				'note'         => (string) ( $lesson['note'] ?? '' ),
+				// design/screens.html #3h's "Po 14. 9." list-row date format —
+				// same split, same reasoning (no core locale pack dependency)
+				// as `Calendar_Page::upcoming_lessons()`'s `weekday_short`/
+				// `date_short`, duplicated here rather than shared for the
+				// same reason that method's docblock gives for reaching into
+				// `Admin\Terms_List_Table` itself instead of a common helper.
+				'weekday_short' => self::weekday_short( (string) $lesson['lesson_date'] ),
+				'date_short'    => self::date_short( (string) $lesson['lesson_date'] ),
+				'time'          => Terms_List_Table::format_time( (string) $lesson['start_time'] ) . '–' . Terms_List_Table::format_time( (string) $lesson['end_time'] ),
+				'course_title'  => get_the_title( $lang_helper->resolve_post( (int) $term['course_id'], $lang ) ),
+				'location'      => null === $location ? '' : (string) $location['name'],
+				'status'        => (string) $lesson['status'],
+				'note'          => (string) ( $lesson['note'] ?? '' ),
 			);
 		}
 
 		return $display;
+	}
+
+	/**
+	 * A lesson date's translated 2-letter weekday abbreviation ("Po", "Mon",
+	 * ...) for the "My schedule" tab's row date. Mirrors
+	 * `Calendar_Page::weekday_short()` exactly (see that method's docblock
+	 * for why this duplicates rather than shares a helper).
+	 *
+	 * @param string $date `Y-m-d` lesson date.
+	 * @return string
+	 */
+	private static function weekday_short( string $date ): string {
+		$iso_weekday = (int) gmdate( 'N', (int) strtotime( $date ) );
+
+		$label = Terms_List_Table::weekday_labels()[ $iso_weekday ] ?? '';
+
+		return mb_substr( $label, 0, 2 );
+	}
+
+	/**
+	 * A lesson date's numeric "day. month." label ("14. 9."). Mirrors
+	 * `Calendar_Page::date_short()` exactly.
+	 *
+	 * @param string $date `Y-m-d` lesson date.
+	 * @return string
+	 */
+	private static function date_short( string $date ): string {
+		return gmdate( 'j. n.', (int) strtotime( $date ) );
 	}
 
 	/**
@@ -364,6 +414,51 @@ class Account_Page {
 			case Enrollment_Service::STATUS_CONFIRMED:
 			default:
 				return __( 'Awaiting payment', 'ruben-dance' );
+		}
+	}
+
+	/**
+	 * A `wp_rd_enrollment.status` value to the D1 shared badge modifier it
+	 * pairs with (`rd-badge--pending`/`--paid`/`--cancelled`, see
+	 * rd-design.css), for the "My enrollments" tab's status badge.
+	 *
+	 * @param string $status One of `Enrollment_Service::STATUSES`.
+	 * @return string
+	 */
+	public static function badge_class( string $status ): string {
+		switch ( $status ) {
+			case Enrollment_Service::STATUS_PAID:
+				return 'paid';
+
+			case Enrollment_Service::STATUS_CANCELLED:
+				return 'cancelled';
+
+			case Enrollment_Service::STATUS_CONFIRMED:
+			default:
+				return 'pending';
+		}
+	}
+
+	/**
+	 * A `self::TAB_*` value to its translated nav label, reused for both the
+	 * tab nav link text and the desktop sidebar layout's per-tab content
+	 * heading (design/screens.html #4h) — a single source so the two never
+	 * drift out of sync.
+	 *
+	 * @param string $tab One of `self::TABS`.
+	 * @return string
+	 */
+	public static function tab_label( string $tab ): string {
+		switch ( $tab ) {
+			case self::TAB_SCHEDULE:
+				return __( 'My schedule', 'ruben-dance' );
+
+			case self::TAB_PROFILE:
+				return __( 'Profile', 'ruben-dance' );
+
+			case self::TAB_ENROLLMENTS:
+			default:
+				return __( 'My enrollments', 'ruben-dance' );
 		}
 	}
 
