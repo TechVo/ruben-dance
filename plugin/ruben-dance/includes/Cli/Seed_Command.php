@@ -365,6 +365,18 @@ class Seed_Command {
 	);
 
 	/**
+	 * D8: the theme page template (`theme/ruben-dance/template-legal.php`)
+	 * that gives the legal pages their design — eyebrow, effective-date
+	 * line, auto-generated table of contents, readable prose column. Applied
+	 * via the same `_wp_page_template` post meta the block editor's own Page
+	 * Attributes panel writes, so an owner reassigning/changing it later
+	 * works exactly the way it would for any other page template.
+	 *
+	 * @var string
+	 */
+	const LEGAL_PAGE_TEMPLATE = 'template-legal.php';
+
+	/**
 	 * Placeholder privacy policy + Terms & Conditions pages (M15/§6.1, §6.3:
 	 * "placeholder pages ... CS/EN, structured lorem — real texts are the
 	 * lawyer's"). Structured section headings so the *shape* required by
@@ -1055,6 +1067,13 @@ HTML
 				$registered_id = (int) ( $registered[ $page['which'] ][ $lang ] ?? 0 );
 
 				if ( $registered_id > 0 && 'publish' === get_post_status( $registered_id ) ) {
+					// D8: retroactively assigns the theme's legal-page
+					// template to sites seeded before this milestone existed
+					// — safe to call every run (idempotent update_post_meta),
+					// and harmless if the active theme doesn't ship the file
+					// (WordPress's template loader falls back to page.php).
+					update_post_meta( $registered_id, '_wp_page_template', self::LEGAL_PAGE_TEMPLATE );
+
 					if ( Lang::CS === $lang ) {
 						$cs_id = $registered_id;
 					}
@@ -1070,6 +1089,7 @@ HTML
 
 				if ( null !== $existing_id ) {
 					\RubenDance\Front\Pages::set( $page['which'], $lang, $existing_id );
+					update_post_meta( $existing_id, '_wp_page_template', self::LEGAL_PAGE_TEMPLATE );
 
 					if ( Lang::CS === $lang ) {
 						$cs_id = $existing_id;
@@ -1098,6 +1118,7 @@ HTML
 				}
 
 				\RubenDance\Front\Pages::set( $page['which'], $lang, (int) $post_id );
+				update_post_meta( (int) $post_id, '_wp_page_template', self::LEGAL_PAGE_TEMPLATE );
 
 				if ( Lang::CS === $lang ) {
 					$cs_id = (int) $post_id;

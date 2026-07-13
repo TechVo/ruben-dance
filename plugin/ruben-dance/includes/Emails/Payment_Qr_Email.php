@@ -53,7 +53,7 @@ class Payment_Qr_Email {
 	}
 
 	/**
-	 * Append the QR-platba image markup to `$body` and build the matching
+	 * Insert the QR-platba image markup into `$body` and build the matching
 	 * inline-image attachment `Services\Mailer::send()` embeds it from.
 	 *
 	 * @param string                    $body       Already-composed HTML email body.
@@ -92,7 +92,25 @@ class Payment_Qr_Email {
 			? 'Scan with your banking app to pay'
 			: 'Naskenujte QR kód bankovní aplikací a zaplaťte';
 
-		$body .= '<p style="text-align:center;margin-top:1.5em"><img src="cid:' . $cid . '" alt="QR platba" width="220" height="220"><br><em>' . $caption . '</em></p>';
+		// Design/screens.html #3a/#3j's payment card puts the QR code
+		// *inside* the card, below a dashed divider — matched here by
+		// replacing the `<!--RD-QR-->` marker `Email_Templates::payment_block_html()`
+		// leaves for exactly this, rather than appending after the whole
+		// body as pre-D8 did. Falls back to appending at the end (the old
+		// behavior) when the marker isn't found — e.g. an admin has since
+		// rewritten the E2/E7 template text in `Admin\Email_Templates_Page`
+		// and removed it — so a customized template still gets its QR code
+		// somewhere rather than silently losing it.
+		$qr_html = '<div style="display:flex;gap:12px;align-items:center;margin-top:12px;padding-top:10px;border-top:1px dashed rgba(43,23,16,.25)">'
+			. '<img src="cid:' . $cid . '" alt="QR platba" width="80" height="80" style="display:block;border-radius:8px;flex:none">'
+			. '<div style="font-size:12px;line-height:1.45;color:rgba(43,23,16,.7)"><strong>QR platba</strong> &mdash; ' . $caption . '.</div>'
+			. '</div>';
+
+		if ( false !== strpos( $body, '<!--RD-QR-->' ) ) {
+			$body = str_replace( '<!--RD-QR-->', $qr_html, $body );
+		} else {
+			$body .= '<p style="text-align:center;margin-top:1.5em">' . $qr_html . '</p>';
+		}
 
 		return array(
 			'body'          => $body,

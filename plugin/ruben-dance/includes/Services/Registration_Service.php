@@ -265,7 +265,7 @@ class Registration_Service {
 			static function ( string $locale, string $link, string $first_name ): array {
 				// The real, editable CS/EN E1 template (M13) — replaces the
 				// hardcoded plain-text body M07 shipped with.
-				return \RubenDance\Emails\Email_Templates::compose(
+				$content = \RubenDance\Emails\Email_Templates::compose(
 					\RubenDance\Emails\Email_Templates::TYPE_E1,
 					$locale,
 					array(
@@ -273,6 +273,17 @@ class Registration_Service {
 						'link'       => $link,
 					)
 				);
+
+				// D8: the universal HTML chrome (design/screens.html #3j).
+				// This send doesn't go through `Emails\Email_Sender::send()`
+				// (E1 fires before the account even has a `user_id` an
+				// enrollment could log against — see this method's own
+				// `Logging_Mailer` below, which resolves the log row's user
+				// ID from the recipient address instead), so it applies the
+				// wrapper itself rather than skip it.
+				$content['body'] = \RubenDance\Emails\Email_Layout::wrap( $content['subject'], $content['body'], $locale );
+
+				return $content;
 			},
 			// E1 must appear in wp_rd_email_log like every other type (spec
 			// F14), but this service deliberately knows nothing about logging

@@ -43,6 +43,7 @@ class Voucher_Page {
 	 */
 	public static function register(): void {
 		add_action( 'init', array( self::class, 'register_shortcode' ) );
+		add_action( 'wp_enqueue_scripts', array( self::class, 'enqueue_styles' ) );
 	}
 
 	/**
@@ -53,7 +54,29 @@ class Voucher_Page {
 	}
 
 	/**
+	 * Minimal shortcode stylesheet. Small enough to load unconditionally
+	 * rather than detecting which page has the shortcode — same reasoning
+	 * `Shortcodes::enqueue_styles()` uses for `front-auth.css`.
+	 */
+	public static function enqueue_styles(): void {
+		wp_enqueue_style(
+			'rd-front-voucher',
+			plugins_url( 'public/assets/front-voucher.css', RUBEN_DANCE_PLUGIN_FILE ),
+			array( 'rd-design' ),
+			RUBEN_DANCE_VERSION
+		);
+	}
+
+	/**
 	 * `[rd_voucher_inquiry]`.
+	 *
+	 * Design/screens.html #3i (mobile) / #4j (desktop): the decorative
+	 * voucher-preview card (`voucher-card.php`) always renders first, ahead
+	 * of whichever state the form itself is in — it is pure decoration, not
+	 * tied to the submission result, so it stays on screen through a
+	 * validation error, a rate limit, and the post-submit success state
+	 * alike. `front-voucher.css` floats it beside the form at desktop widths
+	 * and stacks it above the form on mobile.
 	 *
 	 * @return string
 	 */
@@ -64,11 +87,13 @@ class Voucher_Page {
 			'submitted' => array(),
 		);
 
+		$card = self::render_template( 'voucher-card', array() );
+
 		if ( 'success' === $result['state'] ) {
-			return self::render_template( 'voucher-success', array() );
+			return '<div class="rd-app rd-vou-inquiry">' . $card . self::render_template( 'voucher-success', array() ) . '</div>';
 		}
 
-		return self::render_template(
+		$form = self::render_template(
 			'voucher-form',
 			array(
 				'errors'       => $result['errors'],
@@ -76,6 +101,8 @@ class Voucher_Page {
 				'rate_limited' => 'rate_limited' === $result['state'],
 			)
 		);
+
+		return '<div class="rd-app rd-vou-inquiry">' . $card . $form . '</div>';
 	}
 
 	/**

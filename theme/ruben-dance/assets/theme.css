@@ -377,6 +377,27 @@ a {
 	margin-bottom: 24px;
 }
 
+/* Plain WP page content (e.g. the voucher info page's intro paragraphs) —
+ * only direct children of the content container, so a shortcode's own
+ * component markup (which nests its text several divs deep, e.g.
+ * `.rd-vou-form-wrap`/`.rd-auth-card`) is never affected by this. */
+.rd-page__content > p {
+	margin: 0 0 14px;
+	font-size: 15px;
+	line-height: 1.6;
+	color: var(--rd-cocoa-75);
+	max-width: 60ch;
+}
+
+.rd-page__content > ul,
+.rd-page__content > ol {
+	margin: 0 0 14px;
+	padding-left: 22px;
+	font-size: 15px;
+	line-height: 1.6;
+	color: var(--rd-cocoa-75);
+}
+
 @media (min-width: 768px) {
 	.rd-page {
 		padding: 48px 36px 80px;
@@ -678,6 +699,134 @@ a {
 
 	.rd-course-detail__gallery img {
 		height: 250px;
+	}
+}
+
+/* ==========================================================================
+   Legal page template (template-legal.php) — design #3i mobile / #4j
+   desktop: eyebrow + H1 + effective-date line, a table-of-contents card,
+   then the (lawyer-supplied) prose. Mobile-first: TOC card stacks above the
+   content; desktop adds a sticky-ish left sidebar at 1024px.
+   ========================================================================== */
+
+.rd-legal {
+	max-width: 900px;
+}
+
+.rd-legal__eyebrow {
+	margin-bottom: 6px;
+}
+
+.rd-legal__title {
+	margin: 0;
+}
+
+.rd-legal__date {
+	font-size: 12px;
+	color: var(--rd-cocoa-55);
+	margin-top: 4px;
+}
+
+.rd-legal__layout {
+	margin-top: 18px;
+}
+
+.rd-legal__toc {
+	padding: 14px 16px;
+	margin-bottom: 18px;
+}
+
+.rd-legal__toc-title {
+	font-weight: 800;
+	font-size: 12px;
+	text-transform: uppercase;
+	letter-spacing: .08em;
+	color: var(--rd-cocoa-50);
+	margin-bottom: 10px;
+}
+
+.rd-legal__toc-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.rd-legal__toc-list a {
+	color: var(--rd-coral);
+	font-weight: 700;
+	font-size: 13.5px;
+	text-decoration: none;
+}
+
+.rd-legal__toc-list a:hover {
+	color: var(--rd-coral-hover);
+}
+
+.rd-legal__content {
+	font-size: 14.5px;
+	line-height: 1.65;
+	max-width: 64ch;
+}
+
+.rd-legal__content h2 {
+	font-size: 18px;
+	font-weight: 800;
+	letter-spacing: -0.01em;
+	margin: 26px 0 8px;
+	scroll-margin-top: 90px;
+}
+
+.rd-legal__content h2:first-child {
+	margin-top: 0;
+}
+
+.rd-legal__content h3 {
+	font-size: 16px;
+	font-weight: 700;
+	margin: 18px 0 6px;
+}
+
+.rd-legal__content p {
+	margin: 0 0 14px;
+	color: var(--rd-cocoa-75);
+}
+
+.rd-legal__content ul,
+.rd-legal__content ol {
+	margin: 0 0 14px;
+	padding-left: 22px;
+	color: var(--rd-cocoa-75);
+}
+
+.rd-legal__content li {
+	margin-bottom: 4px;
+}
+
+@media (min-width: 1024px) {
+	.rd-legal__layout {
+		display: grid;
+		grid-template-columns: 260px 1fr;
+		gap: 40px;
+		align-items: start;
+	}
+
+	.rd-legal__toc {
+		position: sticky;
+		top: 24px;
+		margin-bottom: 0;
+	}
+
+	.rd-legal__content {
+		font-size: 15px;
+		line-height: 1.7;
+		max-width: 720px;
+	}
+
+	.rd-legal__content h2 {
+		font-size: 19px;
 	}
 }
 

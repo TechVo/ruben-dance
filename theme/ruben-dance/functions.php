@@ -433,3 +433,51 @@ function rd_theme_homepage_courses( int $limit ): array {
 
 	return $courses;
 }
+
+/**
+ * Table of contents for `template-legal.php` (design #3i/#4j: "Obsah" card),
+ * built automatically from the page's own `<h2>` headings rather than a
+ * second, hand-maintained copy of the section list — the legal pages' body
+ * text is lawyer content the theme must never hardcode (see
+ * `Cli\Seed_Command::LEGAL_PAGES`'s placeholder copy), so the only heading
+ * list this can ever safely reflect is whatever headings that content
+ * actually contains right now.
+ *
+ * Also injects an `id` attribute into each `<h2>` (needed for the TOC's own
+ * `#anchor` links) via the same pass, so the returned HTML and the returned
+ * TOC entries can never disagree about the anchor slugs.
+ *
+ * @param string $html Already-`the_content`-filtered page HTML.
+ * @return array{html: string, items: array<int, array{id: string, text: string}>}
+ */
+function rd_theme_legal_toc( string $html ): array {
+	$items   = array();
+	$counter = 0;
+
+	$with_ids = preg_replace_callback(
+		'/<h2([^>]*)>(.*?)<\/h2>/is',
+		static function ( array $matches ) use ( &$items, &$counter ): string {
+			++$counter;
+
+			$text = wp_strip_all_tags( $matches[2] );
+			$id   = sanitize_title( $text );
+
+			if ( '' === $id ) {
+				$id = 'section-' . $counter;
+			}
+
+			$items[] = array(
+				'id'   => $id,
+				'text' => $text,
+			);
+
+			return '<h2' . $matches[1] . ' id="' . esc_attr( $id ) . '">' . $matches[2] . '</h2>';
+		},
+		$html
+	);
+
+	return array(
+		'html'  => is_string( $with_ids ) ? $with_ids : $html,
+		'items' => $items,
+	);
+}

@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-07-13T13:01:12+00:00\n"
+"POT-Creation-Date: 2026-07-13T13:28:15+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: ruben-dance\n"
@@ -39,7 +39,7 @@ msgstr ""
 #: includes/Admin/Locations_List_Table.php:51
 #: includes/Admin/Locations_Page.php:396
 #: includes/Admin/Manual_Enrollment_Page.php:378
-#: public/templates/voucher-form.php:44
+#: public/templates/voucher-form.php:57
 msgid "Name"
 msgstr ""
 
@@ -53,7 +53,7 @@ msgstr ""
 #: public/templates/login-form.php:68
 #: public/templates/lost-password-form.php:92
 #: public/templates/register-form.php:74
-#: public/templates/voucher-form.php:52
+#: public/templates/voucher-form.php:65
 msgid "Email"
 msgstr ""
 
@@ -607,10 +607,10 @@ msgid "Bank transfer"
 msgstr ""
 
 #: includes/Admin/Enrollment_Detail_Page.php:501
-#: includes/Emails/Email_Templates.php:189
-#: includes/Emails/Email_Templates.php:200
-#: includes/Emails/Email_Templates.php:207
-#: includes/Emails/Email_Templates.php:228
+#: includes/Emails/Email_Templates.php:193
+#: includes/Emails/Email_Templates.php:204
+#: includes/Emails/Email_Templates.php:211
+#: includes/Emails/Email_Templates.php:232
 #: public/templates/account-enrollments.php:81
 #: public/templates/enroll-confirmation.php:70
 msgid "Variable symbol"
@@ -1156,8 +1156,8 @@ msgid "— select an open term —"
 msgstr ""
 
 #: includes/Admin/Manual_Enrollment_Page.php:464
-#: includes/Emails/Email_Templates.php:185
-#: includes/Emails/Email_Templates.php:196
+#: includes/Emails/Email_Templates.php:189
+#: includes/Emails/Email_Templates.php:200
 #: public/templates/enroll-form.php:137
 msgid "Participant name"
 msgstr ""
@@ -1468,9 +1468,9 @@ msgid "Admin notification email"
 msgstr ""
 
 #: includes/Admin/Settings_Page.php:192
-#: includes/Emails/Email_Templates.php:188
-#: includes/Emails/Email_Templates.php:199
-#: includes/Emails/Email_Templates.php:227
+#: includes/Emails/Email_Templates.php:192
+#: includes/Emails/Email_Templates.php:203
+#: includes/Emails/Email_Templates.php:231
 msgid "Bank account number"
 msgstr ""
 
@@ -1962,94 +1962,94 @@ msgstr ""
 msgid "Enable for partner dances where enrollees pick a role. Leave off for courses (e.g. kids dance, solo styling) where it makes no sense."
 msgstr ""
 
-#: includes/Emails/Email_Templates.php:149
+#: includes/Emails/Email_Templates.php:153
 msgid "E1 — Account verification"
 msgstr ""
 
-#: includes/Emails/Email_Templates.php:150
+#: includes/Emails/Email_Templates.php:154
 msgid "E2 — Enrollment confirmation"
 msgstr ""
 
-#: includes/Emails/Email_Templates.php:151
+#: includes/Emails/Email_Templates.php:155
 msgid "E3 — Admin notification"
 msgstr ""
 
-#: includes/Emails/Email_Templates.php:152
+#: includes/Emails/Email_Templates.php:156
 msgid "E4 — Payment confirmation"
 msgstr ""
 
-#: includes/Emails/Email_Templates.php:153
+#: includes/Emails/Email_Templates.php:157
 msgid "E5 — Lesson cancelled/moved"
 msgstr ""
 
-#: includes/Emails/Email_Templates.php:154
+#: includes/Emails/Email_Templates.php:158
 msgid "E6 — Enrollment cancelled"
 msgstr ""
 
-#: includes/Emails/Email_Templates.php:155
+#: includes/Emails/Email_Templates.php:159
 msgid "E7 — Payment reminder"
 msgstr ""
 
-#: includes/Emails/Email_Templates.php:156
+#: includes/Emails/Email_Templates.php:160
 msgid "E8 — Voucher inquiry (admin notification)"
 msgstr ""
 
-#: includes/Emails/Email_Templates.php:172
+#: includes/Emails/Email_Templates.php:176
 msgid "Recipient's first name"
 msgstr ""
 
-#: includes/Emails/Email_Templates.php:173
+#: includes/Emails/Email_Templates.php:177
 msgid "Course name"
 msgstr ""
 
-#: includes/Emails/Email_Templates.php:180
+#: includes/Emails/Email_Templates.php:184
 msgid "Verification link"
-msgstr ""
-
-#: includes/Emails/Email_Templates.php:186
-#: includes/Emails/Email_Templates.php:197
-#: includes/Emails/Email_Templates.php:221
-msgid "Term season/weekday/time"
-msgstr ""
-
-#: includes/Emails/Email_Templates.php:187
-#: includes/Emails/Email_Templates.php:198
-#: includes/Emails/Email_Templates.php:206
-#: includes/Emails/Email_Templates.php:226
-msgid "Price (incl. currency)"
 msgstr ""
 
 #: includes/Emails/Email_Templates.php:190
 #: includes/Emails/Email_Templates.php:201
-#: includes/Emails/Email_Templates.php:229
-msgid "Payment due date"
+#: includes/Emails/Email_Templates.php:225
+msgid "Term season/weekday/time"
 msgstr ""
 
 #: includes/Emails/Email_Templates.php:191
+#: includes/Emails/Email_Templates.php:202
+#: includes/Emails/Email_Templates.php:210
+#: includes/Emails/Email_Templates.php:230
+msgid "Price (incl. currency)"
+msgstr ""
+
+#: includes/Emails/Email_Templates.php:194
+#: includes/Emails/Email_Templates.php:205
+#: includes/Emails/Email_Templates.php:233
+msgid "Payment due date"
+msgstr ""
+
+#: includes/Emails/Email_Templates.php:195
 msgid "Terms & Conditions link (spec §6.3)"
 msgstr ""
 
-#: includes/Emails/Email_Templates.php:214
+#: includes/Emails/Email_Templates.php:218
 msgid "Affected lesson date"
 msgstr ""
 
-#: includes/Emails/Email_Templates.php:215
+#: includes/Emails/Email_Templates.php:219
 msgid "Cancelled/moved"
 msgstr ""
 
-#: includes/Emails/Email_Templates.php:216
+#: includes/Emails/Email_Templates.php:220
 msgid "Admin's note about the change"
 msgstr ""
 
-#: includes/Emails/Email_Templates.php:234
+#: includes/Emails/Email_Templates.php:238
 msgid "Inquirer's name"
 msgstr ""
 
-#: includes/Emails/Email_Templates.php:235
+#: includes/Emails/Email_Templates.php:239
 msgid "Inquirer's email address"
 msgstr ""
 
-#: includes/Emails/Email_Templates.php:236
+#: includes/Emails/Email_Templates.php:240
 msgid "Inquiry message"
 msgstr ""
 
@@ -2141,7 +2141,7 @@ msgstr ""
 
 #: includes/Front/Account_Page.php:506
 #: includes/Front/Shortcodes.php:238
-#: includes/Front/Voucher_Page.php:99
+#: includes/Front/Voucher_Page.php:126
 msgid "Please enter a valid email address."
 msgstr ""
 
@@ -2156,7 +2156,7 @@ msgstr ""
 #: includes/Front/Account_Page.php:515
 #: includes/Front/Enroll_Page.php:424
 #: includes/Front/Shortcodes.php:256
-#: includes/Front/Voucher_Page.php:108
+#: includes/Front/Voucher_Page.php:135
 #: public/templates/lost-password-form.php:64
 msgid "Please check the highlighted fields."
 msgstr ""
@@ -2283,7 +2283,7 @@ msgid "Passwords do not match"
 msgstr ""
 
 #: includes/Front/Shortcodes.php:235
-#: includes/Front/Voucher_Page.php:96
+#: includes/Front/Voucher_Page.php:123
 msgid "Please enter your email address."
 msgstr ""
 
@@ -2295,19 +2295,19 @@ msgstr ""
 msgid "You must agree to the Terms & Conditions to register."
 msgstr ""
 
-#: includes/Front/Voucher_Page.php:90
+#: includes/Front/Voucher_Page.php:117
 msgid "Please enter your name."
 msgstr ""
 
-#: includes/Front/Voucher_Page.php:93
+#: includes/Front/Voucher_Page.php:120
 msgid "Name is too long."
 msgstr ""
 
-#: includes/Front/Voucher_Page.php:102
+#: includes/Front/Voucher_Page.php:129
 msgid "Please enter your message."
 msgstr ""
 
-#: includes/Front/Voucher_Page.php:105
+#: includes/Front/Voucher_Page.php:132
 msgid "Message is too long."
 msgstr ""
 
@@ -2808,7 +2808,7 @@ msgstr ""
 
 #: public/templates/enroll-form.php:86
 #: public/templates/lost-password-form.php:52
-#: public/templates/voucher-form.php:23
+#: public/templates/voucher-form.php:31
 msgid "Too many attempts. Please try again later."
 msgstr ""
 
@@ -3010,14 +3010,38 @@ msgstr ""
 msgid "Almost done! Please check your inbox and click the verification link to activate your account."
 msgstr ""
 
-#: public/templates/voucher-form.php:60
+#: public/templates/voucher-card.php:24
+msgid "Gift voucher"
+msgstr ""
+
+#: public/templates/voucher-card.php:25
+msgid "Salsa course for two"
+msgstr ""
+
+#: public/templates/voucher-card.php:26
+msgid "for: Petra & Jana · valid until 9/2027"
+msgstr ""
+
+#: public/templates/voucher-form.php:49
+msgid "No-obligation inquiry"
+msgstr ""
+
+#: public/templates/voucher-form.php:73
 msgid "Message"
 msgstr ""
 
-#: public/templates/voucher-form.php:67
+#: public/templates/voucher-form.php:74
+msgid "Who is the voucher for, and for which course…"
+msgstr ""
+
+#: public/templates/voucher-form.php:80
 msgid "Send inquiry"
 msgstr ""
 
-#: public/templates/voucher-success.php:16
-msgid "Thank you — we have received your message and will get back to you shortly."
+#: public/templates/voucher-success.php:23
+msgid "Sent."
+msgstr ""
+
+#: public/templates/voucher-success.php:23
+msgid "We will get back to you within 2 business days."
 msgstr ""

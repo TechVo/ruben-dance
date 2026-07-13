@@ -115,6 +115,15 @@ class Email_Sender {
 			$inline_images   = $augmented['inline_images'];
 		}
 
+		// D8: the universal HTML chrome (design/screens.html #3j) — applied
+		// last, around the fully-composed (and, for E2/E7, QR-augmented)
+		// body, so every E1-E8 send gets it without any individual trigger
+		// needing to know it exists. `Email_Log_Repository::insert()` below
+		// still logs `$content['subject']` only, per spec §6.1's "no full
+		// bodies in the log" — the wrapped HTML is only ever what's mailed,
+		// never what's stored.
+		$content['body'] = Email_Layout::wrap( $content['subject'], $content['body'], $lang );
+
 		$sent = $this->mailer->send( $to, $content['subject'], $content['body'], $inline_images );
 
 		( $this->log_email )(

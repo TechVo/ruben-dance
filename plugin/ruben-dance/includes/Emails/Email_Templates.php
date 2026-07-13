@@ -27,10 +27,14 @@ if ( ! defined( 'ABSPATH' ) ) {
  * a site that never visits the settings screen still sends fully-formed
  * emails from day one (spec M13 task: "stored as options with defaults").
  *
- * Every default body is deliberately plain, semantic HTML (`<p>` paragraphs,
- * no styling) — `Services\Html_Mailer` sends `text/html`, and
- * `Placeholder_Renderer::render()` HTML-escapes every substituted value, so
- * the templates themselves only need to supply the surrounding markup.
+ * Every default body is semantic HTML (`<p>` paragraphs, `<a>` links) with
+ * the minimum inline `style="…"` needed for the E2/E7 payment block and E1's
+ * button to render correctly in an email client (design/screens.html #3j —
+ * see `Emails\Email_Layout`, which wraps the surrounding chrome, for why
+ * inline styles rather than a stylesheet/CSS classes). `Services\Html_Mailer`
+ * sends `text/html`, and `Placeholder_Renderer::render()` HTML-escapes every
+ * substituted value, so the templates themselves only need to supply the
+ * surrounding markup.
  */
 class Email_Templates {
 
@@ -261,22 +265,22 @@ class Email_Templates {
 				return $is_en
 					? array(
 						'subject' => 'Please verify your Ruben Dance account',
-						'body'    => '<p>Hi {first_name},</p><p>Thanks for registering with Ruben Dance. Please confirm your email address by clicking the link below:</p><p><a href="{link}">{link}</a></p><p>The link is valid for 48 hours and can only be used once. If you did not create this account, you can safely ignore this email.</p>',
+						'body'    => '<p style="margin:0 0 14px">Hi {first_name},</p><p style="margin:0 0 16px">Thanks for registering with Ruben Dance. Please confirm your email address:</p><a href="{link}" style="display:block;background:#E8604C;color:#ffffff;font-weight:700;font-size:14px;padding:14px 0;border-radius:99px;text-align:center;text-decoration:none">Verify account</a><p style="margin:16px 0 0">The link is valid for 48 hours and can only be used once. If you did not create this account, you can safely ignore this email.</p>',
 					)
 					: array(
 						'subject' => 'Potvrďte prosím svůj účet Ruben Dance',
-						'body'    => '<p>Ahoj {first_name},</p><p>Děkujeme za registraci na Ruben Dance. Potvrďte prosím svou emailovou adresu kliknutím na následující odkaz:</p><p><a href="{link}">{link}</a></p><p>Odkaz je platný 48 hodin a lze jej použít pouze jednou. Pokud jste si tento účet nevytvořili vy, tento email prosím ignorujte.</p>',
+						'body'    => '<p style="margin:0 0 14px">Ahoj {first_name},</p><p style="margin:0 0 16px">Děkujeme za registraci na Ruben Dance. Potvrďte prosím svou emailovou adresu:</p><a href="{link}" style="display:block;background:#E8604C;color:#ffffff;font-weight:700;font-size:14px;padding:14px 0;border-radius:99px;text-align:center;text-decoration:none">Potvrdit účet</a><p style="margin:16px 0 0">Odkaz je platný 48 hodin a lze jej použít pouze jednou. Pokud jste si tento účet nevytvořili vy, tento email prosím ignorujte.</p>',
 					);
 
 			case self::TYPE_E2:
 				return $is_en
 					? array(
 						'subject' => 'Your enrollment: {course}',
-						'body'    => '<p>Hi {first_name},</p><p>Thanks for enrolling {participant} in "{course}" ({term_schedule}).</p><p><strong>Payment instructions</strong><br>Amount: {price}<br>Bank account: {account_number}<br>Variable symbol: {variable_symbol}<br>Due date: {due_date}</p><p>Please use the variable symbol so we can match your payment. This email confirms your enrollment; our <a href="{terms_url}">Terms &amp; Conditions</a> apply.</p>',
+						'body'    => '<p style="margin:0 0 14px">Hi {first_name},</p><p style="margin:0 0 14px">Thanks for enrolling {participant} in "{course}" ({term_schedule}).</p>' . self::payment_block_html( false ) . '<p style="margin:16px 0 0">Please use the variable symbol so we can match your payment. This email confirms your enrollment; our <a href="{terms_url}" style="color:#2B1710">Terms &amp; Conditions</a> apply.</p>',
 					)
 					: array(
 						'subject' => 'Vaše přihláška: {course}',
-						'body'    => '<p>Ahoj {first_name},</p><p>Děkujeme za přihlášení ({participant}) na kurz "{course}" ({term_schedule}).</p><p><strong>Platební instrukce</strong><br>Částka: {price}<br>Číslo účtu: {account_number}<br>Variabilní symbol: {variable_symbol}<br>Splatnost: {due_date}</p><p>Uveďte prosím variabilní symbol, ať platbu správně spárujeme. Tento email potvrzuje vaši přihlášku; platí naše <a href="{terms_url}">obchodní podmínky</a>.</p>',
+						'body'    => '<p style="margin:0 0 14px">Ahoj {first_name},</p><p style="margin:0 0 14px">Děkujeme za přihlášení ({participant}) na kurz "{course}" ({term_schedule}).</p>' . self::payment_block_html( true ) . '<p style="margin:16px 0 0">Uveďte prosím variabilní symbol, ať platbu správně spárujeme. Tento email potvrzuje vaši přihlášku; platí naše <a href="{terms_url}" style="color:#2B1710">obchodní podmínky</a>.</p>',
 					);
 
 			case self::TYPE_E3:
@@ -325,11 +329,11 @@ class Email_Templates {
 				return $is_en
 					? array(
 						'subject' => 'Payment reminder — Ruben Dance',
-						'body'    => '<p>Hi {first_name},</p><p>This is a reminder that we haven\'t yet received your payment.</p><p>Course: {course}<br>Amount: {price}<br>Bank account: {account_number}<br>Variable symbol: {variable_symbol}<br>Due date: {due_date}</p><p>Please send your payment as soon as possible.</p>',
+						'body'    => '<p style="margin:0 0 14px">Hi {first_name},</p><p style="margin:0 0 14px">This is a reminder that we haven\'t yet received your payment for "{course}".</p>' . self::payment_block_html( false ) . '<p style="margin:16px 0 0">Please send your payment as soon as possible.</p>',
 					)
 					: array(
 						'subject' => 'Připomínka platby — Ruben Dance',
-						'body'    => '<p>Ahoj {first_name},</p><p>Připomínáme, že jsme od vás ještě neobdrželi platbu.</p><p>Kurz: {course}<br>Částka: {price}<br>Číslo účtu: {account_number}<br>Variabilní symbol: {variable_symbol}<br>Splatnost: {due_date}</p><p>Platbu prosím odešlete co nejdříve.</p>',
+						'body'    => '<p style="margin:0 0 14px">Ahoj {first_name},</p><p style="margin:0 0 14px">Připomínáme, že jsme od vás ještě neobdrželi platbu za kurz "{course}".</p>' . self::payment_block_html( true ) . '<p style="margin:16px 0 0">Platbu prosím odešlete co nejdříve.</p>',
 					);
 
 			case self::TYPE_E8:
@@ -346,5 +350,43 @@ class Email_Templates {
 					'body'    => '',
 				);
 		}
+	}
+
+	/**
+	 * The E2/E7 payment-instructions block, inline-styled to match
+	 * design/screens.html #3a/#3j's `.rd-payment` card (cream background,
+	 * 2px yellow border, bold amount, dashed-divider QR row) — but as a
+	 * literal `style="…"` HTML fragment rather than that CSS class, since
+	 * `Email_Layout` (the only place in this plugin that renders HTML for an
+	 * email client rather than a browser) can't load an external stylesheet.
+	 *
+	 * Leaves an `<!--RD-QR-->` HTML-comment marker where the QR code image
+	 * belongs: `Payment_Qr_Email::augment()` replaces it with the actual
+	 * `<img>` when IBAN/QR is configured, and simply leaves the (invisible)
+	 * comment in place otherwise — see that class's doc comment for why a
+	 * marker-replace, rather than "always append after the whole body", is
+	 * what lets the QR image land *inside* this card instead of trailing
+	 * behind it.
+	 *
+	 * The `{price}`/`{account_number}`/`{variable_symbol}`/`{due_date}`
+	 * placeholder tokens are unchanged from the pre-D8 plain-paragraph
+	 * version — only the surrounding HTML/CSS changed, not what an admin
+	 * editing this template in `Admin\Email_Templates_Page` can reference.
+	 *
+	 * @param bool $is_cs Czech labels when true, English otherwise.
+	 * @return string
+	 */
+	private static function payment_block_html( bool $is_cs ): string {
+		$status_label  = $is_cs ? 'Čeká na platbu' : 'Awaiting payment';
+		$account_label = $is_cs ? 'Účet' : 'Account';
+		$vs_label      = $is_cs ? 'Variabilní symbol' : 'Variable symbol';
+		$due_label     = $is_cs ? 'Splatnost' : 'Due date';
+
+		return '<div style="margin:16px 0 0;background:#FDF6EA;border:2px solid #F5B840;border-radius:12px;padding:16px">'
+			. '<div style="font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#8A5500">&#9201; ' . $status_label . '</div>'
+			. '<div style="font-weight:800;font-size:22px;margin:4px 0 10px;color:#2B1710">{price}</div>'
+			. '<div style="font-size:13px;line-height:1.7;color:#2B1710">' . $account_label . ': <strong>{account_number}</strong><br>' . $vs_label . ': <strong>{variable_symbol}</strong><br>' . $due_label . ': <strong>{due_date}</strong></div>'
+			. '<!--RD-QR-->'
+			. '</div>';
 	}
 }
