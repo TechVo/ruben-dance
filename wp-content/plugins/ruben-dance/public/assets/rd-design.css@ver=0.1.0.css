@@ -1,0 +1,836 @@
+/**
+ * D1 design foundation: tokens + shared components.
+ *
+ * Source of truth: design/README.md (token summary) and design/screens.html
+ * anchors #2a ("Design system" — palette, typography, buttons, nav, form
+ * elements) and #3a ("Sdílené komponenty" — status badges, payment block,
+ * price breakdown, alerts, field errors, focus ring, empty state, skeleton,
+ * footer). Every value below is copied from those two anchors' inline
+ * styles, not eyeballed.
+ *
+ * This file is enqueued before every per-screen stylesheet
+ * (front-catalog.css, front-account.css, front-auth.css, front-calendar.css)
+ * — see includes/Front/Design_Assets.php — so a screen only ever adds
+ * layout, never redeclares a color, radius, button or badge shape. D2-D8
+ * (the per-screen milestones) are expected to build on the classes here
+ * rather than invent new colors/shapes.
+ *
+ * Everything except the `:root` custom properties is scoped under `.rd-app`
+ * — the wrapper class every `public/templates/*.php` root element now
+ * carries alongside its existing screen-specific class (e.g.
+ * `<div class="rd-app rd-catalog">`) — so this stylesheet cannot leak into
+ * the surrounding WordPress theme (header, footer, sidebar widgets, ...),
+ * which this plugin does not own.
+ */
+
+:root {
+	/* Brand colors (design/README.md "Barvy"). */
+	--rd-coral: #E8604C;
+	--rd-coral-hover: #D14E3B;
+	--rd-orange: #F08A24;
+	--rd-yellow: #F5B840;
+	--rd-cocoa: #2B1710;
+	--rd-cream: #FDF6EA;
+	--rd-white: #FFFFFF;
+
+	/* Status colors. */
+	--rd-success-bg: #DDF0E2;
+	--rd-success-fg: #1E6B3C;
+	--rd-warning-bg: #FCEBC9;
+	--rd-warning-fg: #8A5500;
+	--rd-error-bg: #FCE0DB;
+	--rd-error-fg: #B3372A;
+
+	/* Calendar event chips. */
+	--rd-chip-coral-bg: #FCE4DE;
+	--rd-chip-yellow-bg: #FCEBC9;
+	--rd-chip-cancelled-bg: rgba(43, 23, 16, .06);
+	--rd-chip-cancelled-border: rgba(43, 23, 16, .3);
+
+	/* Cocoa tints used throughout for muted text/borders (design/README.md:
+	 * "tlumený text: rgba(43,23,16,.55-.75); bordery polí: rgba(43,23,16,.25)"). */
+	--rd-cocoa-06: rgba(43, 23, 16, .06);
+	--rd-cocoa-07: rgba(43, 23, 16, .07);
+	--rd-cocoa-08: rgba(43, 23, 16, .08);
+	--rd-cocoa-15: rgba(43, 23, 16, .15);
+	--rd-cocoa-20: rgba(43, 23, 16, .2);
+	--rd-cocoa-25: rgba(43, 23, 16, .25);
+	--rd-cocoa-30: rgba(43, 23, 16, .3);
+	--rd-cocoa-45: rgba(43, 23, 16, .45);
+	--rd-cocoa-50: rgba(43, 23, 16, .5);
+	--rd-cocoa-55: rgba(43, 23, 16, .55);
+	--rd-cocoa-60: rgba(43, 23, 16, .6);
+	--rd-cocoa-65: rgba(43, 23, 16, .65);
+	--rd-cocoa-70: rgba(43, 23, 16, .7);
+	--rd-cocoa-75: rgba(43, 23, 16, .75);
+
+	/* Radii. */
+	--rd-radius-pill: 99px;
+	--rd-radius-field: 12px;
+	--rd-radius-card-sm: 18px;
+	--rd-radius-card-lg: 24px;
+	--rd-radius-chip: 8px;
+
+	/* Font stack: self-hosted Bricolage Grotesque (rd-fonts.css) with a
+	 * system-font fallback chain so text is never invisible/FOIT-blocked
+	 * before the variable font loads (font-display: swap already covers
+	 * the flash, this is the belated-load/failed-load fallback). */
+	--rd-font: 'Bricolage Grotesque', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* ==========================================================================
+   Base — scoped to .rd-app, never to bare body/h1/p (the theme owns those).
+   ========================================================================== */
+
+.rd-app {
+	font-family: var(--rd-font);
+	color: var(--rd-cocoa);
+	max-width: 100%;
+}
+
+/* Belt-and-braces against the "no horizontal page scroll ever" rule: a
+ * padding/border miscalculation on any plugin-rendered element stays
+ * contained to that element's own box instead of inflating .rd-app's
+ * (and therefore the page's) width. */
+.rd-app,
+.rd-app *,
+.rd-app *::before,
+.rd-app *::after {
+	box-sizing: border-box;
+}
+
+/* ==========================================================================
+   Typography scale (design/README.md "Typografie").
+   Desktop bump at 1024px — the shared breakpoint between the design's
+   tablet (834) and desktop (1280) mockups; per-screen CSS may add its own
+   intermediate breakpoints, this is only the type-scale floor/ceiling.
+   ========================================================================== */
+
+.rd-eyebrow {
+	display: block;
+	font-size: 11px;
+	font-weight: 800;
+	letter-spacing: .13em;
+	text-transform: uppercase;
+	color: var(--rd-cocoa-50);
+}
+
+.rd-h1 {
+	margin: 0;
+	font-size: 44px;
+	font-weight: 800;
+	line-height: 1;
+	letter-spacing: -0.03em;
+}
+
+.rd-h2 {
+	margin: 0;
+	font-size: 26px;
+	font-weight: 800;
+	letter-spacing: -0.02em;
+}
+
+.rd-h3 {
+	margin: 0;
+	font-size: 17px;
+	font-weight: 700;
+}
+
+.rd-text {
+	margin: 0;
+	font-size: 15px;
+	line-height: 1.5;
+	color: var(--rd-cocoa-75);
+}
+
+@media (min-width: 1024px) {
+	.rd-h1 {
+		font-size: 66px;
+	}
+
+	.rd-h2 {
+		font-size: 36px;
+	}
+}
+
+/* ==========================================================================
+   Cards (design/README.md "Karty": bílé, radius 18-24px, bez borderu, jemný
+   stín kontejneru).
+   ========================================================================== */
+
+.rd-card {
+	background: var(--rd-white);
+	border-radius: var(--rd-radius-card-sm);
+	box-shadow: 0 1px 3px rgba(43, 23, 16, .08);
+}
+
+/* ==========================================================================
+   Buttons (#2a "Tlačítka"): pills, 99px radius, focus = 3px cocoa outline
+   offset 3px on every variant.
+   ========================================================================== */
+
+.rd-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	font-family: inherit;
+	font-weight: 700;
+	font-size: 15px;
+	line-height: 1;
+	padding: 15px 28px;
+	border-radius: var(--rd-radius-pill);
+	border: none;
+	text-decoration: none;
+	cursor: pointer;
+	background: transparent;
+	color: inherit;
+}
+
+.rd-btn:focus-visible {
+	outline: 3px solid var(--rd-cocoa);
+	outline-offset: 3px;
+}
+
+.rd-btn--primary {
+	background: var(--rd-coral);
+	color: var(--rd-white);
+}
+
+.rd-btn--primary:hover {
+	background: var(--rd-coral-hover);
+	color: var(--rd-white);
+}
+
+.rd-btn--secondary {
+	padding: 13px 26px;
+	border: 2px solid var(--rd-cocoa);
+	color: var(--rd-cocoa);
+}
+
+.rd-btn--secondary:hover {
+	background: var(--rd-cocoa);
+	color: var(--rd-cream);
+}
+
+.rd-btn--small {
+	padding: 10px 18px;
+	font-size: 13px;
+	background: var(--rd-cocoa);
+	color: var(--rd-cream);
+}
+
+.rd-btn--small:hover {
+	background: var(--rd-coral);
+	color: var(--rd-white);
+}
+
+.rd-btn--text {
+	padding: 0;
+	font-size: 14px;
+	color: var(--rd-coral);
+	background: none;
+}
+
+.rd-btn--text:hover {
+	color: var(--rd-coral-hover);
+}
+
+.rd-btn--disabled,
+.rd-btn:disabled,
+.rd-btn[aria-disabled='true'] {
+	background: rgba(232, 96, 76, .4);
+	color: var(--rd-white);
+	cursor: not-allowed;
+	pointer-events: none;
+}
+
+/* ==========================================================================
+   Status badges (#3a "Status badges — ikona + text, čitelné i černobíle").
+   Icons are decorative (the label text already states the status in words,
+   e.g. "Čeká na platbu"), added via ::before so markup only needs the text.
+   ========================================================================== */
+
+.rd-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 12px;
+	font-weight: 800;
+	border-radius: var(--rd-radius-pill);
+	padding: 6px 12px;
+	line-height: 1.3;
+}
+
+.rd-badge--pending {
+	background: var(--rd-warning-bg);
+	color: var(--rd-warning-fg);
+}
+
+.rd-badge--pending::before {
+	content: '⏱';
+}
+
+.rd-badge--paid {
+	background: var(--rd-success-bg);
+	color: var(--rd-success-fg);
+}
+
+.rd-badge--paid::before {
+	content: '✓';
+}
+
+.rd-badge--cancelled {
+	background: var(--rd-cocoa-08);
+	color: var(--rd-cocoa-55);
+	text-decoration: line-through;
+}
+
+.rd-badge--cancelled::before {
+	content: '✕';
+	text-decoration: none;
+}
+
+.rd-badge--full {
+	background: var(--rd-cocoa);
+	color: var(--rd-cream);
+}
+
+.rd-badge--full::before {
+	content: '●';
+}
+
+/*
+ * design/README.md's component-rule prose swaps the early-bird/workshop
+ * glyphs (it lists "⚡ early-bird" / "★ workshop"); design/screens.html's
+ * actual #3a and #3b markup — the stated source of truth for visual
+ * details — uses ★ for early-bird and ◆ for workshop, so that is what's
+ * implemented here. Flagged for whoever next edits README.md.
+ */
+.rd-badge--early {
+	background: var(--rd-yellow);
+	color: var(--rd-cocoa);
+}
+
+.rd-badge--early::before {
+	content: '★';
+}
+
+.rd-badge--workshop {
+	background: var(--rd-white);
+	color: var(--rd-coral);
+	border: 2px dashed var(--rd-coral);
+	border-radius: var(--rd-radius-chip);
+	padding: 5px 11px;
+}
+
+.rd-badge--workshop::before {
+	content: '◆';
+}
+
+/* ==========================================================================
+   Form fields (#2a form elements + #3a "Chybový stav pole").
+   Markup contract: <div class="rd-field"><label>…</label><input
+   class="rd-field__input">…</div>, or <div class="rd-field rd-field--error">
+   with a trailing <p class="rd-field__error">.
+   ========================================================================== */
+
+.rd-field {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.rd-field label {
+	font-size: 12.5px;
+	font-weight: 700;
+}
+
+.rd-field__required {
+	color: var(--rd-coral);
+}
+
+.rd-field__input,
+.rd-field input,
+.rd-field select,
+.rd-field textarea {
+	width: 100%;
+	font-family: inherit;
+	font-size: 14px;
+	color: var(--rd-cocoa);
+	background: var(--rd-white);
+	border: 1.5px solid var(--rd-cocoa-25);
+	border-radius: var(--rd-radius-field);
+	padding: 12px 14px;
+}
+
+.rd-field__input:focus,
+.rd-field input:focus,
+.rd-field select:focus,
+.rd-field textarea:focus {
+	outline: none;
+	border: 2px solid var(--rd-coral);
+	padding: 11.5px 13.5px;
+}
+
+.rd-field--error .rd-field__input,
+.rd-field--error input,
+.rd-field--error select,
+.rd-field--error textarea {
+	border: 2px solid var(--rd-error-fg);
+	padding: 11.5px 13.5px;
+}
+
+.rd-field__error {
+	margin: 0;
+	font-size: 12.5px;
+	font-weight: 600;
+	color: var(--rd-error-fg);
+}
+
+.rd-field__error:empty {
+	display: none;
+}
+
+.rd-field__error::before {
+	content: '✕ ';
+}
+
+/* Custom checkbox row (#3a consent checkbox). Markup contract:
+ * <label class="rd-checkbox-row">
+ *   <input type="checkbox" class="rd-checkbox-row__input">
+ *   <span class="rd-checkbox-row__box" aria-hidden="true"></span>
+ *   <span class="rd-checkbox-row__text">…</span>
+ * </label>
+ * The real input stays in the document (visually hidden, not display:none)
+ * so it's still focusable/operable by keyboard and screen readers; the
+ * adjacent span is what's actually painted. */
+.rd-checkbox-row {
+	display: flex;
+	gap: 10px;
+	align-items: flex-start;
+	font-size: 13px;
+	line-height: 1.45;
+	cursor: pointer;
+}
+
+.rd-checkbox-row__input {
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	margin: 0;
+	opacity: 0;
+}
+
+.rd-checkbox-row__box {
+	flex: none;
+	width: 20px;
+	height: 20px;
+	border: 2px solid var(--rd-cocoa);
+	border-radius: 6px;
+	background: var(--rd-white);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 12px;
+	font-weight: 800;
+	color: var(--rd-white);
+}
+
+/* Checked = coral fill, border stays cocoa (#3a's consent checkbox:
+ * `border:2px solid #2B1710;background:#E8604C`). */
+.rd-checkbox-row__input:checked + .rd-checkbox-row__box {
+	background: var(--rd-coral);
+}
+
+.rd-checkbox-row__input:checked + .rd-checkbox-row__box::before {
+	content: '✓';
+}
+
+.rd-checkbox-row__input:focus-visible + .rd-checkbox-row__box {
+	outline: 3px solid var(--rd-cocoa);
+	outline-offset: 3px;
+}
+
+/* ==========================================================================
+   Alert bars (#3a "Notice / alert pruhy"). Markup contract:
+   <div class="rd-alert rd-alert--success"><strong class="rd-alert__icon">✓
+   </strong><span>…</span></div>
+   ========================================================================== */
+
+.rd-alert {
+	display: flex;
+	gap: 10px;
+	border-radius: 14px;
+	padding: 13px 16px;
+	font-size: 14px;
+	border: 1.5px solid var(--rd-cocoa-25);
+	background: var(--rd-white);
+}
+
+.rd-alert__icon {
+	flex: none;
+	color: var(--rd-orange);
+}
+
+.rd-alert--success {
+	background: var(--rd-success-bg);
+	border-color: var(--rd-success-fg);
+}
+
+.rd-alert--success .rd-alert__icon {
+	color: var(--rd-success-fg);
+}
+
+.rd-alert--warning {
+	background: var(--rd-warning-bg);
+	border-color: var(--rd-warning-fg);
+}
+
+.rd-alert--warning .rd-alert__icon {
+	color: var(--rd-warning-fg);
+}
+
+.rd-alert--error {
+	background: var(--rd-error-bg);
+	border-color: var(--rd-error-fg);
+}
+
+.rd-alert--error .rd-alert__icon {
+	color: var(--rd-error-fg);
+}
+
+/* .rd-alert--info uses the base rule's white background/cocoa-25 border/
+ * orange icon as-is (#3a's 4th alert), so no override block is needed. */
+
+/* Accessibility pass carried over from front-auth.css's .rd-notice[tabindex]
+ * rule: an alert that receives programmatic focus (e.g. a JS-focused error
+ * summary) needs a visible outline, since browsers don't draw one on a
+ * plain <div> by default. */
+.rd-alert[tabindex='-1']:focus {
+	outline: 3px solid var(--rd-cocoa);
+	outline-offset: 3px;
+}
+
+/* ==========================================================================
+   Payment block (#3a "Platební blok"): white card, 2px yellow border, QR
+   separated by a dashed divider.
+   ========================================================================== */
+
+.rd-payment {
+	background: var(--rd-white);
+	border-radius: var(--rd-radius-card-sm);
+	border: 2px solid var(--rd-yellow);
+	padding: 20px;
+}
+
+.rd-payment__status {
+	font-size: 11px;
+	font-weight: 800;
+	letter-spacing: .12em;
+	text-transform: uppercase;
+	color: var(--rd-warning-fg);
+}
+
+.rd-payment__amount {
+	font-weight: 800;
+	font-size: 28px;
+	margin: 6px 0 14px;
+}
+
+.rd-payment__rows {
+	display: flex;
+	flex-direction: column;
+	gap: 7px;
+	font-size: 13.5px;
+}
+
+.rd-payment__row {
+	display: flex;
+	justify-content: space-between;
+	gap: 10px;
+}
+
+.rd-payment__row span {
+	color: var(--rd-cocoa-60);
+}
+
+.rd-payment__qr {
+	display: flex;
+	gap: 14px;
+	align-items: center;
+	margin-top: 16px;
+	padding-top: 14px;
+	border-top: 1px dashed var(--rd-cocoa-20);
+}
+
+.rd-payment__qr-box {
+	width: 92px;
+	height: 92px;
+	flex: none;
+	border: 2px dashed var(--rd-cocoa-30);
+	border-radius: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 11px;
+	font-weight: 700;
+	color: var(--rd-cocoa-45);
+	text-align: center;
+	overflow: hidden;
+}
+
+.rd-payment__qr-box img {
+	max-width: 100%;
+	max-height: 100%;
+	object-fit: contain;
+}
+
+.rd-payment__qr-text {
+	font-size: 12.5px;
+	line-height: 1.45;
+	color: var(--rd-cocoa-70);
+}
+
+/* ==========================================================================
+   Price breakdown (#3a "Cenový rozpis").
+   ========================================================================== */
+
+.rd-price {
+	background: var(--rd-white);
+	border-radius: var(--rd-radius-card-sm);
+	padding: 20px;
+}
+
+.rd-price__rows {
+	display: flex;
+	flex-direction: column;
+	gap: 9px;
+	font-size: 14px;
+}
+
+.rd-price__row {
+	display: flex;
+	justify-content: space-between;
+	gap: 10px;
+}
+
+.rd-price__row--discount {
+	color: var(--rd-success-fg);
+}
+
+.rd-price__base-strike {
+	text-decoration: line-through;
+	color: var(--rd-cocoa-45);
+}
+
+.rd-price__total {
+	display: flex;
+	justify-content: space-between;
+	border-top: 2px solid var(--rd-cocoa);
+	padding-top: 10px;
+	margin-top: 4px;
+	font-size: 17px;
+}
+
+.rd-price__total-value {
+	color: var(--rd-coral);
+}
+
+/* ==========================================================================
+   Calendar event chip (#3a "Event chip kalendáře").
+   ========================================================================== */
+
+.rd-chip {
+	border-radius: var(--rd-radius-chip);
+	padding: 8px 10px;
+	font-size: 12.5px;
+	border-left: 4px solid transparent;
+}
+
+.rd-chip strong {
+	font-weight: 700;
+}
+
+.rd-chip--coral {
+	background: var(--rd-chip-coral-bg);
+	border-left-color: var(--rd-coral);
+}
+
+.rd-chip--yellow {
+	background: var(--rd-chip-yellow-bg);
+	border-left-color: var(--rd-yellow);
+}
+
+.rd-chip--cancelled {
+	background: var(--rd-chip-cancelled-bg);
+	border-left-color: var(--rd-chip-cancelled-border);
+	color: var(--rd-cocoa-55);
+}
+
+.rd-chip--cancelled strong,
+.rd-chip--cancelled .rd-chip__title {
+	text-decoration: line-through;
+}
+
+/* D4: workshop lesson (design/README.md "Workshop vždy odlišen dashed coral
+ * rámečkem (karta i event chip)") — same dashed-border treatment as
+ * .rd-badge--workshop above, applied to a calendar chip instead of a badge.
+ * Takes precedence visually over the coral/yellow background variants (a
+ * workshop lesson gets this instead of --coral/--yellow, not on top of it). */
+.rd-chip--workshop {
+	background: var(--rd-white);
+	border: 2px dashed var(--rd-coral);
+	border-left: 4px solid var(--rd-coral);
+}
+
+/* ==========================================================================
+   Language switcher pill (#2a nav example).
+   Markup contract: <div class="rd-lang-switch"><a href="?lang=cs"
+   class="is-active">CZ</a><a href="?lang=en">EN</a></div>
+   ========================================================================== */
+
+.rd-lang-switch {
+	display: inline-flex;
+	gap: 2px;
+	font-size: 11px;
+	font-weight: 700;
+	background: var(--rd-cocoa-07);
+	border-radius: var(--rd-radius-pill);
+	padding: 3px;
+}
+
+.rd-lang-switch a {
+	padding: 3px 9px;
+	border-radius: var(--rd-radius-pill);
+	color: var(--rd-cocoa-50);
+	text-decoration: none;
+}
+
+.rd-lang-switch a.is-active,
+.rd-lang-switch a[aria-current] {
+	background: var(--rd-cocoa);
+	color: var(--rd-cream);
+}
+
+/* The header's instance sits on the cream page background, where a cocoa
+ * ring reads fine. The mobile menu panel's instance sits on a dark cocoa
+ * background, where this same ring would be invisible — but that instance
+ * is also a descendant of `.rd-mobile-menu__panel a`, so it additionally
+ * gets that selector's cream background-tint (theme.css), which stays
+ * visible there regardless of this rule. */
+.rd-lang-switch a:focus-visible {
+	outline: 3px solid var(--rd-cocoa);
+	outline-offset: 3px;
+}
+
+/* ==========================================================================
+   Filter chips (#3b catalog filter row).
+   ========================================================================== */
+
+.rd-filter-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 13px;
+	font-weight: 600;
+	border-radius: var(--rd-radius-pill);
+	padding: 9px 14px;
+	border: 1.5px solid var(--rd-cocoa-25);
+	color: var(--rd-cocoa);
+	background: var(--rd-white);
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+.rd-filter-chip--active {
+	font-weight: 700;
+	background: var(--rd-cocoa);
+	color: var(--rd-cream);
+	border-color: var(--rd-cocoa);
+}
+
+.rd-filter-chip__count {
+	display: inline-flex;
+	background: var(--rd-coral);
+	color: var(--rd-white);
+	border-radius: var(--rd-radius-pill);
+	font-size: 11px;
+	font-weight: 700;
+	padding: 1px 7px;
+}
+
+/* ==========================================================================
+   Empty state (#3a "prázdný … stav").
+   Markup contract: <div class="rd-empty-state"><div
+   class="rd-empty-state__icon">🕺</div><p class="rd-empty-state__text">…
+   </p><a class="rd-empty-state__action" href="…">…</a></div>
+   ========================================================================== */
+
+.rd-empty-state {
+	text-align: center;
+	border: 1.5px dashed var(--rd-cocoa-25);
+	border-radius: var(--rd-radius-card-sm);
+	padding: 22px;
+}
+
+.rd-empty-state__icon {
+	font-size: 28px;
+	line-height: 1;
+}
+
+.rd-empty-state__text {
+	font-weight: 700;
+	font-size: 15px;
+	margin: 6px 0 0;
+}
+
+.rd-empty-state__action {
+	display: inline-block;
+	margin-top: 6px;
+	color: var(--rd-coral);
+	font-weight: 700;
+	font-size: 14px;
+	text-decoration: none;
+}
+
+.rd-empty-state__action:hover {
+	color: var(--rd-coral-hover);
+}
+
+/* ==========================================================================
+   Skeleton loading (#3a "Loading — skeleton pruhy").
+   Width is left to the caller (inline `style="width:70%"` or a per-screen
+   modifier) since the proportions are content-driven, not fixed.
+   ========================================================================== */
+
+.rd-skeleton {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.rd-skeleton-bar {
+	height: 14px;
+	width: 100%;
+	border-radius: 7px;
+	background: linear-gradient(90deg, var(--rd-cocoa-08), rgba(43, 23, 16, .16), var(--rd-cocoa-08));
+	background-size: 200% 100%;
+	animation: rd-skeleton-shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes rd-skeleton-shimmer {
+	0% {
+		background-position: 200% 0;
+	}
+
+	100% {
+		background-position: -200% 0;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.rd-skeleton-bar {
+		animation: none;
+	}
+}

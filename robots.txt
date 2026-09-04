@@ -1,0 +1,3 @@
+# Design preview of a site that is not live yet — keep it out of search results.
+User-agent: *
+Disallow: /

@@ -1,0 +1,1600 @@
+/**
+ * Ruben Dance theme — site chrome (header, footer, page container) and
+ * homepage layout.
+ *
+ * Builds on the tokens + shared components from rd-design.css (colors,
+ * radii, .rd-btn, .rd-card, .rd-h1/h2, .rd-chip, .rd-lang-switch, …) —
+ * loaded first, as a dependency (see functions.php's rd_theme_enqueue_assets()) —
+ * so nothing here redeclares a color, radius or button/card shape; it only
+ * adds the layout those shared pieces don't already cover.
+ *
+ * Design source: design/screens.html
+ *   #2a/#2b/#2c — header/nav/mobile menu
+ *   #3a         — footer
+ *   #1a/#2c/#2b — homepage, mobile 390 / tablet 834 / desktop 1280
+ * Mobile-first: base rules match #1a, layered with #2c at 768px and #2b at
+ * 1024px, per the milestone brief's "~768 and ~1024" breakpoints.
+ */
+
+/* ==========================================================================
+   Base / reset — outside .rd-app (that's the plugin's own scope), so this
+   theme needs its own "never scroll horizontally" belt-and-braces.
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	overflow-x: hidden;
+}
+
+body {
+	margin: 0;
+	background: var(--rd-cream);
+	color: var(--rd-cocoa);
+	font-family: var(--rd-font);
+	max-width: 100%;
+	overflow-x: hidden;
+}
+
+/* Shared content cap: header, homepage and footer all centre their contents
+ * at this width on wide desktops (≈1.5× the original 1200px). One knob to
+ * widen/narrow the whole site. */
+:root {
+	--rd-max: 1800px;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+	display: block;
+}
+
+a {
+	font-family: inherit;
+}
+
+.screen-reader-text {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+.rd-skip-link {
+	position: absolute;
+	left: 8px;
+	top: -60px;
+	background: var(--rd-cocoa);
+	color: var(--rd-cream);
+	padding: 10px 18px;
+	border-radius: var(--rd-radius-pill);
+	font-weight: 700;
+	font-size: 13px;
+	text-decoration: none;
+	z-index: 100;
+	transition: top .15s ease;
+}
+
+.rd-skip-link:focus {
+	top: 8px;
+}
+
+/* ==========================================================================
+   Site header (#2a nav pattern, #2b desktop, #2c tablet, #1a mobile).
+   ========================================================================== */
+
+.rd-site-header {
+	background: var(--rd-cream);
+	position: relative;
+	z-index: 20;
+}
+
+.rd-site-header__inner {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 14px 20px;
+	/* Cap + centre the header contents like the footer so the logo and nav
+	 * don't drift to the screen edges on wide desktops. The cream header bar
+	 * itself still spans full width. */
+	max-width: var(--rd-max);
+	margin: 0 auto;
+	width: 100%;
+	font-family: var(--rd-font);
+}
+
+.rd-logo {
+	font-weight: 800;
+	font-size: 17px;
+	letter-spacing: -0.02em;
+	color: var(--rd-cocoa);
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+.rd-logo:focus-visible {
+	outline: 3px solid var(--rd-cocoa);
+	outline-offset: 3px;
+}
+
+.rd-logo__dot {
+	color: var(--rd-coral);
+}
+
+.rd-nav-desktop {
+	display: none;
+	align-items: center;
+	gap: 22px;
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.rd-nav-desktop a:not(.rd-btn) {
+	color: var(--rd-cocoa);
+	text-decoration: none;
+}
+
+.rd-nav-desktop a:not(.rd-btn):hover {
+	color: var(--rd-coral);
+}
+
+.rd-nav-desktop a:not(.rd-btn):focus-visible {
+	outline: 3px solid var(--rd-cocoa);
+	outline-offset: 3px;
+}
+
+.rd-nav-desktop__cta {
+	padding: 10px 18px;
+	font-size: 13px;
+}
+
+/* Mobile menu — native <details>/<summary>, see header.php's docblock. */
+
+.rd-mobile-menu {
+	position: relative;
+}
+
+.rd-mobile-menu__trigger {
+	width: 34px;
+	height: 34px;
+	border-radius: var(--rd-radius-pill);
+	background: var(--rd-cocoa);
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	list-style: none;
+}
+
+.rd-mobile-menu__trigger::-webkit-details-marker {
+	display: none;
+}
+
+.rd-mobile-menu__trigger:focus-visible {
+	outline: 3px solid var(--rd-cocoa);
+	outline-offset: 3px;
+}
+
+.rd-mobile-menu__bars,
+.rd-mobile-menu__bars::before,
+.rd-mobile-menu__bars::after {
+	width: 14px;
+	height: 2px;
+	background: var(--rd-cream);
+	border-radius: 2px;
+	display: block;
+	content: '';
+}
+
+.rd-mobile-menu__bars {
+	position: relative;
+}
+
+.rd-mobile-menu__bars::before {
+	position: absolute;
+	top: -5px;
+}
+
+.rd-mobile-menu__bars::after {
+	position: absolute;
+	top: 5px;
+}
+
+.rd-mobile-menu__panel {
+	position: absolute;
+	top: calc(100% + 10px);
+	right: 0;
+	width: 250px;
+	background: var(--rd-cocoa);
+	color: var(--rd-cream);
+	border-radius: var(--rd-radius-card-sm);
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	box-shadow: 0 12px 30px rgba(43, 23, 16, .25);
+}
+
+.rd-mobile-menu__panel a {
+	color: var(--rd-cream);
+	font-weight: 700;
+	font-size: 16px;
+	padding: 10px;
+	border-radius: 10px;
+	text-decoration: none;
+}
+
+.rd-mobile-menu__panel a:hover,
+.rd-mobile-menu__panel a:focus-visible {
+	background: rgba(253, 246, 234, .1);
+}
+
+/* Language pill as a proper segmented control: a dark cocoa track with a
+ * LIGHT (cream) thumb marking the active language — the previous dark-on-dark
+ * active state made it impossible to tell which language was selected. Bigger
+ * padding/label too (the default 11px/3px read as a cramped, easy-to-miss
+ * control). Applies to both the header and mobile-menu instances. */
+.rd-lang-switch {
+	font-size: 12.5px;
+	gap: 3px;
+	padding: 4px;
+	background: var(--rd-cocoa);
+}
+
+/* `:not(.rd-btn)` bumps specificity to (0,2,1) so this wins over
+ * `.rd-nav-desktop a:not(.rd-btn)` (same specificity, but this rule is later
+ * in source) — otherwise the header switcher's inactive label inherits the
+ * nav's dark cocoa colour and vanishes on the dark track. */
+.rd-lang-switch a:not(.rd-btn) {
+	padding: 5px 12px;
+	/* Inactive label: full cream, clearly readable on the dark track. The
+	 * active language stays unmistakable because it also gets a filled cream
+	 * thumb (background), not just a cream label. */
+	color: var(--rd-cream);
+}
+
+.rd-lang-switch a.is-active,
+.rd-lang-switch a[aria-current] {
+	background: var(--rd-cream);
+	color: var(--rd-cocoa);
+}
+
+.rd-mobile-menu__panel .rd-lang-switch {
+	margin: 6px 0;
+	align-self: flex-start;
+	/* On the dark cocoa panel the default cocoa-07 pill and the cocoa
+	 * active-item background both vanish (dark on dark). Re-tint them so the
+	 * switcher — and which language is active — stays visible here. */
+	background: rgba(253, 246, 234, .14);
+}
+
+.rd-mobile-menu__panel .rd-lang-switch a {
+	/* Override the panel's generic link sizing (10px/16px) back to the pill
+	 * scale; keep an inactive label that reads on dark. */
+	padding: 5px 12px;
+	font-size: 12.5px;
+	color: var(--rd-cream);
+}
+
+.rd-mobile-menu__panel .rd-lang-switch a.is-active,
+.rd-mobile-menu__panel .rd-lang-switch a[aria-current] {
+	background: var(--rd-cream);
+	color: var(--rd-cocoa);
+}
+
+.rd-mobile-menu__cta {
+	margin-top: 12px;
+	background: var(--rd-coral);
+	color: var(--rd-white);
+	font-weight: 700;
+	font-size: 14px;
+	padding: 13px 0;
+	border-radius: var(--rd-radius-pill);
+	text-align: center;
+	text-decoration: none;
+}
+
+.rd-mobile-menu__cta:hover {
+	background: var(--rd-coral-hover);
+}
+
+@media (min-width: 768px) {
+	.rd-site-header__inner {
+		padding: 16px 36px;
+	}
+
+	.rd-logo {
+		font-size: 18px;
+	}
+
+	.rd-nav-desktop {
+		display: flex;
+		gap: 20px;
+	}
+
+	.rd-nav-desktop__cta {
+		padding: 11px 18px;
+		font-size: 13px;
+	}
+
+	.rd-mobile-menu {
+		display: none;
+	}
+}
+
+@media (min-width: 1024px) {
+	.rd-site-header__inner {
+		padding: 18px 56px;
+	}
+
+	.rd-logo {
+		font-size: 19px;
+	}
+
+	.rd-nav-desktop {
+		gap: 26px;
+		font-size: 14.5px;
+	}
+
+	.rd-nav-desktop__cta {
+		padding: 12px 22px;
+		font-size: 14px;
+	}
+}
+
+/* ==========================================================================
+   Site footer (#3a "Patička s povinnými odkazy").
+   ========================================================================== */
+
+.rd-site-footer {
+	background: var(--rd-cocoa);
+	color: var(--rd-cream);
+	font-family: var(--rd-font);
+	scroll-margin-top: 20px;
+}
+
+.rd-site-footer__inner {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	padding: 32px 20px;
+	max-width: var(--rd-max);
+	margin: 0 auto;
+}
+
+.rd-site-footer__logo {
+	font-size: 18px;
+	/* `.rd-logo` sets color: var(--rd-cocoa) for the cream-background header
+	 * instance — on the footer's dark cocoa panel that made "RUBEN"/"DANCE"
+	 * exactly match the background (invisible text, only the coral dot
+	 * showed). Override to the footer's own text color. */
+	color: var(--rd-cream);
+}
+
+.rd-site-footer__logo .rd-logo__dot {
+	color: var(--rd-coral);
+}
+
+/* `.rd-logo:focus-visible`'s cocoa outline (correct on the cream header)
+ * would be invisible against this panel's own cocoa background — same
+ * light/dark-surface swap as the color override above. */
+.rd-site-footer__logo:focus-visible {
+	outline-color: var(--rd-cream);
+}
+
+.rd-site-footer__legal,
+.rd-site-footer__contact {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	font-size: 13px;
+}
+
+.rd-site-footer__legal a,
+.rd-site-footer__contact a {
+	color: var(--rd-cream);
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+.rd-site-footer__legal a:focus-visible,
+.rd-site-footer__contact a:focus-visible {
+	/* Cream, not the site's usual cocoa ring — this panel's own background
+	 * is cocoa, so a cocoa outline would be invisible here. */
+	outline: 3px solid var(--rd-cream);
+	outline-offset: 3px;
+}
+
+.rd-site-footer__contact {
+	opacity: .85;
+}
+
+.rd-site-footer__bottom {
+	max-width: var(--rd-max);
+	margin: 0 auto;
+	padding: 14px 20px 28px;
+	border-top: 1px solid rgba(253, 246, 234, .2);
+	font-size: 11.5px;
+	opacity: .6;
+}
+
+@media (min-width: 768px) {
+	.rd-site-footer__inner {
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: flex-start;
+		padding: 32px 36px;
+	}
+
+	.rd-site-footer__bottom {
+		padding: 14px 36px 28px;
+	}
+}
+
+@media (min-width: 1024px) {
+	.rd-site-footer__inner {
+		padding: 32px 56px;
+	}
+
+	.rd-site-footer__bottom {
+		padding: 14px 56px 28px;
+	}
+}
+
+/* ==========================================================================
+   Page container (page.php) — plugin shortcode pages (/kurzy/, /muj-ucet/,
+   /prihlaseni/, …) framed by the theme's header/footer.
+   ========================================================================== */
+
+.rd-page {
+	max-width: 1100px;
+	margin: 0 auto;
+	padding: 32px 20px 64px;
+	font-family: var(--rd-font);
+}
+
+.rd-page__title {
+	margin-bottom: 24px;
+}
+
+/* Plain WP page content (e.g. the voucher info page's intro paragraphs) —
+ * only direct children of the content container, so a shortcode's own
+ * component markup (which nests its text several divs deep, e.g.
+ * `.rd-vou-form-wrap`/`.rd-auth-card`) is never affected by this. */
+.rd-page__content > p {
+	margin: 0 0 14px;
+	font-size: 15px;
+	line-height: 1.6;
+	color: var(--rd-cocoa-75);
+	max-width: 60ch;
+}
+
+.rd-page__content > ul,
+.rd-page__content > ol {
+	margin: 0 0 14px;
+	padding-left: 22px;
+	font-size: 15px;
+	line-height: 1.6;
+	color: var(--rd-cocoa-75);
+}
+
+@media (min-width: 768px) {
+	.rd-page {
+		padding: 48px 36px 80px;
+	}
+}
+
+@media (min-width: 1024px) {
+	.rd-page {
+		padding: 56px 56px 96px;
+	}
+}
+
+/* ==========================================================================
+   Course detail (single-rd_course.php) — design #3c mobile, #4c desktop
+   (tablet 834 = same 2 columns, narrower margins, per #4c's annotation).
+   The "Vypsané termíny" list inside the_content() is the plugin's own
+   (course-terms.php + front-catalog.css); everything here is the theme's
+   page chrome around it.
+   ========================================================================== */
+
+.rd-course-detail {
+	font-family: var(--rd-font);
+	padding: 6px 20px 40px;
+}
+
+.rd-course-detail__layout {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.rd-course-detail__breadcrumb {
+	display: inline-block;
+	font-size: 13.5px;
+	font-weight: 700;
+	color: var(--rd-cocoa);
+	text-decoration: none;
+}
+
+.rd-course-detail__breadcrumb::before {
+	content: '\2190\00a0'; /* ← */
+}
+
+.rd-course-detail__breadcrumb:hover {
+	color: var(--rd-coral);
+}
+
+.rd-course-detail__breadcrumb-style {
+	display: none;
+}
+
+.rd-course-detail__badges {
+	display: flex;
+	gap: 6px;
+	margin-top: 12px;
+}
+
+.rd-course-detail__badge {
+	font-size: 11px;
+	font-weight: 800;
+	background: var(--rd-white);
+	border: 1.5px solid var(--rd-cocoa-20);
+	border-radius: var(--rd-radius-pill);
+	padding: 5px 10px;
+}
+
+.rd-course-detail__badge--level {
+	background: var(--rd-yellow);
+	border-color: var(--rd-yellow);
+}
+
+.rd-course-detail__title {
+	margin: 10px 0 0;
+	font-size: 30px;
+	line-height: 1.05;
+	font-weight: 800;
+	letter-spacing: -0.02em;
+}
+
+.rd-course-detail__gallery {
+	display: flex;
+	gap: 8px;
+	margin-top: 16px;
+	overflow: hidden;
+}
+
+.rd-course-detail__gallery img {
+	flex: none;
+	width: 240px;
+	height: 150px;
+	border-radius: 16px;
+	object-fit: cover;
+}
+
+.rd-course-detail__meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 14px;
+	margin-top: 14px;
+	font-size: 12.5px;
+	font-weight: 600;
+	color: var(--rd-cocoa-65);
+}
+
+.rd-course-detail__content {
+	margin-top: 16px;
+}
+
+.rd-course-detail__content > p {
+	margin: 0 0 12px;
+	font-size: 14.5px;
+	line-height: 1.55;
+	color: var(--rd-cocoa-75);
+}
+
+/* Right column cards (#4c). On mobile they stack under the main column. */
+
+.rd-course-aside {
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+}
+
+.rd-course-highlight {
+	background: var(--rd-cocoa);
+	color: var(--rd-cream);
+	border-radius: 20px;
+	padding: 22px;
+}
+
+.rd-course-highlight__eyebrow {
+	font-size: 10.5px;
+	font-weight: 800;
+	letter-spacing: .14em;
+	text-transform: uppercase;
+	color: var(--rd-yellow);
+}
+
+.rd-course-highlight__title {
+	font-weight: 800;
+	font-size: 19px;
+	margin-top: 6px;
+}
+
+.rd-course-highlight__meta {
+	font-size: 13.5px;
+	opacity: .85;
+	margin-top: 4px;
+}
+
+.rd-course-highlight__meta strong {
+	color: var(--rd-yellow);
+}
+
+.rd-course-highlight__meta s {
+	opacity: .6;
+}
+
+.rd-course-highlight__cta {
+	display: flex;
+	width: 100%;
+	margin-top: 14px;
+	font-size: 14.5px;
+}
+
+.rd-course-location {
+	padding: 16px;
+	display: flex;
+	gap: 14px;
+	align-items: center;
+	border-radius: var(--rd-radius-card-sm);
+}
+
+.rd-course-location__icon {
+	width: 74px;
+	height: 74px;
+	flex: none;
+	border-radius: 14px;
+	background: repeating-linear-gradient(45deg, var(--rd-success-bg), var(--rd-success-bg) 8px, #EAF6EE 8px, #EAF6EE 16px);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 22px;
+}
+
+.rd-course-location__text {
+	font-size: 13.5px;
+	line-height: 1.45;
+}
+
+.rd-course-location__address {
+	color: var(--rd-cocoa-65);
+}
+
+.rd-course-location__link {
+	color: var(--rd-coral);
+	font-weight: 700;
+	text-decoration: none;
+}
+
+.rd-course-location__link:hover {
+	color: var(--rd-coral-hover);
+}
+
+.rd-course-instructor {
+	padding: 20px;
+	display: flex;
+	gap: 14px;
+	align-items: center;
+	border-radius: 20px;
+}
+
+.rd-course-instructor__photo {
+	width: 56px;
+	height: 56px;
+	flex: none;
+	border-radius: var(--rd-radius-pill);
+	background: linear-gradient(135deg, var(--rd-yellow), var(--rd-orange));
+}
+
+.rd-course-instructor__text {
+	font-size: 13px;
+	line-height: 1.45;
+}
+
+.rd-course-instructor__role {
+	color: var(--rd-cocoa-65);
+}
+
+@media (min-width: 768px) {
+	.rd-course-detail {
+		padding: 10px 36px 48px;
+	}
+
+	.rd-course-detail__layout {
+		display: grid;
+		grid-template-columns: 1fr 340px;
+		gap: 24px;
+		align-items: start;
+	}
+
+	.rd-course-detail__breadcrumb {
+		color: var(--rd-cocoa-60);
+	}
+
+	.rd-course-detail__breadcrumb::before {
+		content: '';
+	}
+
+	.rd-course-detail__breadcrumb-style {
+		display: inline;
+	}
+
+	.rd-course-detail__title {
+		font-size: 38px;
+		line-height: 1.02;
+	}
+
+	.rd-course-detail__gallery {
+		margin-top: 18px;
+	}
+
+	.rd-course-detail__gallery img {
+		flex: 2;
+		width: auto;
+		height: 220px;
+		border-radius: 20px;
+		min-width: 0;
+	}
+
+	.rd-course-detail__gallery img + img {
+		flex: 1;
+	}
+
+	.rd-course-detail__content {
+		margin-top: 18px;
+	}
+
+	.rd-course-detail__content > p {
+		font-size: 15.5px;
+		line-height: 1.6;
+		max-width: 64ch;
+	}
+}
+
+@media (min-width: 1024px) {
+	.rd-course-detail {
+		padding: 10px 56px 56px;
+	}
+
+	.rd-course-detail__layout {
+		grid-template-columns: 1fr 400px;
+		gap: 28px;
+	}
+
+	.rd-course-detail__title {
+		font-size: 42px;
+	}
+
+	.rd-course-detail__gallery img {
+		height: 250px;
+	}
+}
+
+/* ==========================================================================
+   Legal page template (template-legal.php) — design #3i mobile / #4j
+   desktop: eyebrow + H1 + effective-date line, a table-of-contents card,
+   then the (lawyer-supplied) prose. Mobile-first: TOC card stacks above the
+   content; desktop adds a sticky-ish left sidebar at 1024px.
+   ========================================================================== */
+
+.rd-legal {
+	max-width: 900px;
+}
+
+.rd-legal__eyebrow {
+	margin-bottom: 6px;
+}
+
+.rd-legal__title {
+	margin: 0;
+}
+
+.rd-legal__date {
+	font-size: 12px;
+	color: var(--rd-cocoa-55);
+	margin-top: 4px;
+}
+
+.rd-legal__layout {
+	margin-top: 18px;
+}
+
+.rd-legal__toc {
+	padding: 14px 16px;
+	margin-bottom: 18px;
+}
+
+.rd-legal__toc-title {
+	font-weight: 800;
+	font-size: 12px;
+	text-transform: uppercase;
+	letter-spacing: .08em;
+	color: var(--rd-cocoa-50);
+	margin-bottom: 10px;
+}
+
+.rd-legal__toc-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.rd-legal__toc-list a {
+	color: var(--rd-coral);
+	font-weight: 700;
+	font-size: 13.5px;
+	text-decoration: none;
+}
+
+.rd-legal__toc-list a:hover {
+	color: var(--rd-coral-hover);
+}
+
+.rd-legal__content {
+	font-size: 14.5px;
+	line-height: 1.65;
+	max-width: 64ch;
+}
+
+.rd-legal__content h2 {
+	font-size: 18px;
+	font-weight: 800;
+	letter-spacing: -0.01em;
+	margin: 26px 0 8px;
+	scroll-margin-top: 90px;
+}
+
+.rd-legal__content h2:first-child {
+	margin-top: 0;
+}
+
+.rd-legal__content h3 {
+	font-size: 16px;
+	font-weight: 700;
+	margin: 18px 0 6px;
+}
+
+.rd-legal__content p {
+	margin: 0 0 14px;
+	color: var(--rd-cocoa-75);
+}
+
+.rd-legal__content ul,
+.rd-legal__content ol {
+	margin: 0 0 14px;
+	padding-left: 22px;
+	color: var(--rd-cocoa-75);
+}
+
+.rd-legal__content li {
+	margin-bottom: 4px;
+}
+
+@media (min-width: 1024px) {
+	.rd-legal__layout {
+		display: grid;
+		grid-template-columns: 260px 1fr;
+		gap: 40px;
+		align-items: start;
+	}
+
+	.rd-legal__toc {
+		position: sticky;
+		top: 24px;
+		margin-bottom: 0;
+	}
+
+	.rd-legal__content {
+		font-size: 15px;
+		line-height: 1.7;
+		max-width: 720px;
+	}
+
+	.rd-legal__content h2 {
+		font-size: 19px;
+	}
+}
+
+/* ==========================================================================
+   Homepage.
+   ========================================================================== */
+
+.rd-home {
+	font-family: var(--rd-font);
+	overflow-x: hidden;
+	/* Cap + centre the whole homepage — including the full-width colour bands
+	 * (trust strip, CTA) — at the shared max width, so nothing (least of all
+	 * the cocoa trust strip) runs edge-to-edge and looks too wide on large
+	 * monitors. */
+	max-width: var(--rd-max);
+	margin-inline: auto;
+}
+
+.rd-section {
+	padding: 28px 20px 8px;
+}
+
+.rd-section__heading-row {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 12px;
+	flex-wrap: wrap;
+	margin-bottom: 16px;
+}
+
+.rd-section__all-link {
+	white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+	.rd-section {
+		padding: 40px 36px 8px;
+	}
+}
+
+@media (min-width: 1024px) {
+	.rd-section {
+		padding: 56px 56px 8px;
+	}
+}
+
+/* Hero */
+
+.rd-hero {
+	position: relative;
+	overflow: hidden;
+	padding: 18px 20px 26px;
+}
+
+.rd-hero__circle {
+	position: absolute;
+	top: -70px;
+	right: -70px;
+	width: 190px;
+	height: 190px;
+	border-radius: var(--rd-radius-pill);
+	background: var(--rd-yellow);
+	opacity: .35;
+}
+
+.rd-hero__content {
+	position: relative;
+}
+
+.rd-hero__heading {
+	font-size: 44px;
+}
+
+.rd-hero__accent {
+	color: var(--rd-coral);
+}
+
+.rd-hero__lead {
+	margin-top: 14px;
+	font-size: 15.5px;
+	max-width: 32ch;
+}
+
+.rd-hero__ctas {
+	display: flex;
+	gap: 10px;
+	margin-top: 20px;
+}
+
+.rd-hero__cta {
+	flex: 1;
+}
+
+.rd-hero__photo {
+	display: none;
+}
+
+.rd-hero__rating {
+	display: none;
+}
+
+@media (min-width: 768px) {
+	.rd-hero {
+		padding: 24px 36px 36px;
+	}
+
+	.rd-hero__circle {
+		top: -90px;
+		right: -90px;
+		width: 250px;
+		height: 250px;
+	}
+
+	.rd-hero__content {
+		max-width: 60%;
+	}
+
+	.rd-hero__break {
+		display: none;
+	}
+
+	.rd-hero__heading {
+		font-size: 54px;
+	}
+
+	.rd-hero__lead {
+		font-size: 16.5px;
+		max-width: 38ch;
+	}
+
+	.rd-hero__ctas {
+		margin-top: 22px;
+	}
+
+	.rd-hero__cta {
+		flex: none;
+	}
+
+	.rd-hero__photo {
+		display: block;
+		position: absolute;
+		right: 36px;
+		bottom: 36px;
+		top: 24px;
+		width: 30%;
+		border-radius: 24px;
+		/* No overflow:hidden here — it would clip the rating badge, which
+		 * deliberately overhangs the photo's left edge. The image rounds its
+		 * own corners instead (border-radius:inherit below). */
+	}
+
+	.rd-hero__photo img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		border-radius: inherit;
+	}
+}
+
+@media (min-width: 1024px) {
+	.rd-hero {
+		display: grid;
+		grid-template-columns: 1.05fr 1fr;
+		align-items: center;
+		gap: 48px;
+		padding: 36px 56px 56px;
+	}
+
+	.rd-hero__circle {
+		top: -120px;
+		right: -120px;
+		width: 340px;
+		height: 340px;
+	}
+
+	.rd-hero__content {
+		max-width: none;
+	}
+
+	.rd-hero__heading {
+		font-size: 66px;
+	}
+
+	.rd-hero__lead {
+		font-size: 18px;
+		max-width: 42ch;
+	}
+
+	.rd-hero__photo {
+		position: relative;
+		inset: auto;
+		width: auto;
+		height: 420px;
+		border-radius: 28px;
+	}
+
+	.rd-hero__rating {
+		display: block;
+		position: absolute;
+		left: -22px;
+		bottom: 24px;
+		z-index: 5;
+		background: var(--rd-white);
+		border-radius: 16px;
+		padding: 12px 18px;
+		box-shadow: 0 8px 24px rgba(43, 23, 16, .12);
+		font-size: 13.5px;
+		font-weight: 700;
+	}
+}
+
+/* Trust strip */
+
+.rd-trust-strip {
+	display: flex;
+	background: var(--rd-cocoa);
+	color: var(--rd-cream);
+	padding: 14px 20px;
+	text-align: center;
+}
+
+.rd-trust-strip__item {
+	flex: 1;
+	padding: 0 8px;
+	border-left: 1px solid rgba(253, 246, 234, .2);
+}
+
+.rd-trust-strip__item:first-child {
+	border-left: none;
+}
+
+.rd-trust-strip__value {
+	font-weight: 800;
+	font-size: 18px;
+	color: var(--rd-yellow);
+}
+
+.rd-trust-strip__label {
+	font-size: 10.5px;
+	opacity: .75;
+}
+
+@media (min-width: 768px) {
+	.rd-trust-strip {
+		padding: 18px 36px;
+	}
+
+	.rd-trust-strip__value {
+		font-size: 21px;
+	}
+
+	.rd-trust-strip__label {
+		font-size: 11.5px;
+	}
+}
+
+@media (min-width: 1024px) {
+	.rd-trust-strip {
+		padding: 22px 56px;
+	}
+
+	.rd-trust-strip__value {
+		font-size: 26px;
+	}
+
+	.rd-trust-strip__label {
+		font-size: 13px;
+	}
+}
+
+/* Co se u nás naučíte */
+
+.rd-benefits {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.rd-benefit {
+	display: flex;
+	gap: 14px;
+	align-items: flex-start;
+	padding: 16px;
+}
+
+.rd-benefit__number {
+	flex: none;
+	width: 36px;
+	height: 36px;
+	border-radius: var(--rd-radius-pill);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: 800;
+	font-size: 15px;
+}
+
+.rd-benefit__number--yellow {
+	background: var(--rd-yellow);
+	color: var(--rd-cocoa);
+}
+
+.rd-benefit__number--orange {
+	background: var(--rd-orange);
+	color: var(--rd-white);
+}
+
+.rd-benefit__number--coral {
+	background: var(--rd-coral);
+	color: var(--rd-white);
+}
+
+.rd-benefit__title {
+	font-weight: 700;
+	font-size: 15px;
+}
+
+.rd-benefit__text {
+	font-size: 13.5px;
+	margin-top: 2px;
+}
+
+@media (min-width: 768px) {
+	.rd-benefits {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 12px;
+	}
+
+	.rd-benefit {
+		flex-direction: column;
+		align-items: flex-start;
+		padding: 18px;
+		border-radius: var(--rd-radius-card-sm);
+	}
+
+	.rd-benefit__number {
+		width: 38px;
+		height: 38px;
+	}
+
+	.rd-benefit__title {
+		font-size: 15.5px;
+		margin-top: 12px;
+	}
+
+	.rd-benefit__text {
+		margin-top: 4px;
+	}
+}
+
+@media (min-width: 1024px) {
+	.rd-benefits {
+		gap: 16px;
+	}
+
+	.rd-benefit {
+		padding: 24px;
+		border-radius: var(--rd-radius-card-lg);
+	}
+
+	.rd-benefit__number {
+		width: 44px;
+		height: 44px;
+		font-size: 17px;
+	}
+
+	.rd-benefit__title {
+		font-size: 18px;
+	}
+
+	.rd-benefit__text {
+		font-size: 14.5px;
+	}
+}
+
+/* Vyberte si kurz */
+
+.rd-courses {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.rd-course-card {
+	border-radius: 20px;
+	overflow: hidden;
+	background: var(--rd-white);
+	box-shadow: 0 1px 3px rgba(43, 23, 16, .08);
+}
+
+.rd-course-card__photo {
+	width: 100%;
+	height: 140px;
+	object-fit: cover;
+}
+
+.rd-course-card__body {
+	padding: 16px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+}
+
+.rd-course-card__title {
+	font-weight: 800;
+	font-size: 17px;
+}
+
+.rd-course-card__subtitle {
+	font-size: 13px;
+	color: var(--rd-cocoa-65);
+	margin-top: 2px;
+}
+
+.rd-chips-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	padding-top: 4px;
+	margin-top: 12px;
+}
+
+@media (min-width: 768px) {
+	.rd-courses {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 12px;
+	}
+
+	.rd-course-card__photo {
+		height: 160px;
+	}
+
+	.rd-chips-row {
+		padding-top: 12px;
+	}
+}
+
+@media (min-width: 1024px) {
+	.rd-courses {
+		gap: 16px;
+	}
+
+	.rd-course-card {
+		border-radius: 22px;
+	}
+
+	.rd-course-card__photo {
+		height: 220px;
+	}
+
+	.rd-course-card__title {
+		font-size: 20px;
+	}
+
+	.rd-course-card__subtitle {
+		font-size: 14px;
+	}
+
+	.rd-course-card__body {
+		padding: 20px;
+	}
+
+	.rd-chips-row {
+		padding-top: 14px;
+	}
+}
+
+/* Ruben profile + testimonial */
+
+.rd-profile-row {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	margin-top: 8px;
+}
+
+.rd-profile-card {
+	background: var(--rd-white);
+	border-radius: var(--rd-radius-card-lg);
+	overflow: hidden;
+}
+
+.rd-profile-card__photo {
+	width: 100%;
+	height: 230px;
+	object-fit: cover;
+}
+
+.rd-profile-card__body {
+	padding: 18px 18px 20px;
+}
+
+.rd-profile-card__name {
+	font-weight: 800;
+	font-size: 22px;
+	margin-top: 4px;
+}
+
+.rd-testimonial {
+	margin: 0;
+	padding: 20px 0;
+}
+
+.rd-testimonial__quote {
+	margin: 0;
+	font-size: 19px;
+	line-height: 1.4;
+	font-weight: 600;
+	letter-spacing: -0.01em;
+}
+
+.rd-testimonial__quote-mark {
+	color: var(--rd-coral);
+}
+
+.rd-testimonial__author {
+	display: block;
+	margin-top: 8px;
+	font-size: 12.5px;
+	font-style: normal;
+	color: var(--rd-cocoa-60);
+}
+
+@media (min-width: 768px) {
+	.rd-profile-row {
+		flex-direction: row;
+		align-items: stretch;
+	}
+
+	.rd-profile-card {
+		flex: 1.2;
+		display: grid;
+		grid-template-columns: 220px 1fr;
+	}
+
+	.rd-profile-card__photo {
+		height: 100%;
+	}
+
+	.rd-profile-card__body {
+		padding: 22px;
+	}
+
+	.rd-profile-card__name {
+		font-size: 23px;
+	}
+
+	.rd-testimonial {
+		flex: 1;
+		background: var(--rd-white);
+		border-radius: var(--rd-radius-card-lg);
+		padding: 28px;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
+}
+
+@media (min-width: 1024px) {
+	.rd-profile-card {
+		flex: 1.2;
+		grid-template-columns: 240px 1fr;
+	}
+
+	.rd-profile-card__body {
+		padding: 26px;
+	}
+
+	.rd-profile-card__name {
+		font-size: 26px;
+	}
+
+	.rd-testimonial {
+		background: var(--rd-yellow);
+	}
+
+	.rd-testimonial__quote {
+		font-size: 23px;
+		line-height: 1.35;
+	}
+}
+
+/* CTA band */
+
+.rd-cta-band {
+	margin: 24px 0 0;
+	background: var(--rd-coral);
+	color: var(--rd-white);
+	padding: 30px 20px 26px;
+	text-align: center;
+}
+
+.rd-cta-band__title {
+	font-weight: 800;
+	font-size: 28px;
+	letter-spacing: -0.02em;
+	line-height: 1.1;
+}
+
+.rd-cta-band__button {
+	display: block;
+	margin: 18px auto 0;
+	background: var(--rd-cream);
+	color: var(--rd-cocoa);
+	font-weight: 700;
+	font-size: 15px;
+	padding: 15px 0;
+	border-radius: var(--rd-radius-pill);
+	max-width: 260px;
+	text-decoration: none;
+}
+
+.rd-cta-band__button:hover {
+	background: var(--rd-white);
+}
+
+.rd-cta-band__contact {
+	margin-top: 22px;
+	font-size: 12px;
+	opacity: .85;
+	display: flex;
+	justify-content: center;
+	gap: 16px;
+	flex-wrap: wrap;
+}
+
+.rd-cta-band__contact a {
+	color: var(--rd-white);
+	text-decoration: none;
+}
+
+.rd-cta-band__contact a:hover {
+	text-decoration: underline;
+}
+
+@media (min-width: 768px) {
+	.rd-cta-band {
+		margin-top: 36px;
+		padding: 40px 36px;
+	}
+
+	.rd-cta-band__title {
+		font-size: 36px;
+	}
+
+	.rd-cta-band__button {
+		margin-top: 20px;
+		padding: 16px 0;
+		max-width: 270px;
+	}
+
+	.rd-cta-band__contact {
+		margin-top: 26px;
+		font-size: 12.5px;
+		gap: 20px;
+	}
+}
+
+@media (min-width: 1024px) {
+	.rd-cta-band {
+		margin-top: 56px;
+		padding: 52px 56px;
+	}
+
+	.rd-cta-band__title {
+		font-size: 44px;
+		line-height: 1.05;
+	}
+
+	.rd-cta-band__button {
+		margin-top: 24px;
+		padding: 17px 0;
+		max-width: 280px;
+		font-size: 16px;
+	}
+}

@@ -1,0 +1,314 @@
+/**
+ * `[rd_login]`/`[rd_register]`/`[rd_lost_password]` styling — design/
+ * screens.html #3g (mobile 390 — white rd-card per form, error/warning/
+ * success rd-alerts, password-strength bars, required T&C + optional
+ * marketing rd-checkbox-rows) / #4g (desktop 1280 — same cards centered in a
+ * wider column; login and register live on separate WordPress pages, so
+ * "side by side" in the design system's demo page becomes "centered, with
+ * register's 2-column name/email/phone rows getting a wider column" here).
+ *
+ * Builds on rd-design.css's tokens/shared components (`.rd-card`, `.rd-btn`/
+ * `.rd-btn--*`, `.rd-field`/`.rd-field--error`, `.rd-checkbox-row`,
+ * `.rd-alert`/`.rd-alert--*`, `.rd-h2`) — loaded first as a dependency (see
+ * `Front\Shortcodes::enqueue_styles()`) — so this file only adds layout,
+ * never redeclares a color/radius/shape.
+ *
+ * Screen classes are prefixed `rd-auth-*` (not `rd-auth--*`, which the
+ * existing `.rd-auth`/`.rd-auth--register` etc. wrapper modifiers already
+ * use) so nothing here can collide with the theme's own selectors — same
+ * reasoning as D3's `rd-course-card*`/D5's `rd-enr-*` renames.
+ *
+ * Mobile-first: base rules match #3g (390). Desktop switches in at 1024px —
+ * the same breakpoint rd-design.css's own type-scale bump and D3-D5's
+ * layouts already use.
+ *
+ * `Front\Shortcodes::enqueue_styles()` loads this file unconditionally on
+ * every front-end request (not just when a `[rd_login]`/`[rd_register]`/
+ * `[rd_lost_password]` shortcode is present) — pre-D6, that made the
+ * ".rd-notice"/".rd-field-error"/".rd-auth-form" rules below a de facto
+ * sitewide baseline that other not-yet-redesigned screens (`[rd_voucher]`'s
+ * form/success templates, the calendar's no-JS fallback notice) still depend
+ * on today — `[rd_account]`'s profile tab used to as well, but D7 moved it
+ * onto `.rd-alert`/`.rd-field__error` instead, same as this file's own auth
+ * templates. Those rules are kept byte-for-byte unchanged at the bottom of
+ * this file even though neither this milestone's nor D7's templates use them
+ * any more — removing them would silently regress the screens that still do.
+ */
+
+.rd-auth {
+	max-width: 440px;
+	margin: 0 auto;
+}
+
+.rd-auth--register {
+	max-width: 480px;
+}
+
+@media (min-width: 1024px) {
+	.rd-auth--register {
+		max-width: 560px;
+	}
+}
+
+.rd-auth-heading {
+	margin: 0 0 14px;
+}
+
+/* ==========================================================================
+   Alerts stacked above the card (verification notices, generic/unverified
+   login error, rate-limit/expired-link errors). `.rd-alert` itself is D1;
+   this only stacks however many of them apply and spaces them from the card
+   below.
+   ========================================================================== */
+
+.rd-auth-alerts {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	margin-bottom: 14px;
+}
+
+.rd-auth-alerts a {
+	color: inherit;
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+.rd-auth-error-list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+/* ==========================================================================
+   The form card itself.
+   ========================================================================== */
+
+.rd-auth-card {
+	padding: 18px;
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+}
+
+@media (min-width: 1024px) {
+	.rd-auth-card {
+		padding: 24px;
+	}
+}
+
+/* Jméno/příjmení: always paired (#3g shows this 2-up even at 390). Email/
+ * telefon: stacked on mobile, paired from 1024px (`--split`). */
+.rd-auth-row {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 10px;
+}
+
+.rd-auth-row--split {
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+}
+
+@media (min-width: 1024px) {
+	.rd-auth-row--split {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 12px;
+	}
+}
+
+.rd-auth-hint {
+	color: var(--rd-cocoa-55);
+}
+
+/* Checkbox error state (T&C required) — `.rd-checkbox-row__box` is D1; only
+ * the border color changes here (mirrors D5's `.rd-enr-checkbox--error`). */
+.rd-auth-checkbox--error .rd-checkbox-row__box {
+	border-color: var(--rd-error-fg);
+}
+
+.rd-auth-remember {
+	font-size: 13px;
+}
+
+.rd-auth-submit {
+	width: 100%;
+	margin-top: 2px;
+}
+
+/* "Poslat odkaz na obnovu" (lost-password request): cocoa pill, coral on
+ * hover — design/screens.html #3g's secondary auth action, distinct from
+ * rd-design.css's `.rd-btn--secondary` (outlined) or `.rd-btn--small`
+ * (fixed compact size). */
+.rd-auth-cocoa-btn {
+	background: var(--rd-cocoa);
+	color: var(--rd-cream);
+}
+
+.rd-auth-cocoa-btn:hover {
+	background: var(--rd-coral);
+	color: var(--rd-white);
+}
+
+/* ==========================================================================
+   Links below/inside a card ("Už máte účet?", "Zapomenuté heslo" /
+   "Registrace").
+   ========================================================================== */
+
+.rd-auth-switch {
+	text-align: center;
+	font-size: 13px;
+	margin: 14px 0 0;
+}
+
+.rd-auth-switch a {
+	color: var(--rd-coral);
+	font-weight: 700;
+	text-decoration: none;
+}
+
+.rd-auth-switch a:hover {
+	color: var(--rd-coral-hover);
+}
+
+.rd-auth-links {
+	display: flex;
+	justify-content: space-between;
+	gap: 10px;
+	font-size: 13px;
+}
+
+.rd-auth-links a {
+	color: var(--rd-coral);
+	font-weight: 700;
+	text-decoration: none;
+}
+
+.rd-auth-links a:hover {
+	color: var(--rd-coral-hover);
+}
+
+/* ==========================================================================
+   Password-strength meter (register form). Markup contract:
+   <div id="rd-register-password-strength" class="rd-password-strength">
+     <span class="rd-password-strength__bars" aria-hidden="true">
+       <span class="rd-password-strength__bar"></span> × 4
+     </span>
+     <span class="rd-password-strength__label"></span>
+   </div>
+   `password-strength.js` toggles one of `short`/`bad`/`good`/`strong` on the
+   wrapper and writes the label text into `__label` only (never replaces the
+   wrapper's own children, so the bars survive every keystroke) — the bars
+   are pure CSS driven off that wrapper class, design/screens.html #3g's
+   "3 green segments + grey 4th + 'Silné' label" treatment.
+   ========================================================================== */
+
+.rd-password-strength {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.rd-password-strength__bars {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+}
+
+.rd-password-strength__bar {
+	flex: 1;
+	height: 5px;
+	border-radius: 3px;
+	background: rgba(43, 23, 16, .12);
+}
+
+.rd-password-strength__label {
+	font-size: 11.5px;
+	font-weight: 700;
+}
+
+.rd-password-strength.short .rd-password-strength__bar:nth-child(1),
+.rd-password-strength.bad .rd-password-strength__bar:nth-child(1) {
+	background: var(--rd-error-fg);
+}
+
+.rd-password-strength.short .rd-password-strength__label,
+.rd-password-strength.bad .rd-password-strength__label {
+	color: var(--rd-error-fg);
+}
+
+.rd-password-strength.good .rd-password-strength__bar:nth-child(-n+2) {
+	background: var(--rd-warning-fg);
+}
+
+.rd-password-strength.good .rd-password-strength__label {
+	color: var(--rd-warning-fg);
+}
+
+.rd-password-strength.strong .rd-password-strength__bar:nth-child(-n+3) {
+	background: var(--rd-success-fg);
+}
+
+.rd-password-strength.strong .rd-password-strength__label {
+	color: var(--rd-success-fg);
+}
+
+/*
+ * Accessibility pass (spec §6.4): the error-summary/login-error alerts above
+ * carry `role="alert" tabindex="-1"` and are JS-focused on render (M16) —
+ * `.rd-alert[tabindex="-1"]:focus`'s visible outline is already defined in
+ * rd-design.css, so nothing to add here.
+ */
+
+/* ==========================================================================
+   Pre-D6 shared baseline — kept unchanged (see this file's docblock) for
+   screens neither this milestone nor D7 touch: `[rd_voucher]` (public/
+   templates/voucher-form.php, voucher-success.php) and calendar.php's no-JS
+   fallback notice. `[rd_account]`'s templates (account-profile.php,
+   account-enrollments.php's over-capacity notice) depended on this baseline
+   pre-D7; D7 moved them onto `.rd-alert`/`.rd-field__error` instead.
+   ========================================================================== */
+
+.rd-auth-form p {
+	margin: 0 0 1em;
+}
+
+.rd-auth-form label {
+	font-weight: 600;
+}
+
+.rd-notice {
+	padding: 0.75em 1em;
+	margin: 0 0 1em;
+	border-left: 4px solid #ccc;
+	background: #f6f6f6;
+}
+
+.rd-notice--success {
+	border-left-color: #46b450;
+}
+
+.rd-notice--error {
+	border-left-color: #dc3232;
+}
+
+.rd-notice[tabindex="-1"]:focus {
+	outline: 2px solid #dc3232;
+	outline-offset: 2px;
+}
+
+.rd-field-error {
+	display: block;
+	color: #dc3232;
+	font-size: 0.85em;
+	margin-top: 0.25em;
+}
+
+.rd-field-error:empty {
+	display: none;
+}

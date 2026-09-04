@@ -1,0 +1,151 @@
+/**
+ * `[rd_voucher_inquiry]` styling — design/screens.html #3i (mobile 390 —
+ * dark cocoa voucher-preview card with yellow decorative circle, stacked
+ * above a white "Nezávazná poptávka" form card) / #4j (desktop 1280 — the
+ * form card floats left, the voucher-preview card to its right).
+ *
+ * Builds on rd-design.css's tokens/shared components (`.rd-card`, `.rd-btn`/
+ * `.rd-btn--primary`, `.rd-field`/`.rd-field--error`, `.rd-alert`/
+ * `.rd-alert--*`, `.rd-h3`) — loaded first as a dependency (see
+ * `Front\Voucher_Page::register()`) — so this file only adds layout, never
+ * redeclares a color/radius/shape.
+ *
+ * Screen classes are prefixed `rd-vou-*` (per the milestone brief) so
+ * nothing here can collide with the theme's own selectors — same reasoning
+ * as D3's `rd-course-card*`/D5's `rd-enr-*`/D6's `rd-auth-*` renames.
+ *
+ * Mobile-first: base rules match #3i (390, both cards full width, stacked:
+ * decorative card first, then the form). Desktop switches in at 1024px —
+ * the same breakpoint the other per-screen stylesheets use — where the
+ * decorative card floats right so the form's own text wraps to its left,
+ * approximating #4j's two-column layout without needing to restructure the
+ * surrounding WordPress page content (the intro paragraphs above this
+ * shortcode's own markup are ordinary post content, not something this
+ * plugin controls the DOM position of).
+ */
+
+.rd-vou-inquiry {
+	display: flow-root; /* Contains the desktop float below so it never bleeds into whatever follows this shortcode in the page content. */
+}
+
+/* ==========================================================================
+   Decorative voucher-preview card (#3i/#4j: dark cocoa, yellow decorative
+   circle, "Dárkový poukaz" eyebrow, sample title, validity line, footer).
+   Purely illustrative — see voucher-card.php's doc comment.
+   ========================================================================== */
+
+.rd-vou-card {
+	position: relative;
+	overflow: hidden;
+	background: var(--rd-cocoa);
+	color: var(--rd-cream);
+	border-radius: var(--rd-radius-card-lg);
+	padding: 20px;
+	margin-bottom: 16px;
+}
+
+.rd-vou-card__circle {
+	position: absolute;
+	top: -40px;
+	right: -40px;
+	width: 130px;
+	height: 130px;
+	border-radius: var(--rd-radius-pill);
+	background: var(--rd-yellow);
+	opacity: .25;
+}
+
+.rd-vou-card__eyebrow {
+	position: relative;
+	font-size: 10.5px;
+	font-weight: 800;
+	letter-spacing: .14em;
+	text-transform: uppercase;
+	color: var(--rd-yellow);
+}
+
+.rd-vou-card__title {
+	position: relative;
+	font-weight: 800;
+	font-size: 24px;
+	margin-top: 6px;
+}
+
+.rd-vou-card__meta {
+	position: relative;
+	font-size: 13px;
+	opacity: .8;
+	margin-top: 4px;
+}
+
+.rd-vou-card__footer {
+	position: relative;
+	margin-top: 14px;
+	border-top: 1px dashed rgba(253, 246, 234, .3);
+	padding-top: 10px;
+	font-size: 12px;
+	opacity: .7;
+}
+
+.rd-vou-card__footer span {
+	color: var(--rd-coral);
+}
+
+/* ==========================================================================
+   The inquiry form card itself.
+   ========================================================================== */
+
+.rd-vou-form {
+	padding: 18px;
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.rd-vou-form__heading {
+	margin: 0;
+}
+
+.rd-vou-error-list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.rd-vou-submit {
+	width: 100%;
+	margin-top: 2px;
+}
+
+@media (min-width: 1024px) {
+	.rd-vou-card {
+		float: right;
+		width: 45%;
+		max-width: 420px;
+		margin: 0 0 24px 40px;
+		padding: 32px;
+	}
+
+	.rd-vou-card__title {
+		font-size: 32px;
+		margin-top: 8px;
+	}
+
+	.rd-vou-card__meta {
+		font-size: 14px;
+		margin-top: 6px;
+	}
+
+	.rd-vou-card__footer {
+		margin-top: 22px;
+		padding-top: 12px;
+		font-size: 13px;
+	}
+
+	.rd-vou-form-wrap {
+		max-width: 520px;
+	}
+}
