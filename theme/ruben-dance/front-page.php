@@ -8,8 +8,10 @@
  * Course cards in "Vyberte si kurz" pull real `rd_course` posts via
  * rd_theme_homepage_courses() (functions.php) when the plugin is active;
  * see that function's docblock for why a plain post query is enough here.
- * All photography is a self-hosted gradient placeholder
- * (rd_theme_placeholder_photo()) — never a hotlink to ruben-dance.cz.
+ * The hero and Ruben's profile use real photos self-hosted in the theme
+ * (assets/images/) — never a hotlink to an external host. Any remaining
+ * photography (course cards without a featured image) still falls back to a
+ * self-hosted gradient placeholder (rd_theme_placeholder_photo()).
  *
  * @package RubenDanceTheme
  */
@@ -46,10 +48,10 @@ $rd_courses = rd_theme_homepage_courses( 4 );
 
 		<div class="rd-hero__photo">
 			<img
-				src="<?php echo esc_attr( rd_theme_placeholder_photo( '#F08A24', '#E8604C' ) ); ?>"
-				alt="<?php esc_attr_e( 'Tanečníci salsy a bachaty na lekci Ruben Dance', 'ruben-dance-theme' ); ?>"
+				src="<?php echo esc_url( RD_THEME_URI . '/assets/images/uvod.jpg' ); ?>"
+				alt="<?php esc_attr_e( 'Ruben Peguero na pódiu před tančícím publikem', 'ruben-dance-theme' ); ?>"
 			>
-			<div class="rd-hero__rating"><?php esc_html_e( '★ 4,9 · hodnocení absolventů', 'ruben-dance-theme' ); ?></div>
+			<div class="rd-hero__rating"><?php esc_html_e( '★ 4,8 · 33 recenzí Google', 'ruben-dance-theme' ); ?></div>
 		</div>
 	</section>
 
@@ -134,8 +136,9 @@ $rd_courses = rd_theme_homepage_courses( 4 );
 		<div class="rd-profile-card">
 			<img
 				class="rd-profile-card__photo"
-				src="<?php echo esc_attr( rd_theme_placeholder_photo( '#F5B840', '#F08A24' ) ); ?>"
+				src="<?php echo esc_url( RD_THEME_URI . '/assets/images/ruben-profil.jpg' ); ?>"
 				alt="<?php esc_attr_e( 'Ruben Peguero, lektor tance', 'ruben-dance-theme' ); ?>"
+				loading="lazy"
 			>
 			<div class="rd-profile-card__body">
 				<div class="rd-eyebrow"><?php esc_html_e( 'Váš lektor', 'ruben-dance-theme' ); ?></div>

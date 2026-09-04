@@ -40,6 +40,13 @@ body {
 	overflow-x: hidden;
 }
 
+/* Shared content cap: header, homepage and footer all centre their contents
+ * at this width on wide desktops (≈1.5× the original 1200px). One knob to
+ * widen/narrow the whole site. */
+:root {
+	--rd-max: 1800px;
+}
+
 img {
 	max-width: 100%;
 	height: auto;
@@ -96,6 +103,12 @@ a {
 	align-items: center;
 	justify-content: space-between;
 	padding: 14px 20px;
+	/* Cap + centre the header contents like the footer so the logo and nav
+	 * don't drift to the screen edges on wide desktops. The cream header bar
+	 * itself still spans full width. */
+	max-width: var(--rd-max);
+	margin: 0 auto;
+	width: 100%;
 	font-family: var(--rd-font);
 }
 
@@ -227,9 +240,57 @@ a {
 	background: rgba(253, 246, 234, .1);
 }
 
+/* Language pill as a proper segmented control: a dark cocoa track with a
+ * LIGHT (cream) thumb marking the active language — the previous dark-on-dark
+ * active state made it impossible to tell which language was selected. Bigger
+ * padding/label too (the default 11px/3px read as a cramped, easy-to-miss
+ * control). Applies to both the header and mobile-menu instances. */
+.rd-lang-switch {
+	font-size: 12.5px;
+	gap: 3px;
+	padding: 4px;
+	background: var(--rd-cocoa);
+}
+
+/* `:not(.rd-btn)` bumps specificity to (0,2,1) so this wins over
+ * `.rd-nav-desktop a:not(.rd-btn)` (same specificity, but this rule is later
+ * in source) — otherwise the header switcher's inactive label inherits the
+ * nav's dark cocoa colour and vanishes on the dark track. */
+.rd-lang-switch a:not(.rd-btn) {
+	padding: 5px 12px;
+	/* Inactive label: full cream, clearly readable on the dark track. The
+	 * active language stays unmistakable because it also gets a filled cream
+	 * thumb (background), not just a cream label. */
+	color: var(--rd-cream);
+}
+
+.rd-lang-switch a.is-active,
+.rd-lang-switch a[aria-current] {
+	background: var(--rd-cream);
+	color: var(--rd-cocoa);
+}
+
 .rd-mobile-menu__panel .rd-lang-switch {
 	margin: 6px 0;
 	align-self: flex-start;
+	/* On the dark cocoa panel the default cocoa-07 pill and the cocoa
+	 * active-item background both vanish (dark on dark). Re-tint them so the
+	 * switcher — and which language is active — stays visible here. */
+	background: rgba(253, 246, 234, .14);
+}
+
+.rd-mobile-menu__panel .rd-lang-switch a {
+	/* Override the panel's generic link sizing (10px/16px) back to the pill
+	 * scale; keep an inactive label that reads on dark. */
+	padding: 5px 12px;
+	font-size: 12.5px;
+	color: var(--rd-cream);
+}
+
+.rd-mobile-menu__panel .rd-lang-switch a.is-active,
+.rd-mobile-menu__panel .rd-lang-switch a[aria-current] {
+	background: var(--rd-cream);
+	color: var(--rd-cocoa);
 }
 
 .rd-mobile-menu__cta {
@@ -308,7 +369,7 @@ a {
 	flex-direction: column;
 	gap: 20px;
 	padding: 32px 20px;
-	max-width: 1200px;
+	max-width: var(--rd-max);
 	margin: 0 auto;
 }
 
@@ -360,7 +421,7 @@ a {
 }
 
 .rd-site-footer__bottom {
-	max-width: 1200px;
+	max-width: var(--rd-max);
 	margin: 0 auto;
 	padding: 14px 20px 28px;
 	border-top: 1px solid rgba(253, 246, 234, .2);
@@ -867,6 +928,12 @@ a {
 .rd-home {
 	font-family: var(--rd-font);
 	overflow-x: hidden;
+	/* Cap + centre the whole homepage — including the full-width colour bands
+	 * (trust strip, CTA) — at the shared max width, so nothing (least of all
+	 * the cocoa trust strip) runs edge-to-edge and looks too wide on large
+	 * monitors. */
+	max-width: var(--rd-max);
+	margin-inline: auto;
 }
 
 .rd-section {
@@ -998,13 +1065,16 @@ a {
 		top: 24px;
 		width: 30%;
 		border-radius: 24px;
-		overflow: hidden;
+		/* No overflow:hidden here — it would clip the rating badge, which
+		 * deliberately overhangs the photo's left edge. The image rounds its
+		 * own corners instead (border-radius:inherit below). */
 	}
 
 	.rd-hero__photo img {
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
+		border-radius: inherit;
 	}
 }
 
@@ -1050,6 +1120,7 @@ a {
 		position: absolute;
 		left: -22px;
 		bottom: 24px;
+		z-index: 5;
 		background: var(--rd-white);
 		border-radius: 16px;
 		padding: 12px 18px;

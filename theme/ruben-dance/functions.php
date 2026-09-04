@@ -39,6 +39,14 @@ define( 'RD_THEME_URI', get_template_directory_uri() );
  * copy of the same two links under our footer.
  */
 function rd_theme_setup(): void {
+	// The theme's source strings are Czech (the site's default language), so
+	// the 'cs_CZ' locale needs no catalog — the msgids already read Czech.
+	// Other locales (en_US on Polylang's /en/ branch) load their catalog from
+	// languages/{locale}.mo; without this call every string stays Czech even
+	// when Polylang has switched the locale, which is exactly the "EN switch
+	// does nothing" symptom.
+	load_theme_textdomain( 'ruben-dance-theme', RD_THEME_DIR . '/languages' );
+
 	add_theme_support( 'title-tag' );
 	add_theme_support( 'post-thumbnails' );
 	add_theme_support(
@@ -350,6 +358,55 @@ function rd_theme_placeholder_photo( string $from, string $to ): string {
 }
 
 /**
+ * Course-card photo for a course that has no featured image: a real dance
+ * photo self-hosted in the theme (assets/images/courses/), picked by the
+ * course's dance style (`rd_dance_style`) so a salsa course shows salsa, a
+ * bachata course bachata, and so on. Courses whose style has no dedicated
+ * photo rotate through a small general pool by $index, so neighbouring cards
+ * don't repeat. Still self-hosted with no external host — the same rule the
+ * gradient placeholder (rd_theme_placeholder_photo()) was built for; a real
+ * featured image set in wp-admin always wins over this (the caller checks
+ * has_post_thumbnail() first).
+ *
+ * Matching is on the style term's *name* (substring, case-insensitive) rather
+ * than its slug so it survives Polylang's translated terms too ('Ladies
+ * Styling', 'Kids Dance', …).
+ *
+ * @param WP_Post $post  Course post.
+ * @param int     $index Position in the card grid (drives the rotation fallback).
+ * @return string Absolute URL of a theme image.
+ */
+function rd_theme_course_photo_url( WP_Post $post, int $index ): string {
+	$base = RD_THEME_URI . '/assets/images/courses/';
+	$pool = array( 'salsa.jpg', 'class.jpg', 'styling.jpg', 'bachata.jpg' );
+
+	$style = '';
+	$terms = get_the_terms( $post->ID, 'rd_dance_style' );
+	if ( is_array( $terms ) && array() !== $terms ) {
+		$style = function_exists( 'mb_strtolower' )
+			? mb_strtolower( $terms[0]->name, 'UTF-8' )
+			: strtolower( $terms[0]->name );
+	}
+
+	$map = array(
+		'bachata.jpg' => array( 'bachata' ),
+		'salsa.jpg'   => array( 'salsa' ),
+		'styling.jpg' => array( 'styling', 'ladies', 'dámsk', 'damsk', 'žen', 'zen' ),
+		'detsky.jpg'  => array( 'dět', 'det', 'kid', 'child', 'mládež', 'mladez' ),
+	);
+
+	foreach ( $map as $file => $needles ) {
+		foreach ( $needles as $needle ) {
+			if ( '' !== $style && false !== strpos( $style, $needle ) ) {
+				return $base . $file;
+			}
+		}
+	}
+
+	return $base . $pool[ $index % count( $pool ) ];
+}
+
+/**
  * Real courses for the homepage "Vyberte si kurz" section (design
  * #1a/#2c/#2b), pulled from the plugin's `rd_course` CPT. Returns an empty
  * array when the plugin/post type is absent so `front-page.php` can fall
@@ -383,12 +440,6 @@ function rd_theme_homepage_courses( int $limit ): array {
 		)
 	);
 
-	$gradients = array(
-		array( '#F08A24', '#E8604C' ),
-		array( '#E8604C', '#F5B840' ),
-		array( '#F5B840', '#F08A24' ),
-	);
-
 	$courses = array();
 
 	foreach ( $posts as $index => $post ) {
@@ -414,10 +465,9 @@ function rd_theme_homepage_courses( int $limit ): array {
 				)
 			);
 		} else {
-			$colors = $gradients[ $index % count( $gradients ) ];
 			$thumbnail_html = sprintf(
 				'<img class="rd-course-card__photo" src="%1$s" alt="%2$s" loading="lazy">',
-				esc_attr( rd_theme_placeholder_photo( $colors[0], $colors[1] ) ),
+				esc_url( rd_theme_course_photo_url( $post, $index ) ),
 				/* translators: %s: course title. */
 				esc_attr( sprintf( __( 'Fotografie kurzu %s', 'ruben-dance-theme' ), get_the_title( $post ) ) )
 			);

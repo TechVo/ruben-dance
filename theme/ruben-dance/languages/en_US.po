@@ -1,0 +1,291 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Ruben Dance Theme 0.1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-13 17:37+0200\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: ruben-dance-theme\n"
+
+# Header / navigation
+#: theme/ruben-dance/functions.php:182
+#: theme/ruben-dance/single-rd_course.php:85
+msgid "Kurzy"
+msgstr "Courses"
+
+#: theme/ruben-dance/functions.php:186
+msgid "Kalendář"
+msgstr "Calendar"
+
+#: theme/ruben-dance/functions.php:190 theme/ruben-dance/footer.php:28
+msgid "Kontakt"
+msgstr "Contact"
+
+#: theme/ruben-dance/functions.php:215
+msgid "Můj účet"
+msgstr "My account"
+
+#: theme/ruben-dance/functions.php:226
+#: theme/ruben-dance/single-rd_course.php:168
+msgid "Přihlásit se"
+msgstr "Log in"
+
+# Footer
+#: theme/ruben-dance/functions.php:308
+msgid "Obchodní podmínky"
+msgstr "Terms & Conditions"
+
+#: theme/ruben-dance/functions.php:312
+msgid "Zásady ochrany osobních údajů"
+msgstr "Privacy Policy"
+
+#: theme/ruben-dance/functions.php:472
+#, php-format
+msgid "Fotografie kurzu %s"
+msgstr "Photo of the %s course"
+
+# Homepage — hero
+#: theme/ruben-dance/front-page.php:38
+msgid "Tančete tak,"
+msgstr "Dance the way"
+
+#: theme/ruben-dance/front-page.php:39
+msgid "jak se tančí"
+msgstr "they dance"
+
+#: theme/ruben-dance/front-page.php:40
+msgid "v Karibiku."
+msgstr "in the Caribbean."
+
+#: theme/ruben-dance/front-page.php:42
+msgid "Kurzy salsy a bachaty v Praze pod vedením rodilých tanečníků. Učíme od roku 1994."
+msgstr "Salsa and bachata courses in Prague led by native dancers. Teaching since 1994."
+
+#: theme/ruben-dance/front-page.php:44
+msgid "Vybrat kurz"
+msgstr "Choose a course"
+
+#: theme/ruben-dance/front-page.php:45
+msgid "Zkušební lekce"
+msgstr "Trial lesson"
+
+#: theme/ruben-dance/front-page.php:52
+msgid "Ruben Peguero na pódiu před tančícím publikem"
+msgstr "Ruben Peguero on stage in front of a dancing audience"
+
+#: theme/ruben-dance/front-page.php:54
+msgid "★ 4,8 · 33 recenzí Google"
+msgstr "★ 4.8 · 33 Google reviews"
+
+# Homepage — trust strip
+#: theme/ruben-dance/front-page.php:61
+msgid "let"
+msgstr "years"
+
+#: theme/ruben-dance/front-page.php:62
+msgid "zkušeností s výukou"
+msgstr "of teaching experience"
+
+#: theme/ruben-dance/front-page.php:65
+msgid "míst"
+msgstr "locations"
+
+#: theme/ruben-dance/front-page.php:66
+msgid "po celé Praze"
+msgstr "across Prague"
+
+#: theme/ruben-dance/front-page.php:69
+msgid "Rodilí lektoři"
+msgstr "Native instructors"
+
+#: theme/ruben-dance/front-page.php:70
+msgid "přímo z Karibiku"
+msgstr "straight from the Caribbean"
+
+# Homepage — benefits
+#: theme/ruben-dance/front-page.php:76
+msgid "Co se u nás naučíte"
+msgstr "What you'll learn with us"
+
+#: theme/ruben-dance/front-page.php:80
+msgid "Tančíte už po první lekci"
+msgstr "You'll dance after your very first lesson"
+
+#: theme/ruben-dance/front-page.php:81
+msgid "Základní kroky salsy nebo bachaty zvládnete hned — bez partnera i s ním."
+msgstr "You'll master the basic salsa or bachata steps right away — with or without a partner."
+
+#: theme/ruben-dance/front-page.php:85
+msgid "Porozumíte hudbě"
+msgstr "You'll understand the music"
+
+#: theme/ruben-dance/front-page.php:86
+msgid "Netančíte naučené otočky — rozumíte tomu, co a proč tančíte."
+msgstr "You won't just dance memorized turns — you'll understand what you dance and why."
+
+#: theme/ruben-dance/front-page.php:90
+msgid "Zatančíte si kdekoliv na světě"
+msgstr "You'll be able to dance anywhere in the world"
+
+#: theme/ruben-dance/front-page.php:91
+msgid "Autentický styl, který poznají v Havaně i v Praze."
+msgstr "An authentic style they'll recognize in Havana and in Prague."
+
+# Homepage — course picker
+#: theme/ruben-dance/front-page.php:99
+msgid "Vyberte si kurz"
+msgstr "Choose your course"
+
+#: theme/ruben-dance/front-page.php:100
+msgid "Všechny kurzy →"
+msgstr "All courses →"
+
+#: theme/ruben-dance/front-page.php:113
+msgid "Přihlásit"
+msgstr "Enroll"
+
+#: theme/ruben-dance/front-page.php:121
+msgid "Kurzy se právě připravují."
+msgstr "Courses are being prepared."
+
+#: theme/ruben-dance/front-page.php:122
+msgid "Ozvěte se nám"
+msgstr "Get in touch"
+
+#: theme/ruben-dance/front-page.php:127
+msgid "pro děti"
+msgstr "for kids"
+
+#: theme/ruben-dance/front-page.php:128
+msgid "pro ženy"
+msgstr "for women"
+
+#: theme/ruben-dance/front-page.php:129
+msgid "pro seniory"
+msgstr "for seniors"
+
+#: theme/ruben-dance/front-page.php:130
+msgid "letní intenzivní"
+msgstr "summer intensive"
+
+# Homepage — instructor profile + testimonial
+#: theme/ruben-dance/front-page.php:140
+msgid "Ruben Peguero, lektor tance"
+msgstr "Ruben Peguero, dance instructor"
+
+#: theme/ruben-dance/front-page.php:144
+msgid "Váš lektor"
+msgstr "Your instructor"
+
+#: theme/ruben-dance/front-page.php:145
+msgid "Ruben Peguero"
+msgstr "Ruben Peguero"
+
+#: theme/ruben-dance/front-page.php:146
+msgid "Tanečník a choreograf z Dominikánské republiky. Salsu a bachatu učí v Česku od roku 1994 — s trpělivostí, humorem a láskou ke karibské kultuře."
+msgstr "A dancer and choreographer from the Dominican Republic. He has taught salsa and bachata in the Czech Republic since 1994 — with patience, humour and a love for Caribbean culture."
+
+#: theme/ruben-dance/front-page.php:151
+msgid "Není nikdo, koho by Ruben nenaučil tančit."
+msgstr "There's no one Ruben couldn't teach to dance."
+
+#: theme/ruben-dance/front-page.php:152
+msgid "absolventka kurzu salsy"
+msgstr "salsa course graduate"
+
+# Homepage — CTA band
+#: theme/ruben-dance/front-page.php:158
+msgid "První lekce nezávazně."
+msgstr "Your first lesson, no strings attached."
+
+#: theme/ruben-dance/front-page.php:159
+msgid "Chci tančit"
+msgstr "I want to dance"
+
+#: theme/ruben-dance/front-page.php:163
+msgid "Instagram"
+msgstr "Instagram"
+
+#: theme/ruben-dance/footer.php:24
+msgid "Právní informace"
+msgstr "Legal information"
+
+#: theme/ruben-dance/footer.php:41
+#, php-format
+msgid "© %1$s Ruben-Dance · IČO %2$s"
+msgstr "© %1$s Ruben-Dance · Reg. No. %2$s"
+
+#: theme/ruben-dance/header.php:37
+msgid "Přeskočit na obsah"
+msgstr "Skip to content"
+
+#: theme/ruben-dance/header.php:43
+msgid "Hlavní menu"
+msgstr "Main menu"
+
+#: theme/ruben-dance/header.php:56
+msgid "Menu"
+msgstr "Menu"
+
+#: theme/ruben-dance/header.php:59
+msgid "Mobilní menu"
+msgstr "Mobile menu"
+
+# Course detail
+#: theme/ruben-dance/single-rd_course.php:117
+#, php-format
+msgid "lekce %d min"
+msgstr "%d min lesson"
+
+#: theme/ruben-dance/single-rd_course.php:123
+#, php-format
+msgid "max %d osob"
+msgstr "max %d people"
+
+#: theme/ruben-dance/single-rd_course.php:144
+msgid "Nejbližší volný termín"
+msgstr "Next available term"
+
+#: theme/ruben-dance/single-rd_course.php:157
+#, php-format
+msgid "začínáme %s"
+msgstr "starts %s"
+
+#: theme/ruben-dance/single-rd_course.php:181
+msgid "Otevřít mapu"
+msgstr "Open map"
+
+#: theme/ruben-dance/single-rd_course.php:191
+msgid "Učí"
+msgstr "Taught by"
+
+#: theme/ruben-dance/single-rd_course.php:192
+msgid "lektor kurzu"
+msgstr "course instructor"
+
+# Generic / errors
+#: theme/ruben-dance/index.php:34
+msgid "Nic tu není."
+msgstr "Nothing here."
+
+#: theme/ruben-dance/index.php:35
+msgid "Zpět na hlavní stránku"
+msgstr "Back to homepage"
+
+# Legal template
+#: theme/ruben-dance/template-legal.php:42
+msgid "Právní dokument"
+msgstr "Legal document"
+
+#: theme/ruben-dance/template-legal.php:48
+#, php-format
+msgid "Účinné od %s"
+msgstr "Effective from %s"
+
+#: theme/ruben-dance/template-legal.php:56
+#: theme/ruben-dance/template-legal.php:57
+msgid "Obsah"
+msgstr "Contents"
