@@ -113,6 +113,12 @@ lands in spam. Configure the transport at the WordPress level (API keys in
 editable under **Ruben Dance → Email Templates**) use it automatically;
 every send is recorded under **Ruben Dance → Email Log**.
 
+## Statický náhled na GitHub Pages
+
+Veřejný náhled designu (statická kopie, žádné PHP):
+**https://techvo.github.io/ruben-dance/** — jak se generuje a co v něm
+funguje popisuje [`docs/static-preview.md`](docs/static-preview.md).
+
 ## Production deployment
 
 Everything that stands between "all 16 milestones done locally" and a live

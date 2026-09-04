@@ -18,3 +18,6 @@ plugin/ruben-dance/vendor/
 *.swp
 .idea/
 .vscode/
+
+# Static preview build output (scripts/export-static-preview.sh)
+build/
