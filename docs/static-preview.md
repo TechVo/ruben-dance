@@ -26,12 +26,6 @@ Skript `export-static-preview.sh` zrcadlí web pomocí `wget` a pak ho přes
 předpokládá, že se servíruje pod cestou `/ruben-dance` — jiný základ se předá
 druhým argumentem (`scripts/export-static-preview.sh out/ /jina-cesta`).
 
-Export se opírá o dev-only mu-plugin
-[`.wp-env/mu-plugins/rd-static-export.php`](../.wp-env/mu-plugins/rd-static-export.php),
-který z URL assetů odstraňuje `?ver=` — bez toho by crawler CSS a JS nestáhl.
-Stejně jako mail catcher žije mimo `plugin/ruben-dance/`, takže se do
-produkce nikdy nedostane.
-
 ## Co v náhledu funguje
 
 - Všechny veřejné obrazovky v CS i EN: homepage, katalog s filtry, detail
